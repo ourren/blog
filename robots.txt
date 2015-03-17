@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://test.ourren.com/sitemap.xml 
+Sitemap: http://blog.ourren.com/sitemap.xml 

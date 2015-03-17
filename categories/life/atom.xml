@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Life | Ourren]]></title>
-  <link href="http://test.ourren.com/categories/life/atom.xml" rel="self"/>
-  <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:29:04-07:00</updated>
-  <id>http://test.ourren.com/</id>
+  <link href="http://blog.ourren.com/categories/life/atom.xml" rel="self"/>
+  <link href="http://blog.ourren.com/"/>
+  <updated>2015-03-17T15:31:07-07:00</updated>
+  <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[加州驾照考试全攻略]]></title>
-    <link href="http://test.ourren.com/2015/01/17/driver_lisence_in_ca/"/>
+    <link href="http://blog.ourren.com/2015/01/17/driver_lisence_in_ca/"/>
     <updated>2015-01-17T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/17/driver_lisence_in_ca</id>
+    <id>http://blog.ourren.com/2015/01/17/driver_lisence_in_ca</id>
     <content type="html"><![CDATA[<p>相比国内科目复杂，收费昂贵的驾照考试，生活在美帝的人民可以说是幸福的，因此他们可以快速地拿到驾照。加州驾照考试主要分为两部分：笔试＋路考(1次)，收费31刀。其它州考试应该也差不多，但是加州笔试有中文试卷，这是其它州貌似没有的优势。以下是驾照学习资料和考试过程，方便需要的小伙伴。</p>
 
 <h4>笔试参考资料</h4>
@@ -105,9 +105,9 @@
   
   <entry>
     <title type="html"><![CDATA[2014年：瞎忙活的一年]]></title>
-    <link href="http://test.ourren.com/2015/01/01/summary_of_2014/"/>
+    <link href="http://blog.ourren.com/2015/01/01/summary_of_2014/"/>
     <updated>2015-01-01T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/01/summary_of_2014</id>
+    <id>http://blog.ourren.com/2015/01/01/summary_of_2014</id>
     <content type="html"><![CDATA[<p>2013-2014是人生中迷茫的时期，需要面对生活的各个方面，需要考虑人生的道路方向。但我相信在这迷茫之后积极面对生活，充满热情迎接挑战时将会是另外一个天地。</p>
 
 <h4>关于研究</h4>
@@ -164,9 +164,9 @@
   
   <entry>
     <title type="html"><![CDATA[线下积分联盟的十问十答]]></title>
-    <link href="http://test.ourren.com/2014/08/31/two_questions_about_o2o_point/"/>
+    <link href="http://blog.ourren.com/2014/08/31/two_questions_about_o2o_point/"/>
     <updated>2014-08-31T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/08/31/two_questions_about_o2o_point</id>
+    <id>http://blog.ourren.com/2014/08/31/two_questions_about_o2o_point</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/o2ojifen.jpg" alt="" width="512" height="219"></p>
 
 <p>前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的<strong>创业项目</strong>，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。但是我感觉用六个字就可以概括：<strong>线下积分联盟</strong>。</p>
@@ -218,9 +218,9 @@
   
   <entry>
     <title type="html"><![CDATA[阿里巴巴神话笔记]]></title>
-    <link href="http://test.ourren.com/2013/06/18/alibaba_myth_note/"/>
+    <link href="http://blog.ourren.com/2013/06/18/alibaba_myth_note/"/>
     <updated>2013-06-18T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2013/06/18/alibaba_myth_note</id>
+    <id>http://blog.ourren.com/2013/06/18/alibaba_myth_note</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" alt="alibaba_mayun" src="http://blog.ourren.com/blog/alibaba_mayun.jpg" width="450" height="200"></p>
 
 <p>本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触：</p>
@@ -251,9 +251,9 @@
   
   <entry>
     <title type="html"><![CDATA[KPW插件优化与电子书资源]]></title>
-    <link href="http://test.ourren.com/2013/05/11/kpw_plugins_and_resource/"/>
+    <link href="http://blog.ourren.com/2013/05/11/kpw_plugins_and_resource/"/>
     <updated>2013-05-11T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2013/05/11/kpw_plugins_and_resource</id>
+    <id>http://blog.ourren.com/2013/05/11/kpw_plugins_and_resource</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" alt="kindle paperwhite" src="http://blog.ourren.com/blog/kindlepaperwhite.jpg" width="409" height="153">
 笔者最近入手了一部Kindle PaperWhite,在最近一周的使用过程中发现KPW确实不错，因而推荐大概购买。同时作为技术男一般会将买到的电子产品折腾折腾，然后打造成自己所喜欢的风格。因由于刚入KPW时对这些东西不熟悉，故将折腾的过程与一些资源记录在此，方便新手折腾和阅读。</p>
 

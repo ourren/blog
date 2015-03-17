@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Security | Ourren]]></title>
-  <link href="http://test.ourren.com/categories/security/atom.xml" rel="self"/>
-  <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:29:04-07:00</updated>
-  <id>http://test.ourren.com/</id>
+  <link href="http://blog.ourren.com/categories/security/atom.xml" rel="self"/>
+  <link href="http://blog.ourren.com/"/>
+  <updated>2015-03-17T15:31:07-07:00</updated>
+  <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://test.ourren.com/2015/03/16/phpar_include_exploit/"/>
+    <link href="http://blog.ourren.com/2015/03/16/phpar_include_exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/16/phpar_include_exploit</id>
+    <id>http://blog.ourren.com/2015/03/16/phpar_include_exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
@@ -116,9 +116,9 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
-    <link href="http://test.ourren.com/2015/03/10/linux_mysql_udf_shell/"/>
+    <link href="http://blog.ourren.com/2015/03/10/linux_mysql_udf_shell/"/>
     <updated>2015-03-10T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/10/linux_mysql_udf_shell</id>
+    <id>http://blog.ourren.com/2015/03/10/linux_mysql_udf_shell</id>
     <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
 
 <h3>具体步骤如下</h3>
@@ -174,9 +174,9 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[无线安全之WPS]]></title>
-    <link href="http://test.ourren.com/2013/11/07/wireless_security_wps/"/>
+    <link href="http://blog.ourren.com/2013/11/07/wireless_security_wps/"/>
     <updated>2013-11-07T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2013/11/07/wireless_security_wps</id>
+    <id>http://blog.ourren.com/2013/11/07/wireless_security_wps</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" alt="wireless_attch_wps" src="http://blog.ourren.com/blog/wireless_attach.jpg" width="500" height="302"></p>
 
 <p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
@@ -266,9 +266,9 @@ F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
   
   <entry>
     <title type="html"><![CDATA[关于Mysql注入过程中的三种报错方式]]></title>
-    <link href="http://test.ourren.com/2012/11/03/pentest_method_of_mysql_error/"/>
+    <link href="http://blog.ourren.com/2012/11/03/pentest_method_of_mysql_error/"/>
     <updated>2012-11-03T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2012/11/03/pentest_method_of_mysql_error</id>
+    <id>http://blog.ourren.com/2012/11/03/pentest_method_of_mysql_error</id>
     <content type="html"><![CDATA[<p>放点原来的笔记，Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这样可以通过构造如下三种方法获取特定数据。</p>
 
 <p>实际测试环境：</p>
@@ -375,9 +375,9 @@ ERROR 1105 (HY000): XPATH syntax error: &lsquo;^$admin888^$&rsquo;[/code]</p>
   
   <entry>
     <title type="html"><![CDATA[跨站测试与利用中的绕过技术]]></title>
-    <link href="http://test.ourren.com/2012/09/03/xss_bypass_technology/"/>
+    <link href="http://blog.ourren.com/2012/09/03/xss_bypass_technology/"/>
     <updated>2012-09-03T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2012/09/03/xss_bypass_technology</id>
+    <id>http://blog.ourren.com/2012/09/03/xss_bypass_technology</id>
     <content type="html"><![CDATA[<h2>1.1 bypass Char</h2>
 
 
