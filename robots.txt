@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://ourren.github.io/blog/sitemap.xml 
+Sitemap: http://test.ourren.com/sitemap.xml 
