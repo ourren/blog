@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-17T15:43:32-07:00</updated>
+  <updated>2015-03-17T15:52:44-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -119,7 +119,7 @@ include($inc);
     <link href="http://blog.ourren.com/2015/03/12/nltk_note_stem_pos_tag/"/>
     <updated>2015-03-12T00:00:00-07:00</updated>
     <id>http://blog.ourren.com/2015/03/12/nltk_note_stem_pos_tag</id>
-    <content type="html"><![CDATA[<p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
 <h3>词干提取</h3>
 
@@ -226,6 +226,15 @@ WH      wh determiner   who, which, when, what, where, how
 <pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
  --file-dest=/usr/lib/mysql/plugin/
 </code></pre></li>
+</ol>
+
+
+<!--more-->
+
+
+<p></p>
+
+<ol>
 <li><p>激活存储过程「sys_exec」函数:</p>
 
 <pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
@@ -351,6 +360,9 @@ if __name__ == '__main__':
 <li>点击「start」;</li>
 <li>「download」</li>
 </ul>
+
+
+<!--more-->
 
 
 <p>跟clipconverter类似的网站很多，列举如下：</p>
@@ -1253,7 +1265,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x53;&#x65;&#x63;&#x57;&#105;&#107;&#105;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#x53;&#101;&#99;&#x57;&#105;&#x6b;&#105;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#109;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x53;&#101;&#99;&#87;&#x69;&#x6b;&#105;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x53;&#101;&#x63;&#x57;&#x69;&#x6b;&#105;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></span></p>
 ]]></content>
   </entry>
   

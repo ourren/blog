@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/research/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-17T15:43:32-07:00</updated>
+  <updated>2015-03-17T15:52:44-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -18,7 +18,7 @@
     <link href="http://blog.ourren.com/2015/03/12/nltk_note_stem_pos_tag/"/>
     <updated>2015-03-12T00:00:00-07:00</updated>
     <id>http://blog.ourren.com/2015/03/12/nltk_note_stem_pos_tag</id>
-    <content type="html"><![CDATA[<p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
 <h3>词干提取</h3>
 
