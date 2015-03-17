@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://test.ourren.com/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:22:54-07:00</updated>
+  <updated>2015-03-17T15:27:41-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://test.ourren.com/2015/03/16/phpar%20include%20exploit/"/>
+    <link href="http://test.ourren.com/2015/03/16/phpar_include_exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/16/phpar include exploit</id>
+    <id>http://test.ourren.com/2015/03/16/phpar_include_exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
@@ -116,9 +116,9 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
-    <link href="http://test.ourren.com/2015/03/12/nltk%20note%20stem%20pos_tag/"/>
+    <link href="http://test.ourren.com/2015/03/12/nltk_note_stem_pos_tag/"/>
     <updated>2015-03-12T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/12/nltk note stem pos_tag</id>
+    <id>http://test.ourren.com/2015/03/12/nltk_note_stem_pos_tag</id>
     <content type="html"><![CDATA[<p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
 <h3>词干提取</h3>
@@ -207,9 +207,9 @@ WH      wh determiner   who, which, when, what, where, how
   
   <entry>
     <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
-    <link href="http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/"/>
+    <link href="http://test.ourren.com/2015/03/10/linux_mysql_udf_shell/"/>
     <updated>2015-03-10T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/10/linux mysql udf shell</id>
+    <id>http://test.ourren.com/2015/03/10/linux_mysql_udf_shell</id>
     <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
 
 <h3>具体步骤如下</h3>
@@ -265,9 +265,9 @@ WH      wh determiner   who, which, when, what, where, how
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
-    <link href="http://test.ourren.com/2015/02/21/nltk%20note%20token%20sentence/"/>
+    <link href="http://test.ourren.com/2015/02/21/nltk_note_token_sentence/"/>
     <updated>2015-02-21T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/21/nltk note token sentence</id>
+    <id>http://test.ourren.com/2015/02/21/nltk_note_token_sentence</id>
     <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
 
 <h4>分句</h4>
@@ -333,9 +333,9 @@ if __name__ == '__main__':
   
   <entry>
     <title type="html"><![CDATA[YouTube视频下载方法汇总]]></title>
-    <link href="http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/"/>
+    <link href="http://test.ourren.com/2015/02/20/youtube_video_download_summary/"/>
     <updated>2015-02-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/20/youtube video download summary</id>
+    <id>http://test.ourren.com/2015/02/20/youtube_video_download_summary</id>
     <content type="html"><![CDATA[<p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
 
 <p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
@@ -387,9 +387,9 @@ if __name__ == '__main__':
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
-    <link href="http://test.ourren.com/2015/02/05/nltk%20note%20environment%20install/"/>
+    <link href="http://test.ourren.com/2015/02/05/nltk_note_environment_install/"/>
     <updated>2015-02-05T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/05/nltk note environment install</id>
+    <id>http://test.ourren.com/2015/02/05/nltk_note_environment_install</id>
     <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
 
 <p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
@@ -449,9 +449,9 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:系列文章概述]]></title>
-    <link href="http://test.ourren.com/2015/02/02/nltk%20note%20content%20list/"/>
+    <link href="http://test.ourren.com/2015/02/02/nltk_note_content_list/"/>
     <updated>2015-02-02T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/02/nltk note content list</id>
+    <id>http://test.ourren.com/2015/02/02/nltk_note_content_list</id>
     <content type="html"><![CDATA[<p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
 
 <h3>文章目录</h3>
@@ -487,9 +487,9 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[美化Ubuntu下Pycharm字体]]></title>
-    <link href="http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/"/>
+    <link href="http://test.ourren.com/2015/01/31/ubuntu_beauty_fonts_with_pycharm/"/>
     <updated>2015-01-31T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/31/ubuntu beauty pycharm fonts</id>
+    <id>http://test.ourren.com/2015/01/31/ubuntu_beauty_fonts_with_pycharm</id>
     <content type="html"><![CDATA[<h3>美化Ubuntu下pycharm的字体</h3>
 
 <p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
@@ -534,9 +534,9 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[安全界的顶级会议]]></title>
-    <link href="http://test.ourren.com/2015/01/20/top%20security%20conference/"/>
+    <link href="http://test.ourren.com/2015/01/20/top_security_conference/"/>
     <updated>2015-01-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/20/top security conference</id>
+    <id>http://test.ourren.com/2015/01/20/top_security_conference</id>
     <content type="html"><![CDATA[<p>可能很多人(特别是国内的，咳咳)跟我一样读了很多年书，虽然从事的是安全领域的研究，但是国际上顶级的安全会议可能都不知道，我也是最近才研究了一下国际上的安全顶级会议和论文下载方法。</p>
 
 <h4>四大顶会</h4>
@@ -589,9 +589,9 @@ Since 1980, the IEEE Symposium on Security and Privacy (SP) has been the premier
   
   <entry>
     <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/"/>
+    <link href="http://test.ourren.com/2015/01/18/solve_composer_ssl_error/"/>
     <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/18/solve composer ssl error</id>
+    <id>http://test.ourren.com/2015/01/18/solve_composer_ssl_error</id>
     <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
 
 <p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
@@ -645,9 +645,9 @@ Your requirements could not be resolved to an installable set of packages.
   
   <entry>
     <title type="html"><![CDATA[加州驾照考试全攻略]]></title>
-    <link href="http://test.ourren.com/2015/01/17/driver%20lisence%20in%20ca/"/>
+    <link href="http://test.ourren.com/2015/01/17/driver_lisence_in_ca/"/>
     <updated>2015-01-17T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/17/driver lisence in ca</id>
+    <id>http://test.ourren.com/2015/01/17/driver_lisence_in_ca</id>
     <content type="html"><![CDATA[<p>相比国内科目复杂，收费昂贵的驾照考试，生活在美帝的人民可以说是幸福的，因此他们可以快速地拿到驾照。加州驾照考试主要分为两部分：笔试＋路考(1次)，收费31刀。其它州考试应该也差不多，但是加州笔试有中文试卷，这是其它州貌似没有的优势。以下是驾照学习资料和考试过程，方便需要的小伙伴。</p>
 
 <h4>笔试参考资料</h4>
@@ -735,9 +735,9 @@ Your requirements could not be resolved to an installable set of packages.
   
   <entry>
     <title type="html"><![CDATA[Docker搭建lnmp详解]]></title>
-    <link href="http://test.ourren.com/2015/01/09/docker%20with%20lnmp/"/>
+    <link href="http://test.ourren.com/2015/01/09/docker_with_lnmp/"/>
     <updated>2015-01-09T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/09/docker with lnmp</id>
+    <id>http://test.ourren.com/2015/01/09/docker_with_lnmp</id>
     <content type="html"><![CDATA[<p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
 
 <h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
@@ -769,9 +769,9 @@ $ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
   
   <entry>
     <title type="html"><![CDATA[2014年：瞎忙活的一年]]></title>
-    <link href="http://test.ourren.com/2015/01/01/summary%20of%202014/"/>
+    <link href="http://test.ourren.com/2015/01/01/summary_of_2014/"/>
     <updated>2015-01-01T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/01/summary of 2014</id>
+    <id>http://test.ourren.com/2015/01/01/summary_of_2014</id>
     <content type="html"><![CDATA[<p>2013-2014是人生中迷茫的时期，需要面对生活的各个方面，需要考虑人生的道路方向。但我相信在这迷茫之后积极面对生活，充满热情迎接挑战时将会是另外一个天地。</p>
 
 <h4>关于研究</h4>
@@ -828,9 +828,9 @@ $ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
   
   <entry>
     <title type="html"><![CDATA[NLP入门实例:判断性别]]></title>
-    <link href="http://test.ourren.com/2014/12/26/nlp%20with%20sex%20for%20beginners/"/>
+    <link href="http://test.ourren.com/2014/12/26/nlp_with_sex_for_beginners/"/>
     <updated>2014-12-26T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2014/12/26/nlp with sex for beginners</id>
+    <id>http://test.ourren.com/2014/12/26/nlp_with_sex_for_beginners</id>
     <content type="html"><![CDATA[<p><img src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image" /></p>
 
 <h4>1. NLP(Natural Language Processing)</h4>
@@ -996,9 +996,9 @@ print classifier.classify(gender_features('ourren'))
   
   <entry>
     <title type="html"><![CDATA[Yii框架使用Word扩展插件]]></title>
-    <link href="http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/"/>
+    <link href="http://test.ourren.com/2014/11/02/yii-word_extension_and_example/"/>
     <updated>2014-11-02T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/11/02/yii-word extension and example</id>
+    <id>http://test.ourren.com/2014/11/02/yii-word_extension_and_example</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/yii_word.png" alt="" width="374" height="141"></p>
 
 <p>MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改），因此诞生了基于各种脚本语言的office库。现在看来其具体实现的方法有如下几种：</p>
@@ -1068,9 +1068,9 @@ $section->addTextBreak();//添加空行
   
   <entry>
     <title type="html"><![CDATA[中文分词与词频统计实例]]></title>
-    <link href="http://test.ourren.com/2014/09/24/chinese%20token%20and%20frequency/"/>
+    <link href="http://test.ourren.com/2014/09/24/chinese_token_and_frequency/"/>
     <updated>2014-09-24T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/09/24/chinese token and frequency</id>
+    <id>http://test.ourren.com/2014/09/24/chinese_token_and_frequency</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/jieba_tu.png" alt="" width="532" height="463"></p>
 
 <p>话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计。</p>
@@ -1164,9 +1164,9 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
   
   <entry>
     <title type="html"><![CDATA[线下积分联盟的十问十答]]></title>
-    <link href="http://test.ourren.com/2014/08/31/two%20questions%20about%20o2o%20point/"/>
+    <link href="http://test.ourren.com/2014/08/31/two_questions_about_o2o_point/"/>
     <updated>2014-08-31T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/08/31/two questions about o2o point</id>
+    <id>http://test.ourren.com/2014/08/31/two_questions_about_o2o_point</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/o2ojifen.jpg" alt="" width="512" height="219"></p>
 
 <p>前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的<strong>创业项目</strong>，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。但是我感觉用六个字就可以概括：<strong>线下积分联盟</strong>。</p>
@@ -1253,7 +1253,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x53;&#101;&#99;&#87;&#105;&#x6b;&#105;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;">&#x53;&#x65;&#x63;&#x57;&#x69;&#107;&#x69;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#83;&#101;&#x63;&#x57;&#105;&#x6b;&#x69;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;">&#83;&#101;&#x63;&#87;&#x69;&#107;&#105;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a></span></p>
 ]]></content>
   </entry>
   

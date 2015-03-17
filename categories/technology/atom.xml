@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://test.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:22:54-07:00</updated>
+  <updated>2015-03-17T15:27:41-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[YouTube视频下载方法汇总]]></title>
-    <link href="http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/"/>
+    <link href="http://test.ourren.com/2015/02/20/youtube_video_download_summary/"/>
     <updated>2015-02-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/20/youtube video download summary</id>
+    <id>http://test.ourren.com/2015/02/20/youtube_video_download_summary</id>
     <content type="html"><![CDATA[<p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
 
 <p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
@@ -69,9 +69,9 @@
   
   <entry>
     <title type="html"><![CDATA[美化Ubuntu下Pycharm字体]]></title>
-    <link href="http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/"/>
+    <link href="http://test.ourren.com/2015/01/31/ubuntu_beauty_fonts_with_pycharm/"/>
     <updated>2015-01-31T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/31/ubuntu beauty pycharm fonts</id>
+    <id>http://test.ourren.com/2015/01/31/ubuntu_beauty_fonts_with_pycharm</id>
     <content type="html"><![CDATA[<h3>美化Ubuntu下pycharm的字体</h3>
 
 <p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
@@ -116,9 +116,9 @@
   
   <entry>
     <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/"/>
+    <link href="http://test.ourren.com/2015/01/18/solve_composer_ssl_error/"/>
     <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/18/solve composer ssl error</id>
+    <id>http://test.ourren.com/2015/01/18/solve_composer_ssl_error</id>
     <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
 
 <p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
@@ -172,9 +172,9 @@ Your requirements could not be resolved to an installable set of packages.
   
   <entry>
     <title type="html"><![CDATA[Docker搭建lnmp详解]]></title>
-    <link href="http://test.ourren.com/2015/01/09/docker%20with%20lnmp/"/>
+    <link href="http://test.ourren.com/2015/01/09/docker_with_lnmp/"/>
     <updated>2015-01-09T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/09/docker with lnmp</id>
+    <id>http://test.ourren.com/2015/01/09/docker_with_lnmp</id>
     <content type="html"><![CDATA[<p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
 
 <h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
@@ -206,9 +206,9 @@ $ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
   
   <entry>
     <title type="html"><![CDATA[Yii框架使用Word扩展插件]]></title>
-    <link href="http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/"/>
+    <link href="http://test.ourren.com/2014/11/02/yii-word_extension_and_example/"/>
     <updated>2014-11-02T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2014/11/02/yii-word extension and example</id>
+    <id>http://test.ourren.com/2014/11/02/yii-word_extension_and_example</id>
     <content type="html"><![CDATA[<p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/yii_word.png" alt="" width="374" height="141"></p>
 
 <p>MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改），因此诞生了基于各种脚本语言的office库。现在看来其具体实现的方法有如下几种：</p>

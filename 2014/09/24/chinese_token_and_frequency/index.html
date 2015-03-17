@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>中文分词与词频统计实例 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2014/09/24/chinese_token_and_frequency/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">中文分词与词频统计实例</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-24T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="aligncenter" src="http://blog.ourren.com/blog/jieba_tu.png" alt="" width="532" height="463"></p>
+
+<p>话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计。</p>
+
+<p><strong>关于中文分词</strong></p>
+
+<p>中文跟英语在分词技术上差别比较多，中文多个字往往可以组成多个词语，而且词语之还可以缩写。例如：苏州杭州　可以缩写为　苏杭；而英文则相对固定，一个单词就是一个单词。也难怪平时在word中的词语错误提醒功能不能完全纠正中文书写错误，而可以纠正所有的英文书写错误。</p>
+
+<p>目前国内针对中文分词有几个比较流行的库：</p>
+
+<ul>
+    <li>jieba：基于python语言开发，同时最开始接触的也是这个开源库，整体而言也不错，github上关注度也是最高的；</li>
+    <li>Yaha：也是基于python语言开发的，跟jieba差不多，貌似功能方面有所改变；</li>
+    <li>NLPIR：开发语言C/C++/C#/Java；</li>
+    <li>其它分词可以参见参考链接1；</li>
+</ul>
+
+
+<p>可以说这些分词库各有差别，选择一款适合自己的库就行了，本次选择的是jieba，主要是由于基于python开发，并且在国内分词中流行度比较高（V2EX原来的主题tag就是基于jieba做的）。</p>
+
+<p><strong>提取所有标题</strong></p>
+
+<p>将数据库中的wp-post表中的数据导出csv格式，然后用excel打开并提取title列存为txt格式，这样子所有的标题都存在txt文件里面了。</p>
+
+<p><strong>标题分词</strong></p>
+
+<p>采用jieba给的实例程序进行标题分词，实际上可以将所有的标题当做一段话进行分词，但是为了更佳准确，还是选择了单个标题进行分词，直接上代码，非常简短：</p>
+
+<blockquote>
+<em>#encoding=utf-8</em>
+<em>import jieba</em>
+<em>wordsall = {} #define return dic</em>
+<em>postfile = open(&#8216;title&#8217;,&#8217;r&#8217;)</em>
+<em>ptitle = postfile.readlines()</em>
+<em>for ititle in ptitle:</em>
+<em>　ititle = ititle.replace(&#8216;\n&#8217;,&#8221;) #clean \n</em>
+<em>　seg_list = jieba.cut(ititle, cut_all=False)</em>
+<em>　print &#8221; &#8220;.join(seg_list)</em>
+</blockquote>
+
+
+<p>这样子就可以直接吧所有的标题进行分词并打印出来。其实jieba在分词的时候有三种模式（可以参考链接２），而本次采用的就是全模式：</p>
+
+<ul>
+    <li>精确模式，试图将句子最精确地切开，适合文本分析；</li>
+    <li>全模式，把句子中所有的可以成词的词语都扫描出来, 速度非常快，但是不能解决歧义；</li>
+    <li>搜索引擎模式，在精确模式的基础上，对长词再次切分，提高召回率，适合用于搜索引擎分词。</li>
+</ul>
+
+
+<p>其实代码还可以写得更好点，统计关键字并统计每个词语出现的次数，代码如下：</p>
+
+<blockquote>#encoding=utf-8
+import jieba
+wordsall = {} #define return dic
+postfile = open(&#8216;title&#8217;,&#8217;r&#8217;)
+ptitle = postfile.readlines()
+for ititle in ptitle:
+ititle = ititle.replace(&#8216;\n&#8217;,&#8221;) #clean \n
+seg_list = jieba.cut(ititle, cut_all=False)
+rowlist = &#8221; &#8220;.join(seg_list)
+words = rowlist.split(&#8217; &#8216;)
+for word in words:
+if word !=&#8221;:
+if word in wordsall:
+wordsall[word]+=1
+else:
+wordsall[word] = 1
+wordsall = sorted(wordsall.items(), key=lambda d:d[1], reverse = True)
+for (word, cnt) in wordsall:
+print &#8220;%s:&#8221; % word,cnt</blockquote>
+
+
+<p><strong>文字图显示</strong></p>
+
+<p>其实在上面的过程中虽然对标题的词语进行了分词，但是一般的人还是看不太懂这个博客主要写了什么内容，而目前很流行的文字图则更加方便地普通人快速了解相关信息。这类主要采用在线服务实现文字图的绘画，在线平台只需要提供关键字即可显示文字图，本次采用了<a href="http://worditout.com/word-cloud/make-a-new-one" target="_blank">worditout</a>的在线服务进行生成；</p>
+
+<p>将上面生成的词语复制到worditout的文本框中，就生成了文章最前面的图形，对比下发现这个文字图的效果和说服力跟我手动标注的标签云差不多，也即是说自动的标签分割技术基本上已经成熟，不需要人工手动添加标签了。</p>
+
+<p>其实，还有很多其它的在线文字图生成系统，可以参照这里的<a href="http://picsays.com/2012/07/09/word-cloud/" target="_blank">一篇文章</a>;</p>
+
+<p><strong>相关链接</strong></p>
+
+<ol>
+    <li><a href="http://www.zhihu.com/question/19578687" target="_blank">有哪些比较好的中文分词方案</a></li>
+    <li><a href="https://github.com/fxsjy/jieba" target="_blank">jieba</a></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-09-24T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/research/'>research</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2014/08/31/two_questions_about_o2o_point/" title="Previous Post: 线下积分联盟的十问十答">&laquo; 线下积分联盟的十问十答</a>
+      
+      
+        <a class="basic-alignment right" href="/2014/11/02/yii-word_extension_and_example/" title="Next Post: Yii框架使用Word扩展插件">Yii框架使用Word扩展插件 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="中文分词与词频统计实例"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://direwolf.gitcafe.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section><section>
+    <h1>广告</h1>
+    <ul class="xoxo blogroll">
+        <li><a href="http://www.gujinmall.net/" target="_blank">古今内衣旗舰店</a></li>
+        <li><a href="http://www.meiguibailatu.com">玫瑰柏拉图旗舰店</a></li>
+        <li><a href="http://ruishijundao.wangtx.com/">瑞士军刀背包</a></li>
+        <li><a href="http://www.65w.cn/">诺力米特女装官网</a></li>
+        <li><a href="http://www.cnartka.com" target="_blank">阿卡</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

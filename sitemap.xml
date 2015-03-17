@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://test.ourren.com/2015/03/16/phpar%20include%20exploit/</loc>
+    <loc>http://test.ourren.com/2015/03/16/phpar_include_exploit/</loc>
     <lastmod>2015-03-16T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/03/12/nltk%20note%20stem%20pos_tag/</loc>
+    <loc>http://test.ourren.com/2015/03/12/nltk_note_stem_pos_tag/</loc>
     <lastmod>2015-03-12T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/</loc>
+    <loc>http://test.ourren.com/2015/03/10/linux_mysql_udf_shell/</loc>
     <lastmod>2015-03-10T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/21/nltk%20note%20token%20sentence/</loc>
+    <loc>http://test.ourren.com/2015/02/21/nltk_note_token_sentence/</loc>
     <lastmod>2015-02-21T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/20/youtube%20video%20download%20summary/</loc>
+    <loc>http://test.ourren.com/2015/02/20/youtube_video_download_summary/</loc>
     <lastmod>2015-02-20T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/05/nltk%20note%20environment%20install/</loc>
+    <loc>http://test.ourren.com/2015/02/05/nltk_note_environment_install/</loc>
     <lastmod>2015-02-05T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/02/02/nltk%20note%20content%20list/</loc>
+    <loc>http://test.ourren.com/2015/02/02/nltk_note_content_list/</loc>
     <lastmod>2015-02-02T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/31/ubuntu%20beauty%20pycharm%20fonts/</loc>
+    <loc>http://test.ourren.com/2015/01/31/ubuntu_beauty_fonts_with_pycharm/</loc>
     <lastmod>2015-01-31T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/20/top%20security%20conference/</loc>
+    <loc>http://test.ourren.com/2015/01/20/top_security_conference/</loc>
     <lastmod>2015-01-20T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/18/solve%20composer%20ssl%20error/</loc>
+    <loc>http://test.ourren.com/2015/01/18/solve_composer_ssl_error/</loc>
     <lastmod>2015-01-18T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/17/driver%20lisence%20in%20ca/</loc>
+    <loc>http://test.ourren.com/2015/01/17/driver_lisence_in_ca/</loc>
     <lastmod>2015-01-17T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/09/docker%20with%20lnmp/</loc>
+    <loc>http://test.ourren.com/2015/01/09/docker_with_lnmp/</loc>
     <lastmod>2015-01-09T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2015/01/01/summary%20of%202014/</loc>
+    <loc>http://test.ourren.com/2015/01/01/summary_of_2014/</loc>
     <lastmod>2015-01-01T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/12/26/nlp%20with%20sex%20for%20beginners/</loc>
+    <loc>http://test.ourren.com/2014/12/26/nlp_with_sex_for_beginners/</loc>
     <lastmod>2014-12-26T00:00:00-08:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/11/02/yii-word%20extension%20and%20example/</loc>
+    <loc>http://test.ourren.com/2014/11/02/yii-word_extension_and_example/</loc>
     <lastmod>2014-11-02T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/09/24/chinese%20token%20and%20frequency/</loc>
+    <loc>http://test.ourren.com/2014/09/24/chinese_token_and_frequency/</loc>
     <lastmod>2014-09-24T00:00:00-07:00</lastmod>
   </url>
   <url>
-    <loc>http://test.ourren.com/2014/08/31/two%20questions%20about%20o2o%20point/</loc>
+    <loc>http://test.ourren.com/2014/08/31/two_questions_about_o2o_point/</loc>
     <lastmod>2014-08-31T00:00:00-07:00</lastmod>
   </url>
   <url>
@@ -249,32 +249,5 @@
   </url>
   <url>
     <loc>http://test.ourren.com/categories/research/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/2/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/3/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/4/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/5/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/6/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/7/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/8/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/9/</loc>
-  </url>
-  <url>
-    <loc>http://test.ourren.com/posts/10/</loc>
   </url>
 </urlset>

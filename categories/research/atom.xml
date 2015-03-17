@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | Ourren]]></title>
   <link href="http://test.ourren.com/categories/research/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:22:54-07:00</updated>
+  <updated>2015-03-17T15:27:41-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
-    <link href="http://test.ourren.com/2015/03/12/nltk%20note%20stem%20pos_tag/"/>
+    <link href="http://test.ourren.com/2015/03/12/nltk_note_stem_pos_tag/"/>
     <updated>2015-03-12T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/12/nltk note stem pos_tag</id>
+    <id>http://test.ourren.com/2015/03/12/nltk_note_stem_pos_tag</id>
     <content type="html"><![CDATA[<p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
 
 <h3>词干提取</h3>
@@ -106,9 +106,9 @@ WH      wh determiner   who, which, when, what, where, how
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
-    <link href="http://test.ourren.com/2015/02/21/nltk%20note%20token%20sentence/"/>
+    <link href="http://test.ourren.com/2015/02/21/nltk_note_token_sentence/"/>
     <updated>2015-02-21T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/21/nltk note token sentence</id>
+    <id>http://test.ourren.com/2015/02/21/nltk_note_token_sentence</id>
     <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
 
 <h4>分句</h4>
@@ -174,9 +174,9 @@ if __name__ == '__main__':
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
-    <link href="http://test.ourren.com/2015/02/05/nltk%20note%20environment%20install/"/>
+    <link href="http://test.ourren.com/2015/02/05/nltk_note_environment_install/"/>
     <updated>2015-02-05T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/05/nltk note environment install</id>
+    <id>http://test.ourren.com/2015/02/05/nltk_note_environment_install</id>
     <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
 
 <p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
@@ -236,9 +236,9 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[NLTK笔记:系列文章概述]]></title>
-    <link href="http://test.ourren.com/2015/02/02/nltk%20note%20content%20list/"/>
+    <link href="http://test.ourren.com/2015/02/02/nltk_note_content_list/"/>
     <updated>2015-02-02T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/02/02/nltk note content list</id>
+    <id>http://test.ourren.com/2015/02/02/nltk_note_content_list</id>
     <content type="html"><![CDATA[<p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
 
 <h3>文章目录</h3>
@@ -274,9 +274,9 @@ nltk.download()
   
   <entry>
     <title type="html"><![CDATA[安全界的顶级会议]]></title>
-    <link href="http://test.ourren.com/2015/01/20/top%20security%20conference/"/>
+    <link href="http://test.ourren.com/2015/01/20/top_security_conference/"/>
     <updated>2015-01-20T00:00:00-08:00</updated>
-    <id>http://test.ourren.com/2015/01/20/top security conference</id>
+    <id>http://test.ourren.com/2015/01/20/top_security_conference</id>
     <content type="html"><![CDATA[<p>可能很多人(特别是国内的，咳咳)跟我一样读了很多年书，虽然从事的是安全领域的研究，但是国际上顶级的安全会议可能都不知道，我也是最近才研究了一下国际上的安全顶级会议和论文下载方法。</p>
 
 <h4>四大顶会</h4>

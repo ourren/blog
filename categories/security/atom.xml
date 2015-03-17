@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Ourren]]></title>
   <link href="http://test.ourren.com/categories/security/atom.xml" rel="self"/>
   <link href="http://test.ourren.com/"/>
-  <updated>2015-03-17T15:22:54-07:00</updated>
+  <updated>2015-03-17T15:27:41-07:00</updated>
   <id>http://test.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://test.ourren.com/2015/03/16/phpar%20include%20exploit/"/>
+    <link href="http://test.ourren.com/2015/03/16/phpar_include_exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/16/phpar include exploit</id>
+    <id>http://test.ourren.com/2015/03/16/phpar_include_exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
@@ -116,9 +116,9 @@ include($inc);
   
   <entry>
     <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
-    <link href="http://test.ourren.com/2015/03/10/linux%20mysql%20udf%20shell/"/>
+    <link href="http://test.ourren.com/2015/03/10/linux_mysql_udf_shell/"/>
     <updated>2015-03-10T00:00:00-07:00</updated>
-    <id>http://test.ourren.com/2015/03/10/linux mysql udf shell</id>
+    <id>http://test.ourren.com/2015/03/10/linux_mysql_udf_shell</id>
     <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
 
 <h3>具体步骤如下</h3>
