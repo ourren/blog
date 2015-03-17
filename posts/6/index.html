@@ -1,0 +1,1112 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Zend框架结构简介      由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。 一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/posts/6/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/11/zend_record_login_info/">Zend框架记录登陆信息</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-11T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Zend框架结构简介</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。
+<a href="http://blog.ourren.com/blog/zend_1.png"><img class="aligncenter" title="zend" src="http://blog.ourren.com/blog/zend_1.png" alt="" width="421" height="359"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。查看application文件夹下的module文件夹，一般里面会存在多个模型，而每个模型下面的结构是一样的，如图所示：
+<a href="http://blog.ourren.com/blog/zend_2.png"><img class="aligncenter" title="zend" src="http://blog.ourren.com/blog/zend_2.png" alt="" width="123" height="116"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般我们还是只关注models文件夹里面的文件，这里面就会有各种功能的类，基本上都是从zend中继承过来的。每个文件的作用可以根据文件名进行识别，然后添加相关代码。
+<strong>记录代码</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     Php中可以使用$_SERVER数组来获取相关客户端用户用户信息（IP、USER_AGENT、REFERER等），有时候可能会记录用户提交的相关数据。
+一段比较简洁的代码如下：</p>
+
+<p>[code lang=&ldquo;php&rdquo;]&lt;?php
+date_default_timezone_set(&lsquo;UTC&rsquo;);
+$filename  = date(&ldquo;Ymd&rdquo;).&lsquo;.txt&rsquo;;
+$content =&ldquo;Time:&rdquo;.date(&ldquo;YmdHis&rdquo;).&ldquo;tIP:&rdquo;.$<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;].&ldquo;tAgent:&rdquo;.$</em>SERVER[&lsquo;HTTP_USER_AGENT&rsquo;].&ldquo;tCookie:&rdquo;.@$_COOKIE[&lsquo;auth&rsquo;].&ldquo;n&rdquo;;
+if ($handle = fopen($filename, &lsquo;a+&rsquo;))
+{
+    fwrite($handle, $content);
+    fclose($handle);
+}
+?&gt;[/code]</p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>其他记录用户名、密码按照这个进行添加就OK了。
+参考文章：
+<span><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html"><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html">http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html</a></a></span> 
+<span><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout"><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout">http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout</a></a></span></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/09/practical_malware_analysis_chapter5/">Practical Malware Analysis Chapter5 Summary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-09T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。</p>
+
+<p>IDA 各类技巧：
+交叉参考：
+函数与函数之间的调用：双击函数开始的上下箭头
+函数内部调用函数：直接双击函数进入
+数据交叉参考，一样双击进入。</p>
+
+<p>图形选项：
+函数被调用：
+函数调用其他函数：
+调用层次选择。</p>
+
+<p>插件使用：
+hex-rays、bindiff、patchdiff等
+IDC、python脚本使用。</p>
+
+<p>一些实用技巧：
+添加注释： 替换注释;
+右键修改函数名
+数字右键进制转换
+加载调用函数参数常量名称：右键使用标准符号常量
+图形与代码显示转换，空格
+F5 快速函数C语言格式化
+多参考输入表、输出表、字符选项卡。</p>
+
+<p>chapter5整体知识点：</p>
+
+<p><a href="http://blog.ourren.com/blog/chapter5.jpg"><img class="aligncenter" title="chapter5" src="http://blog.ourren.com/blog/chapter5.jpg" alt="" width="556" height="321"></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/23/practical_malware_analysis_part1/">Practical Malware Analysis Part1总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>0x1 题外话</div>
+
+
+<div>        从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。</div>
+
+
+<div>        总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析，概括了恶意代码的各个方面。虽然原来自己也有一些分析恶意代码，但是看了这本书之后才发现作者思维的缜密和广度，不得不佩服。</div>
+
+
+<div>0x2 Part0 简介</div>
+
+
+<div>       本书第0部分主要针对恶意代码的目的、分析方法和恶意代码类型进行阐述，可以对这个技术进行一个整体的认识。</div>
+
+
+<div>       恶意代码的分析方法主要有：</div>
+
+
+<div>1)初级静态分析</div>
+
+
+<div>2)初级动态分析</div>
+
+
+<div>3)高级静态分析</div>
+
+
+<div>4)高级动态分析</div>
+
+
+<div>       恶意代码分析中需要注意的几个细节：</div>
+
+
+<div>1)不要过于纠结细节。</div>
+
+
+<div>2)不同的样本可能会需要不同的工具进行分析，灵活更换工具。</div>
+
+
+<div>3)试着从编写者角度考虑，分析过程本来就是一个猫捉老鼠的游戏。</div>
+
+
+<div>(接下来的章节就是从分析方法种类进行章节讲解。）</div>
+
+
+<div>0x3 Part1 初级分析</div>
+
+
+<div>    初级分析主要分为初级静态分析和初级动态分析。先总结下静态分析需要从哪些方面进行关注：杀毒软件查杀、文件MD5、编程语言、加壳与否、输入/出表关键函数、字符串、资源这些方面进行分析，一般步骤如下：</div>
+
+
+<div>1)可以上传到virustotal网站进行在线扫描，看是否是较老的样本了。</div>
+
+
+<div>2)查看文件MD5、hash值，谷歌看看。</div>
+
+
+<div>3)PEID查看文件是否编程语言、加壳与否、输入表和输出表关键函数（涉及到文件、注册表、网络等方面API函数）。</div>
+
+
+<div>4)用string.exe查看文件中的字符串。</div>
+
+
+<div>5)如果有资源文件，可以用Resource Hacker查看是否有额外的PE文件等。</div>
+
+
+<div><a href="http://blog.ourren.com/blog/malwarechapter1.png"><img class="aligncenter" title="malware chapter1" src="http://blog.ourren.com/blog/malwarechapter1.png" alt="" width="601" height="408"></a></div>
+
+
+<div>       通过以上的分析大概确定文件的大致功能，具体的操作需要结合动态分析了。下面讨论下初级动态分析的方法：</div>
+
+
+<div>       初级动态分析需要从文件操作、网络活动、注册表操作进行监控分析。可以采用sandbox进行分析，但是推荐采用虚拟机快照方式进行分析，主要工具如下：</div>
+
+
+<div>分析步骤：</div>
+
+
+<div><a href="blog.ourren.com/blog/malwaredynamicanalysis.png"><img class="aligncenter" title="malwaredynamicanalysis" src="http://blog.ourren.com/blog/malwaredynamicanalysis.png" alt="" width="654" height="304"></a></div>
+
+
+<div>1)运行Process Explorer、procmon、Wireshark程序。</div>
+
+
+<div>2)利用Regshot抓取第一次注册表快照，利用ApateDNS把所有域名链接全部转为本地，并用NC监听80和443端口。</div>
+
+
+<div>3)运行样本程序。</div>
+
+
+<div>4)通过ApateDNS查看网络情况、Regshot抓取第二次快照并对比分析。</div>
+
+
+<div>5)结合Process Explorer、procmon和静态分析结果进行详细分析。</div>
+
+
+<div>这个只是个大体过程，在实际分析中肯定还有一些其他的技巧，可以结合作者在每个part后面的lab进行练习。</div>
+
+
+<div id="__ss_12131085" style="width: 477px;">
+<strong style="display: block; margin: 12px 0 4px;"><a title="Practical malware analysis part1 总结" href="http://www.slideshare.net/opcodesec/practical-malware-analysis-part1" target="_blank">Practical malware analysis part1 总结</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/12131085" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="477" height="510"></iframe>
+<div style="padding: 5px 0 12px;">View more <a href="http://www.slideshare.net/" target="_blank">documents</a> from <a href="http://www.slideshare.net/opcodesec" target="_blank">opcodesec</a>
+</div>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/20/php_lexical_analysis/">浅谈php中的词法分析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-20T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>php中提供了token_get_all函数来针对php代码进行词法分析，通过词法分析我们可以做恶意代码分析，安全代码审计等深层次研究。该函数可以直接把php代码分为php tokens，而每个token又包含类型、值、行数这三样。
+首先对最简单的代码进行分析(当然不是hello world)：
+[code lang=&ldquo;php&rdquo;]code.php
+&lt;?php
+echo &lsquo;token&rsquo;;
+?>[/code]
+[code lang=&ldquo;php&rdquo;]token.php
+&lt;?php
+print_r(token_get_all(file_get_contents(&lsquo;code.php&rsquo;)));
+?>[/code]
+看效果,为了效果更明显，建议你测试的时候直接看浏览器源码。
+[code lang=&ldquo;php&rdquo;]Array
+(
+    [0] => Array
+        (
+            [0] => 366
+            [1] => &lt;?php</p>
+
+<pre><code>        [2] =&gt; 1
+    )
+
+[1] =&gt; Array
+    (
+        [0] =&gt; 315
+        [1] =&gt; echo
+        [2] =&gt; 2
+    )
+
+[2] =&gt; Array
+    (
+        [0] =&gt; 369
+        [1] =&gt;  
+        [2] =&gt; 2
+    )
+
+[3] =&gt; Array
+    (
+        [0] =&gt; 314
+        [1] =&gt; 'token'
+        [2] =&gt; 2
+    )
+
+[4] =&gt; ;
+[5] =&gt; Array
+    (
+        [0] =&gt; 369
+        [1] =&gt; 
+
+        [2] =&gt; 2
+    )
+
+[6] =&gt; Array
+    (
+        [0] =&gt; 368
+        [1] =&gt; ?&gt;
+        [2] =&gt; 3
+    )
+</code></pre>
+
+<p>)[/code]
+每个token数组中的第一项表示其类型，可以用函数token_name()得到起文字说明，第二项表示其内容，第三项表示在文件中的行数。还不错吧，可以得到这么多有用的信息(至少我第一次从monyer文章中看到的时候很欢喜的)。如果你只关注一些关键函数及其参数，那么你就需要对这些内容进行过滤，借鉴php手册重点的一个例子实现如下：
+[code lang=&ldquo;php&rdquo;]&lt;?php
+define(&rsquo;T_NEW_LINE&#8217;, -1);</p>
+
+<p>$tokens = token_get_all_nl(file_get_contents(&lsquo;code.php&rsquo;));</p>
+
+<p>foreach ($tokens as $token)
+{
+    if (is_array($token))
+    {
+        echo (&lsquo;Type:&rsquo;.token_name_nl($token[0]) .&ldquo;t&rdquo;. &lsquo;Code: &ldquo;&rsquo; . htmlspecialchars($token[1]) .&#8221;t&rdquo;.&lsquo;&ldquo;    line:&rsquo;.$token[2].&lsquo;<br />&rsquo;);
+    }
+    else
+    {
+        echo (&lsquo;&rdquo;&rsquo; . $token . &lsquo;&ldquo;<br />&rsquo;);
+    }
+}</p>
+
+<p>function token_get_all_nl($source)
+{
+    $new_tokens = array();</p>
+
+<pre><code>// Get the tokens
+$tokens = token_get_all($source);
+
+// Split newlines into their own tokens
+foreach ($tokens as $token)
+{
+    $token_name = is_array($token) ? $token[0] : null;
+    $token_data = is_array($token) ? $token[1] : $token;
+    $token_number = is_array($token) ? $token[2] : $token;
+
+    // Do not split encapsed strings or multiline comments
+    if ($token_name == T_CONSTANT_ENCAPSED_STRING || substr($token_data, 0, 2) == '/*')
+    {
+        $new_tokens[] = array($token_name, $token_data, $token_number);
+        continue;
+    }
+
+    // Split the data up by newlines
+    $split_data = preg_split('#(rn|n)#', $token_data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+    foreach ($split_data as $data)
+    {
+        if ($data == "rn" || $data == "n")
+        {
+            // This is a new line token
+            $new_tokens[] = array(T_NEW_LINE, $data, $token_number);
+        }
+        else
+        {
+            // Add the token under the original token name
+            $new_tokens[] = is_array($token) ? array($token_name, $data, $token_number) : $data;
+        }
+    }
+}
+
+return $new_tokens;
+</code></pre>
+
+<p>}</p>
+
+<p>function token_name_nl($token)
+{
+    if ($token === T_NEW_LINE)
+    {
+        return &rsquo;T_NEW_LINE&#8217;;
+    }</p>
+
+<pre><code>return token_name($token);
+</code></pre>
+
+<p>}
+?>[/code]
+此外，你可以在这个基础上进行一些有目的的开发。
+BTW:今天看rips源码才知道也是这么做的，详细的实现要看完了再分享。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/19/wordpress_safe_research/">Wordpress 安全机制研究</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-19T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近抽了点时间把wordpress最新版的源码翻了翻，记录一下其中的安全机制，BTW：wordpress源码看着真的很蛋疼。</p>
+
+<p>1、认证模块
+涉及到wordpress认证安全方面的主要有认证方式，密码保存方式。其中密码保存方式又分为安装时管理员密码生成和后台添加用户。
+首先，wordpress采用的是cookie方式认证，cookie生成过程相对比较复杂，salt多次加密且不是简单的随机数salt，默认采用MD5，当然也可以采用sha。
+[code lang=&ldquo;php&rdquo;]    $pass_frag = substr($user-&gt;user_pass, 8, 4);
+    $key = wp_hash($user-&gt;user_login . $pass_frag . &lsquo;|&rsquo; . $expiration, $scheme);//salt:用户名.密码8-12位|cookie时长.auth
+    $hash = hash_hmac(&lsquo;md5&rsquo;, $user-&gt;user_login . &lsquo;|&rsquo; . $expiration, $key);////md5($opad . pack($pack, md5($ipad . $data))); opad ipad 都是key异或后的值
+    $cookie = $user-&gt;user_login . &lsquo;|&rsquo; . $expiration . &lsquo;|&rsquo; . $hash;[/code]
+详细流程：wp_set_auth_cookie&ndash;>wp_generate_auth_cookie&ndash;>hash_hmac&ndash;>_hash_hmac
+函数源码如下：
+[code lang=&ldquo;php&rdquo;]function wp_generate_auth_cookie($user_id, $expiration, $scheme = &lsquo;auth&rsquo;) {
+    $user = get_userdata($user_id);</p>
+
+<pre><code>$pass_frag = substr($user-&amp;gt;user_pass, 8, 4);
+
+$key = wp_hash($user-&amp;gt;user_login . $pass_frag . '|' . $expiration, $scheme);
+$hash = hash_hmac('md5', $user-&amp;gt;user_login . '|' . $expiration, $key);
+
+$cookie = $user-&amp;gt;user_login . '|' . $expiration . '|' . $hash;
+
+return apply_filters('auth_cookie', $cookie, $user_id, $expiration, $scheme);
+</code></pre>
+
+<p>}</p>
+
+<p>function hash_hmac($algo, $data, $key, $raw_output = false) {
+    return <em>hash_hmac($algo, $data, $key, $raw_output);
+}[/code]
+[code lang=&ldquo;php&rdquo;]function </em>hash_hmac($algo, $data, $key, $raw_output = false) {
+    $packs = array(&lsquo;md5&rsquo; =&gt; &lsquo;H32&rsquo;, &lsquo;sha1&rsquo; =&gt; &lsquo;H40&rsquo;);</p>
+
+<pre><code>if ( !isset($packs[$algo]) )
+    return false;
+
+$pack = $packs[$algo];
+
+if (strlen($key) &amp;gt; 64)
+    $key = pack($pack, $algo($key));
+
+$key = str_pad($key, 64, chr(0));
+
+$ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));  //char(0x36)=6
+$opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));  //char(0x5c)=
+
+$hmac = $algo($opad . pack($pack, $algo($ipad . $data)));
+
+if ( $raw_output )
+    return pack( $pack, $hmac );
+return $hmac;
+</code></pre>
+
+<p>}[/code]
+其次，安装时生成管理员密码时，采用的是salt md5加密。函数调用流程如下。
+函数流程：wp_create_user&ndash;>wp_insert_user&ndash;>wp_hash_password&ndash;>HashPassword&ndash;>crypt_private</p>
+
+<p>创建用户时采用的加密方式是一样的，但是实现上有点区别，创建用户后生成激活码，然后激活用户。
+函数流程：current_user_can&ndash;>wpmu_signup_user&ndash;>wpmu_activate_signup&ndash;>wpmu_create_user&ndash;>wp_create_user&ndash;>wp_insert_user&ndash;>wp_hash_password</p>
+
+<p>加密方式中重要的函数如下：
+[code lang=&ldquo;php&rdquo;]function wp_hash_password($password) {
+    global $wp_hasher;</p>
+
+<pre><code>if ( empty($wp_hasher) ) {
+    require_once( ABSPATH . 'wp-includes/class-phpass.php');
+    // By default, use the portable hash from phpass
+    $wp_hasher = new PasswordHash(8, TRUE);
+}
+
+return $wp_hasher-&amp;gt;HashPassword($password);
+</code></pre>
+
+<p>}[/code]
+[code lang=&ldquo;php&rdquo;]   function HashPassword($password)
+    {
+        $random = &lsquo;&rsquo;;</p>
+
+<pre><code>    if (CRYPT_BLOWFISH == 1 &amp;amp;&amp;amp; !$this-&amp;gt;portable_hashes) {
+        $random = $this-&amp;gt;get_random_bytes(16);
+        $hash =
+            crypt($password, $this-&amp;gt;gensalt_blowfish($random));
+        if (strlen($hash) == 60)
+            return $hash;
+    }
+
+    if (CRYPT_EXT_DES == 1 &amp;amp;&amp;amp; !$this-&amp;gt;portable_hashes) {
+        if (strlen($random) &amp;lt; 3)
+            $random = $this-&amp;gt;get_random_bytes(3);
+        $hash =
+            crypt($password, $this-&amp;gt;gensalt_extended($random));
+        if (strlen($hash) == 20)
+            return $hash;
+    }
+
+    if (strlen($random) &amp;lt; 6)
+        $random = $this-&amp;gt;get_random_bytes(6);
+    $hash =
+        $this-&amp;gt;crypt_private($password,
+        $this-&amp;gt;gensalt_private($random));
+    if (strlen($hash) == 34)
+        return $hash;
+
+    # Returning '*' on error is safe here, but would _not_ be safe
+    # in a crypt(3)-like function used _both_ for generating new
+    # hashes and for validating passwords against existing hashes.
+    return '*';
+}[/code]
+</code></pre>
+
+<p>2、过滤模块
+过滤模块这里主要想谈防注入、跨站、文件名攻击这几个方面。
+首先看防注入方式，wordpress里面有地方会采用过滤后采用addslashes进行转义，但是有一个封装得比较好的转义方式是，采用vsprintf方式进行变量输入，然后过滤编码，最后通过判定mysql类型进行mysql_real_escape_string或者进行addslashes转义。
+一个较为复杂的流程：select&ndash;>wpdb::prepare&ndash;>vsprintf&ndash;>escape_by_ref&ndash;>_real_escape&ndash;>mysql_real_escape_string/addslashes</p>
+
+<p>其次防跨站方式采用了两种方式：普通文本过滤方式和富文本过滤方式。普通文本过滤方式采用htmlspecialchars进行过滤，富文本则采用自定义函数wp_specialchars_decode进行操作。
+具体流程：esc_html&ndash;>_wp_specialchars&ndash;>htmlspecialchars/wp_specialchars_decode</p>
+
+<p>最后文件名这块通过过滤文件名中的特殊字符和文件信息进行操作。
+$special_chars = array(&ldquo;?&rdquo;, &ldquo;[&rdquo;, &ldquo;]&rdquo;, &ldquo;/&rdquo;, &ldquo;\&rdquo;, &ldquo;=&rdquo;, &ldquo;&lt;&rdquo;, &ldquo;>&rdquo;, &ldquo;:&rdquo;, &ldquo;;&rdquo;, &ldquo;,&rdquo;, &ldquo;&lsquo;&rdquo;, &ldquo;&rdquo;&ldquo;, &rdquo;&amp;&ldquo;, &rdquo;$&ldquo;, &rdquo;#&ldquo;, &rdquo;*&ldquo;, &rdquo;(&ldquo;, &rdquo;)&ldquo;, &rdquo;|&ldquo;, &rdquo;~&ldquo;, &rdquo;`&ldquo;, &rdquo;!&ldquo;, &rdquo;{&ldquo;, &rdquo;}&ldquo;, chr(0));</p>
+
+<p>3、其他
+wordpress的Hook机制：<a href="http://www.mrmu.com.tw/2011/10/10/wordpress-hook/">http://www.mrmu.com.tw/2011/10/10/wordpress-hook/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/13/php5-4_remove_safe-function/">PHP5.4中删除的安全函数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-13T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前几天配置PHP5.4的时候发现PHP新版已经在一些安全函数方面进行了增改，从php自身防止一些不必要的漏洞，因此开发人员在写代码时也需要注意版本的兼容。下面讲几个涉及安全方面的函数进行说明。<br>1、safe_mode<br>状态：已删除<br>描述：此函数主要限制系统相关的文件打开、命令执行等函数(具体影响函数见参考1)。当然现在也有bypasss safe_mode的方法(见参考2)，通过com接口来绕过。<br>解决办法：可以通过配置php.ini中的disable_functions函数列表进行限制指定函数。<br><br>2、magic_quotes_gpc<br>状态：已删除 （magic_quotes_runtime、magic_quotes_sybase 删除）<br>描述：此函数在PHP &lt;= 4.2.3默认开，会自动对GPC (Get/Post/Cookie)提交的值中的&#8217;, &ldquo;, 和空格进行转义，PHP5.4中get_magic_quotes_gpc()默认返回false。<br>解决办法：基本上还是不受影响，先检测状态，然后采用mysql_real_escape_string进行转义处理。<br><br>3、register_globals<br>状态：已删除<br>描述：此函数虽然从PHP>>4.2开始默认由on改为off,但是如果程序员开启的话会导致变量覆盖等安全问题,特别是结合文件包含漏洞等。<br>解决办法：可以结合前面sablog源码中的函数进行改写(采用extract函数).<br><br>4、session_register<br>状态：已删除（session_unregister()、session_is_registered 删除）<br>描述：采用session认证的时候可以用该函数注册session变量。<br>解决办法：采用$_SESSION数组进行注册变量。<br><br>参考：<br><a href="http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html">http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html</a><br><a href="http://luoq.net/PHP-COM-functions/">http://luoq.net/PHP-COM-functions/</a><br><a href="http://php.net/releases/5_4_0.php">http://php.net/releases/5_4_0.php</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/11/nginx_php_mysql_safe/">Nginx Php Mysql 安装与安全配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-11T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>1、新建用户和权限设置</p>
+
+<h1>新建www用户组：</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]groupadd www -g 501[/code]</p>
+
+<h1>创建一个不能登陆、没有shell、没有主目录的用户：</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]useradd www -M -s /sbin/nologin -g 501[/code]
+2、安装Pcre组件
+[code lang=&ldquo;bash&rdquo;]# wget <a href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.30.tar.gz">ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.30.tar.gz</a></p>
+
+<h1>tar zxfv pcre-8.30.tar.gz</h1>
+
+<h1>cd pcre-8.30</h1>
+
+<h1>./configure</h1>
+
+<h1>make &amp;&amp; make install[/code]</h1>
+
+<p>3、修改、编译并安装nginx</p>
+
+<h1>修改banner信息</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]#src/core/nginx.h</p>
+
+<h1>define NGINX_VERSION      &ldquo;2.0.0&rdquo;</h1>
+
+<h1>define NGINX_VER          &ldquo;Apache/&rdquo; NGINX_VERSION</h1>
+
+<h1>define NGINX_VAR          &ldquo;Apache&rdquo;[/code]</h1>
+
+<h1>编译(最小化安装)</h1>
+
+<h1>可以用命令查看现有配置</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]./configure &ndash;help |less[/code]</p>
+
+<h1>这里只用最简单的一些功能</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]./configure &ndash;prefix=/usr/local/nginx &ndash;user=www &ndash;group=www &ndash;with-http_stub_status_module &ndash;with-http_ssl_module
+make &amp;&amp; make install[/code]</p>
+
+<h2>如果出现error while loading shared libraries: libpcre.so.1</h2>
+
+<h2>解决办法(创建连接)：ln -s /usr/local/lib/libpcre.so.1 /lib</h2>
+
+<p>4、安装php</p>
+
+<h1>安装必要的组件 补充说明：PHP加密扩展库(libmcrypt)</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]yum -y install libjpeg-devel libpng-devel libxml2-devel curl-devel
+wget <a href="ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz">ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz</a>
+tar -zxvf libmcrypt-2.5.7.tar.gz
+cd libmcrypt-2.5.7
+./configure
+make &amp;&amp; make install[/code]</p>
+
+<h1>编译php并安装</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]wget <a href="http://us3.php.net/get/php-5.4.0.tar.gz/from/cn2.php.net/mirror">http://us3.php.net/get/php-5.4.0.tar.gz/from/cn2.php.net/mirror</a>
+tar zxfv php-5.4.0.tar.gz
+cd php-5.4.0
+./configure &ndash;prefix=/usr/local/php &ndash;with-iconv &ndash;with-zlib &ndash;enable-xml &ndash;disable-rpath &ndash;enable-safe-mode &ndash;enable-bcmath &ndash;enable-shmop &ndash;enable-sysvsem &ndash;enable-inline-optimization &ndash;with-curl &ndash;with-curlwrappers &ndash;enable-mbregex &ndash;enable-mbstring &ndash;with-mcrypt &ndash;with-gd &ndash;enable-gd-native-ttf &ndash;with-openssl &ndash;with-mhash &ndash;enable-pcntl &ndash;enable-sockets  &ndash;with-xmlrpc &ndash;enable-zip &ndash;enable-soap &ndash;without-pear &ndash;with-mysql &ndash;with-mysqli &ndash;enable-sqlite-utf8 &ndash;with-pdo-mysql &ndash;enable-ftp &ndash;with-jpeg-dir &ndash;with-freetype-dir &ndash;with-png-dir &ndash;enable-fpm &ndash;with-fpm-user=www &ndash;with-fpm-group=www  &ndash;enable-safe-mode
+make &amp;&amp; make install[/code]</p>
+
+<h1>拷贝和修改php配置文件</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]cp php.ini-production /usr/local/php/lib/php.ini 或是 /usr/local/lib/php.ini
+cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+/usr/local/php/bin/php &ndash;ini   //测试ini文件是否加载[/code]</p>
+
+<h1>修改php.ini</h1>
+
+<p>[code lang=&ldquo;php&rdquo;]safe_mode = On //5.4已删除
+register_globals = Off //5.4已删除
+magic_quotes_gpc = Off //5.4已删除
+allow_url_fopen = Off
+allow_url_include = Off
+expose_php=Off
+disable_functions = shell_exec,system,exec,passthru,show_source,curl_exec,curl_multi_exec,get_cfg_var
+[Date]
+date.timezone = &ldquo;Asia/Shanghai&rdquo;[/code]</p>
+
+<h1>修改php-fpm.conf</h1>
+
+<p>[code lang=&ldquo;php&rdquo;][global]
+pid = run/php-fpm.pid
+error_log = log/php-fpm.log
+log_level = notice
+emergency_restart_threshold = 0
+emergency_restart_interval = 0
+[www]
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3
+pm.max_requests = 500[/code]</p>
+
+<h1>添加服务启动脚本</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]vi /etc/init.d/nginx</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>chkconfig:345 60 60</h1>
+
+<h1>description:nginx</h1>
+
+<p>/usr/local/nginx/sbin/nginx</p>
+
+<p>vi /etc/init.d/php-fpm</p>
+
+<h1>! /bin/bash</h1>
+
+<h1>chkconfig:345 61 61</h1>
+
+<h1>description:php-fpm</h1>
+
+<p>/usr/local/php/sbin/php-fpm</p>
+
+<p>chmod 755 /etc/init.d/nginx
+chmod 755 /etc/init.d/php-fpm</p>
+
+<p>chkconfig &ndash;add nginx
+chkconfig &ndash;add php-fpm</p>
+
+<p>chkconfig nginx on
+chkconfig php-fpm on[/code]</p>
+
+<h1>修改nginx配置文件</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]location ~ .php$ {
+            root           /home/wwwroot;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }[/code]</p>
+
+<h1>在home/wwwroot/ 新建PHP文件测试成功。</h1>
+
+<p>5、权限设置</p>
+
+<h1>限制webshell访问其他目录</h1>
+
+<h1>修改php.ini</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]open_basedir = &ldquo;/home/wwwroot/&rdquo;[/code]</p>
+
+<h1>补充:Apache 可以通过php_admin_value open_basedir &ldquo;/tmp/:/usr/www/xpb/&#8221;进行限制</h1>
+
+<p>6、安装Mysql</p>
+
+<h1>创建mysql安装目录</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]mkdir -p /usr/local/mysql/[/code]</p>
+
+<h1>创建数据存放目录</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]mkdir -p /data/mysql/[/code]</p>
+
+<h1>创建用户和用户组与赋予数据存放目录权限</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]useradd mysql -M -s /sbin/nologin
+chown mysql.mysql -R /data/mysql/[/code]</p>
+
+<h1>安装必要的组件</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]yum -y install cmake
+yum -y install ncurses-devel[/code]</p>
+
+<h1>编译安装Mysql</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/data/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS:STRING=utf8,gbk -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DMYSQL_DATADIR=/data/mysql -DMYSQL_USER=mysql -DMYSQL_TCP_PORT=3306</p>
+
+<p>make &amp;&amp; make install[/code]</p>
+
+<h1>初始化数据库</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]cd /usr/local/mysql
+scripts/mysql_install_db &ndash;user=mysql &ndash;basedir=/usr/local/mysql &ndash;datadir=/data/mysql/[/code]</p>
+
+<h1>配置环境</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]cp support-files/my-medium.cnf /etc/my.cnf
+cp support-files/mysql.server /etc/init.d/mysql
+chmod 755 /etc/init.d/mysql
+chkconfig mysql on
+export PATH=/usr/local/mysql/bin:$PATH[/code]</p>
+
+<h1>启动并设置初始密码</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]/etc/init.d/mysql start
+mysqladmin -uroot password &lsquo;123123&rsquo;[/code]</p>
+
+<h1>进行再修改密码的语句</h1>
+
+<p>[code lang=&ldquo;bash&rdquo;]UPDATE mysql.user SET Password = PASSWORD(‘newpwd’) WHERE User = ‘root’;(生新设置密码)
+flush privileges;（刷新权限）[/code]
+部分参考：<a href="http://www.4shell.org/archives/2095.html"><a href="http://www.4shell.org/archives/2095.html">http://www.4shell.org/archives/2095.html</a></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/08/sablog_souce/">Sablog源码笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-08T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>花了点时间分析了一下sablog2.0的安全和登陆过程，感觉自己原来写的函数确实考虑不周全，于是提取了几个比较实用的函数。</p>
+
+<p>1、register_globals开启与否处理办法</p>
+
+<p>解释：开启的话有可能导致变量覆盖问题，但是不会影响session认证等问题。如果未开启的话，可以考虑采用import_request_variables(&lsquo;G&rsquo;)和extract($<em>GET)进行类似处理，不过还是要注意处理自定义变量覆盖问题。
+[code lang=&ldquo;php&rdquo;]// 允许程序在 register_globals = off 的环境下工作
+$onoff = function_exists(&lsquo;ini_get&rsquo;) ? ini_get(&lsquo;register_globals&rsquo;) : get_cfg_var(&lsquo;register_globals&rsquo;);
+if ($onoff != 1)
+{
+    @extract($</em>POST, EXTR_SKIP);//extract:将提交的数组键名作为变量名，值作为变量的值。 EXTR_SKIP：如果有冲突，不覆盖已有的变量。
+    @extract($_GET, EXTR_SKIP);
+}[/code]
+2、转义问题</p>
+
+<p>解释：如果GPC开始的话，我们使用addslashes后有可能造成双重转义，其实更好的函数是mysql_real_escape_string。
+解决办法：如果GPC开启，先反转义，然后变量统一转义。
+[code lang=&ldquo;php&rdquo;]// 去除转义字符
+function sax_stripslashes(&amp;$array) {
+    if (is_array($array)) {
+        foreach ($array as $k =&gt; $v) {
+            $array[$k] = sax_stripslashes($v);
+        }
+    } else if (is_string($array)) {
+        $array = stripslashes($array);
+    }
+    return $array;
+}[/code]
+[code lang=&ldquo;php&rdquo;]// 判断 magic_quotes_gpc 状态
+if (get_magic_quotes_gpc()) {
+    $<em>GET = sax_stripslashes($</em>GET);
+    $<em>POST = sax_stripslashes($</em>POST);
+}[/code]
+3、检测邮件名是否有效函数：
+[code lang=&ldquo;php&rdquo;]//判断是否为邮件地址
+function isemail($email) {
+    return strlen($email) &gt; 6 &amp;&amp; preg_match(&ldquo;/^[w-.]+@[w-.]+(.w+)+$/&rdquo;, $email);
+}[/code]
+4、用户名敏感字符
+[code lang=&ldquo;php&rdquo;]$name_key = array(&ldquo;\&rdquo;,&lsquo;&amp;&rsquo;,&lsquo; &rsquo;,&ldquo;&lsquo;&rdquo;,&rsquo;&ldquo;&lsquo;,&rsquo;/&lsquo;,&rsquo;*&lsquo;,&rsquo;,&lsquo;,&rsquo;&lt;&lsquo;,&rsquo;&gt;&lsquo;,&#8221;r&rdquo;,&ldquo;t&rdquo;,&ldquo;n&rdquo;,&rsquo;#&lsquo;,&rsquo;$&lsquo;,&rsquo;(&lsquo;,&rsquo;)&lsquo;,&rsquo;%&lsquo;,&rsquo;@&lsquo;,&rsquo;+&lsquo;,&rsquo;?&lsquo;,&rsquo;;&lsquo;,&rsquo;^&lsquo;);
+    foreach($name_key as $value){
+        if (strpos($username,$value) !== false){
+            $msg = &ldquo;&lt;p&gt;用户名包含敏感字符.&lt;/p&gt;&rdquo;;
+            $quit = TRUE;
+        }
+    }[/code]
+5、跨站方面的防御</p>
+
+<p>解释：任何用户的输入都可以造成危害，不管是GET、POST还是header，在页面输出的时候要进行编码。
+[code lang=&ldquo;php&rdquo;]//防止一些低级的XSS
+if($<em>SERVER[&lsquo;REQUEST_URI&rsquo;]) {
+    $temp = urldecode($</em>SERVER[&lsquo;REQUEST_URI&rsquo;]);
+    if(strpos($temp, &lsquo;&lt;&rsquo;) !== false || strpos($temp, &lsquo;&gt;&rsquo;) !== false || strpos($temp, &lsquo;(&rsquo;) !== false || strpos($temp, &lsquo;&ldquo;&rsquo;) !== false) {
+        exit(&lsquo;Request Bad url&rsquo;);
+    }
+}
+//转换字符
+function char_cv($string) {
+    $string = htmlspecialchars(sax_addslashes($string));
+    return $string;
+}[/code]
+6、IP地址相关
+[code lang=&#8221;php&rdquo;]//检测代理
+$<em>SERVER[&lsquo;HTTP_X_FORWARDED_FOR&rsquo;] || $</em>SERVER[&lsquo;HTTP_VIA&rsquo;] || $<em>SERVER[&lsquo;HTTP_PROXY_CONNECTION&rsquo;] || $</em>SERVER[&lsquo;HTTP_USER_AGENT_VIA&rsquo;])</p>
+
+<p>// 获得IP地址
+if(getenv(&lsquo;HTTP_CLIENT_IP&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;HTTP_CLIENT_IP&rsquo;), &lsquo;unknown&rsquo;)) {
+    $onlineip = getenv(&lsquo;HTTP_CLIENT_IP&rsquo;);
+} elseif(getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;), &lsquo;unknown&rsquo;)) {
+    $onlineip = getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;);
+} elseif(getenv(&lsquo;REMOTE_ADDR&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;REMOTE_ADDR&rsquo;), &lsquo;unknown&rsquo;)) {
+    $onlineip = getenv(&lsquo;REMOTE_ADDR&rsquo;);
+} elseif(isset($<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;]) &amp;&amp; $</em>SERVER[&lsquo;REMOTE_ADDR&rsquo;] &amp;&amp; strcasecmp($<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;], &lsquo;unknown&rsquo;)) {
+    $onlineip = $</em>SERVER[&lsquo;REMOTE_ADDR&rsquo;];
+}
+$onlineip = char_cv($onlineip);
+@preg_match(&ldquo;/[d.]{7,15}/&rdquo;, $onlineip, $onlineipmatches);
+$onlineip = $onlineipmatches[0] ? $onlineipmatches[0] : &lsquo;unknown&rsquo;;[/code]
+暂时就这么多，BTW，sablog采用的md5一次加密，认证成功后把加密密码放入cookies，感觉还是不妥当。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/26/hello-world/">Hello World!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2011-08-26T00:00:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Welcome to WordPress. This is your first post. Login with the username admin and password OpenShiftAdmin to delete this post and begin blogging! (But first, remember to change your password!)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/5">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

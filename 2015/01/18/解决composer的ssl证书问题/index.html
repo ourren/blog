@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>解决composer的ssl证书问题 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="作为PHP深度开发者，composer的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如laravel、yii2 都采用composer的包管理机制，可以让开发者快速安装插件。 最近遇到的主要问题是执行composer更新命令遇到如下错误： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">解决composer的ssl证书问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-18T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
+
+<p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
+
+<pre><code>composer self-update
+
+[Composer\Downloader\TransportException]
+The "https://getcomposer.org/version" file could not be downloaded: SSL operation failed with code 1. OpenSSL Error messages:error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed
+Failed to enable crypto
+failed to open stream: operation failed
+</code></pre>
+
+
+<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
+
+<ol>
+    <li>证书出现问题，去更新下你的证书信息；</li>
+    <li>网络问题，自己看下是不是被欺骗了；</li>
+    <li>&#8230;&#8230;.</li>
+</ol>
+
+
+<p>Google出来很多答案，就连stackoverflow都有很多问题和答案，但是问题的关键这些答案都不能解决问题，通过自己的研究发现目前Mac安装的PHP版本是5.3版本的，感觉应该是openssl爆出漏洞后导致证书不可信，所以直接升级PHP版本应该就可以，那就可以直接执行如下命令：</p>
+
+<pre><code>brew install php56
+</code></pre>
+
+
+<p>请注意，make的时候cpu飙到99%是正常的，稍微等几分钟就好了，然后执行更新：</p>
+
+<pre><code>composer update
+
+Your requirements could not be resolved to an installable set of packages.
+</code></pre>
+
+
+<p>这个问题就更好解决了，修改当前工程的composer.json中的：</p>
+
+<pre><code>"minimum-stability": "stable",
+</code></pre>
+
+
+<p>改为：</p>
+
+<pre><code>"minimum-stability": "dev",
+"prefer-stable": true,
+</code></pre>
+
+
+<p>顺利解决问题～</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-18T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/technology/'>technology</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/" data-via="" data-counturl="http://test.ourren.com/2015/01/18/%E8%A7%A3%E5%86%B3composer%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/01/17/%E5%8A%A0%E5%B7%9E%E9%A9%BE%E7%85%A7%E8%80%83%E8%AF%95%E5%85%A8%E6%94%BB%E7%95%A5/" title="Previous Post: 加州驾照考试全攻略">&laquo; 加州驾照考试全攻略</a>
+      
+      
+        <a class="basic-alignment right" href="/2015/01/20/%E5%AE%89%E5%85%A8%E7%95%8C%E7%9A%84%E9%A1%B6%E7%BA%A7%E4%BC%9A%E8%AE%AE/" title="Next Post: 安全界的顶级会议">安全界的顶级会议 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

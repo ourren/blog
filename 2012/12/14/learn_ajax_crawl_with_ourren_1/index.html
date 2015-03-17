@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>跟我一起学Ajax爬虫原理（系列1） - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="转载请注明：文章出自http://blog.ourren.com by ourren 目录
+1、引言
+2、研究现状
+3、论文实例讲解
+4、总结
+参考文献 1、引言
+随着WEB2.0流行开源，DIV+CSS已经成为网站开发的标配，而Ajax则是在这个中间起着连贯不同页面的粘合剂。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2012/12/14/learn_ajax_crawl_with_ourren_1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">跟我一起学Ajax爬虫原理（系列1）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-12-14T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>转载请注明：文章出自<a href="http://blog.ourren.com"><a href="http://blog.ourren.com">http://blog.ourren.com</a></a> by ourren</p>
+
+<p>目录
+1、引言
+2、研究现状
+3、论文实例讲解
+4、总结
+参考文献</p>
+
+<p><strong>1、引言</strong>
+随着WEB2.0流行开源，DIV+CSS已经成为网站开发的标配，而Ajax则是在这个中间起着连贯不同页面的粘合剂。这给爬虫开发人员来带来了较大的压力，不管是搜索引擎开发人员，还是我们这些安全屌丝，如何最全面地爬取网站链接和参数已经成为如何优于其他同类产品的优势，比如最近崛起的AISEC扫描器[1]，其主打首款支持AJAX爬虫检测的特点更是在其他安全产品中脱颖而出，受到安全人员的好评，那么AJAX爬虫究竟是如何工作的呢，作者带着这个疑问对相关技术进行了理解，现分享如下。PS，如何你还不知道什么是Ajax、DOM的话，最好Google下（多搜索对你有好处~）。
+<strong>2、研究现状</strong>
+AJAX，也就是Asychronous Javascript and XML，由于采用了Javascript驱动的异步请求/响应机制，以往的爬虫们缺乏Javascript语义上的理解，基本上是无法模拟触发Javascript的异步调用并解析返回的异步回调逻辑和内容。另外AJAX的应用中，Javascript会对DOM结构进行大量地变动,甚至页面所有的内容都是通过Javascript直接从服务器端读取并动态绘制出来，这个对于“习惯了”DOM结构相对不变的静态页面,简直是无法理解的.由此可以看出,以往的爬虫是基于协议驱动的,而对于AJAX这样的技术，所需要的“爬虫”引擎必须是基于事件驱动的。要实现事件驱动。</p>
+
+<p>学术界发表的相关论文有Crawling Ajax-driven Web 2.0 Applications[3],AJAX Crawl:Making AJAX Applications Searchable[4]等（下个系列再添加）其中第一篇文章中采用的是rbNarcissus（验证和分析Javascript代码，非执行）[5], Watir（一款基于ruby的自动化测试工具，通过代码操作浏览器）[6]，提出了这类爬虫面临这下面三方面的问题：</p>
+
+<ul>
+    <li>Javascript分析与Ajax之间的交互</li>
+    <li>DOM事件的处理和解释分发</li>
+    <li>动态DOM内容语义的创建</li>
+</ul>
+
+
+<p><strong>3、论文实例讲解</strong>
+第一篇文章中的作者从三方面解决上面的问题：</p>
+
+<ul>
+    <li>如何处理事件驱动的爬虫？</li>
+</ul>
+
+
+<p>例如一个网站的源码是：</p>
+
+<p>[code]&lt;!DOCTYPE html PUBLIC &ldquo;-//W3C//DTD XHTML 1.0 Strict//EN&rdquo;
+&ldquo;<a href="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd</a>&rdquo;>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Dynamic site</title></p>
+
+<script src="./src/master.js"></script>
+
+
+<script>loadhtml()</script>
+
+
+<div id='main'></div>
+
+
+<div id='myarea'></div>
+
+
+<p></body>
+</html> [/code]</p>
+
+<p>很明显，如果基于协议的爬虫是无法爬取该网站的链接和内容的，页面的内容是通过Javascript来动态创建的，而这类创建一般都是通过XHR请求来创建的。</p>
+
+<ul>
+    <li>如何分析Javascript代码？</li>
+</ul>
+
+
+<p>我们需要工具来对网页中的Javascript进行分析，看是否调用了XHR，这里就可以用rbNarcissus来进行分析</p>
+
+<p>[code]D:\crawl-ajax> jsparser.rb master.js
+&mdash;- XHR call mapping &mdash;-
+http.onreadystatechange
+getQuote[XHR found]
+getPrice
+loadmyarea[XHR found]</p>
+
+<h2>loadhtml[XHR found]</h2>
+
+<p>&mdash;- Function mapping &mdash;-
+http.onreadystatechange
+getQuote
+[+]http.onreadystatechange
+getPrice
+[+]getQuote
+loadmyarea
+[+]http.onreadystatechange
+loadhtml
+[+]http.onreadystatechange
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;[/code]</p>
+
+<p>处理结果发现有XHR调用，并得出了一些内部关联getQuote，loadmyarea和loadhtml，因此就需要浏览器去触发这类行为。</p>
+
+<ul>
+    <li>利用IE和Watir进行测试？</li>
+</ul>
+
+
+<p>可以利用一些自动化工具进行测试，为了更好地观察效果，采用irb（命令行交互）进行测试，如何要更好地查看网络通信，可以用burp设置代理。</p>
+
+<p>[code]D:\crawl-ajax> irb &ndash;simple-prompt</p>
+
+<blockquote><blockquote><p>require &lsquo;watir&rsquo;
+=> true
+include Watir
+=> Object
+require &lsquo;webtraffic&rsquo;
+=> tru[/code]</p></blockquote></blockquote>
+
+<p>新建IE对象</p>
+
+<p>[code]>> ie=IE.new[/code]</p>
+
+<p>请求页面，</p>
+
+<p>[code]>> ie.goto(&ldquo;<a href="http://ajax.example.com">http://ajax.example.com</a>&rdquo;)
+=> 4.847[/code]</p>
+
+<p>查看页面链接</p>
+
+<p>[code]>> ie.show_links
+index name id href
+ text/src
+1 Login <a href="http://ajax.example.com/login.asp">http://ajax.example.com/login.asp</a>
+2 News <a href="http://ajax.example.com/news.asp">http://ajax.example.com/news.asp</a>
+3 Your area Javascript:loadmyarea()</p>
+
+<p>=> nil</p>
+
+<blockquote><blockquote><p>[/code]</p></blockquote></blockquote>
+
+<p>可以看到有三个链接，通过发现一个链接还有JavaScript代码，打开链接3，</p>
+
+<p>[code]>> ie.links[3].html
+=> &ldquo;<A href=\"javascript:loadmyarea()\">Your area</A>&rdquo;</p>
+
+<blockquote><blockquote><p>ie.links[3].href
+=> &ldquo;javascript:loadmyarea()&rdquo;[/code]</p></blockquote></blockquote>
+
+<p>再次点击页面：</p>
+
+<p>[code]>> ie.links[3].click
+=> &ldquo;&rdquo;</p>
+
+<blockquote><blockquote><p>[/code]</p></blockquote></blockquote>
+
+<p>最后这个链接生成了个人页面。</p>
+
+<p>通过前面的技术得到了下面这些链接：</p>
+
+<p>[code]>> ie.show_links
+index name id href
+ text/src
+1 <a href="http://ajax.example.com/login.asp">http://ajax.example.com/login.asp</a>
+ Login
+2 <a href="http://ajax.example.com/news.asp">http://ajax.example.com/news.asp</a>
+ News
+3 javascript:loadmyarea()
+ Your area
+4 <a href="http://ajax.example.com/trade.asp">http://ajax.example.com/trade.asp</a>
+ Online trade
+5 <a href="http://ajax.example.com/bank.asp">http://ajax.example.com/bank.asp</a>
+ Your Bank
+6 <a href="http://ajax.example.com/mail.asp">http://ajax.example.com/mail.asp</a>
+ Mail
+=> nil</p>
+
+<blockquote><blockquote><p>[/code]</p></blockquote></blockquote>
+
+<p>下面继续分析按钮事件：</p>
+
+<p>[code]>> ie.buttons.length
+=> 1</p>
+
+<blockquote><blockquote><p>ie.buttons[1].html
+=> &ldquo;<INPUT onclick=getPrice(this.form) type=button value=Get name=button>&rdquo;
+ie.buttons[1].click
+=> &ldquo;&rdquo;
+[/code]</p></blockquote></blockquote>
+
+<p>发现这个页面调用了getPrice这个函数,而这个页面又将参数提交到了/myquote.asp这个页面</p>
+
+<p>通过XHR和按钮就把页面所有的内容全部链接抓出来了。</p>
+
+<p><strong>4、本节总结</strong></p>
+
+<p>这节主要对AJAX爬虫的需求出发，阐述了该类爬虫面临的一些困难，并以一篇paper进行阐述其详细过程，通过这个实例相信对整个过程也有一定的了解，下篇文章继续，周末愉快~</p>
+
+<p>参考文献
+1）AIScanner <a href="http://www.aisec.cn">http://www.aisec.cn</a>
+2）网络爬虫如何抓取web2.0 Ajax页面 <a href="http://blog.minidx.com/2007/10/31/39.html">http://blog.minidx.com/2007/10/31/39.html</a>
+3）Crawling Ajax-driven Web 2.0 Applications <a href="http://www.infosecwriters.com/text_resources/pdf/Crawling_AJAX_SShah.pdf">http://www.infosecwriters.com/text_resources/pdf/Crawling_AJAX_SShah.pdf</a>
+4）AJAX Crawl: Making AJAX Applications <a href="http://e-collection.library.ethz.ch/eserv/eth:30709/eth-30709-01.pdf">http://e-collection.library.ethz.ch/eserv/eth:30709/eth-30709-01.pdf</a>
+5）rbnarcissus <a href="http://code.google.com/p/rbnarcissus/">http://code.google.com/p/rbnarcissus/</a>
+6) Watir <a href="http://watir.com/">http://watir.com/</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-12-14T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/technology/'>technology</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2012/12/14/learn_ajax_crawl_with_ourren_1/" data-via="" data-counturl="http://test.ourren.com/2012/12/14/learn_ajax_crawl_with_ourren_1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/11/03/pentest_method_of_mysql_error/" title="Previous Post: 关于Mysql注入过程中的三种报错方式">&laquo; 关于Mysql注入过程中的三种报错方式</a>
+      
+      
+        <a class="basic-alignment right" href="/2013/02/18/dogs_money_reading_notes/" title="Next Post: 《小狗钱钱》读书笔记">《小狗钱钱》读书笔记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

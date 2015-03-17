@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Docker搭建lnmp详解 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照官网和Docker —— 从入门到实践进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下： 1.安装docker 具体步骤可以官方教程或者Docker —— 从入门到实践里面都有详细的介绍， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Docker搭建lnmp详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-09T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
+
+<h4 id="toc_0">1.安装docker</h4>
+
+
+<p>具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</p>
+
+<pre><code>Ubuntu 14.04 Desktop
+待安装环境：ubuntu+nginx+mysql+php
+</code></pre>
+
+
+<p>具体命令如下：</p>
+
+<pre><code>$ sudo apt-get update
+$ sudo apt-get install docker.io
+</code></pre>
+
+
+<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。</p>
+
+<p>通过Docker源安装最新版本</p>
+
+<p>要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。</p>
+
+<pre><code>$ sudo apt-get install apt-transport-https
+$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9
+$ sudo bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+$ sudo apt-get update
+$ sudo apt-get install lxc-docker
+</code></pre>
+
+
+<p>安装完成测试</p>
+
+<pre><code>$ sudo docker 
+</code></pre>
+
+
+<h4 id="toc_1">2. 安装镜像</h4>
+
+
+<p>采用从官方Docker Hub上安装。这里安装ubuntu 14.04</p>
+
+<pre><code>$ sudo docker pull ubuntu:14.04
+</code></pre>
+
+
+<p>删除镜像
+sudo images
+sudo docker rmi imagesname/imagesid
+如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；
+sudo docker ps -a
+sudo docker rm containername</p>
+
+<h4 id="toc_2">3. 安装lnmp环境</h4>
+
+
+<p>以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建交互式命令行;</p>
+
+<pre><code>$ sudo docker run -t -i ubuntu:14.04 /bin/bash
+</code></pre>
+
+
+<p>进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a></p>
+
+<p>查看容器的IP地址，并试着外部访问：</p>
+
+<pre><code>$ ifconfig
+</code></pre>
+
+
+<p>然后在外面用浏览器访问就可以看到网页内容了。</p>
+
+<p>退出容器和镜像</p>
+
+<pre><code>$ exit
+</code></pre>
+
+
+<h4 id="toc_3">4. 制作镜像</h4>
+
+
+<p>查看目前的已有的容器：</p>
+
+<pre><code>$ sudo docker ps -a
+</code></pre>
+
+
+<p>可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：</p>
+
+<pre><code>$ sudo docker commit 容器名字 ubuntu/lnmp
+</code></pre>
+
+
+<p>删除原来旧容器和镜像</p>
+
+<pre><code>$ sudo docker rm 容器名字
+$ sudo docker rmi 镜像id
+</code></pre>
+
+
+<h4 id="toc_4">5. 总结</h4>
+
+
+<p>详细步骤就上如下的操作，这个整体过程只是让我们更熟悉docker的相关命令，其实现在有更好的方法实现安装lnmp,例如可以直接在<a href="https://hub.docker.com/">docker hub</a>上面下载已经配置好的镜像，同时也可以通过 <a href="http://www.fig.sh/">Fig</a>来进行安装，下次我们接着写。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-09T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/technology/'>technology</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/" data-via="" data-counturl="http://test.ourren.com/2015/01/09/docker%E6%90%AD%E5%BB%BAlnmp%E8%AF%A6%E8%A7%A3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/01/01/2014%E5%B9%B4%EF%BC%9A%E7%9E%8E%E5%BF%99%E6%B4%BB%E7%9A%84%E4%B8%80%E5%B9%B4/" title="Previous Post: 2014年：瞎忙活的一年">&laquo; 2014年：瞎忙活的一年</a>
+      
+      
+        <a class="basic-alignment right" href="/2015/01/17/%E5%8A%A0%E5%B7%9E%E9%A9%BE%E7%85%A7%E8%80%83%E8%AF%95%E5%85%A8%E6%94%BB%E7%95%A5/" title="Next Post: 加州驾照考试全攻略">加州驾照考试全攻略 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

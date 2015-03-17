@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Zend框架记录登陆信息 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Zend框架结构简介      由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。 一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2012/04/11/zend_record_login_info/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Zend框架记录登陆信息</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-11T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>Zend框架结构简介</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。
+<a href="http://blog.ourren.com/blog/zend_1.png"><img class="aligncenter" title="zend" src="http://blog.ourren.com/blog/zend_1.png" alt="" width="421" height="359"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。查看application文件夹下的module文件夹，一般里面会存在多个模型，而每个模型下面的结构是一样的，如图所示：
+<a href="http://blog.ourren.com/blog/zend_2.png"><img class="aligncenter" title="zend" src="http://blog.ourren.com/blog/zend_2.png" alt="" width="123" height="116"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般我们还是只关注models文件夹里面的文件，这里面就会有各种功能的类，基本上都是从zend中继承过来的。每个文件的作用可以根据文件名进行识别，然后添加相关代码。
+<strong>记录代码</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     Php中可以使用$_SERVER数组来获取相关客户端用户用户信息（IP、USER_AGENT、REFERER等），有时候可能会记录用户提交的相关数据。
+一段比较简洁的代码如下：</p>
+
+<p>[code lang=&ldquo;php&rdquo;]&lt;?php
+date_default_timezone_set(&lsquo;UTC&rsquo;);
+$filename  = date(&ldquo;Ymd&rdquo;).&lsquo;.txt&rsquo;;
+$content =&ldquo;Time:&rdquo;.date(&ldquo;YmdHis&rdquo;).&ldquo;tIP:&rdquo;.$<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;].&ldquo;tAgent:&rdquo;.$</em>SERVER[&lsquo;HTTP_USER_AGENT&rsquo;].&ldquo;tCookie:&rdquo;.@$_COOKIE[&lsquo;auth&rsquo;].&ldquo;n&rdquo;;
+if ($handle = fopen($filename, &lsquo;a+&rsquo;))
+{
+    fwrite($handle, $content);
+    fclose($handle);
+}
+?&gt;[/code]</p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>其他记录用户名、密码按照这个进行添加就OK了。
+参考文章：
+<span><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html"><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html">http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html</a></a></span> 
+<span><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout"><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout">http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout</a></a></span></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-04-11T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2012/04/11/zend_record_login_info/" data-via="" data-counturl="http://test.ourren.com/2012/04/11/zend_record_login_info/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/09/practical_malware_analysis_chapter5/" title="Previous Post: Practical malware analysis chapter5 summary">&laquo; Practical malware analysis chapter5 summary</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/04/16/some_of_php_audit_skills/" title="Next Post: 一些php源码审计与利用技巧">一些php源码审计与利用技巧 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

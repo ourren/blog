@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NLTK笔记:词干提取与词性标注 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="前面虽然对nltk分句和分词进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">NLTK笔记:词干提取与词性标注</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-12T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>前面虽然对<a href="http://blog.ourren.com/?p=89331">nltk分句和分词</a>进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+
+<h3 id="toc_1">词干提取</h3>
+
+
+<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+<p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
+
+<pre><code>#! /usr/bin/env python
+/# encoding: utf-8
+
+"""
+Copyright (c) 2014-2015 ourren
+author: ourren <i@ourren.com>
+"""
+import nltk
+
+def main():
+    print 'enter main...'
+    sentence = "Listen, strange women lying in ponds \
+    distributing swords. Supreme executive power derives \
+    from a mandate from the masses, not from some farcical aquatic ceremony"
+    sentences = nltk.sent_tokenize(sentence)
+    sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    for sent in sentences:
+        # Porter
+        porter = nltk.PorterStemmer()
+        words = [porter.stem(word) for word in sent]
+        print words
+
+        # Lancaster
+        lancaster = nltk.LancasterStemmer()
+        lwords = [lancaster.stem(t) for t in sent]
+        print lwords
+
+        # WordNet
+        wnl = nltk.WordNetLemmatizer()
+        wwrods = [wnl.lemmatize(t) for t in sent]
+        print wwrods
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+
+<h3 id="toc_2">词性标注</h3>
+
+
+<p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
+
+<p>nltk中将词汇按它们的词性(parts-of-speec h,POS)分类以及相应的标注它们的过程被称为词性标注(part-of-speech tagging, POS tagging)或干脆简称标注。其中标注结果中缩写词所代表的词性如下：</p>
+
+<pre><code>ADJ     adjective   new, good, high, special, big, local
+ADV     adverb  really, already, still, early, now
+CNJ     conjunction and, or, but, if, while, although
+DET     determiner  the, a, some, most, every, no
+EX      existential there, there’s
+FW      foreign word    dolce, ersatz, esprit, quo, maitre
+MOD     modal verb  will, can, would, may, must, should
+N       noun    year, home, costs, time, education
+NP      proper noun Alison, Africa, April, Washington
+NUM     number  twenty-four, fourth, 1991, 14:24
+PRO     pronoun he, their, her, its, my, I, us
+P       preposition on, of, at, with, by, into, under
+TO      the word to to
+UH      interjection    ah, bang, ha, whee, hmpf, oops
+V       verb    is, has, get, do, make, see, run
+VD      past tense  said, took, told, made, asked
+VG      present participle  making, going, playing, working
+VN      past participle given, taken, begun, sung
+WH      wh determiner   who, which, when, what, where, how
+</code></pre>
+
+
+<p>下面看具体例如：</p>
+
+<pre><code>def sentence_pos(sentences):
+    for sent in sentences:
+        words = nltk.pos_tag(sent)
+        print words
+</code></pre>
+
+
+<p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-03-12T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/research/'>research</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/" data-via="" data-counturl="http://test.ourren.com/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/" title="Previous Post: Linux下MySQL udf 提权">&laquo; Linux下MySQL udf 提权</a>
+      
+      
+        <a class="basic-alignment right" href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="Next Post: phpar突破文件包含">phpar突破文件包含 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

