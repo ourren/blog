@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/security/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-17T15:31:07-07:00</updated>
+  <updated>2015-03-17T15:43:32-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Phpar突破文件包含]]></title>
-    <link href="http://blog.ourren.com/2015/03/16/phpar_include_exploit/"/>
+    <title type="html"><![CDATA[Phar突破文件包含]]></title>
+    <link href="http://blog.ourren.com/2015/03/16/phar_include_exploit/"/>
     <updated>2015-03-16T00:00:00-07:00</updated>
-    <id>http://blog.ourren.com/2015/03/16/phpar_include_exploit</id>
+    <id>http://blog.ourren.com/2015/03/16/phar_include_exploit</id>
     <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
 
 <pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
