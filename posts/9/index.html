@@ -9,10 +9,10 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="数据库结构
-[code lang=&ldquo;sql&rdquo;]
-mysql&gt; describe users;
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;& &hellip;">
+  <meta name="description" content="1、关于
+Sdgt(social dictionary generate tool)通过收集到的敏感信息，结合国人密码心理学，实现了一个简单的密码生成工具，可以在暴力破解方面使用。
+2、配置
+文件采用UTF8编码，template.txt中收集中csdn中top1000密码，可以把template &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +70,53 @@ mysql&gt; describe users;
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/18/sdgt_brute_dic_tool/">Sdgt Project简介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-18T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/04/18/sdgt_brute_dic_tool/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>1、关于
+Sdgt(social dictionary generate tool)通过收集到的敏感信息，结合国人密码心理学，实现了一个简单的密码生成工具，可以在暴力破解方面使用。
+2、配置
+文件采用UTF8编码，template.txt中收集中csdn中top1000密码，可以把template.txt复制进行修改。每行&#8221;:&ldquo;前面是密码因子，后面的部分是值并用分号隔开，例如：
+name:zhang san;li si
+qq:10000;10010
+idcard:100121190000111234
+subpw:123qaz;qaz
+nickname:boy;good;sec
+year:2012;2011;2010
+domain:sina;google
+3、使用
+sdgt.py  C:zhang.txt C:zhangdic.txt
+4、规则
+结合国人密码学，采用了如下的一些规则。
+<a href="http://blog.ourren.com/blog/sdgt.png"><img class="aligncenter" title="sdgt" src="http://blog.ourren.com/blog/sdgt.png" alt="" width="410" height="315"></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -476,173 +523,6 @@ F5 快速函数C语言格式化
 </div>
 </div>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/20/php_lexical_analysis/">浅谈php中的词法分析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-03-20T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/03/20/php_lexical_analysis/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>php中提供了token_get_all函数来针对php代码进行词法分析，通过词法分析我们可以做恶意代码分析，安全代码审计等深层次研究。该函数可以直接把php代码分为php tokens，而每个token又包含类型、值、行数这三样。
-首先对最简单的代码进行分析(当然不是hello world)：
-[code lang=&ldquo;php&rdquo;]code.php
-&lt;?php
-echo &lsquo;token&rsquo;;
-?>[/code]
-[code lang=&ldquo;php&rdquo;]token.php
-&lt;?php
-print_r(token_get_all(file_get_contents(&lsquo;code.php&rsquo;)));
-?>[/code]
-看效果,为了效果更明显，建议你测试的时候直接看浏览器源码。
-[code lang=&ldquo;php&rdquo;]Array
-(
-    [0] => Array
-        (
-            [0] => 366
-            [1] => &lt;?php</p>
-
-<pre><code>        [2] =&gt; 1
-    )
-
-[1] =&gt; Array
-    (
-        [0] =&gt; 315
-        [1] =&gt; echo
-        [2] =&gt; 2
-    )
-
-[2] =&gt; Array
-    (
-        [0] =&gt; 369
-        [1] =&gt;  
-        [2] =&gt; 2
-    )
-
-[3] =&gt; Array
-    (
-        [0] =&gt; 314
-        [1] =&gt; 'token'
-        [2] =&gt; 2
-    )
-
-[4] =&gt; ;
-[5] =&gt; Array
-    (
-        [0] =&gt; 369
-        [1] =&gt; 
-
-        [2] =&gt; 2
-    )
-
-[6] =&gt; Array
-    (
-        [0] =&gt; 368
-        [1] =&gt; ?&gt;
-        [2] =&gt; 3
-    )
-</code></pre>
-
-<p>)[/code]
-每个token数组中的第一项表示其类型，可以用函数token_name()得到起文字说明，第二项表示其内容，第三项表示在文件中的行数。还不错吧，可以得到这么多有用的信息(至少我第一次从monyer文章中看到的时候很欢喜的)。如果你只关注一些关键函数及其参数，那么你就需要对这些内容进行过滤，借鉴php手册重点的一个例子实现如下：
-[code lang=&ldquo;php&rdquo;]&lt;?php
-define(&rsquo;T_NEW_LINE&#8217;, -1);</p>
-
-<p>$tokens = token_get_all_nl(file_get_contents(&lsquo;code.php&rsquo;));</p>
-
-<p>foreach ($tokens as $token)
-{
-    if (is_array($token))
-    {
-        echo (&lsquo;Type:&rsquo;.token_name_nl($token[0]) .&ldquo;t&rdquo;. &lsquo;Code: &ldquo;&rsquo; . htmlspecialchars($token[1]) .&#8221;t&rdquo;.&lsquo;&ldquo;    line:&rsquo;.$token[2].&lsquo;<br />&rsquo;);
-    }
-    else
-    {
-        echo (&lsquo;&rdquo;&rsquo; . $token . &lsquo;&ldquo;<br />&rsquo;);
-    }
-}</p>
-
-<p>function token_get_all_nl($source)
-{
-    $new_tokens = array();</p>
-
-<pre><code>// Get the tokens
-$tokens = token_get_all($source);
-
-// Split newlines into their own tokens
-foreach ($tokens as $token)
-{
-    $token_name = is_array($token) ? $token[0] : null;
-    $token_data = is_array($token) ? $token[1] : $token;
-    $token_number = is_array($token) ? $token[2] : $token;
-
-    // Do not split encapsed strings or multiline comments
-    if ($token_name == T_CONSTANT_ENCAPSED_STRING || substr($token_data, 0, 2) == '/*')
-    {
-        $new_tokens[] = array($token_name, $token_data, $token_number);
-        continue;
-    }
-
-    // Split the data up by newlines
-    $split_data = preg_split('#(rn|n)#', $token_data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
-    foreach ($split_data as $data)
-    {
-        if ($data == "rn" || $data == "n")
-        {
-            // This is a new line token
-            $new_tokens[] = array(T_NEW_LINE, $data, $token_number);
-        }
-        else
-        {
-            // Add the token under the original token name
-            $new_tokens[] = is_array($token) ? array($token_name, $data, $token_number) : $data;
-        }
-    }
-}
-
-return $new_tokens;
-</code></pre>
-
-<p>}</p>
-
-<p>function token_name_nl($token)
-{
-    if ($token === T_NEW_LINE)
-    {
-        return &rsquo;T_NEW_LINE&#8217;;
-    }</p>
-
-<pre><code>return token_name($token);
-</code></pre>
-
-<p>}
-?>[/code]
-此外，你可以在这个基础上进行一些有目的的开发。
-BTW:今天看rips源码才知道也是这么做的，详细的实现要看完了再分享。</p>
 </div>
   
   

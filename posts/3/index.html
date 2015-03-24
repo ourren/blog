@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="2013-2014是人生中迷茫的时期，需要面对生活的各个方面，需要考虑人生的道路方向。但我相信在这迷茫之后积极面对生活，充满热情迎接挑战时将会是另外一个天地。 关于研究 今年的研究工作就像题目一样：“瞎忙活”。推开客观情况而言，个人因素还是主要的，问题在于：个人研究方向未确定， &hellip;">
+  <meta name="description" content="docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照官网和Docker —— 从入门到实践进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下： 1.安装docker具体步骤可以官方教程或者Docker —— 从入门到实践里面都有详细的介绍，本次的安装环境如下 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/01/09/docker_with_lnmp/">Docker搭建lnmp详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-09T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/01/09/docker_with_lnmp/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
+
+<h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
+
+<pre><code>Ubuntu 14.04 Desktop
+待安装环境：ubuntu+nginx+mysql+php具体命令如下：
+
+$ sudo apt-get update   $ sudo apt-get install docker.io
+</code></pre>
+
+<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/01/09/docker_with_lnmp/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -458,70 +503,6 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 <p>BTW. 以上纯属自己的一些想法和看下，欢迎探讨。</p>
 
 <p> </p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/06/15/secwiki_morning_news/">SecWiki:安全从业者的晨报</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-06-15T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2014/06/15/secwiki_morning_news/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="aligncenter" src="http://blog.ourren.com/blog/secwiki2.jpg" alt="" width="875" height="478"></p>
-
-<h3>SecWiki的初衷</h3>
-
-
-<p>一句话：为了更好地为安全爱好者服务。 作为从事安全行业的相关技术人员，每天上班、下班都非常的辛苦，除了为公司创造应有的价值外，自身为了未来更好的发展每天不得不阅读大量的行业资讯。但是目前由于互联网发展速度之猛，行业波及面之广，让我们每天生活充满了众多的噪声（例如微博、微信和QQ），我们不得不从一页有一页的资料中翻阅对自己有用的技术资讯和安全新闻，这样让我们很累。 因此，SecWiki的推出就是为了解决这些问题：帮助安全人员每天用最短的时间找到今日最新、最核心的行业新闻和技术资讯。从SecWiki的第一版到第二版我们都围绕着这个思想来做网站，当然在这个过程中也感谢很多朋友对网站提出了很多有用的建议。</p>
-
-<h3>SecWiki的现状</h3>
-
-
-<p>从2012年7月16日到现在，我们共收集并推荐了3808条技术资讯、48条安全事件、45个技术专题汇总、62个聚合链接、14期SecWiki周刊、7个漏洞、1个在线分析工具。 全站技术主要涵盖了Ｗeb安全、系统安全、恶意/漏洞分析、移动安全、设备安全、网络安全、运维安全、数据挖掘和编程技术。类型主要涉及文章、文档、视频等，每篇文章都有标准的标签属性，基本上涵盖了安全领域的相关技术。 但是目前网站的内容大部分内容基本上都由我提交，同时也有一些乐于分享的Hu0G4、secniu、Debug0、smarabbit等等一大批小伙伴们，在这里没办法一一列出，望见谅。</p>
-
-<h3>SecWiki快速提交</h3>
-
-
-<p>写到这里，小编自己确实有些过意不去：虽然给广大安全人员搭建提供了一个平台，但是对于一般用户而言，在提交新链接方面的操纵确实复杂，用户体验确实不好，但是SecWiki确实有一种快速提交当前网页的工具，但是一直没有用文章的方式进行介绍，借这个机会给大家分享以下：</p>
-
-<p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://static.video.qq.com/TPout.swf?vid=t0130a1idfy&auto=0" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
-
-<h3>SecWiki的愿望</h3>
-
-
-<p>SecＷiki希望能有更多的分享者参与到项目计划中来，只有这样网站才能持续地良性发展。当然，作为分享者你也能够从中获益，主要有如下几个方面：</p>
-
-<ol>
-    <li>让自己养成善于阅读资讯的习惯，第一时间掌握安全圈的动态；</li>
-    <li>将随时看到的文章保存在SecWiki上，方便以后导出。（目前因为版权方面因素，SecWiki没有缓存文章原文内容，抱歉）；</li>
-    <li>让你和你的昵称在安全圈有一定的认识度，认识更多的圈内朋友；</li>
-    <li>想想每天你提交的链接有很多安全人员都在阅读，这绝对是一件非常有意义的事。</li>
-</ol>
-
-
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x53;&#101;&#99;&#87;&#x69;&#x6b;&#105;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x53;&#101;&#x63;&#x57;&#x69;&#x6b;&#105;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></span></p>
 </div>
   
   

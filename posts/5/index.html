@@ -9,7 +9,8 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触： 机遇的重要性 马云为什么可以创立阿里巴巴，主要还是归咎去机遇问题， &hellip;">
+  <meta name="description" content="记录一次关于YII编程的相关技术笔记。 传值问题 如何通过控制器向视图传值： 控制器中： $theTime=date("D M j G:i:s T Y");
+$this->render(&#8216;helloWorld&#8217;,array(&#8216;time&#8217;=>$theTime)); 视图中： YII默认控制器 &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +68,108 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/07/29/yii-note/">关于YII的一些技术笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-07-29T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/07/29/yii-note/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="YII" src="http://blog.ourren.com/blog/yii.png" width="284" height="64"></p>
+
+<p>记录一次关于YII编程的相关技术笔记。</p>
+
+<h4>传值问题</h4>
+
+
+<p>如何通过控制器向视图传值：</p>
+
+<p>控制器中：</p>
+
+<pre><code>$theTime=date("D M j G:i:s T Y");
+$this->render('helloWorld',array('time'=>$theTime));
+</code></pre>
+
+
+<p>视图中：</p>
+
+<pre><code><h3><?php echo $time; ?></h3>
+
+YII默认控制器
+
+配置文件 application/config/main.php修改，指定 defaultController即可， 如 'defaultController' => 'home',
+</code></pre>
+
+
+<h4 id="-2">输入前判定</h4>
+
+
+<p>有时候需要在操作某些工作前判定另外的模型是否存在，需要采用filters函数来实现：</p>
+
+<pre><code>public function filters()
+    {
+        return array(
+            'accessControl', //perform access control for CRUD operations
+            'projectContext + create', //check to ensure valid project context
+                                       // + 表示只在某些操作上判定，-表示除了该操作其他都判定
+            );
+    }
+</code></pre>
+
+
+<h4 id="-3">常用函数</h4>
+
+
+<p>CHtml::link()</p>
+
+<pre><code> CHtml::link("Hello",array('message/helloWorld'));
+ array('label'=>'Create Issue', 'url'=>array('create', 'pid'=>1)),//另外一种链接方式
+</code></pre>
+
+
+<p>updateByPk()：直接更新某个字段的值（name=>value 键值对） User::model()->updateByPk($this-><em>identity->id, array(&lsquo;last</em>login_time&rsquo; => new CDbExpression(&lsquo;NOW()&rsquo;)));</p>
+
+<h4 id="-4">唯一性</h4>
+
+
+<p>有时候需要判定用户名和邮箱唯一，需要在rules()中添加如下代码：</p>
+
+<pre><code>array('username,email', 'unique');</code></pre>
+
+
+<h4 id="-5">安全性</h4>
+
+
+<pre><code>CDbCriteria 操作数据库的时候需要使用params方式，否则也存在注入等问题。
+
+    $scriteria = new CDbCriteria;
+    $scriteria->condition='tags=:tags';
+    $scriteria->params=array(':tags'=>$news->tags);</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -438,99 +541,6 @@
 <p>3、完工：使用burp的intruder批量实现删除订阅源，将刚测试的burp历史记录发送到intruder选项，添加变量并指定字典，发送。</p>
 
 <p><img class="aligncenter" alt="步骤3" src="http://blog.ourren.com/blog/wyyyd_step4.jpg" width="975" height="366"></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/03/05/android_apps_and_learn_methods/">浅谈移动平台优秀应用与学习方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2013-03-05T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2013/03/05/android_apps_and_learn_methods/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://blog.ourren.com/blog/app.jpg"><img alt="移动应用" src="http://blog.ourren.com/blog/app.jpg" width="580" height="209"></a>
-      根据摩尔定律：每一美元所能买到的电脑性能，将每隔18个月翻两倍以上，由此可以看到科技更新的速度。同时移动互联网行业也不甘示弱，根据最近的数据显示国内移动终端已经突破4亿，可以想象这是一个多大的市场【1】。移动平台中Android、IOS与WP日益强大，而Symbian、BlackBerry份额逐渐萎缩，而ubuntu、firefox最近又推出移动平台，也想分得移动平台一杯羹（个人比较看好ubuntu）。</p>
-
-<p>科技都在进步，博主不得不跟上时代发展，终于从Nokia转到Android，拥有一部android手机了。在近一个多月的时候和研究中发现一些比较好的应用，这些应用可以辅助个人学习或者丰富日常生活。因此不敢独享，分享给大家（再说这些应用基本上都是免费的，有义务推广下，激励开发者写出更好的应用）。在博文前面也有写个人平时的学习方法可以参考，详见（<a href="http://blog.ourren.com/2012/08/17/personal_learn_method_and_knowledge_manage.html">浅谈个人学习方法与知识管理</a>）。</p>
-
-<ul>
-    <li>GTD计划类</li>
-</ul>
-
-
-<p><a href="http://doit.im">Doit.im</a>/<a href="http://any.do">Any.do</a></p>
-
-<p>用于个人的日程安排与提醒，记录平时Idea与个人计划。功能方面差不多，前者免费版有限制，后者则是完全免费的。由于个人手机系统使用any.do会造成死机，暂时使用前者作为计划类应用。</p>
-
-<ul>
-    <li>资讯类</li>
-</ul>
-
-
-<p><a href="http://yuedu.163.com/">网易云阅读</a>/<a href="http://www.myzaker.com/">Zaker</a></p>
-
-<p>两者功能和界面基本上都一样，主要用于WIFI离线阅读，然后业余空闲时间或者坐车时浏览，感觉不错的可以收藏然后WEB方式浏览。内容包含以下几类：新闻资讯（新闻头条、南方周刊等）、技术资讯（cnbeta、36kr、虎嗅、爱范儿等）、技术讨论（知乎每日精选等）。</p>
-
-<ul>
-    <li>技术类</li>
-</ul>
-
-
-<p>     <a href="https://play.google.com/store/apps/details?id=com.noinnion.android.greader.readerpro&hl=zh_CN">gReader Pro</a> + <a href="http://getpocket.com/">Pocket</a></p>
-
-<p>这里强烈推荐下gReader，作为GR阅读的Android客户端，绝对符合你的胃口，满足你的需求。可以实现离线阅读（自动优化网页阅读效果），并支持加星同步。</p>
-
-<p>Pocket则用于在平时上网中看到不错的网址或者文章，用Pocket Chrome插件收藏，然后利用WIFI同步到手机端。这里之所以推荐Pocket，是因为一些需要翻墙的网页也可以离线。</p>
-
-<ul style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;">
-    <li>书籍类</li>
-</ul>
-
-
-<p><a href="http://www.duokan.com/">多看</a>/<a href="http://www.zhangyue.com/">iReader</a> + <a href="http://www.ireadercity.com/">书香云集</a></p>
-
-<p>用于阅读一些个人传记、生活鸡汤、历史等。特别推荐书香云集，不为别的，<em>只因为盗版书多多，试试就知道</em>。</p>
-
-<ul>
-    <li><span style="line-height: 13px;">笔记类</span></li>
-</ul>
-
-
-<p><a href="http://www.evernote.com/">Evernote</a>/<a href="http://note.youdao.com/">有道云笔记</a></p>
-
-<p>用于书写文章，管理优质文章，或者写点小东西同步使用。</p>
-
-<p><em><strong>学习方法</strong></em></p>
-
-<p><em>      因此总的说来，主要是利用WIFI离线功能，提取有用资料；然后善于将碎片时间利用起来学习，达到有效地利用时间。</em></p>
-
-<p><em>参考</em></p>
-
-<ol>
-    <li>第31次中国互联网络发展状况统计报告：http://www.cnnic.cn/hlwfzyj/hlwxzbg/hlwtjbg/201301/P020130122600399530412.pdf</li>
-</ol>
-
 </div>
   
   
