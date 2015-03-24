@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-23T18:59:55-07:00</updated>
+  <updated>2015-03-23T19:05:17-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Highchart Note With Php]]></title>
+    <title type="html"><![CDATA[Highcharts使用入门与技巧]]></title>
     <link href="http://blog.ourren.com/2015/03/23/highchart-note-with-php/"/>
     <updated>2015-03-23T00:00:00-07:00</updated>
     <id>http://blog.ourren.com/2015/03/23/highchart-note-with-php</id>
@@ -1345,7 +1345,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x53;&#101;&#99;&#87;&#x69;&#x6b;&#x69;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#109;">&#83;&#101;&#x63;&#x57;&#x69;&#107;&#105;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x53;&#101;&#x63;&#87;&#x69;&#x6b;&#x69;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#x53;&#x65;&#99;&#x57;&#105;&#107;&#105;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></span></p>
 ]]></content>
   </entry>
   
