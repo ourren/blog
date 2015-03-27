@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-27T12:05:11-07:00</updated>
+  <updated>2015-03-27T12:06:07-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -18,9 +18,7 @@
     <link href="http://blog.ourren.com/2015/03/27/diagnosing-network-issue-with-mtr/"/>
     <updated>2015-03-27T12:00:33-07:00</updated>
     <id>http://blog.ourren.com/2015/03/27/diagnosing-network-issue-with-mtr</id>
-    <content type="html"><![CDATA[<h3>利用MTR分析网络状况</h3>
-
-<p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
+    <content type="html"><![CDATA[<p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
 
 <pre><code>                           My traceroute  [v0.71]
 ts3-142.ts.cn.tlan (0.0.0.0)                           Fri Aug  3 22:39:50 2007
