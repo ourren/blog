@@ -98,55 +98,12 @@
 
 <p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
 
-<p>国内IP信息查询平台：</p>
-
-<ul>
-<li><a href="http://www.ipip.net/">IPIP</a></li>
-<li><a href="http://ip.qq.com/">腾讯IP</a></li>
-<li><a href="http://ip.taobao.com/">淘宝IP</a></li>
-<li><a href="http://ip138.com/">IP138</a></li>
-</ul>
-
-
-<p>国外IP信息查询平台：</p>
-
-<ul>
-<li><a href="http://ip-api.com/">ip-api</a></li>
-<li><a href="https://db-ip.com/">db-ip</a></li>
-<li><a href="http://bgp.he.net/">BGP</a></li>
-<li><a href="http://www.ip2location.com/demo">ip2location</a></li>
-</ul>
-
-
-<p>国内的查询相对比较简洁，而国外的在线平台给出的数据相对比较多，但是db-ip和ip2location每天都有限制查询，而ip-api则直接提供了API的查询接口，并且没有限制查询数量。</p>
-
-<h4>本地IP数据库</h4>
-
-<p>如果所做系统不能联网或者由于其它原因需要离线IP信息查询，国内和国外都有很著名的离线IP数据库,在项目需求不高时可以使用，现统计如下：</p>
-
-<ul>
-<li>国内的<a href="http://www.cz88.net/">IP纯真数据库</a>；</li>
-<li>国外的<a href="http://dev.maxmind.com/zh-hans/geoip/legacy/geolite/">MaxMind Geo数据库</a>；</li>
-<li>国内最近的<a href="http://www.ipip.net/download.html">ipip</a></li>
-</ul>
-
-
-<h4>Python查询接口</h4>
-
-<p>Python写接口查询就相对比较容易了，但是鉴于很多接口都请求次数限制，因此需要考虑的问题还是比较多，总结如下：</p>
-
-<ul>
-<li>Python下使用requests进行https请求时，可能会遇到证书问题，当设置“verify=False”时会出现警告信息，可以通过导入warning库进行处理，具体见<a href="https://github.com/kennethreitz/requests/issues/2214">这里</a>;</li>
-<li>如果是采用网页进行请求匹配，最好直接用字符串查找替换（replace,split）就OK，正则会有一些问题；</li>
-<li>如果HTTP请求可以通过添加代理来绕过查询次数限制；</li>
-</ul>
-
-
-<p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
-
-<p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/2015/04/14/ip-information-with-python/">继续阅读 →</a>
+    </footer>
   
 
 
