@@ -9,7 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="0x1 题外话         从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。         总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析， &hellip;">
+  <meta name="description" content="chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。 IDA 各类技巧：
+交叉参考：
+函数与函数之间的调用：双击函数开始的上下箭头 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,66 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/09/practical_malware_analysis_chapter5/">Practical Malware Analysis Chapter5 Summary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-09T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/04/09/practical_malware_analysis_chapter5/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。</p>
+
+<p>IDA 各类技巧：
+交叉参考：
+函数与函数之间的调用：双击函数开始的上下箭头
+函数内部调用函数：直接双击函数进入
+数据交叉参考，一样双击进入。</p>
+
+<p>图形选项：
+函数被调用：
+函数调用其他函数：
+调用层次选择。</p>
+
+<p>插件使用：
+hex-rays、bindiff、patchdiff等
+IDC、python脚本使用。</p>
+
+<p>一些实用技巧：
+添加注释： 替换注释;
+右键修改函数名
+数字右键进制转换
+加载调用函数参数常量名称：右键使用标准符号常量
+图形与代码显示转换，空格
+F5 快速函数C语言格式化
+多参考输入表、输出表、字符选项卡。</p>
+
+<p>chapter5整体知识点：</p>
+
+<p><a href="http://blog.ourren.com/blog/chapter5.jpg"><img class="aligncenter" title="chapter5" src="http://blog.ourren.com/blog/chapter5.jpg" alt="" width="556" height="321"></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -787,116 +849,9 @@ flush privileges;（刷新权限）[/code]
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/08/sablog_souce/">Sablog源码笔记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-03-08T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/03/08/sablog_souce/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>花了点时间分析了一下sablog2.0的安全和登陆过程，感觉自己原来写的函数确实考虑不周全，于是提取了几个比较实用的函数。</p>
-
-<p>1、register_globals开启与否处理办法</p>
-
-<p>解释：开启的话有可能导致变量覆盖问题，但是不会影响session认证等问题。如果未开启的话，可以考虑采用import_request_variables(&lsquo;G&rsquo;)和extract($<em>GET)进行类似处理，不过还是要注意处理自定义变量覆盖问题。
-[code lang=&ldquo;php&rdquo;]// 允许程序在 register_globals = off 的环境下工作
-$onoff = function_exists(&lsquo;ini_get&rsquo;) ? ini_get(&lsquo;register_globals&rsquo;) : get_cfg_var(&lsquo;register_globals&rsquo;);
-if ($onoff != 1)
-{
-    @extract($</em>POST, EXTR_SKIP);//extract:将提交的数组键名作为变量名，值作为变量的值。 EXTR_SKIP：如果有冲突，不覆盖已有的变量。
-    @extract($_GET, EXTR_SKIP);
-}[/code]
-2、转义问题</p>
-
-<p>解释：如果GPC开始的话，我们使用addslashes后有可能造成双重转义，其实更好的函数是mysql_real_escape_string。
-解决办法：如果GPC开启，先反转义，然后变量统一转义。
-[code lang=&ldquo;php&rdquo;]// 去除转义字符
-function sax_stripslashes(&amp;$array) {
-    if (is_array($array)) {
-        foreach ($array as $k =&gt; $v) {
-            $array[$k] = sax_stripslashes($v);
-        }
-    } else if (is_string($array)) {
-        $array = stripslashes($array);
-    }
-    return $array;
-}[/code]
-[code lang=&ldquo;php&rdquo;]// 判断 magic_quotes_gpc 状态
-if (get_magic_quotes_gpc()) {
-    $<em>GET = sax_stripslashes($</em>GET);
-    $<em>POST = sax_stripslashes($</em>POST);
-}[/code]
-3、检测邮件名是否有效函数：
-[code lang=&ldquo;php&rdquo;]//判断是否为邮件地址
-function isemail($email) {
-    return strlen($email) &gt; 6 &amp;&amp; preg_match(&ldquo;/^[w-.]+@[w-.]+(.w+)+$/&rdquo;, $email);
-}[/code]
-4、用户名敏感字符
-[code lang=&ldquo;php&rdquo;]$name_key = array(&ldquo;\&rdquo;,&lsquo;&amp;&rsquo;,&lsquo; &rsquo;,&ldquo;&lsquo;&rdquo;,&rsquo;&ldquo;&lsquo;,&rsquo;/&lsquo;,&rsquo;*&lsquo;,&rsquo;,&lsquo;,&rsquo;&lt;&lsquo;,&rsquo;&gt;&lsquo;,&#8221;r&rdquo;,&ldquo;t&rdquo;,&ldquo;n&rdquo;,&rsquo;#&lsquo;,&rsquo;$&lsquo;,&rsquo;(&lsquo;,&rsquo;)&lsquo;,&rsquo;%&lsquo;,&rsquo;@&lsquo;,&rsquo;+&lsquo;,&rsquo;?&lsquo;,&rsquo;;&lsquo;,&rsquo;^&lsquo;);
-    foreach($name_key as $value){
-        if (strpos($username,$value) !== false){
-            $msg = &ldquo;&lt;p&gt;用户名包含敏感字符.&lt;/p&gt;&rdquo;;
-            $quit = TRUE;
-        }
-    }[/code]
-5、跨站方面的防御</p>
-
-<p>解释：任何用户的输入都可以造成危害，不管是GET、POST还是header，在页面输出的时候要进行编码。
-[code lang=&ldquo;php&rdquo;]//防止一些低级的XSS
-if($<em>SERVER[&lsquo;REQUEST_URI&rsquo;]) {
-    $temp = urldecode($</em>SERVER[&lsquo;REQUEST_URI&rsquo;]);
-    if(strpos($temp, &lsquo;&lt;&rsquo;) !== false || strpos($temp, &lsquo;&gt;&rsquo;) !== false || strpos($temp, &lsquo;(&rsquo;) !== false || strpos($temp, &lsquo;&ldquo;&rsquo;) !== false) {
-        exit(&lsquo;Request Bad url&rsquo;);
-    }
-}
-//转换字符
-function char_cv($string) {
-    $string = htmlspecialchars(sax_addslashes($string));
-    return $string;
-}[/code]
-6、IP地址相关
-[code lang=&#8221;php&rdquo;]//检测代理
-$<em>SERVER[&lsquo;HTTP_X_FORWARDED_FOR&rsquo;] || $</em>SERVER[&lsquo;HTTP_VIA&rsquo;] || $<em>SERVER[&lsquo;HTTP_PROXY_CONNECTION&rsquo;] || $</em>SERVER[&lsquo;HTTP_USER_AGENT_VIA&rsquo;])</p>
-
-<p>// 获得IP地址
-if(getenv(&lsquo;HTTP_CLIENT_IP&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;HTTP_CLIENT_IP&rsquo;), &lsquo;unknown&rsquo;)) {
-    $onlineip = getenv(&lsquo;HTTP_CLIENT_IP&rsquo;);
-} elseif(getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;), &lsquo;unknown&rsquo;)) {
-    $onlineip = getenv(&lsquo;HTTP_X_FORWARDED_FOR&rsquo;);
-} elseif(getenv(&lsquo;REMOTE_ADDR&rsquo;) &amp;&amp; strcasecmp(getenv(&lsquo;REMOTE_ADDR&rsquo;), &lsquo;unknown&rsquo;)) {
-    $onlineip = getenv(&lsquo;REMOTE_ADDR&rsquo;);
-} elseif(isset($<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;]) &amp;&amp; $</em>SERVER[&lsquo;REMOTE_ADDR&rsquo;] &amp;&amp; strcasecmp($<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;], &lsquo;unknown&rsquo;)) {
-    $onlineip = $</em>SERVER[&lsquo;REMOTE_ADDR&rsquo;];
-}
-$onlineip = char_cv($onlineip);
-@preg_match(&ldquo;/[d.]{7,15}/&rdquo;, $onlineip, $onlineipmatches);
-$onlineip = $onlineipmatches[0] ? $onlineipmatches[0] : &lsquo;unknown&rsquo;;[/code]
-暂时就这么多，BTW，sablog采用的md5一次加密，认证成功后把加密密码放入cookies，感觉还是不妥当。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/11">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

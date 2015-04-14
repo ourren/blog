@@ -9,10 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="首先说明只是自己的一些理解和看法，能力有限如有错误望请指正，谢谢。
-1、php三种模式
-php运行一般有三种运行模式:CGI模式、DLL模式、FastCGI模式。
-CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(php5:php-cgi.exe)去解释这个文件， &hellip;">
+  <meta name="description" content="对涉及PHP安全方面的函数进行了归类，参照了很多文章和博客，在此表示感谢。
+[code lang=&ldquo;php&rdquo;]1.include/require/require_once/include_once/file_get_contents
+2.exec/system/popen/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +69,64 @@ CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/05/31/php_audit_dictionary/">PHP源码审计字典</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-05-31T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/05/31/php_audit_dictionary/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>对涉及PHP安全方面的函数进行了归类，参照了很多文章和博客，在此表示感谢。
+[code lang=&ldquo;php&rdquo;]1.include/require/require_once/include_once/file_get_contents
+2.exec/system/popen/passthru/proc_open/pcntl_exec/shell_exec
+3.eval/preg_replace/assert/call_user_func/call_user_func_array/create_function
+4.<em>GET/</em>POST/<em>COOKIE/</em>SERVER/<em>REQUEST/</em>ENV/php://input/getenv/
+5.session/cookie
+6.extract/parse_str/mb_parse_str/import_request_variables/unserialize
+7.copy/rmdir/chmod/delete/fwrite/fopen/readfile/fpassthru/move_uploaded_file/
+file_put_contents/unlink/upload/opendir/fgetc/fgets/ftruncate/fputs/fputcs
+8.select/insert/update/delete/order by/group by/limit/in(/stripslashes/urldecode
+9.confirm_phpdoc_compiled/mssql_pconnect/mssql_connect/crack_opendict/
+snmpget/ibase_connect
+10.echo/print/printf/vprintf/document.write/document.innerHTML/document.innerHtmlText
+11.phpinfo/highlight_file/show_source
+12.iconv/mb_convert_encoding[/code]
+附带php.ini中涉及安全配置选项。
+[code lang=&ldquo;php&rdquo;]safe_mode = off ( a lot of shit cannot be done with this on )
+disabled_functions = N/A ( no one,we want all )
+register_globals = on ( we can set variables by request )
+allow_url_include = on ( for lfi/rfi )
+allow_url_fopen = on ( for lfi/rfi )
+magic_quotes_gpc = off ( this will escape &lsquo; &ldquo;    and NUL&rsquo;s  with a backslash and we don&rsquo;t want that )
+short_tag_open = on ( some scripts are using short tags,better on )
+file_uploads = on ( we want to upload )
+display_errors = on ( we want to see the script errors,maybe some undeclared variables? )
+open_basedir 限制访问目录
+display_errors = off 显示错误信息[/code]</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -457,66 +514,6 @@ if ($handle = fopen($filename, &lsquo;a+&rsquo;))
 参考文章：
 <span><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html"><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html">http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html</a></a></span> 
 <span><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout"><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout">http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout</a></a></span></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/09/practical_malware_analysis_chapter5/">Practical Malware Analysis Chapter5 Summary</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-09T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/09/practical_malware_analysis_chapter5/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。</p>
-
-<p>IDA 各类技巧：
-交叉参考：
-函数与函数之间的调用：双击函数开始的上下箭头
-函数内部调用函数：直接双击函数进入
-数据交叉参考，一样双击进入。</p>
-
-<p>图形选项：
-函数被调用：
-函数调用其他函数：
-调用层次选择。</p>
-
-<p>插件使用：
-hex-rays、bindiff、patchdiff等
-IDC、python脚本使用。</p>
-
-<p>一些实用技巧：
-添加注释： 替换注释;
-右键修改函数名
-数字右键进制转换
-加载调用函数参数常量名称：右键使用标准符号常量
-图形与代码显示转换，空格
-F5 快速函数C语言格式化
-多参考输入表、输出表、字符选项卡。</p>
-
-<p>chapter5整体知识点：</p>
-
-<p><a href="http://blog.ourren.com/blog/chapter5.jpg"><img class="aligncenter" title="chapter5" src="http://blog.ourren.com/blog/chapter5.jpg" alt="" width="556" height="321"></a></p>
 </div>
   
   

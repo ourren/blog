@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="1.1 bypass Char 通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。 本节主要针对单字符过滤进行研究，分为引号、尖括号、 &hellip;&#8221;>
+  <meta name="description" content="Author:youstar Blog:http://blog.ourren.com 最近由于需求翻阅了一些数据挖掘相关资料，对数据挖掘过程中的分类技术进行了理解和研究，遂记录如下。 1、数据挖掘概述 数据挖掘，就是提取或者挖掘数据，主要通过对已获得的大量数据进行深度整理和分析， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/25/naive_bayes_algorithm_for_data_mining/">数据挖掘之朴素贝叶斯算法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-10-25T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/10/25/naive_bayes_algorithm_for_data_mining/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Author:youstar</p>
+
+<p>Blog:<a href="http://blog.ourren.com/"><a href="http://blog.ourren.com">http://blog.ourren.com</a></a></p>
+
+<p>最近由于需求翻阅了一些数据挖掘相关资料，对数据挖掘过程中的分类技术进行了理解和研究，遂记录如下。</p>
+
+<p><strong>1、数据挖掘概述</strong></p>
+
+<p>数据挖掘，就是提取或者挖掘数据，主要通过对已获得的大量数据进行深度整理和分析，其分析结果可以反映过去结果和预测未来趋势。目前几种典型的数据挖掘研究有：关联规则、分类、聚类、预测、web挖掘等。分类挖掘可以从数据中提取相关特征，然后建立相应模型或者函数，并把数据中的每个对象归类到特定分类。例如: 可以检测邮件是否为垃圾邮件，检测数据是否为攻击数据，样本是否为恶意程序等等这些都可以通过分类挖掘实现，而分类挖掘中又分为决策树方法、统计学方法、贝叶斯网络、神经网络等其他分类技术。</p>
+
+<p><strong>2、朴素贝叶斯算法</strong></p>
+
+<p>贝叶斯分类是一种基于统计学的分类方法，就是大学学的概率统计神马的。朴素贝叶斯算法是在贝叶斯算法上基于独立假设的贝叶斯定理的简单概率分类器，因此这里谈到技术的就是数据挖掘中很小的一部分了。其主要基本思路如下：</p>
+
+<p>需求分析&mdash;&mdash;>提取特征&mdash;&mdash;->训练样本&mdash;&mdash;&ndash;>检测特征&mdash;&mdash;->计算后验概率&mdash;&mdash;>判定</p>
+
+<p>首先是需求分析，我们需要清楚自己的目的：即对这些数据分析能够得出什么结果？我们需要什么结果？一个分类模型；还是其他。例如：我们需要对大量的邮件进行分析处理，最终需要建立一个模型能够自动判定一封邮件是够为垃圾邮件或者正常邮件，因此，最终我们只有两个类别，即垃圾邮件、正常邮件。这就是我们的需要。</p>
+
+<p>其次是提取特征，需要对待分析的数据进行详细分析，提取不同点。例如，我们需要研究正常邮件与垃圾邮件有哪些方面的不同，垃圾邮件具有哪些特性，而正常邮件具有额外的哪些特性。一般来讲，垃圾邮件内容中往往含有图片、链接、邮件头、多个收件人、HTML标签问题等比较特殊的特征，而正常邮件一般没有这些特征。</p>
+
+<p>再次是训练样本，这个步骤一般是提取大量样本按照其上一步提取的特征值进行分析并统计，得到一个比较详细的特征统计表。例如：随机从邮件服务器中提取1000封邮件，然后对每封邮件内容按照前面提到的特征进行统计分析。</p>
+
+<p>再次是检测特征，通过前面的过程我们已经建立了一个朴素贝叶斯模型，我们可以通过编写代码实现自动检测特征。例如，可以通过python或者c++实现文本的特征匹配，这里可以采用其他文本匹配算法。</p>
+
+<p>再次是计算后验概率，根据朴素贝叶斯算法，可以计算在已知分类情况下的特征概率，即先验概率。例如，我们可以计算在假定为正常邮件情况下，文本特征有：图片、链接、多个收件人的情况下概率P(图片|垃圾邮件)、P(链接|垃圾邮件)等，然后我们在计算假定为垃圾邮件情况下，文本特征有图片、链接、多个收件人的情况下概率P(图片|正常邮件)、P(链接|正常邮件)等.</p>
+
+<p>最后，我们可以通过比较先验概率的值和概率来判定该样本属于哪种类型。例如：分别计算P（垃圾邮件）<em>P(图片|垃圾邮件)</em>P(链接|垃圾邮件)<em>&hellip;.与P（正常邮件）</em>P(图片|正常邮件)<em>P(链接|正常邮件)</em>&hellip;.，然后看那个值比较大，从而判定属于这个类别。</p>
+
+<p>系统性能指标一般会通过正确率、准确率、召回率这三个指标进行评定。</p>
+
+<p><strong>3、总结</strong></p>
+
+<p>整体来说，整个过程还是比较复杂，特别是样本特征方面，需要考虑比较周全然后其效果才会更加明显，而训练样本的值也会影响最终结果。网上也有一个比较简单的实例，python实现的Naive Bayes[文献3]，大伙可以参考。附带几篇比较好的文章。</p>
+
+<p><strong>4、参考资料</strong></p>
+
+<p>（1）范明.范宏建《数据挖掘导论》</p>
+
+<p>（2）焦李成.《智能数据挖掘与知识发现》</p>
+
+<p>（3）<a href="http://www.coder4.com/archives/1511">Naive Bayes的Python实现</a></p>
+
+<p>（4）<a href="http://www.cnblogs.com/phinecos/archive/2008/10/21/1315948.html">基于朴素贝叶斯分类器的文本分类算法（上）</a></p>
+
+<p>（5）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html">贝叶斯推断及其互联网应用（一）：定理简介</a></p>
+
+<p>（6）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_two.html">贝叶斯推断及其互联网应用（二）：过滤垃圾邮件</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -764,125 +842,6 @@ ManicTime运行后，可以跟踪你每天在电脑前面的时间是怎么耗�
 <p>如果你对SecWiki有什么问题或者建议，欢迎发送邮件到admin#ourren.com</p>
 
 <p>SecWiki地址：<a href="http://wiki.ourren.com/">http://wiki.ourren.com/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/07/11/android_components/">Android组件概要</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-07-11T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/07/11/android_components/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>记得最初看android基础还是去年这个时候，时隔一年基本上忘得差不多了。近期由于研究android恶意代码分析相关技术，需要对android各类组件有更深入的理解，个人总结如下：</p>
-
-<p><strong>Activity</strong>
-Activity是Android构造块中最基本的一种，在应用中，一个activity通常就是一个单独的屏幕。每一个activity都被实现为一个独立的类，并且继承于Activity这个基类。这个activity类将会显示由几个Views控件组成的用户接口，并对事件做出响应。大部份的应用都会包含多个的屏幕。
-通俗点：界面都是通过继承Activity类来实现的，然后重写oncreate函数实现初始化界面显示。多个Activity类之间是通过intent类来实现切换的。一般需要新建一个Intent类，然后调用相关成员函数传值。
-实例代码如下：
-[code lang=&ldquo;java&rdquo;]Intent intent=new Intent();
-intent.setAction(Intent.ACTION_CALL);
-intent.setData(Uri.parse(&ldquo;tel:1320010001&rdquo;);
-startActivity(intent);[/code]
-通过intent和startActivity实现activity的切换。</p>
-
-<p><strong>Service</strong>
-系统服务，接触过window编程方面就知道服务进程的话都是后台运行，android上的service组件也一样，一般用于后台运行程序。比如说我们可以同时上网和听歌，那么就可以把听歌这个activity采用service运行方式。一般需要调用Context.startService()或Context.bindService()方法启动服务。
-代码实现的时候需要在manifest中声明服务。可以采用如下方法：
-[code lang=&ldquo;java&rdquo;]&lt;service android:name=&ldquo;.PlayService&rdquo; /&gt;[/code]
-PlayService是Service类的名字。
-类实现关键代码：
-[code lang=&ldquo;java&rdquo;]@Override
-public void onCreate(Bundle savedInstanceState)
-{
-super.onCreate(savedInstanceState);
-setContentView(R.layout.main);
-this.startService(new Intent(this, PlayService.class));
-}[/code]
-<strong>
-Content Provider</strong>
-内容提供者，作为应用程序之间唯一的共享数据的途径，Content Provider 主要的功能就是存储并检索数据以及向其他应用程序提供访问数据的借口。
-让自己的数据和其他应用程序共享有两种方式：创建自己的Content Provier(即继承自ContentProvider的子类)  或者是将自己的数据添加到已有的Content Provider中去，后者需要保证现有的Content Provider和自己的数据类型相同且具有该 Content Provider的写入权限。对于Content Provider，最重要的就是数据模型(data model) 和 URI。</p>
-
-<p><strong>Broadcast Receiver</strong>
-广播接收器：Broadcast Receiver组件提供了一种把Intent作为一个消息广播出去，由所有对其感兴趣的程序对其作出反应的机制。它和时间处理机制类似，但是事件处理机制是程序组件级别的（比如：按钮的单击事件），而广播事件处理机制是系统级别的。我们可以用Intent来启动一个组件，也可以用sendBroadcast()方法发起一个系统级别的事件广播来传递消息。我们同样可以在自己的应用程序中实现Broadcast Receiver来监听和响应广播的Intent。
-可以使用两种方式来进行操作：静态注册、动态注册。
-静态注册：
-在AndroidManifest.xml中用标签生命注册，并在标签内用标签设置过滤器，但是使用这种注册方式注册了之后，即使程序已经关闭或者没有开启，都将接收到匹配的广播，因此这里就存在安全问题，恶意程序可以注册android.provider.Telephony.SMS_RECEIVED类似的广播实现偷取短信。
-代码如下，将NEW_LIFEFORM类型广播绑定到MyBroadcastReceiver类：
-[code lang=&ldquo;java&rdquo;]//AndroidManifest.xml中代码
-&lt;receiver android:name=&ldquo;.MyBroadcastReceiver&rdquo;&gt;
-&lt;intent-filter&gt;
-&lt;action android:name=&ldquo;com.android.broadcasttest.NEW_LIFEFORM&rdquo; /&gt;
-&lt;/intent-filter&gt;
-&lt;/receiver&gt;</p>
-
-<p>//接受关键代码
-public class MyBroadcastReceiver extends BroadcastReceiver {
-public static final String BURN =
-&ldquo;com.paad.alien.action.BURN_IT_WITH_FIRE&rdquo;;</p>
-
-<p>public MyBroadcastReceiver () {
-Log.v(&ldquo;BROADCAST_TAG&rdquo;, &ldquo;myBroadCast&rdquo;);
-}
-@Override
-public void onReceive(Context context, Intent intent) {
-// TODO Auto-generated method stub
-Toast.makeText(context, &ldquo;成功接收广播：&rdquo;, Toast.LENGTH_LONG).show();
-}</p>
-
-<p>}</p>
-
-<p>//发送关键代码
-public class BroadcastTest extends Activity {
-public static final String NEW_LIFEFORM_DETECTED =
-&ldquo;com.android.broadcasttest.NEW_LIFEFORM&rdquo;;</p>
-
-<p>/<em>* Called when the activity is first created. </em>/
-@Override
-public void onCreate(Bundle savedInstanceState) {
-super.onCreate(savedInstanceState);
-setContentView(R.layout.main);</p>
-
-<p>Button btn0 = (Button)findViewById(R.id.btn0);
-btn0.setOnClickListener(new OnClickListener() {
-public void onClick(View v) {
-Intent it = new Intent(NEW_LIFEFORM_DETECTED);
-sendBroadcast(it);
-}
-});
-}
-}[/code]
-动态注册，通过registerReceiver和unRegisterReceiver实现注册和解除：
-[code lang=&ldquo;java&rdquo;]　IntentFilter filter = new IntentFilter(&ldquo;android.provider.Telephony.SMS_RECEIVED&rdquo;); //
-MyReceiver receiver = new MyReceiver();
-registerReceiver(receiver, filter);[/code]
-<strong>Intent</strong>
-Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。Intent类用于描述一个应用将会做什么事。在Intent的描述结构中，有两个最重要的部分：动作和动作对应的数据。典型的动作类型有：MAIN（activity的门户）、VIEW、PICK、EDIT等。而动作对应的数据则以URI的形式进行表示。你可以在Intent中指定程序要执行的动作（比如：view,edit,dial），以及程序执行到该动作时所需要的资料。都指定好后，只要调用startActivity()，Android系统会自动寻找最符合你指定要求的应用程序，并执行该程序。例如：要查看一个人的联系方式，你需要创建一个动作类型为VIEW的intent，以及一个表示这个人的URI。</p>
-
-<p><strong>intent-filter</strong>
-与之有关系的一个类叫IntentFilter。相对于intent是一个有效的做某事的请求，一个intent filter则用于描述一个activity（或者Intent Receiver）能够操作哪些intent。什么时候启动或者触发函数。</p>
 </div>
   
   

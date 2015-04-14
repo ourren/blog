@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-27T12:06:07-07:00</updated>
+  <updated>2015-04-14T12:13:52-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[利用公开接口获取IP信息]]></title>
+    <link href="http://blog.ourren.com/2015/04/14/ip-information-with-python/"/>
+    <updated>2015-04-14T11:20:48-07:00</updated>
+    <id>http://blog.ourren.com/2015/04/14/ip-information-with-python</id>
+    <content type="html"><![CDATA[<p>其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下：</p>
+
+<h4>在线平台/接口</h4>
+
+<p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
+
+<p>国内IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://www.ipip.net/">IPIP</a></li>
+<li><a href="http://ip.qq.com/">腾讯IP</a></li>
+<li><a href="http://ip.taobao.com/">淘宝IP</a></li>
+<li><a href="http://ip138.com/">IP138</a></li>
+</ul>
+
+
+<p>国外IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://ip-api.com/">ip-api</a></li>
+<li><a href="https://db-ip.com/">db-ip</a></li>
+<li><a href="http://bgp.he.net/">BGP</a></li>
+<li><a href="http://www.ip2location.com/demo">ip2location</a></li>
+</ul>
+
+
+<p>国内的查询相对比较简洁，而国外的在线平台给出的数据相对比较多，但是db-ip和ip2location每天都有限制查询，而ip-api则直接提供了API的查询接口，并且没有限制查询数量。</p>
+
+<h4>本地IP数据库</h4>
+
+<p>如果所做系统不能联网或者由于其它原因需要离线IP信息查询，国内和国外都有很著名的离线IP数据库,在项目需求不高时可以使用，现统计如下：</p>
+
+<ul>
+<li>国内的<a href="http://www.cz88.net/">IP纯真数据库</a>；</li>
+<li>国外的<a href="http://dev.maxmind.com/zh-hans/geoip/legacy/geolite/">MaxMind Geo数据库</a>；</li>
+<li>国内最近的<a href="http://www.ipip.net/download.html">ipip</a></li>
+</ul>
+
+
+<h4>Python查询接口</h4>
+
+<p>Python写接口查询就相对比较容易了，但是鉴于很多接口都请求次数限制，因此需要考虑的问题还是比较多，总结如下：</p>
+
+<ul>
+<li>Python下使用requests进行https请求时，可能会遇到证书问题，当设置“verify=False”时会出现警告信息，可以通过导入warning库进行处理，具体见<a href="https://github.com/kennethreitz/requests/issues/2214">这里</a>;</li>
+<li>如果是采用网页进行请求匹配，最好直接用字符串查找替换（replace,split）就OK，正则会有一些问题；</li>
+<li>如果HTTP请求可以通过添加代理来绕过查询次数限制；</li>
+</ul>
+
+
+<p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
+
+<p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用MTR分析网络状况]]></title>
@@ -269,62 +330,6 @@ usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
 <li>安装完成</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://blog.ourren.com/2015/01/18/solve_composer_ssl_error/"/>
-    <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/2015/01/18/solve_composer_ssl_error</id>
-    <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
-
-<p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
-
-<pre><code>composer self-update
-
-[Composer\Downloader\TransportException]
-The "https://getcomposer.org/version" file could not be downloaded: SSL operation failed with code 1. OpenSSL Error messages:error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed
-Failed to enable crypto
-failed to open stream: operation failed
-</code></pre>
-
-<!--more-->
-
-
-<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&amp;oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
-
-<ol>
-<li>证书出现问题，去更新下你的证书信息；</li>
-<li>网络问题，自己看下是不是被欺骗了；</li>
-<li>&hellip;&hellip;.</li>
-</ol>
-
-
-<p>Google出来很多答案，就连stackoverflow都有很多问题和答案，但是问题的关键这些答案都不能解决问题，通过自己的研究发现目前Mac安装的PHP版本是5.3版本的，感觉应该是openssl爆出漏洞后导致证书不可信，所以直接升级PHP版本应该就可以，那就可以直接执行如下命令：</p>
-
-<pre><code>brew install php56
-</code></pre>
-
-<p>请注意，make的时候cpu飙到99%是正常的，稍微等几分钟就好了，然后执行更新：</p>
-
-<pre><code>composer update
-
-Your requirements could not be resolved to an installable set of packages.
-</code></pre>
-
-<p>这个问题就更好解决了，修改当前工程的composer.json中的：</p>
-
-<pre><code>"minimum-stability": "stable",
-</code></pre>
-
-<p>改为：</p>
-
-<pre><code>"minimum-stability": "dev",
-"prefer-stable": true,
-</code></pre>
-
-<p>顺利解决问题～</p>
 ]]></content>
   </entry>
   

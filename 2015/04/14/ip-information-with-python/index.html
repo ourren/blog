@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>利用MTR分析网络状况 - Ourren</title>
+  <title>利用公开接口获取IP信息 - Ourren</title>
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是Mtr(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令， &hellip;">
+  <meta name="description" content="其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下： 在线平台/接口 虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是ip138， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.ourren.com/2015/03/27/diagnosing-network-issue-with-mtr/">
+  <link rel="canonical" href="http://blog.ourren.com/2015/04/14/ip-information-with-python/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
@@ -70,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">利用MTR分析网络状况</h1>
+      <h1 class="entry-title">利用公开接口获取IP信息</h1>
     
     
       <p class="meta">
@@ -79,7 +79,7 @@
 
 
 
-<time class='entry-date' datetime='2015-03-27T12:00:33-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 pm</span></time>
+<time class='entry-date' datetime='2015-04-14T11:20:48-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
         
         
             | <a href="#comments">留言</a>
@@ -89,73 +89,59 @@
   </header>
 
 
-<div class="entry-content"><p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
+<div class="entry-content"><p>其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下：</p>
 
-<pre><code>                           My traceroute  [v0.71]
-ts3-142.ts.cn.tlan (0.0.0.0)                           Fri Aug  3 22:39:50 2007
-Keys:  Help   Display mode   Restart statistics   Order of fields   quit
-                                              Packets               Pings
- Host                                       Loss%  Last   Avg  Best  Wrst StDev
- 1. 172.16.76.1                              0.0%   0.5   0.4   0.4   0.5   0.1
- 2. 202.108.132.17                           0.0% 179.0  20.2   2.3 179.0  55.8
- 3. 172.19.140.69                            0.0%  13.7  10.3   6.2  17.1   3.8
- 4. 172.17.0.17                              0.0%   9.3  16.5   8.6  62.3  16.3
- 5. 172.16.0.57                              0.0%   9.9  11.2   6.1  21.0   5.4
- 6. 192.168.0.25                             0.0%   7.3  11.4   5.1  17.2   4.2
- 7. 210.74.176.241                          10.0% 110.1 109.6  92.7 123.3  11.3
- 8. 202.96.13.101                           20.0% 104.9 111.8 101.4 126.5   9.3
- 9. 202.106.192.233                         30.0% 120.7 113.8  85.5 138.8  17.2
-10. 61.148.143.26                           10.0%  99.7 112.0  99.7 120.9   6.9
-11. 202.96.8.246                            20.0%  97.0 108.2  92.3 137.4  14.3
-12. 210.77.38.126                           11.1% 133.0 113.8  97.0 133.0  11.8
-13. 
-</code></pre>
+<h4>在线平台/接口</h4>
 
-<h4>安装步骤</h4>
+<p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
 
-<p>Mac下直接用brew进行安装「虽然经常吐槽brew各种不如linux下的包管理软件，但是有时候还是不错」：</p>
+<p>国内IP信息查询平台：</p>
 
-<pre><code>brew install mtr
-sudo /usr/local/Cellar/mtr/0.86/sbin/mtr 8.8.8.8
-ln -s /usr/local/Cellar/mtr/0.86/sbin/mtr /usr/bin
-sudo mtr 8.8.4.4
-</code></pre>
+<ul>
+<li><a href="http://www.ipip.net/">IPIP</a></li>
+<li><a href="http://ip.qq.com/">腾讯IP</a></li>
+<li><a href="http://ip.taobao.com/">淘宝IP</a></li>
+<li><a href="http://ip138.com/">IP138</a></li>
+</ul>
 
-<p>Linux貌似就更简单：</p>
 
-<pre><code>yum -y install mtr
-apt-get install mtr-tiny
-</code></pre>
+<p>国外IP信息查询平台：</p>
 
-<p>Windows只能用这<a href="http://sourceforge.net/projects/winmtr/">WinMTR</a>替代下。</p>
+<ul>
+<li><a href="http://ip-api.com/">ip-api</a></li>
+<li><a href="https://db-ip.com/">db-ip</a></li>
+<li><a href="http://bgp.he.net/">BGP</a></li>
+<li><a href="http://www.ip2location.com/demo">ip2location</a></li>
+</ul>
 
-<h4>相关命令</h4>
 
-<p>查看help:</p>
+<p>国内的查询相对比较简洁，而国外的在线平台给出的数据相对比较多，但是db-ip和ip2location每天都有限制查询，而ip-api则直接提供了API的查询接口，并且没有限制查询数量。</p>
 
-<pre><code>root@ts3-142 ~]# mtr --help
-usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
-                [--report-cycles=COUNT] [--curses] [--gtk]
-                [--raw] [--split] [--no-dns] [--address interface]
-                [--psize=bytes/-s bytes]
-                [--interval=SECONDS] HOSTNAME [PACKETSIZE]
+<h4>本地IP数据库</h4>
 
-各主要参数解释如下：
---report                       追踪结果以报告模式输出
---report-cycles=COUNT          定义追踪的次数，默认为16
---raw                          使结果以原始格式输出
---split                        将每次追踪的结果分别列出来，不象--report一样，统计整个结果
---no-dns                       只显示ip地址，不解析ip地址对应的主机名
---psize=bytes/-s bytes         定义数据包的大小，单位是字节
-</code></pre>
+<p>如果所做系统不能联网或者由于其它原因需要离线IP信息查询，国内和国外都有很著名的离线IP数据库,在项目需求不高时可以使用，现统计如下：</p>
 
-<p>日常一般这样子用就可以得到前面的报告结果了。</p>
+<ul>
+<li>国内的<a href="http://www.cz88.net/">IP纯真数据库</a>；</li>
+<li>国外的<a href="http://dev.maxmind.com/zh-hans/geoip/legacy/geolite/">MaxMind Geo数据库</a>；</li>
+<li>国内最近的<a href="http://www.ipip.net/download.html">ipip</a></li>
+</ul>
 
-<pre><code>mtr --report -c 10 -n www.turbolinux.com.cn
-//或者
- mtr --report www.google.com
- mtr --no-dns --report google.com
-</code></pre>
+
+<h4>Python查询接口</h4>
+
+<p>Python写接口查询就相对比较容易了，但是鉴于很多接口都请求次数限制，因此需要考虑的问题还是比较多，总结如下：</p>
+
+<ul>
+<li>Python下使用requests进行https请求时，可能会遇到证书问题，当设置“verify=False”时会出现警告信息，可以通过导入warning库进行处理，具体见<a href="https://github.com/kennethreitz/requests/issues/2214">这里</a>;</li>
+<li>如果是采用网页进行请求匹配，最好直接用字符串查找替换（replace,split）就OK，正则会有一些问题；</li>
+<li>如果HTTP请求可以通过添加代理来绕过查询次数限制；</li>
+</ul>
+
+
+<p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
+
+<p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
 </div>
 
 
@@ -171,7 +157,7 @@ usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
 
 
 
-<time class='entry-date' datetime='2015-03-27T12:00:33-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 pm</span></time>
+<time class='entry-date' datetime='2015-04-14T11:20:48-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
       
 
 <span class="categories">
@@ -192,10 +178,8 @@ usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2015/03/23/highchart-note-with-php/" title="Previous Post: Highcharts使用入门与技巧">&laquo; Highcharts使用入门与技巧</a>
+        <a class="basic-alignment left" href="/2015/03/27/diagnosing-network-issue-with-mtr/" title="Previous Post: 利用MTR分析网络状况">&laquo; 利用MTR分析网络状况</a>
       
-      
-        <a class="basic-alignment right" href="/2015/04/14/ip-information-with-python/" title="Next Post: 利用公开接口获取IP信息">利用公开接口获取IP信息 &raquo;</a>
       
     </p>
   </footer>
@@ -204,7 +188,7 @@ usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
 
 <section>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="利用MTR分析网络状况"></div>
+<div class="ds-thread" data-title="利用公开接口获取IP信息"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"ourren"};
   (function() {

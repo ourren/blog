@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-03-27T12:06:07-07:00</updated>
+  <updated>2015-04-14T12:13:52-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[利用公开接口获取IP信息]]></title>
+    <link href="http://blog.ourren.com/2015/04/14/ip-information-with-python/"/>
+    <updated>2015-04-14T11:20:48-07:00</updated>
+    <id>http://blog.ourren.com/2015/04/14/ip-information-with-python</id>
+    <content type="html"><![CDATA[<p>其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下：</p>
+
+<h4>在线平台/接口</h4>
+
+<p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
+
+<p>国内IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://www.ipip.net/">IPIP</a></li>
+<li><a href="http://ip.qq.com/">腾讯IP</a></li>
+<li><a href="http://ip.taobao.com/">淘宝IP</a></li>
+<li><a href="http://ip138.com/">IP138</a></li>
+</ul>
+
+
+<p>国外IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://ip-api.com/">ip-api</a></li>
+<li><a href="https://db-ip.com/">db-ip</a></li>
+<li><a href="http://bgp.he.net/">BGP</a></li>
+<li><a href="http://www.ip2location.com/demo">ip2location</a></li>
+</ul>
+
+
+<p>国内的查询相对比较简洁，而国外的在线平台给出的数据相对比较多，但是db-ip和ip2location每天都有限制查询，而ip-api则直接提供了API的查询接口，并且没有限制查询数量。</p>
+
+<h4>本地IP数据库</h4>
+
+<p>如果所做系统不能联网或者由于其它原因需要离线IP信息查询，国内和国外都有很著名的离线IP数据库,在项目需求不高时可以使用，现统计如下：</p>
+
+<ul>
+<li>国内的<a href="http://www.cz88.net/">IP纯真数据库</a>；</li>
+<li>国外的<a href="http://dev.maxmind.com/zh-hans/geoip/legacy/geolite/">MaxMind Geo数据库</a>；</li>
+<li>国内最近的<a href="http://www.ipip.net/download.html">ipip</a></li>
+</ul>
+
+
+<h4>Python查询接口</h4>
+
+<p>Python写接口查询就相对比较容易了，但是鉴于很多接口都请求次数限制，因此需要考虑的问题还是比较多，总结如下：</p>
+
+<ul>
+<li>Python下使用requests进行https请求时，可能会遇到证书问题，当设置“verify=False”时会出现警告信息，可以通过导入warning库进行处理，具体见<a href="https://github.com/kennethreitz/requests/issues/2214">这里</a>;</li>
+<li>如果是采用网页进行请求匹配，最好直接用字符串查找替换（replace,split）就OK，正则会有一些问题；</li>
+<li>如果HTTP请求可以通过添加代理来绕过查询次数限制；</li>
+</ul>
+
+
+<p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
+
+<p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用MTR分析网络状况]]></title>
@@ -1380,47 +1441,6 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 <p>BTW. 以上纯属自己的一些想法和看下，欢迎探讨。</p>
 
 <p> </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SecWiki:安全从业者的晨报]]></title>
-    <link href="http://blog.ourren.com/2014/06/15/secwiki_morning_news/"/>
-    <updated>2014-06-15T00:00:00-07:00</updated>
-    <id>http://blog.ourren.com/2014/06/15/secwiki_morning_news</id>
-    <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/secwiki2.jpg" alt="" width="875" height="478"></p>
-
-<h3>SecWiki的初衷</h3>
-
-
-<p>一句话：为了更好地为安全爱好者服务。 作为从事安全行业的相关技术人员，每天上班、下班都非常的辛苦，除了为公司创造应有的价值外，自身为了未来更好的发展每天不得不阅读大量的行业资讯。但是目前由于互联网发展速度之猛，行业波及面之广，让我们每天生活充满了众多的噪声（例如微博、微信和QQ），我们不得不从一页有一页的资料中翻阅对自己有用的技术资讯和安全新闻，这样让我们很累。 因此，SecWiki的推出就是为了解决这些问题：帮助安全人员每天用最短的时间找到今日最新、最核心的行业新闻和技术资讯。从SecWiki的第一版到第二版我们都围绕着这个思想来做网站，当然在这个过程中也感谢很多朋友对网站提出了很多有用的建议。</p>
-
-<h3>SecWiki的现状</h3>
-
-
-<p>从2012年7月16日到现在，我们共收集并推荐了3808条技术资讯、48条安全事件、45个技术专题汇总、62个聚合链接、14期SecWiki周刊、7个漏洞、1个在线分析工具。 全站技术主要涵盖了Ｗeb安全、系统安全、恶意/漏洞分析、移动安全、设备安全、网络安全、运维安全、数据挖掘和编程技术。类型主要涉及文章、文档、视频等，每篇文章都有标准的标签属性，基本上涵盖了安全领域的相关技术。 但是目前网站的内容大部分内容基本上都由我提交，同时也有一些乐于分享的Hu0G4、secniu、Debug0、smarabbit等等一大批小伙伴们，在这里没办法一一列出，望见谅。</p>
-
-<h3>SecWiki快速提交</h3>
-
-
-<p>写到这里，小编自己确实有些过意不去：虽然给广大安全人员搭建提供了一个平台，但是对于一般用户而言，在提交新链接方面的操纵确实复杂，用户体验确实不好，但是SecWiki确实有一种快速提交当前网页的工具，但是一直没有用文章的方式进行介绍，借这个机会给大家分享以下：</p>
-
-<p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://static.video.qq.com/TPout.swf?vid=t0130a1idfy&auto=0" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
-
-<h3>SecWiki的愿望</h3>
-
-
-<p>SecＷiki希望能有更多的分享者参与到项目计划中来，只有这样网站才能持续地良性发展。当然，作为分享者你也能够从中获益，主要有如下几个方面：</p>
-
-<ol>
-    <li>让自己养成善于阅读资讯的习惯，第一时间掌握安全圈的动态；</li>
-    <li>将随时看到的文章保存在SecWiki上，方便以后导出。（目前因为版权方面因素，SecWiki没有缓存文章原文内容，抱歉）；</li>
-    <li>让你和你的昵称在安全圈有一定的认识度，认识更多的圈内朋友；</li>
-    <li>想想每天你提交的链接有很多安全人员都在阅读，这绝对是一件非常有意义的事。</li>
-</ol>
-
-
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#83;&#x65;&#99;&#x57;&#x69;&#x6b;&#x69;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#83;&#x65;&#x63;&#87;&#105;&#107;&#105;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></span></p>
 ]]></content>
   </entry>
   
