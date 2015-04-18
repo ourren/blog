@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-04-14T12:14:52-07:00</updated>
+  <updated>2015-04-17T22:24:28-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX写作技巧总结]]></title>
+    <link href="http://blog.ourren.com/2015/04/17/latex-skils-summary/"/>
+    <updated>2015-04-17T21:28:38-07:00</updated>
+    <id>http://blog.ourren.com/2015/04/17/latex-skils-summary</id>
+    <content type="html"><![CDATA[<p>最近开始利用LaTeX写作复杂的文档，心情那个叫个爽呀，一点感觉不到排版的烦恼了。什么Word分页与分节？什么页眉与页脚？统统没有这种烦恼。这种写作乐趣就是让你只关注写作内容，爽歪歪地写下去，其实跟Markdown写博客，Git管理代码差不多的心情。其实这种烦恼只是转移到制作模板的人身上了，但是LaTeX实在是提供了太多的模板，so,尽管写吧。</p>
+
+<p>写作环境推荐：</p>
+
+<ul>
+<li><a href="http://texstudio.sourceforge.net/">TeXstudio</a> 免费软件做得非常好用，并且跨平台，更新及时，实时编译为PDF，英文单词自动纠正，其它特性就不说了，就这几个特性就可以秒杀很多同类软件；</li>
+<li><a href="http://www.tablesgenerator.com/latex_tables">tablesgenerator</a> 在线LaTex表格生成工具，谁用谁知道；</li>
+<li><a href="http://www.codecogs.com/latex/eqneditor.php">latex eqneditor</a> 在线LaTex公式生成工具；</li>
+<li>Excel 这个大家都懂的吧，画图好使；</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>下面给一些常用的LaTex实例代码：</p>
+
+<h4>插入图片</h4>
+
+<p>需要在顶部引入如下包，其中graphicspath中是设置图片的存放根目录，一般常常新建一个目录来存放图片。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+</code></pre>
+
+<p>在插入图片的时候使用如下代码，其中：</p>
+
+<pre><code>\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{picture_name}
+    \caption{describe of this image\label{fig:image}}
+\end{figure}
+</code></pre>
+
+<ul>
+<li>width 表示这个图片占的宽度；</li>
+<li>picture_name 表示文件名；</li>
+<li>lable 正文中引用使用，格式s~\ref{fig:image}；</li>
+</ul>
+
+
+<h4>插入表格</h4>
+
+<p>表格直接使用在线工具生成，一般也会新建一个文件夹例如table来存放表格，每个表格单独保存为xxx.tex文件，然后使用如下代码引入表格：</p>
+
+<pre><code>\input{tables/xx.tex}
+</code></pre>
+
+<h4>双栏并排</h4>
+
+<p>这里的双栏并排主要是指表格或者图片双栏显示，比如需要讲两个图显示在一行，可以先引入如下包，然后使用下面的代码就可以将两个表格并排。其实还是通过textwidth的属性值来控制宽度的。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{subfigure}
+
+\makeatletter\def\@captype{figure}\makeatother
+\begin{table*}
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/a.tex}
+        \caption{describe a table}
+        \label{table:a}
+    \end{minipage}
+    \makeatletter\def\@captype{table}\makeatother
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/b.tex}
+        \caption{describe b table}
+        \label{table:b}
+    \end{minipage}
+\end{table*}
+</code></pre>
+
+<h4>插入算法</h4>
+
+<p>插入伪代码的生活需要先包含如下包：</p>
+
+<pre><code>\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+</code></pre>
+
+<p>伪代码的具体写法如下, 更多详细的语法可以参照这里 <a href="http://www.ctex.org/documents/packages/verbatim/algorithms.pdf">LaTex algorithms</a>:</p>
+
+<pre><code>\begin{algorithm}[!htb]
+\caption{describe algorithm.}
+\label{alg:new}
+\begin{algorithmic}[1]
+    \Require
+    input, $D$;
+    input varible;
+    \Ensure
+    \For{each virable in D$}
+    \EndFor
+    \State xxxx
+    \EndFor
+    \label{code:recentEnd}
+\end{algorithmic}
+\end{algorithm}
+</code></pre>
+
+<h4>列表描述</h4>
+
+<p>在有些时候需要列出个1，2，3的列表，具体格式就很简单了，主要有itemize和enumerate两种，前者是列表前面是符号，而后者就是(1),(2)这种。</p>
+
+<pre><code>\begin{itemize}
+    \item one
+    \item two
+    \item three 
+\end{itemize}
+
+\begin{enumerate}
+    \item one
+    \item two
+    \item three 
+\end{enumerate}
+</code></pre>
+
+<h4>参考文献</h4>
+
+<p>一般是新建一个biblio.bib来专门存放参考文件，然后利用如下代码引入：</p>
+
+<pre><code>\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+</code></pre>
+
+<p>同时一个项目的文献这些可以使用 <a href="https://www.zotero.org/">zoteo</a> 或者 <a href="https://www.mendeley.com/">mendeley</a>来管理并导出。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用公开接口获取IP信息]]></title>
@@ -1390,60 +1530,6 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
     <li><a href="https://github.com/fxsjy/jieba" target="_blank">jieba</a></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[线下积分联盟的十问十答]]></title>
-    <link href="http://blog.ourren.com/2014/08/31/two_questions_about_o2o_point/"/>
-    <updated>2014-08-31T00:00:00-07:00</updated>
-    <id>http://blog.ourren.com/2014/08/31/two_questions_about_o2o_point</id>
-    <content type="html"><![CDATA[<p><img class="aligncenter" src="http://blog.ourren.com/blog/o2ojifen.jpg" alt="" width="512" height="219"></p>
-
-<p>前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的<strong>创业项目</strong>，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。但是我感觉用六个字就可以概括：<strong>线下积分联盟</strong>。</p>
-
-<p>他们初步提出的<strong>解决方案</strong>：组成团队开发APP和网站，用户和商家在进行交易时，可以直接通过APP进行交易（可通过支付宝或者其它支付方式）或者通过现金交易后在APP上登记积分。最终用户可以把线下的所有购物金额进行积分，从而可以通过积分换取商品。</p>
-
-<p>在我听了以上的模式后，同时结合自己在互联网的一些认识提出了如下的问题：</p>
-
-<ol>
-<li>其实前几年针对这类应用就有“pupa优惠券&#8221;，相对于这类应用有啥优势？目前是否有该类系统或者网站？</li>
-</ol>
-
-
-<p>2.双方还需要安装APP，同时交易完成后还需要打开APP进行积分统计，用户体验能再差点不？</p>
-
-<p>3.为什么不直接基于支付宝或者微信进行插件开发，因为这些平台用户量大，基本上手机上都安装有，再说用户使用的时候也感觉方便？</p>
-
-<p>4.生活中用现金支付的地方一般都是小门面，买个水买包面啥的，还得搞个APP麻烦不？再说目前这些门面一般还没WIFI，虽然目前3G4G很流行，但是从我观察看好多人还是2G，因为网络制式的问题。</p>
-
-<p>5.如果仅仅针对小商店怎么盈利，毕竟成立公司创业还是得考虑项目的盈利点？如果仅仅是拉拢用户等风投，估计前期就可能直接死在沙滩上。</p>
-
-<p>6.大商场或者商家目前都有自家的微信公众号，用户扫描关注后就可以购物积分，并且还可以通过微信钱包进行支付，再说目前支付宝在推线下支付（雷达，声波支付都已经形成产品）。这种用户体验是不是更好？大商家也不会采用你这种联盟方式。</p>
-
-<p>7.其实说到联盟，信用卡和银联卡才是可以直接做线下积分联盟的大厂商，特别是目前信用卡积分可以换里程，换礼物。同时还经常搞活动。你这种模式是不是直接掉在信用卡的后面？</p>
-
-<p>8.如何去说服商家来使用你这种服务？你能给小店铺带来什么？流量或者人群？从目前的描述看基本上都没有，因此商家不会卖你的帐，基本上不会使用你的功能。</p>
-
-<p>9.现有的记账软件基本上可以涵盖日常生活的消费，是不是可以把你的想法跟这个结合起来？</p>
-
-<p>10.目前的微信公众号对商家的相关业务已经延伸得很广，不光是积分，还有用户管理或者产品销售统计等功能，已经在这块应用上领先了，可以在公众号上做出一些产品可能还有市场。</p>
-
-<p>其实综合如上的问题，我个人在日常中针对创业项目的思考主要从如下几个方面考虑：</p>
-
-<p>1.团队成员。再好的项目放在一堆团队管理混乱，成员各自怀有二心的，那么这个项目肯定会失败。好的创业项目肯定得有各类人员：管理者、技术、运营这些人才，只有大家相互达成共识，并认定大家会成功才能成功度过危机关头。</p>
-
-<p>2.盈利模式。 这个是最重要的，一个创业项目没有明确的盈利模式那么必然会走向失败，或许可以在前期积累用户，然后在后期推出其它相关盈利项目。</p>
-
-<p>3.产品优势。相对于目前已有的相关产品，是否有自己的核心技术或者固定客户，如果只是一些普通的别人可以复制的东西，那么肯定在快速发展期会遇到很多问题。</p>
-
-<p>4.产品的易用性。产品是否符合人们的使用习惯，是否真正地找到了用户的痛点。</p>
-
-<p>5.团队头脑风暴。团队人员多做一些即时讨论，方便大家思维碰撞。</p>
-
-<p>BTW. 以上纯属自己的一些想法和看下，欢迎探讨。</p>
-
-<p> </p>
 ]]></content>
   </entry>
   

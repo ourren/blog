@@ -9,8 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="记得最初看android基础还是去年这个时候，时隔一年基本上忘得差不多了。近期由于研究android恶意代码分析相关技术，需要对android各类组件有更深入的理解，个人总结如下： Activity
-Activity是Android构造块中最基本的一种，在应用中， &hellip;">
+  <meta name="description" content="0x1 理念 SecWiki旨在收集国外最新安全文章和工具，为安全工作者提供业余时间阅读的索引。与一般RSS 国外安全博客不同的是：SecWiki只收录高质量的文章和工具，同时安全人员可以对你认为好的文章和工具进行+1操作，这样方便以后查阅资料的时候进行同类对比。 0x2 运作 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +67,52 @@ Activity是Android构造块中最基本的一种，在应用中， &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/22/secwiki_introduce/">SecWiki:Latest Security Articles and Tools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-07-22T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/07/22/secwiki_introduce/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img alt="secwiki" src="http://blog.ourren.com/blog/secwiki.png" width="616" height="201"></p>
+
+<p>0x1 理念</p>
+
+<p>SecWiki旨在收集国外最新安全文章和工具，为安全工作者提供业余时间阅读的索引。与一般RSS 国外安全博客不同的是：SecWiki只收录高质量的文章和工具，同时安全人员可以对你认为好的文章和工具进行+1操作，这样方便以后查阅资料的时候进行同类对比。</p>
+
+<p>0x2 运作</p>
+
+<p>任何人都可以在线提交你认识不错的最新文章和工具（需要审核后公布），同时可以对文章和工具进行+1操作。目前SecWiki分为两大类：文章和工具。每个大类下分为多个小类，在提交文章的时候注意选择分类。</p>
+
+<p>0x3 问题</p>
+
+<p>如果你对SecWiki有什么问题或者建议，欢迎发送邮件到admin#ourren.com</p>
+
+<p>SecWiki地址：<a href="http://wiki.ourren.com/">http://wiki.ourren.com/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -343,52 +388,6 @@ Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。I
 
   <div class="entry-content"><p>DEncode1.1更新说明<br>1、增加了LM、NT、LM/NThash加密方式。<br>2、增加了原来漏掉的HTML解码功能。<br>3、增加了字符替换功能。
 DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decoding-tools-decode.html">链接<br></a>工具下载：<a href="http://code.google.com/p/ourren/downloads/list">下载</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/06/01/psatv1-0/">php源码审计工具(Psat简介)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-06-01T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/06/01/psatv1-0/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在php源码审计的时候，需要根据自己的字典进行搜索并进行分析，因此php 安全字典很重要，<a href="/2012/05/31/php_audit_dictionary.html">上一篇文章</a>总结了常见安全方面的PHP函数。Windows下我们可以通过“Search and Replace”工具结合字典进行搜索，而linux下可以通过借鉴强大的grep命令进行搜索，但是针对不同类型漏洞需要记住很多命令和参数，这样导致使用不方便。前几天刚好看到<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a>开源的工具，由于作者使用的是perl进行开发，通过对源码和字典关键字分析进行了二次开发，特点如下：</p>
-
-<p>1、字典中增加了一些函数</p>
-
-<p>2、多文件搜索时默认显示不是很方便，因此可以使用选项生成报告。</p>
-
-<p>3、再次开发更方便，直接增加字典</p>
-
-<p>软件截图：</p>
-
-<p><a href="http://blog.ourren.com/blog/psat1.jpg"><img class="aligncenter" title="psat" src="http://blog.ourren.com/blog/psat1.jpg" alt="" width="534" height="199"></a></p>
-
-<p>软件下载地址：<a href="http://code.google.com/p/ourren/downloads/detail?name=psat%20v1.0.rar">连接</a></p>
-
-<p>在此感谢:<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a></p>
 </div>
   
   
