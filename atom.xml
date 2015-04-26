@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-04-26T12:40:11-07:00</updated>
+  <updated>2015-04-26T12:41:47-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -32,7 +32,7 @@
 
 <h3>域名解析</h3>
 
-<p>主从给定的URL提取其主机「即请求域名」，协议，路径，甚至参数。 例如从“<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python/%E2%80%9D">http://blog.ourren.com/2015/04/14/ip-information-with-python/%E2%80%9D</a> 获取“blog.ourren.com”, “http&#8221;, &ldquo;/2015/04/14/ip-information-with-python/&#8221;。</p>
+<p>主从给定的URL提取其主机「即请求域名」，协议，路径，甚至参数。 例如从“<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python%E2%80%9D">http://blog.ourren.com/2015/04/14/ip-information-with-python%E2%80%9D</a> 获取“blog.ourren.com”, “http&#8221;, &ldquo;/2015/04/14/ip-information-with-python/&#8221;。</p>
 
 <p>此类问题一般采用urlparse来进行处理，针对处理后的数据进行拼接即可获得，示例代码如下：</p>
 
@@ -43,7 +43,7 @@ ParseResult(scheme='http', netloc='blog.ourren.com', path='/2015/04/14/ip-inform
 
 <h3>主域名</h3>
 
-<p>主要是指获取域名的主域名「即需要去除子域名」和域名后缀，例如从“<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python/%E2%80%9D">http://blog.ourren.com/2015/04/14/ip-information-with-python/%E2%80%9D</a> 获取“ourren.com”，“com”；</p>
+<p>主要是指获取域名的主域名「即需要去除子域名」和域名后缀，例如从“<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python/">http://blog.ourren.com/2015/04/14/ip-information-with-python/</a>&ldquo; 获取“ourren.com”，“com”；</p>
 
 <p>这类问题可以通过tldextract进行处理，而tldextract则是对tld库进行了封装，使用起来比较方便，示例代码如下：</p>
 
