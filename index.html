@@ -9,7 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="最近开始利用LaTeX写作复杂的文档，心情那个叫个爽呀，一点感觉不到排版的烦恼了。什么Word分页与分节？什么页眉与页脚？统统没有这种烦恼。这种写作乐趣就是让你只关注写作内容，爽歪歪地写下去，其实跟Markdown写博客，Git管理代码差不多的心情。其实这种烦恼只是转移到制作模板的人身上了， &hellip;">
+  <meta name="description" content="Python中经常会遇到各种字符串处理问题，而在网络请求这块又经常与URL或者域名打交道，本文侧重介绍Python在处理URL/或者域名中的技巧，涉及到的Python主要有如下几种： urlparse
+tldextract
+dnspython ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/04/26/python-with-domain/">Python中处理域名的</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-26T12:05:01-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 pm</span></time>
+        
+        
+            | <a href="/2015/04/26/python-with-domain/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Python中经常会遇到各种字符串处理问题，而在网络请求这块又经常与URL或者域名打交道，本文侧重介绍Python在处理URL/或者域名中的技巧，涉及到的Python主要有如下几种：</p>
+
+<ul>
+<li>urlparse</li>
+<li>tldextract</li>
+<li>dnspython</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/04/26/python-with-domain/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -265,47 +311,6 @@ http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
   
     <footer>
       <a rel="full-article" href="/2015/03/16/phar_include_exploit/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/03/12/nltk_note_stem_pos_tag/">NLTK笔记:词干提取与词性标注</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-12T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2015/03/12/nltk_note_stem_pos_tag/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
-
-<h3>词干提取</h3>
-
-<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/03/12/nltk_note_stem_pos_tag/">继续阅读 →</a>
     </footer>
   
 

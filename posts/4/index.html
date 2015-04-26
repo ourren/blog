@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改）， &hellip;">
+  <meta name="description" content="1. NLP(Natural Language Processing) 自然语言处理(NLP)是人工智能和语言学领域的重要学科，在这此领域中探讨如何处理及运用自然语言；自然语言认知则是指让电脑“懂”人类的语言。自然语言生成系统把计算机数据转化为自然语言。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/12/26/nlp_with_sex_for_beginners/">NLP入门实例:判断性别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-26T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/12/26/nlp_with_sex_for_beginners/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image" /></p>
+
+<h4>1. NLP(Natural Language Processing)</h4>
+
+<p>自然语言处理(NLP)是人工智能和语言学领域的重要学科，在这此领域中探讨如何处理及运用自然语言；自然语言认知则是指让电脑“懂”人类的语言。自然语言生成系统把计算机数据转化为自然语言。自然语言理解系统把自然语言转化为计算机程序更易于处理的形式[1]。</p>
+
+<p>按照我个人的理解就是计算机怎么去理解并处理文字(中文或者其他语言)，因为每种语言都有各种语法，语义和感情色彩等。而计算机他是不懂感情的，学过计算机编程的都知道，不管是x64/X86的机器上面跑的就是0101。而NLP技术的出现就是来解决该类问题，NLP主要难点在于:</p>
+
+<ul>
+<li><p>单词的边界界定(注:分词)</p>
+
+<p>  在口语中，词与词之间通常是连贯的，而界定字词边界通常使用的办法是取用能让给定的上下文最为通顺且在文法上无误的一种最佳组合。在书写上，汉语也没有词与词之间的边界。</p></li>
+<li><p>词义的消歧(注:语义)</p>
+
+<p>  许多字词不单只有一个意思，因而我们必须选出使句意最为通顺的解释。</p></li>
+<li><p>句法的模糊性(注:语境)</p>
+
+<p>  自然语言的文法通常是模棱两可的，针对一个句子通常可能会剖析（Parse）出多棵剖析树（Parse Tree），而我们必须要仰赖语意及前后文的资讯才能在其中选择一棵最为适合的剖析树。</p></li>
+<li><p>有瑕疵的或不规范的输入</p>
+
+<p>  例如语音处理时遇到外国口音或地方口音，或者在文本的处理中处理拼写，语法或者光学字符识别（OCR）的错误。</p></li>
+</ul>
+
+
+<p>本文不会涉及太多这块技术，一方面我也刚入门，另外一方面这块技术比较高深，是一个长期需要研究的东西。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2014/12/26/nlp_with_sex_for_beginners/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -415,7 +476,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x53;&#x65;&#x63;&#87;&#105;&#x6b;&#x69;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x53;&#x65;&#x63;&#87;&#x69;&#107;&#x69;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x53;&#101;&#x63;&#x57;&#105;&#x6b;&#x69;&#x40;&#x71;&#x71;&#x2e;&#99;&#x6f;&#109;">&#83;&#x65;&#x63;&#x57;&#x69;&#x6b;&#x69;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a></span></p>
 </div>
   
   
@@ -495,156 +556,6 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 <p>worktile的布局和风格比较适合我个人，同时其功能也满足团队的研发需求，另外WSS相对与禅道而言相对简单很多，并且PHP开源程序，方便修改。禅道虽然其功能相当细致，但是其安全性有待进一步提高。</p>
 
 <p>总体而言，先理清自己是否需要注重安全问题，如果这个方面需求比较高，那还是用离线版搭建在自己的内网中吧，否则就还是用在线服务吧，不折腾可移动办公。PS：个人用户的话还是用好Todo类软件吧，好好管理好自己的时间。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/03/15/yii_security_problems/">YII开发需要注意的安全问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-03-15T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2014/03/15/yii_security_problems/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3><img class="aligncenter" alt="yii_security" src="http://blog.ourren.com/blog/yii_security.jpg" width="585" height="314"></h3>
-
-
-<h3 id="_1">前沿</h3>
-
-
-<p>接触YII开发已经有一些日子了，虽然YII把MVC的思想在PHP语言上发挥得淋漓尽致，但是在实际的YII开发中稍不注意还是会引起很多安全问题，本文主要对YII开发中需要注意的安全问题进行总结，方便后来开发者对此引起重视。</p>
-
-<h3 id="1">1.越权攻击</h3>
-
-
-<p>越权攻击可能跟MVC架构相关，YII虽然提供了基于RBAC的接口，同时auth插件将RBAC理念直接图形化操作，但是在实际的编程中使用基于RBAC认证的应用可能不是很多，因此直接采用系统默认的accessControl可能就会存在一些问题，例如在修改和删除操作的时候，如果采用系统默认的判定是无法实现业余系统的功能的，因为在更新或者删除的时候需要对所有权进行判定（即：该条数据是否属于当前用户），一般可以采用如下的规则进行判定：</p>
-
-<pre><code>$currentid = Yii::app()->user->getId();
-if($model->uid === $currentid)
-{
-    //do something after auth
-} 
-else
-{
-    throw new CHttpException(400,'not allow');
-}
-</code></pre>
-
-
-<h3 id="2">2.注入攻击</h3>
-
-
-<p>目前框架类语言在防止注入攻击方面做得还是不错的，一般主要按照框架提供数据库类进行操纵即可，YII框架在数据方面的操作也不例外，在插入、更新、删除、查询方面YII封装了很多类和函数，操作数据库的时候建议直接采用这些函数即可，不要用拼接字符串进行操作，例如，查询是经常遇到的操作，一般都是采用CDbCriteria类添加条件并查询：</p>
-
-<pre><code>//compare createtime
-$criteria = new CDbCriteria;
-$criteria->addCondition('createtime>:btime');
-$criteria->params[':btime'] = $btime;
-
-$criteria->addCondition('createtime<:etime');
-$criteria->params[':etime'] = $etime;
-$criteria->order = 'id desc';
-$retarr = XXX::model()->findAll($criteria);
-</code></pre>
-
-
-<h3 id="3">3.跨站请求伪造攻击</h3>
-
-
-<p>针对跨站请求伪造攻击CSRF攻击，YII直接提供了配置中全局进行CSRF防御，具体操作是在config/main.php中设置：</p>
-
-<pre><code>'components'=>array(
-    'request'=>array(
-        'enableCsrfValidation'=>true,
-    ),
-),
-</code></pre>
-
-
-<h3 id="4">4.跨站攻击防御</h3>
-
-
-<p>跨站攻击主要针对客户端浏览器这块，YII在跨站方面方面主要有以下几种处理办法。</p>
-
-<ul>
-    <li>httponly</li>
-</ul>
-
-
-<p>XSS跨站攻击主要针对盗取cookie或者通过XSS进行CSRF或者钓鱼攻击，先通过设置httponly可以在一定程度上降低XSS攻击，具体设置办法在config/main.php中设置：</p>
-
-<pre><code>//csrf cookie httponly
-'request'=>array(
-    'enableCsrfValidation' => true,
-    'enableCookieValidation'=>true,
-    'csrfCookie'=>array(
-            'httpOnly'=>true,
-    ),
-),
-//session httonly
-'session' => array(
-        'cookieParams' => array(
-                'httponly' => true,
-        ),
-),
-</code></pre>
-
-
-<ul>
-    <li>编码/转义</li>
-</ul>
-
-
-<p>针对用户需要在特定情况下输入数据，而这些数据是用户可以通过输入可以控制的数据。这时需要对该类数据进行编码处理，否则容易引起跨站攻击，一般主要有两种处理方法： 1.针对简单的文本处理 可以直接采用CHtml类的encode函数进行处理，该函数采用HTML编码方法对数据进行编码(即会对&#8221;&lt;&ldquo;,&rdquo;>&ldquo;,&lsquo;&rdquo;&rsquo;,&ldquo;&amp;&rdquo;,&ldquo; &rdquo;. etc).</p>
-
-<pre><code>CHtml::encode($var);
-</code></pre>
-
-
-<p>2.针对富文本处理 在富文本情况下，处理相对比较复杂，主要可以通过YII提供的widget进行处理，实际处理代码如下：</p>
-
-<pre><code><?php 
-    $this->beginWidget('CHtmlPurifier');
-    echo $model->something; 
-    $this->endWidget();
- ?>
-</code></pre>
-
-
-<blockquote>需要注意的问题，需要php开启：php-dom 或者php-xml。例如centos可以运行如下命令：</blockquote>
-
-
-<pre><code>yum install php-dom
-</code></pre>
-
-
-<h3 id="reference">Reference</h3>
-
-
-<ul>
-    <li><a href="http://www.yiiframework.com/doc/guide/1.1/zh_cn/topics.security">安全措施 (Security)</a></li>
-</ul>
-
 </div>
   
   

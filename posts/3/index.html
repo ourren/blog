@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="可能很多人(特别是国内的，咳咳)跟我一样读了很多年书，虽然从事的是安全领域的研究，但是国际上顶级的安全会议可能都不知道，我也是最近才研究了一下国际上的安全顶级会议和论文下载方法。 四大顶会 安全界有四大著名顶级会议，简称：S&amp;P、CCS、Security、NDSS； &hellip;">
+  <meta name="description" content="美化Ubuntu下pycharm的字体 Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/01/31/ubuntu_beauty_fonts_with_pycharm/">美化Ubuntu下Pycharm字体</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-31T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/01/31/ubuntu_beauty_fonts_with_pycharm/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>美化Ubuntu下pycharm的字体</h3>
+
+<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
+
+<h3>解决方案</h3>
+
+<p>Pycharm 字体渲染技术差的原因貌似主要是openjdk的问题，因此Linux下通过infinality fontconfig和openjdk patch来解决相关问题，在国外博客和V2ex上其实已经有详细说明：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/01/31/ubuntu_beauty_fonts_with_pycharm/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -288,67 +331,6 @@ $ sudo apt-get update   $ sudo apt-get install docker.io
   
     <footer>
       <a rel="full-article" href="/2015/01/01/summary_of_2014/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/12/26/nlp_with_sex_for_beginners/">NLP入门实例:判断性别</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-26T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2014/12/26/nlp_with_sex_for_beginners/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image" /></p>
-
-<h4>1. NLP(Natural Language Processing)</h4>
-
-<p>自然语言处理(NLP)是人工智能和语言学领域的重要学科，在这此领域中探讨如何处理及运用自然语言；自然语言认知则是指让电脑“懂”人类的语言。自然语言生成系统把计算机数据转化为自然语言。自然语言理解系统把自然语言转化为计算机程序更易于处理的形式[1]。</p>
-
-<p>按照我个人的理解就是计算机怎么去理解并处理文字(中文或者其他语言)，因为每种语言都有各种语法，语义和感情色彩等。而计算机他是不懂感情的，学过计算机编程的都知道，不管是x64/X86的机器上面跑的就是0101。而NLP技术的出现就是来解决该类问题，NLP主要难点在于:</p>
-
-<ul>
-<li><p>单词的边界界定(注:分词)</p>
-
-<p>  在口语中，词与词之间通常是连贯的，而界定字词边界通常使用的办法是取用能让给定的上下文最为通顺且在文法上无误的一种最佳组合。在书写上，汉语也没有词与词之间的边界。</p></li>
-<li><p>词义的消歧(注:语义)</p>
-
-<p>  许多字词不单只有一个意思，因而我们必须选出使句意最为通顺的解释。</p></li>
-<li><p>句法的模糊性(注:语境)</p>
-
-<p>  自然语言的文法通常是模棱两可的，针对一个句子通常可能会剖析（Parse）出多棵剖析树（Parse Tree），而我们必须要仰赖语意及前后文的资讯才能在其中选择一棵最为适合的剖析树。</p></li>
-<li><p>有瑕疵的或不规范的输入</p>
-
-<p>  例如语音处理时遇到外国口音或地方口音，或者在文本的处理中处理拼写，语法或者光学字符识别（OCR）的错误。</p></li>
-</ul>
-
-
-<p>本文不会涉及太多这块技术，一方面我也刚入门，另外一方面这块技术比较高深，是一个长期需要研究的东西。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2014/12/26/nlp_with_sex_for_beginners/">继续阅读 →</a>
     </footer>
   
 

@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="1、新建用户和权限设置 新建www用户组： [code lang=&ldquo;bash&rdquo;]groupadd www -g 501[/code] 创建一个不能登陆、没有shell、没有主目录的用户： [code lang=&ldquo;bash&rdquo;]useradd www - &hellip;">
+  <meta name="description" content="前几天配置PHP5.4的时候发现PHP新版已经在一些安全函数方面进行了增改，从php自身防止一些不必要的漏洞，因此开发人员在写代码时也需要注意版本的兼容。下面讲几个涉及安全方面的函数进行说明。1、safe_mode状态：已删除描述：此函数主要限制系统相关的文件打开、命令执行等函数( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,38 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/13/php5-4_remove_safe-function/">PHP5.4中删除的安全函数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-13T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/13/php5-4_remove_safe-function/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前几天配置PHP5.4的时候发现PHP新版已经在一些安全函数方面进行了增改，从php自身防止一些不必要的漏洞，因此开发人员在写代码时也需要注意版本的兼容。下面讲几个涉及安全方面的函数进行说明。<br>1、safe_mode<br>状态：已删除<br>描述：此函数主要限制系统相关的文件打开、命令执行等函数(具体影响函数见参考1)。当然现在也有bypasss safe_mode的方法(见参考2)，通过com接口来绕过。<br>解决办法：可以通过配置php.ini中的disable_functions函数列表进行限制指定函数。<br><br>2、magic_quotes_gpc<br>状态：已删除 （magic_quotes_runtime、magic_quotes_sybase 删除）<br>描述：此函数在PHP &lt;= 4.2.3默认开，会自动对GPC (Get/Post/Cookie)提交的值中的&#8217;, &ldquo;, 和空格进行转义，PHP5.4中get_magic_quotes_gpc()默认返回false。<br>解决办法：基本上还是不受影响，先检测状态，然后采用mysql_real_escape_string进行转义处理。<br><br>3、register_globals<br>状态：已删除<br>描述：此函数虽然从PHP>>4.2开始默认由on改为off,但是如果程序员开启的话会导致变量覆盖等安全问题,特别是结合文件包含漏洞等。<br>解决办法：可以结合前面sablog源码中的函数进行改写(采用extract函数).<br><br>4、session_register<br>状态：已删除（session_unregister()、session_is_registered 删除）<br>描述：采用session认证的时候可以用该函数注册session变量。<br>解决办法：采用$_SESSION数组进行注册变量。<br><br>参考：<br><a href="http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html">http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html</a><br><a href="http://luoq.net/PHP-COM-functions/">http://luoq.net/PHP-COM-functions/</a><br><a href="http://php.net/releases/5_4_0.php">http://php.net/releases/5_4_0.php</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
