@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-04-26T12:51:04-07:00</updated>
+  <updated>2015-04-26T12:52:22-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Python中处理域名的]]></title>
+    <title type="html"><![CDATA[Python中域名处理技巧]]></title>
     <link href="http://blog.ourren.com/2015/04/26/python-with-domain/"/>
     <updated>2015-04-26T12:05:01-07:00</updated>
     <id>http://blog.ourren.com/2015/04/26/python-with-domain</id>
