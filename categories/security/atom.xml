@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Ourren]]></title>
   <link href="http://blog.ourren.com/categories/security/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/"/>
-  <updated>2015-04-26T12:56:21-07:00</updated>
+  <updated>2015-04-27T22:46:17-07:00</updated>
   <id>http://blog.ourren.com/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -186,7 +186,7 @@ include($inc);
     <link href="http://blog.ourren.com/2013/11/07/wireless_security_wps/"/>
     <updated>2013-11-07T00:00:00-08:00</updated>
     <id>http://blog.ourren.com/2013/11/07/wireless_security_wps</id>
-    <content type="html"><![CDATA[<p><img class="aligncenter" alt="wireless_attch_wps" src="http://blog.ourren.com/blog/wireless_attach.jpg" width="500" height="302"></p>
+    <content type="html"><![CDATA[<p><img class="aligncenter" alt="wireless_attch_wps" src="http://ourren.b0.upaiyun.com/wireless_attach.jpg" width="500" height="302"></p>
 
 <p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
 

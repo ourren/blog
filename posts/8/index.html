@@ -155,7 +155,7 @@
   </header>
 
 
-  <div class="entry-content"><p><img alt="secwiki" src="http://blog.ourren.com/blog/secwiki.png" width="616" height="201"></p>
+  <div class="entry-content"><p><img alt="secwiki" src="http://ourren.b0.upaiyun.com/secwiki.png" width="616" height="201"></p>
 
 <p>0x1 理念</p>
 
@@ -323,17 +323,17 @@ Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。I
   <div class="entry-content"><p>      由于openshift可以使用git进行文件管理，其实这个过程跟管理github是一样的，不过国内针对openshift的文章很少。本文重点阐述如何在windows下进行文件管理。需要安装软件：TortoiseGit、msysgit、git。安装步骤就不说了，作为伟大的程序员不可能这点事都搞不定。
  1、生成key
       主要使用TortoiseGit中的Putty Key Generator工具生成private key和public key。  打开Putty Key Generator工具界面如下图所示，点击Generate后在上面空白处移动就生成字符了。
-      <img src="http://blog.ourren.com/blog/openshift_file_1.jpg" alt="openshift_file_putty" width="487" height="462">
+      <img src="http://ourren.b0.upaiyun.com/openshift_file_1.jpg" alt="openshift_file_putty" width="487" height="462">
       最好在生成的时候设置一个密码，然后保存private key和public key文件，注意保管好你的private key文件。
-        <img src="http://blog.ourren.com/blog/openshift_file_2.jpg" alt="openshift_putty_passwd" width="487" height="462">
+        <img src="http://ourren.b0.upaiyun.com/openshift_file_2.jpg" alt="openshift_putty_passwd" width="487" height="462">
  2、openshift创建项目
       总体来说，openshift可以通过两种方式进行创建项目，一个是通过安装openshift的客户端软件，命令行创建工程，另外一个方式进行通过网页进行创建项目。这里以网站创建项目为例。  登陆网站后，选择Create Application选项卡，然后选择程序类型，就可以直接创建，这里有一篇详细的文章可作为<a href="http://lx.shellcodes.org/show/4fe87fac04b91e741c000003">参考</a>。
 3、如何更新文件
       大体思路：在网站上提交第一步生成的public key后，本地使用git进行文件管理。
       首先登陆网站后选择My Account 中添加public key。
-       <img src="http://blog.ourren.com/blog/openshift_file_3.jpg" alt="openshift_public_key" width="482" height="256">
+       <img src="http://ourren.b0.upaiyun.com/openshift_file_3.jpg" alt="openshift_public_key" width="482" height="256">
       然后选择 My Applications 后，双击我们刚新建的应用，就可以看到GIT REPOSITORY的值。
-      <img src="http://blog.ourren.com/blog/openshift_file_4.jpg" alt="openshift_ssh" width="564" height="151">
+      <img src="http://ourren.b0.upaiyun.com/openshift_file_4.jpg" alt="openshift_ssh" width="564" height="151">
       在本地网站开发文件夹右键git clone，填入刚刚复制的GIT REPOSITORY的值，然后选择private key为第一步保存的文件，大功告成。</p>
 </div>
   
@@ -366,15 +366,13 @@ Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。I
   </header>
 
 
-  <div class="entry-content"><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>      软件介绍：EyeFoo3是一个可以定时提醒休息,保护眼睛的护眼软件、健康软件。本人一直在使用，但是在主界面和提醒该休息对话框有AD链接，看着实在不爽。So，直接去掉这广告。最初版本的时候可以通过修改AD网址去掉，翻了下地址在<a href="http://www.ourren.com/blog/eye-nurse-eyefoo-to-ad.html">这</a>；
-      补丁如下图，放在安装目录运行即可。
-<img src="http://blog.ourren.com/blog/eyefoo_no_ad.jpg" alt="eyefoo no ad patch" width="328" height="302">
+  <div class="entry-content"><p>软件介绍：EyeFoo3是一个可以定时提醒休息,保护眼睛的护眼软件、健康软件。本人一直在使用，但是在主界面和提醒该休息对话框有AD链接，看着实在不爽。So，直接去掉这广告。最初版本的时候可以通过修改AD网址去掉，翻了下地址在<a href="http://www.ourren.com/blog/eye-nurse-eyefoo-to-ad.html">这</a>；
+ 
+补丁如下图，放在安装目录运行即可。
+<img src="http://ourren.b0.upaiyun.com/eyefoo_no_ad.jpg" alt="eyefoo no ad patch" width="328" height="302">
 清除广告后的界面（刚基于gae搭建了图床，多贴几张^__^）。
-<img src="http://blog.ourren.com/blog/eyefoo_main.jpg" alt="eyefoo main" width="574" height="477">
-<img src="http://blog.ourren.com/blog/eyefoo_remind.jpg" alt="eyefoo remind" width="240" height="113">
+<img src="http://ourren.b0.upaiyun.com/eyefoo_main.jpg" alt="eyefoo main" width="574" height="477">
+<img src="http://ourren.b0.upaiyun.com/eyefoo_remind.jpg" alt="eyefoo remind" width="240" height="113">
 补丁下载地址：<a href="http://dl.dbank.com/c02gtqta1t">下载</a></p>
 </div>
   
@@ -413,7 +411,7 @@ Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。I
 
 <p>测试效果如图：</p>
 
-<p><a href="http://blog.ourren.com/blog/simplescan.jpg"><img class="aligncenter" title="simplescan" src="http://blog.ourren.com/blog/simplescan.jpg" alt="" width="1024" height="450"></a></p>
+<p><a href="http://ourren.b0.upaiyun.com/simplescan.jpg"><img class="aligncenter" title="simplescan" src="http://ourren.b0.upaiyun.com/simplescan.jpg" alt="" width="1024" height="450"></a></p>
 
 <p> </p>
 
