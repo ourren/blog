@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="前沿 接触YII开发已经有一些日子了，虽然YII把MVC的思想在PHP语言上发挥得淋漓尽致，但是在实际的YII开发中稍不注意还是会引起很多安全问题，本文主要对YII开发中需要注意的安全问题进行总结，方便后来开发者对此引起重视。 1.越权攻击 越权攻击可能跟MVC架构相关， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/posts/5/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/03/15/yii_security_problems/">YII开发需要注意的安全问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-15T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/03/15/yii_security_problems/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3><img class="aligncenter" alt="yii_security" src="http://ourren.b0.upaiyun.com/yii_security.jpg" width="585" height="314"></h3>
+
+
+<h3 id="_1">前沿</h3>
+
+
+<p>接触YII开发已经有一些日子了，虽然YII把MVC的思想在PHP语言上发挥得淋漓尽致，但是在实际的YII开发中稍不注意还是会引起很多安全问题，本文主要对YII开发中需要注意的安全问题进行总结，方便后来开发者对此引起重视。</p>
+
+<h3 id="1">1.越权攻击</h3>
+
+
+<p>越权攻击可能跟MVC架构相关，YII虽然提供了基于RBAC的接口，同时auth插件将RBAC理念直接图形化操作，但是在实际的编程中使用基于RBAC认证的应用可能不是很多，因此直接采用系统默认的accessControl可能就会存在一些问题，例如在修改和删除操作的时候，如果采用系统默认的判定是无法实现业余系统的功能的，因为在更新或者删除的时候需要对所有权进行判定（即：该条数据是否属于当前用户），一般可以采用如下的规则进行判定：</p>
+
+<pre><code>$currentid = Yii::app()->user->getId();
+if($model->uid === $currentid)
+{
+    //do something after auth
+} 
+else
+{
+    throw new CHttpException(400,'not allow');
+}
+</code></pre>
+
+
+<h3 id="2">2.注入攻击</h3>
+
+
+<p>目前框架类语言在防止注入攻击方面做得还是不错的，一般主要按照框架提供数据库类进行操纵即可，YII框架在数据方面的操作也不例外，在插入、更新、删除、查询方面YII封装了很多类和函数，操作数据库的时候建议直接采用这些函数即可，不要用拼接字符串进行操作，例如，查询是经常遇到的操作，一般都是采用CDbCriteria类添加条件并查询：</p>
+
+<pre><code>//compare createtime
+$criteria = new CDbCriteria;
+$criteria->addCondition('createtime>:btime');
+$criteria->params[':btime'] = $btime;
+
+$criteria->addCondition('createtime<:etime');
+$criteria->params[':etime'] = $etime;
+$criteria->order = 'id desc';
+$retarr = XXX::model()->findAll($criteria);
+</code></pre>
+
+
+<h3 id="3">3.跨站请求伪造攻击</h3>
+
+
+<p>针对跨站请求伪造攻击CSRF攻击，YII直接提供了配置中全局进行CSRF防御，具体操作是在config/main.php中设置：</p>
+
+<pre><code>'components'=>array(
+    'request'=>array(
+        'enableCsrfValidation'=>true,
+    ),
+),
+</code></pre>
+
+
+<h3 id="4">4.跨站攻击防御</h3>
+
+
+<p>跨站攻击主要针对客户端浏览器这块，YII在跨站方面方面主要有以下几种处理办法。</p>
+
+<ul>
+    <li>httponly</li>
+</ul>
+
+
+<p>XSS跨站攻击主要针对盗取cookie或者通过XSS进行CSRF或者钓鱼攻击，先通过设置httponly可以在一定程度上降低XSS攻击，具体设置办法在config/main.php中设置：</p>
+
+<pre><code>//csrf cookie httponly
+'request'=>array(
+    'enableCsrfValidation' => true,
+    'enableCookieValidation'=>true,
+    'csrfCookie'=>array(
+            'httpOnly'=>true,
+    ),
+),
+//session httonly
+'session' => array(
+        'cookieParams' => array(
+                'httponly' => true,
+        ),
+),
+</code></pre>
+
+
+<ul>
+    <li>编码/转义</li>
+</ul>
+
+
+<p>针对用户需要在特定情况下输入数据，而这些数据是用户可以通过输入可以控制的数据。这时需要对该类数据进行编码处理，否则容易引起跨站攻击，一般主要有两种处理方法： 1.针对简单的文本处理 可以直接采用CHtml类的encode函数进行处理，该函数采用HTML编码方法对数据进行编码(即会对&#8221;&lt;&ldquo;,&rdquo;>&ldquo;,&lsquo;&rdquo;&rsquo;,&ldquo;&amp;&rdquo;,&ldquo; &rdquo;. etc).</p>
+
+<pre><code>CHtml::encode($var);
+</code></pre>
+
+
+<p>2.针对富文本处理 在富文本情况下，处理相对比较复杂，主要可以通过YII提供的widget进行处理，实际处理代码如下：</p>
+
+<pre><code><?php 
+    $this->beginWidget('CHtmlPurifier');
+    echo $model->something; 
+    $this->endWidget();
+ ?>
+</code></pre>
+
+
+<blockquote>需要注意的问题，需要php开启：php-dom 或者php-xml。例如centos可以运行如下命令：</blockquote>
+
+
+<pre><code>yum install php-dom
+</code></pre>
+
+
+<h3 id="reference">Reference</h3>
+
+
+<ul>
+    <li><a href="http://www.yiiframework.com/doc/guide/1.1/zh_cn/topics.security">安全措施 (Security)</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/02/08/yii_bootstrap/">基于Bootstrap的YII插件汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-02-08T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/02/08/yii_bootstrap/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="yii_bootstrap" src="http://ourren.b0.upaiyun.com/yii_boostrap.jpg" width="603" height="197"></p>
+
+<p>YII作为当前流行的PHP框架，可以快速地开发网站和应用；而bootstrap作为twitter开源的响应式布局解决方案，可以在不了解CSS和JavaScript脚本的基础上实现网页的布局和网站设计。YII+Bootstrap两者结合起来可以说是加速了网站开发进度，让开发人员只需关注网站的功能。</p>
+
+<p>从<a href="http://www.yiiframework.com/extensions/" target="_blank">yiiframework</a>官方网站可以看到很多YII插件，当前少不了基于bootstrap的插件，个人从开始接触yii和bootstrap也差不多一年多了，在这里推荐下几个常用的基于bootstrap的yii插件。</p>
+
+<p><strong>     <a href="http://www.cniska.net/yii-bootstrap/" target="_blank">yii-bootstrap</a></strong></p>
+
+<p>该插件出现时间最早，同时该作者还写了很多yii插件，比如强大的auth插件。yii-bootstrap插件将常用的bootstrap的布局进行了封装，将所有可能单独使用的元素写成了widgets小工具，开发人员只需要使用PHP语言即可写出比较完美的网站。</p>
+
+<p><strong>      <a href="http://yii-booster.clevertech.biz/" target="_blank">yiibooster</a></strong></p>
+
+<p>yiibooster在yii-bootstrap的基础上进行了二次开发，集成了更多的开源库，例如：jQuery、Highcharts JS等。</p>
+
+<p><strong>      <a href="http://www.getyiistrap.com/" target="_blank">yiistrap</a></strong></p>
+
+<p>yiistrap是最新的开源项目，跟前面两个开源库的使用有所不同，扩充性和易用性更好。</p>
+
+<p>这几个开源库的配置相对比较简单，对应的网站都有相应的入门教程。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/11/07/wireless_security_wps/">无线安全之WPS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-07T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/11/07/wireless_security_wps/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="wireless_attch_wps" src="http://ourren.b0.upaiyun.com/wireless_attach.jpg" width="500" height="302"></p>
+
+<p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
+
+<p>具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。前面暴力破解时间稍微比较长，后面这个过程可以说是秒杀。</p>
+
+<h3>配置</h3>
+
+
+<p>基本配置就如下所示，出了笔记本电脑外其它就价格也就RMB120块左右。</p>
+
+<p><em>8187 芯片主板</em>
+<em>14DB平板天线</em>
+<em>3米 USB2.0延长线</em>
+<em>安装Linux 系统的笔记本</em></p>
+
+<p>话说14DB的平板天线看起来还是很霸气的，关于事事如意18DB天线也测试了下效果差不多，不知道是不是楼层的问题。</p>
+
+<h3>准备工作</h3>
+
+
+<p>安装驱动和工具(aircrack-ng和reaver)，Ubuntu可以直接APT，其它系统可以需要下载源码安装，不过都很简单。</p>
+
+<p><em>sudo apt-get install aircrack-ng </em>
+<em>sudo apt-get install reaver</em></p>
+
+<h3>破解过程</h3>
+
+
+<p>1、开启网卡的监控模式</p>
+
+<p>sudo airmon-ng start wlan0</p>
+
+<p>2、扫描附近的无线信号</p>
+
+<p>sudo airodump-ng mon0</p>
+
+<p>在这个过程中你会看到很多无线信号，主要观察几个参数 ：PWR(信号强度，越小越好)，MB(需要为54e.)。</p>
+
+<p>BSSID      PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
+68:53:21:E3:30:BE  -1 0 0 0 143 -1 &lt;length: 0>
+BC:D1:77:25:76:84 -47 50 2 0 1 54e WPA2 CCMP PSK fire
+C8:3A:35:55:42:E8 -44 35 0 0 8 54e WPA CCMP PSK Tenda_5542E8
+1C:FA:68:1C:7D:D6 -56 30 0 0 6 54e. WPA2 CCMP PSK hool
+A8:15:4D:83:6A:24 -51 29 5 0 11 54e. WPA2 CCMP PSK show
+F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
+
+<p>这里特别强调下Tenda路由器可以秒杀，其路由器的MAC前面地址为： C8:3A:35，后面6为是pin的前8位的十六进制。因此只需要复制MAC地址的后6位，然后转为十进制，就可以得到PIN码的前面的数字了。</p>
+
+<p>3、破解PIN码</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 1</p>
+
+<p>知道PIN前面的数字的时候可以用下面这个命令：</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 6 -p 40000</p>
+
+<p>-b 后面跟MAC地址</p>
+
+<p>-c 频道，从扫描结果看</p>
+
+<p>然后就开始破解了，等4个小时左右基本上可以搞定。</p>
+
+<p>附上reaver调整参数的一些小技巧</p>
+
+<p>reaver:</p>
+
+<p>-i 监听后接口名称</p>
+
+<p>-b 目标mac地址</p>
+
+<p>-a 自动检测目标AP最佳配置</p>
+
+<p>-S 使用最小的DH key（可以提高PJ速度）</p>
+
+<p>-vv 显示更多的非严重警告</p>
+
+<p>-d 即delay每穷举一次的闲置时间 预设为1秒</p>
+
+<p>-t 即timeout每次穷举等待反馈的最长时间</p>
+
+<p>-c 指定频道可以方便找到信号</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/08/22/weka_data/">从weka软件所理解的几个概念</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-08-22T00:00:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/08/22/weka_data/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3><img class="aligncenter" alt="weka_data" src="http://ourren.b0.upaiyun.com/data_weka.jpg" width="500" height="314"></h3>
+
+
+<h3>前言</h3>
+
+
+<p>原来经常在别人博客、书或者论文中上看到weka这个数据挖掘工具，经常被用于试验数据测试、真实数据分析等。今天无意中翻阅到IBM技术博客中对weka有一个系统教程：“用weka进行数据挖掘”，教程分为1、2、3三部分（链接见参考文章1，非常不错，推荐大家阅读），看完文章后对数据挖掘几种常见的技术有了一定的了解，现谈谈个人的理解。</p>
+
+<p>在实际的数据挖掘与其他计算机工程应用中经常会遇到：如何通过已知的数据或者条件来预测未知事物的属性或者用户的喜好等。例如，在分析恶意程序或者文档中经常提到的贝叶斯分类算法；著名的亚马逊在你购买某种商品时给你显示的“你可能感兴趣的”；《大数据时代》书中提到的基于以往的航班信息推断航班是否晚点或者飞机票价格等，这些都是利用数据挖掘的相关技术来实现的，可能我们现在可以做的跟实际的工程应用相差很远，但是通过学习至少可以对这些技术有所了解。</p>
+
+<h3 id="weka">Weka是什么</h3>
+
+
+<p>谈了这么久，还没有说到Weka是什么。weka可以看作是一个数据挖掘的工具，可以对格式化的数据进行分析并给出分析结果或者构建一个模型，我们可以从这些分析结果发现某些特征或者可以利用这个模型来分析其它同类数据。IBM系统文章中主要介绍了weka的四类数据挖掘技术：回归、分类树/决策树、群集、最近邻。这四类技术基本上囊括了数据挖掘的核心思路，通常我们在文章或者论文中看到贝叶斯、SVM等各类算法在weka中都有集成，同时weka还提供开发接口，可以直接将这些算法快速集成到自己的项目或者程序中。</p>
+
+<h3 id="-2">四类技术</h3>
+
+
+<p>这里主要是对回归、分类、群集和最近邻这四类技术做一个概念阐述，具体如何操作可以参照IBM系列教程一步一步做，相信通过教程中的试验可以对weka和数据挖掘技术有一个简单的认识。</p>
+
+<h4 id="-3">回归技术</h4>
+
+
+<p>回归技术，用来基于其他的示例数据预测一个数值输出。在IBM系列教程1中，主要用一个房子定价来阐述该类技术的用途，简单地说就是通过对周围出售房子的配置和价格进行统计，然后推算附件地区特定配置房子的房价。</p>
+
+<p>例：房子定价。房子的价格（因变量）是很多自变量 — 房子的面积、占地的大小、厨房是否有花岗石以及卫生间是否刚重装过等的结果。所以，不管是购买过一个房子还是销售过一个房子，您都可能会创建一个回归模型来为房子定价。这个模型建立在邻近地区内的其他有可比性的房子的售价的基础上（模型），然后再把您自己房子的值放入此模型来产生一个预期价格。</p>
+
+<h4 id="-4">分类技术</h4>
+
+
+<p>分类技术，即分类树或决策树，用来创建一个实际的分支树来预测某个未知数据点的输出值。在IBM系列教程2中，主要是预测的是对BMW促销活动的反应。</p>
+
+<p>例：促销活动。BMW经销店正在启动一个推销计划，试图向其老客户推销两年延保。通过对原来顾客的数据分析来构建模型，从而判定一个人是否有延保需求，要求模型的准确率要尽可能高。此时可以通过对原来购买车主的收入水平、第一辆BMW购买的年/月、最近的BMW购买的年/月、是否过去曾响应过延保计划这个参数来作为实验数据，然后通过特定算法来构建模型，最近通过剩余部分数据来判定模型的准确性。</p>
+
+<h4 id="-5">群集技术</h4>
+
+
+<p>群集技术，可用它来创建数据组（群集）并从中识别出趋势和其他规则。在IBM系列教程2中，主要是通过对人们的行为来区分是否有购买汽车的需求等。</p>
+
+<p>例：行为特征研究。BMW 经销店保留了人们如何在经销店以及展厅行走、他们看了哪些车以及他们最终购车的机率的记录。经销店期望通过寻找数据内的模式挖掘这些数据并使用群集来判断其客户是否有某种行为特点。</p>
+
+<h4 id="-6">最近邻</h4>
+
+
+<p>最近邻技术。这种算法非常适合于寻找接近于一个未知数据点的那些数据点并使用来自这些值的已知输出来预测未知输出。我向您展示了这种数据挖掘为何对在线购物网站上的推荐产品功能非常理想。通过一些数据挖掘，像亚马逊这样的站点可以快速（对于这类站点是最起码的，因为有数千台计算机）告诉您与您类似的其他顾客购买的东西。</p>
+
+<h4 id="-7">核心思想</h4>
+
+
+<p>数据挖掘最为重要的一点：正确的模型必须用于正确的数据。只有在了解常见的数据挖掘技术后才能在实际应用中快速选择最适合的技术和算法。 PS:weka里面算法很多，得找点文章研究下如何在weka中使用常见的算法才行。</p>
+
+<h3 id="-8">参考文章</h3>
+
+
+<p>1、<a href="http://www.ibm.com/developerworks/cn/opensource/os-weka1/">用weka进行数据挖掘</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/07/29/yii-note/">关于YII的一些技术笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-07-29T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/07/29/yii-note/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="YII" src="http://ourren.b0.upaiyun.com/yii.png" width="284" height="64"></p>
+
+<p>记录一次关于YII编程的相关技术笔记。</p>
+
+<h4>传值问题</h4>
+
+
+<p>如何通过控制器向视图传值：</p>
+
+<p>控制器中：</p>
+
+<pre><code>$theTime=date("D M j G:i:s T Y");
+$this->render('helloWorld',array('time'=>$theTime));
+</code></pre>
+
+
+<p>视图中：</p>
+
+<pre><code><h3><?php echo $time; ?></h3>
+
+YII默认控制器
+
+配置文件 application/config/main.php修改，指定 defaultController即可， 如 'defaultController' => 'home',
+</code></pre>
+
+
+<h4 id="-2">输入前判定</h4>
+
+
+<p>有时候需要在操作某些工作前判定另外的模型是否存在，需要采用filters函数来实现：</p>
+
+<pre><code>public function filters()
+    {
+        return array(
+            'accessControl', //perform access control for CRUD operations
+            'projectContext + create', //check to ensure valid project context
+                                       // + 表示只在某些操作上判定，-表示除了该操作其他都判定
+            );
+    }
+</code></pre>
+
+
+<h4 id="-3">常用函数</h4>
+
+
+<p>CHtml::link()</p>
+
+<pre><code> CHtml::link("Hello",array('message/helloWorld'));
+ array('label'=>'Create Issue', 'url'=>array('create', 'pid'=>1)),//另外一种链接方式
+</code></pre>
+
+
+<p>updateByPk()：直接更新某个字段的值（name=>value 键值对） User::model()->updateByPk($this-><em>identity->id, array(&lsquo;last</em>login_time&rsquo; => new CDbExpression(&lsquo;NOW()&rsquo;)));</p>
+
+<h4 id="-4">唯一性</h4>
+
+
+<p>有时候需要判定用户名和邮箱唯一，需要在rules()中添加如下代码：</p>
+
+<pre><code>array('username,email', 'unique');</code></pre>
+
+
+<h4 id="-5">安全性</h4>
+
+
+<pre><code>CDbCriteria 操作数据库的时候需要使用params方式，否则也存在注入等问题。
+
+    $scriteria = new CDbCriteria;
+    $scriteria->condition='tags=:tags';
+    $scriteria->params=array(':tags'=>$news->tags);</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/18/alibaba_myth_note/">阿里巴巴神话笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-06-18T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/06/18/alibaba_myth_note/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="alibaba_mayun" src="http://ourren.b0.upaiyun.com/alibaba_mayun.jpg" width="450" height="200"></p>
+
+<p>本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触：</p>
+
+<p><strong><em>机遇的重要性</em></strong></p>
+
+<p>马云为什么可以创立阿里巴巴，主要还是归咎去机遇问题，但不可否认马云的个人能力和具有先见的洞察力。同时阿里巴巴现在为什么这么牛逼，其业务的发展也是随着互联网的发展和需求而不断完善的。从最初的黄页到淘宝、支付宝的推出，这些都是实例的体现，当然这些也离不开竞争对手的相互追赶，想想易趣的发展壮大对阿里巴巴的威胁到易趣的逐渐衰落，没有竞争对手你会发展得很缓慢。</p>
+
+<p><strong><em>团队的重要性</em></strong></p>
+
+<p>阿里巴巴创始团队的湖畔生活跟《DOOM启示录》书里面的描述的湖畔生活相似：生活相当窘迫，一堆怀有梦想且有激情的年轻人不辞辛苦天天加班，忘记生活的烦恼和生活的琐事，追求的是创造世界上牛逼的产品。如果说有这么一个优秀的团队，我想还有什么可以阻止公司前进的步伐，除了公司开始的方向错了。相信任何一个创业团队都会经历这个阶段。</p>
+
+<p>与其说是创始团队人员的不弃不离，不如说是团队队员的不懈努力，不管是升职还是调遣，队员完全服从领导的安排，考虑的都是如何把未来的业绩做好。书中描述的确实可以有点偏理想化，但是从阿里的“独孤九剑”到“六脉神剑”还是体现了阿里人的价值与追求。</p>
+
+<p><strong><em>现实很骨感</em></strong></p>
+
+<p>不管是马云早期的全球战略还是后来的雅虎搜索对战百度和谷歌，可以总结为“理想很丰满，现实很骨感”。为什么早期的阿里巴巴想要走向世界，可能这里面还是跟那时的马云有很大的关系，技术能力的欠缺、各地实际情况的不同、资金的不充裕等问题当时都是很好的考虑，可以说当时的马云还是有一定的傲气；而后期雅虎搜索问题则是明显能力不足，同时选择方向不对而走向失败。</p>
+
+<p><strong><em>早做准备</em></strong></p>
+
+<p>正所谓“吃在碗里，得想到锅里”。虽然互联网发展迅速，但是每隔几年的冬天来临之际你是否做好了准备。阿里巴巴为什么能度过2次互联网危机，主要还是取决去马云的前瞻性、孙正义等风投的及时帮助、关明生的快刀斩乱麻等。这其中主要还有阿里巴巴高层的架构问题，“马云说了算”这个很重要。</p>
+
+<p><strong><em>阿里很伟大</em></strong></p>
+
+<p>不管是阿里巴巴提倡的价值观，还有其创业团队的事迹与创始人员的个人发展历程。解决了天下没有难做的生意，创造了多少人的创业梦。不可否认马云真的是互联网的教父，不管是他的演讲能力，还是他的前瞻性与价值观。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/6">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/4">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

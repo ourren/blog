@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Highcharts使用入门与技巧 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="Highcharts作为最牛逼的前端图形库当之不愧，不仅使用简单并且非盈利项目可以免费使用，复制粘贴几下就可以生成绚丽的图表，方便各位给Leader或者外行人员装逼专用。虽然说目前百度的Echarts也非常火爆，荣获github上国内加星最多的项目，但是个人始终觉得还是Highcharts更胜一筹 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2015/03/23/highchart-note-with-php/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Highcharts使用入门与技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.highcharts.com/">Highcharts</a>作为最牛逼的前端图形库当之不愧，不仅使用简单并且非盈利项目可以免费使用，复制粘贴几下就可以生成绚丽的图表，方便各位给Leader或者外行人员装逼专用。虽然说目前百度的<a href="http://echarts.baidu.com">Echarts</a>也非常火爆，荣获github上国内加星最多的项目，但是个人始终觉得还是Highcharts更胜一筹，不过在大数据特征展示上面我还是推荐Echarts。</p>
+
+<p>个人接触Highcharts已经有好几年了，但是从来都没怎么深入研究过，不过话又说回来，Highcharts这种傻瓜式的前端库也没有高深的使用技巧，但是对于不熟悉的新手可以从如下的总结中进步提升。</p>
+
+<!--more-->
+
+
+<h3>初级配置</h3>
+
+<p>初级配置就是把Highcharts给跑起来，复制几段代码就ok：</p>
+
+<ul>
+<li>HTML页面中包含<a href="http://www.highcharts.com/lib/jquery-1.7.2.js">jquery.js</a>, <a href="http://code.highcharts.com/highcharts.js">highcharts.js</a>, <a href="http://code.highcharts.com/modules/exporting.js">exporting.js</a>；</li>
+<li>打开<a href="http://www.highcharts.com/demo/">highcharts demo</a>中的任意样式，然后选择「view options」就可以看到此demo的实现代码，复制到你的HTML页面中；</li>
+<li>在HTML页面中新建一个div层，id为「container」；</li>
+<li>刷新浏览器看效果。</li>
+</ul>
+
+
+<p>以上就是初级配置的详细过程；</p>
+
+<h3>主题修改</h3>
+
+<p>在demo页面中其实有很多的主题样式「dark, gray, sand等」，使用的时候也很简单:</p>
+
+<ul>
+<li>下载<a href="https://github.com/highslide-software/highcharts.com/tree/master/js/themes">主题文件</a>中对应颜色的js文件到你本地;</li>
+<li>在你的HTML页面中包含对应的JS文件；</li>
+<li>完工</li>
+</ul>
+
+
+<h3>线条修改</h3>
+
+<p>颜色修改</p>
+
+<p>在具体的项目中，当你需要修改线条的颜色时，你可以通过在demo 实例代码中添加如下代码：</p>
+
+<pre><code>series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+        color: 'blue'
+    }]
+</code></pre>
+
+<p>即在数据的下面添加了color属性，color的值可以取颜色对应的英文名字，例如「red, purple, green」等;</p>
+
+<p>线条形状</p>
+
+<p>可能你需要在一幅图形中显示相同颜色的两条曲线，这样你可以通过显示虚线或者实线来实现，显示代码如下：</p>
+
+<pre><code>series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+        dashStyle: 'dash',
+        color: 'blue'
+    }]
+</code></pre>
+
+<p>添加dashStyle属性即可修改线条的形状</p>
+
+<h3>PHP代码结合</h3>
+
+<p>很多时候，highcharts需要的数据其实是由后端脚本生成的，比如PHP，这里可以通过PHP的json_encode实现快速赋值,当然输入是一个数组；</p>
+
+<pre><code>series: [{
+        name: 'original',
+        data: &lt;?php echo json_encode(getData('PV'));?&gt;,
+        dashStyle: 'dash',
+        color: 'orange',
+    }]
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/technology/'>technology</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/03/16/phar_include_exploit/" title="Previous Post: phar突破文件包含">&laquo; phar突破文件包含</a>
+      
+      
+        <a class="basic-alignment right" href="/2015/03/27/diagnosing-network-issue-with-mtr/" title="Next Post: 利用MTR分析网络状况">利用MTR分析网络状况 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Highcharts使用入门与技巧"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

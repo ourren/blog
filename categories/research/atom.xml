@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Research | Ourren]]></title>
+  <link href="http://blog.ourren.com/blog/categories/research/atom.xml" rel="self"/>
+  <link href="http://blog.ourren.com/blog/"/>
+  <updated>2015-05-02T22:42:12-07:00</updated>
+  <id>http://blog.ourren.com/blog/</id>
+  <author>
+    <name><![CDATA[ourren]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX写作技巧总结]]></title>
+    <link href="http://blog.ourren.com/blog/2015/04/17/latex-skils-summary/"/>
+    <updated>2015-04-17T21:28:38-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/04/17/latex-skils-summary</id>
+    <content type="html"><![CDATA[<p>最近开始利用LaTeX写作复杂的文档，心情那个叫个爽呀，一点感觉不到排版的烦恼了。什么Word分页与分节？什么页眉与页脚？统统没有这种烦恼。这种写作乐趣就是让你只关注写作内容，爽歪歪地写下去，其实跟Markdown写博客，Git管理代码差不多的心情。其实这种烦恼只是转移到制作模板的人身上了，但是LaTeX实在是提供了太多的模板，so,尽管写吧。</p>
+
+<p>写作环境推荐：</p>
+
+<ul>
+<li><a href="http://texstudio.sourceforge.net/">TeXstudio</a> 免费软件做得非常好用，并且跨平台，更新及时，实时编译为PDF，英文单词自动纠正，其它特性就不说了，就这几个特性就可以秒杀很多同类软件；</li>
+<li><a href="http://www.tablesgenerator.com/latex_tables">tablesgenerator</a> 在线LaTex表格生成工具，谁用谁知道；</li>
+<li><a href="http://www.codecogs.com/latex/eqneditor.php">latex eqneditor</a> 在线LaTex公式生成工具；</li>
+<li>Excel 这个大家都懂的吧，画图好使；</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>下面给一些常用的LaTex实例代码：</p>
+
+<h4>插入图片</h4>
+
+<p>需要在顶部引入如下包，其中graphicspath中是设置图片的存放根目录，一般常常新建一个目录来存放图片。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+</code></pre>
+
+<p>在插入图片的时候使用如下代码，其中：</p>
+
+<pre><code>\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{picture_name}
+    \caption{describe of this image\label{fig:image}}
+\end{figure}
+</code></pre>
+
+<ul>
+<li>width 表示这个图片占的宽度；</li>
+<li>picture_name 表示文件名；</li>
+<li>lable 正文中引用使用，格式s~\ref{fig:image}；</li>
+</ul>
+
+
+<h4>插入表格</h4>
+
+<p>表格直接使用在线工具生成，一般也会新建一个文件夹例如table来存放表格，每个表格单独保存为xxx.tex文件，然后使用如下代码引入表格：</p>
+
+<pre><code>\input{tables/xx.tex}
+</code></pre>
+
+<h4>双栏并排</h4>
+
+<p>这里的双栏并排主要是指表格或者图片双栏显示，比如需要讲两个图显示在一行，可以先引入如下包，然后使用下面的代码就可以将两个表格并排。其实还是通过textwidth的属性值来控制宽度的。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{subfigure}
+
+\makeatletter\def\@captype{figure}\makeatother
+\begin{table*}
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/a.tex}
+        \caption{describe a table}
+        \label{table:a}
+    \end{minipage}
+    \makeatletter\def\@captype{table}\makeatother
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/b.tex}
+        \caption{describe b table}
+        \label{table:b}
+    \end{minipage}
+\end{table*}
+</code></pre>
+
+<h4>插入算法</h4>
+
+<p>插入伪代码的生活需要先包含如下包：</p>
+
+<pre><code>\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+</code></pre>
+
+<p>伪代码的具体写法如下, 更多详细的语法可以参照这里 <a href="http://www.ctex.org/documents/packages/verbatim/algorithms.pdf">LaTex algorithms</a>:</p>
+
+<pre><code>\begin{algorithm}[!htb]
+\caption{describe algorithm.}
+\label{alg:new}
+\begin{algorithmic}[1]
+    \Require
+    input, $D$;
+    input varible;
+    \Ensure
+    \For{each virable in D$}
+    \EndFor
+    \State xxxx
+    \EndFor
+    \label{code:recentEnd}
+\end{algorithmic}
+\end{algorithm}
+</code></pre>
+
+<h4>列表描述</h4>
+
+<p>在有些时候需要列出个1，2，3的列表，具体格式就很简单了，主要有itemize和enumerate两种，前者是列表前面是符号，而后者就是(1),(2)这种。</p>
+
+<pre><code>\begin{itemize}
+    \item one
+    \item two
+    \item three 
+\end{itemize}
+
+\begin{enumerate}
+    \item one
+    \item two
+    \item three 
+\end{enumerate}
+</code></pre>
+
+<h4>参考文献</h4>
+
+<p>一般是新建一个biblio.bib来专门存放参考文件，然后利用如下代码引入：</p>
+
+<pre><code>\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+</code></pre>
+
+<p>同时一个项目的文献这些可以使用 <a href="https://www.zotero.org/">zoteo</a> 或者 <a href="https://www.mendeley.com/">mendeley</a>来管理并导出。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag/"/>
+    <updated>2015-03-12T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag</id>
+    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+
+<h3>词干提取</h3>
+
+<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+<!--more-->
+
+
+<p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
+
+<pre><code>#! /usr/bin/env python
+/# encoding: utf-8
+
+"""
+Copyright (c) 2014-2015 ourren
+author: ourren &lt;i@ourren.com&gt;
+"""
+import nltk
+
+def main():
+    print 'enter main...'
+    sentence = "Listen, strange women lying in ponds \
+    distributing swords. Supreme executive power derives \
+    from a mandate from the masses, not from some farcical aquatic ceremony"
+    sentences = nltk.sent_tokenize(sentence)
+    sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    for sent in sentences:
+        # Porter
+        porter = nltk.PorterStemmer()
+        words = [porter.stem(word) for word in sent]
+        print words
+
+        # Lancaster
+        lancaster = nltk.LancasterStemmer()
+        lwords = [lancaster.stem(t) for t in sent]
+        print lwords
+
+        # WordNet
+        wnl = nltk.WordNetLemmatizer()
+        wwrods = [wnl.lemmatize(t) for t in sent]
+        print wwrods
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+<h3>词性标注</h3>
+
+<p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
+
+<p>nltk中将词汇按它们的词性(parts-of-speec h,POS)分类以及相应的标注它们的过程被称为词性标注(part-of-speech tagging, POS tagging)或干脆简称标注。其中标注结果中缩写词所代表的词性如下：</p>
+
+<pre><code>ADJ     adjective   new, good, high, special, big, local
+ADV     adverb  really, already, still, early, now
+CNJ     conjunction and, or, but, if, while, although
+DET     determiner  the, a, some, most, every, no
+EX      existential there, there’s
+FW      foreign word    dolce, ersatz, esprit, quo, maitre
+MOD     modal verb  will, can, would, may, must, should
+N       noun    year, home, costs, time, education
+NP      proper noun Alison, Africa, April, Washington
+NUM     number  twenty-four, fourth, 1991, 14:24
+PRO     pronoun he, their, her, its, my, I, us
+P       preposition on, of, at, with, by, into, under
+TO      the word to to
+UH      interjection    ah, bang, ha, whee, hmpf, oops
+V       verb    is, has, get, do, make, see, run
+VD      past tense  said, took, told, made, asked
+VG      present participle  making, going, playing, working
+VN      past participle given, taken, begun, sung
+WH      wh determiner   who, which, when, what, where, how
+</code></pre>
+
+<p>下面看具体例如：</p>
+
+<pre><code>def sentence_pos(sentences):
+    for sent in sentences:
+        words = nltk.pos_tag(sent)
+        print words
+</code></pre>
+
+<p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence/"/>
+    <updated>2015-02-21T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence</id>
+    <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
+
+<h4>分句</h4>
+
+<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
++ 中文主要有(。？！)这几个句子结尾标志；
++ 英文也差不多(. ? !)；
+使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
+
+<!--more-->
+
+
+<pre><code>def sentence_split(str_centence):
+    list_ret = list()
+    for s_str in str_centence.split('.'):
+        if '?' in s_str:
+            list_ret.extend(s_str.split('?'))
+        elif '!' in s_str:
+            list_ret.extend(s_str.split('!'))
+        else:
+            list_ret.append(s_str)
+    return list_ret
+</code></pre>
+
+<h4>分词</h4>
+
+<p>分词在NLP处理中运用得最多，但是目前针对英文分词基本上已经成熟，而针对中文的分词技术还在不断发展，对于pythoner而言，主要可以采取如下的分词方法对句子或者段落进行分词：</p>
+
+<ul>
+<li>中文：采用<a href="https://github.com/fxsjy/jieba">jieba</a>进行分词，然后再可以通过NLTK进行词频统计分析，整体而言jieba对中文分词还是可以接受；</li>
+<li>英文：可以直接使用NLTK中nltk.tokenize模块进行分词；</li>
+</ul>
+
+
+<p>中文的分词实例可以参照这篇文章<a href="http://blog.ourren.com/?p=89252">中文分词与词频统计实例</a>,英文的分词示例如下：</p>
+
+<pre><code>import nltk
+
+def main():
+    sentence = """At eight o'clock on Thursday morning Arthur didn't feel very good."""
+    tokens = nltk.word_tokenize(sentence)
+    print tokens
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+<h4>特殊字符</h4>
+
+<p>在处理分词或者分句中经常会除去一些特殊符号或者特殊单词，一般可能会用到的python函数：</p>
+
+<ul>
+<li>startswith</li>
+<li>endswith</li>
+<li>contains</li>
+<li>replace</li>
+<li>split</li>
+<li>len</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install/"/>
+    <updated>2015-02-05T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install</id>
+    <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
+
+<p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
+
+<p>NLP是指自然语言处理，英文(Natural Language Processing)，该技术主要解决计算机自动识别和处理人类语言，如何让计算机能够理解我们的语言，从而减少人类的工作量。个人认为其应用场景有如下几点：</p>
+
+<ol>
+<li>个性推荐，需要计算两类物品的相识度和相关度；</li>
+<li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
+<li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
+<li>其它，待补充；</li>
+</ol>
+
+
+<p>并且该相关技术最近几年热度非常高，计算机行业内研究的人也越来越多，但是不同语言的处理差异很大，比如英文的各种语言处理库基本上已经成熟，而中文的语言处理则发展缓慢；</p>
+
+<!--more-->
+
+
+<p>而NLTK是斯坦福大学开发的处理自然语言的python库，(斯坦福大学自然语言处理组是世界知名的NLP研究小组，目前course上他们的课程暂时还没看开放)，因此我们可以借助NLTK库的一些功能来处理各种事情。事实上NLTK提供的功能相当全，主要包含如下功能：</p>
+
+<ol>
+<li>语料库：提供了经典书籍，词典，演讲，网络语言，论坛等各种语料库；</li>
+<li>断句与分词：可以方便地对文章，段落进行分词；</li>
+<li>词频统计：计算句子或者文章中每个单词的频率；</li>
+<li>同义词与词态：单词的同义词「WordNet」和单词词态「过去式，进行时等」的还原；</li>
+<li>词性的标注：动词，名词，形容词和副词等的标注；</li>
+<li>分类算法：例如常见的信息熵，朴素贝叶斯算法，最大信息熵模型等；</li>
+<li>情感分析：当然这个其实是利用语料库和分类算法的一种应用场景；</li>
+<li>其它:待补充；</li>
+</ol>
+
+
+<p>说了这么多，NLTK其实主要是针对英语进行处理，对中文支持不行，其它博客也有<a href="http://www.52nlp.cn/python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AE%9E%E8%B7%B5-%E5%9C%A8nltk%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%96%AF%E5%9D%A6%E7%A6%8F%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%99%A8">改造NLTK支持中文的博文</a>，NLP和NLTK的简介基本上就扯这么多。</p>
+
+<h3>环境搭建</h3>
+
+<p>NLTK的安装步骤非常简单，具体参照<a href="http://www.nltk.org/install.html">官网</a>：</p>
+
+<pre><code>#Mac/Unix
+Install Setuptools: http://pypi.python.org/pypi/setuptools
+Install Pip: run sudo easy_install pip
+Install Numpy (optional): run sudo pip install -U numpy
+Install NLTK: run sudo pip install -U nltk
+Test installation: run python then type import nltk
+</code></pre>
+
+<p>需要注意的是上面只安装了nltk的主库，语料库这些都没有安装，可以通过如下的命令安装语料库，当然这些语料库也可以在需要的时候再进行安装，在python命令行中运行如下命令：</p>
+
+<pre><code>import nltk  
+nltk.download()  
+</code></pre>
+
+<p>然后会弹出下载对话框，需要你选择语料库进行下载。在这里补充说明下什么是语料库：所谓语料库就是别人或者官方收集的测试数据，而这些数据一般已经进行了特殊处理，方便你在处理各种数据的时候可以参照这些语料库进行分析，当然你也可以加入自己的语料库。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:系列文章概述]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/02/nltk_note_content_list/"/>
+    <updated>2015-02-02T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/02/nltk_note_content_list</id>
+    <content type="html"><![CDATA[<p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
+
+<h3>文章目录</h3>
+
+<p>系列文章首先会介绍NLTK的相关概念，然后介绍NLTK中比较常用的几个模块，争取每个篇文章都配上实例代码，最后用一个完整的实例进行讲解，目前暂定的目录如下：</p>
+
+<!-- more -->
+
+
+<ol>
+<li>NLTK相关概念与环境搭建；</li>
+<li>NLTK之分句；</li>
+<li>NLTK之分词；</li>
+<li>NLTK之句子分析；</li>
+<li>NLTK之词性分析；</li>
+<li>NLTK之词态分析；</li>
+<li>NLTK之感情分析；</li>
+<li>NLTK之关键字提取；</li>
+<li>NLTK之分类算法；</li>
+<li>&hellip;&hellip;</li>
+</ol>
+
+
+<p>暂时只考虑到以上的几个部分，以后有特别需要的部分再继续补上，其中本系列文章的技术主要参考两本书籍：</p>
+
+<ol>
+<li><a href="http://www.nltk.org/book/">Natural Language Processing With Python</a></li>
+<li><a href="http://vdisk.weibo.com/s/qdxg3WEhv6A2">Machine Learning for Hackers</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

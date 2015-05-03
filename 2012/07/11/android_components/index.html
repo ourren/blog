@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android组件概要 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="记得最初看android基础还是去年这个时候，时隔一年基本上忘得差不多了。近期由于研究android恶意代码分析相关技术，需要对android各类组件有更深入的理解，个人总结如下： Activity
+Activity是Android构造块中最基本的一种，在应用中， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2012/07/11/android_components/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android组件概要</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-07-11T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>记得最初看android基础还是去年这个时候，时隔一年基本上忘得差不多了。近期由于研究android恶意代码分析相关技术，需要对android各类组件有更深入的理解，个人总结如下：</p>
+
+<p><strong>Activity</strong>
+Activity是Android构造块中最基本的一种，在应用中，一个activity通常就是一个单独的屏幕。每一个activity都被实现为一个独立的类，并且继承于Activity这个基类。这个activity类将会显示由几个Views控件组成的用户接口，并对事件做出响应。大部份的应用都会包含多个的屏幕。
+通俗点：界面都是通过继承Activity类来实现的，然后重写oncreate函数实现初始化界面显示。多个Activity类之间是通过intent类来实现切换的。一般需要新建一个Intent类，然后调用相关成员函数传值。
+实例代码如下：
+[code lang=&ldquo;java&rdquo;]Intent intent=new Intent();
+intent.setAction(Intent.ACTION_CALL);
+intent.setData(Uri.parse(&ldquo;tel:1320010001&rdquo;);
+startActivity(intent);[/code]
+通过intent和startActivity实现activity的切换。</p>
+
+<p><strong>Service</strong>
+系统服务，接触过window编程方面就知道服务进程的话都是后台运行，android上的service组件也一样，一般用于后台运行程序。比如说我们可以同时上网和听歌，那么就可以把听歌这个activity采用service运行方式。一般需要调用Context.startService()或Context.bindService()方法启动服务。
+代码实现的时候需要在manifest中声明服务。可以采用如下方法：
+[code lang=&ldquo;java&rdquo;]&lt;service android:name=&ldquo;.PlayService&rdquo; /&gt;[/code]
+PlayService是Service类的名字。
+类实现关键代码：
+[code lang=&ldquo;java&rdquo;]@Override
+public void onCreate(Bundle savedInstanceState)
+{
+super.onCreate(savedInstanceState);
+setContentView(R.layout.main);
+this.startService(new Intent(this, PlayService.class));
+}[/code]
+<strong>
+Content Provider</strong>
+内容提供者，作为应用程序之间唯一的共享数据的途径，Content Provider 主要的功能就是存储并检索数据以及向其他应用程序提供访问数据的借口。
+让自己的数据和其他应用程序共享有两种方式：创建自己的Content Provier(即继承自ContentProvider的子类)  或者是将自己的数据添加到已有的Content Provider中去，后者需要保证现有的Content Provider和自己的数据类型相同且具有该 Content Provider的写入权限。对于Content Provider，最重要的就是数据模型(data model) 和 URI。</p>
+
+<p><strong>Broadcast Receiver</strong>
+广播接收器：Broadcast Receiver组件提供了一种把Intent作为一个消息广播出去，由所有对其感兴趣的程序对其作出反应的机制。它和时间处理机制类似，但是事件处理机制是程序组件级别的（比如：按钮的单击事件），而广播事件处理机制是系统级别的。我们可以用Intent来启动一个组件，也可以用sendBroadcast()方法发起一个系统级别的事件广播来传递消息。我们同样可以在自己的应用程序中实现Broadcast Receiver来监听和响应广播的Intent。
+可以使用两种方式来进行操作：静态注册、动态注册。
+静态注册：
+在AndroidManifest.xml中用标签生命注册，并在标签内用标签设置过滤器，但是使用这种注册方式注册了之后，即使程序已经关闭或者没有开启，都将接收到匹配的广播，因此这里就存在安全问题，恶意程序可以注册android.provider.Telephony.SMS_RECEIVED类似的广播实现偷取短信。
+代码如下，将NEW_LIFEFORM类型广播绑定到MyBroadcastReceiver类：
+[code lang=&ldquo;java&rdquo;]//AndroidManifest.xml中代码
+&lt;receiver android:name=&ldquo;.MyBroadcastReceiver&rdquo;&gt;
+&lt;intent-filter&gt;
+&lt;action android:name=&ldquo;com.android.broadcasttest.NEW_LIFEFORM&rdquo; /&gt;
+&lt;/intent-filter&gt;
+&lt;/receiver&gt;</p>
+
+<p>//接受关键代码
+public class MyBroadcastReceiver extends BroadcastReceiver {
+public static final String BURN =
+&ldquo;com.paad.alien.action.BURN_IT_WITH_FIRE&rdquo;;</p>
+
+<p>public MyBroadcastReceiver () {
+Log.v(&ldquo;BROADCAST_TAG&rdquo;, &ldquo;myBroadCast&rdquo;);
+}
+@Override
+public void onReceive(Context context, Intent intent) {
+// TODO Auto-generated method stub
+Toast.makeText(context, &ldquo;成功接收广播：&rdquo;, Toast.LENGTH_LONG).show();
+}</p>
+
+<p>}</p>
+
+<p>//发送关键代码
+public class BroadcastTest extends Activity {
+public static final String NEW_LIFEFORM_DETECTED =
+&ldquo;com.android.broadcasttest.NEW_LIFEFORM&rdquo;;</p>
+
+<p>/<em>* Called when the activity is first created. </em>/
+@Override
+public void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.main);</p>
+
+<p>Button btn0 = (Button)findViewById(R.id.btn0);
+btn0.setOnClickListener(new OnClickListener() {
+public void onClick(View v) {
+Intent it = new Intent(NEW_LIFEFORM_DETECTED);
+sendBroadcast(it);
+}
+});
+}
+}[/code]
+动态注册，通过registerReceiver和unRegisterReceiver实现注册和解除：
+[code lang=&ldquo;java&rdquo;]　IntentFilter filter = new IntentFilter(&ldquo;android.provider.Telephony.SMS_RECEIVED&rdquo;); //
+MyReceiver receiver = new MyReceiver();
+registerReceiver(receiver, filter);[/code]
+<strong>Intent</strong>
+Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。Intent类用于描述一个应用将会做什么事。在Intent的描述结构中，有两个最重要的部分：动作和动作对应的数据。典型的动作类型有：MAIN（activity的门户）、VIEW、PICK、EDIT等。而动作对应的数据则以URI的形式进行表示。你可以在Intent中指定程序要执行的动作（比如：view,edit,dial），以及程序执行到该动作时所需要的资料。都指定好后，只要调用startActivity()，Android系统会自动寻找最符合你指定要求的应用程序，并执行该程序。例如：要查看一个人的联系方式，你需要创建一个动作类型为VIEW的intent，以及一个表示这个人的URI。</p>
+
+<p><strong>intent-filter</strong>
+与之有关系的一个类叫IntentFilter。相对于intent是一个有效的做某事的请求，一个intent filter则用于描述一个activity（或者Intent Receiver）能够操作哪些intent。什么时候启动或者触发函数。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-07-11T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/06/28/openshift_file_manage/" title="Previous Post: openshift文件管理概述">&laquo; openshift文件管理概述</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/07/22/secwiki_introduce/" title="Next Post: SecWiki:Latest security articles and tools">SecWiki:Latest security articles and tools &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="Android组件概要"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
