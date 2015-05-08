@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.ourren.com/blog/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/</loc>
+    <lastmod>2015-05-08T14:54:59-07:00</lastmod>
+  </url>
+  <url>
     <loc>http://blog.ourren.com/blog/2015/04/26/python-with-domain/</loc>
     <lastmod>2015-04-26T12:05:01-07:00</lastmod>
   </url>
