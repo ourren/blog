@@ -9,7 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="通过两种扫描方式（关键字匹配、token语句分析）实现对webshell后门的检测。可以针对目录批量扫描，也可以对单个文件通过token分析其语句。其中关于php tokens解析方法在浅谈php中的词法分析 有提到具体实现，实际情况还是得结合敏感函数，不过相对而加密后的文件应该效果更好, &hellip;">
+  <meta name="description" content="软件介绍：EyeFoo3是一个可以定时提醒休息,保护眼睛的护眼软件、健康软件。本人一直在使用，但是在主界面和提醒该休息对话框有AD链接，看着实在不爽。So，直接去掉这广告。最初版本的时候可以通过修改AD网址去掉，翻了下地址在这；
+ 
+补丁如下图，放在安装目录运行即可。 清除广告后的界面（ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/27/eyefoo_no_ad_patch/">Eyefoo Remove Ad Patch</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-27T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/06/27/eyefoo_no_ad_patch/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>软件介绍：EyeFoo3是一个可以定时提醒休息,保护眼睛的护眼软件、健康软件。本人一直在使用，但是在主界面和提醒该休息对话框有AD链接，看着实在不爽。So，直接去掉这广告。最初版本的时候可以通过修改AD网址去掉，翻了下地址在<a href="http://www.ourren.com/blog/eye-nurse-eyefoo-to-ad.html">这</a>；
+ 
+补丁如下图，放在安装目录运行即可。
+<img src="http://ourren.b0.upaiyun.com/eyefoo_no_ad.jpg" alt="eyefoo no ad patch" width="328" height="302">
+清除广告后的界面（刚基于gae搭建了图床，多贴几张^__^）。
+<img src="http://ourren.b0.upaiyun.com/eyefoo_main.jpg" alt="eyefoo main" width="574" height="477">
+<img src="http://ourren.b0.upaiyun.com/eyefoo_remind.jpg" alt="eyefoo remind" width="240" height="113">
+补丁下载地址：<a href="http://dl.dbank.com/c02gtqta1t">下载</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -370,53 +411,6 @@ curl <a href="http://target.com/test.php?-dallow_url_include%3dOn+-dauto_prepend
 <p>4、参考：
 <a href="http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/">http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/</a>
 <a href="http://zone.wooyun.org/content/151">http://zone.wooyun.org/content/151</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/18/sdgt_brute_dic_tool/">Sdgt Project简介</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-18T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/18/sdgt_brute_dic_tool/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>1、关于
-Sdgt(social dictionary generate tool)通过收集到的敏感信息，结合国人密码心理学，实现了一个简单的密码生成工具，可以在暴力破解方面使用。
-2、配置
-文件采用UTF8编码，template.txt中收集中csdn中top1000密码，可以把template.txt复制进行修改。每行&#8221;:&ldquo;前面是密码因子，后面的部分是值并用分号隔开，例如：
-name:zhang san;li si
-qq:10000;10010
-idcard:100121190000111234
-subpw:123qaz;qaz
-nickname:boy;good;sec
-year:2012;2011;2010
-domain:sina;google
-3、使用
-sdgt.py  C:zhang.txt C:zhangdic.txt
-4、规则
-结合国人密码学，采用了如下的一些规则。
-<a href="http://ourren.b0.upaiyun.com/sdgt.png"><img class="aligncenter" title="sdgt" src="http://ourren.b0.upaiyun.com/sdgt.png" alt="" width="410" height="315"></a></p>
 </div>
   
   

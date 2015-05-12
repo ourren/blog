@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-05-08T15:42:21-07:00</updated>
+  <updated>2015-05-11T18:17:11-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On the Relations Between the Different Actors in the Spam Landscape]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/"/>
+    <updated>2015-05-11T17:42:36-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape</id>
+    <content type="html"><![CDATA[<p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>贡献</h3>
+
+<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+
+<ul>
+<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
+<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
+<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
+</ul>
+
+
+<h3>缺点</h3>
+
+<p>但是个人感觉文章存在以下不足：</p>
+
+<ul>
+<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
+<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On the Arms Race in Spamming Botnet Mitigation]]></title>
@@ -372,68 +415,6 @@ if __name__ == '__main__':
 <li>len</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
-    <link href="http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install/"/>
-    <updated>2015-02-05T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install</id>
-    <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
-
-<p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
-
-<p>NLP是指自然语言处理，英文(Natural Language Processing)，该技术主要解决计算机自动识别和处理人类语言，如何让计算机能够理解我们的语言，从而减少人类的工作量。个人认为其应用场景有如下几点：</p>
-
-<ol>
-<li>个性推荐，需要计算两类物品的相识度和相关度；</li>
-<li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
-<li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
-<li>其它，待补充；</li>
-</ol>
-
-
-<p>并且该相关技术最近几年热度非常高，计算机行业内研究的人也越来越多，但是不同语言的处理差异很大，比如英文的各种语言处理库基本上已经成熟，而中文的语言处理则发展缓慢；</p>
-
-<!--more-->
-
-
-<p>而NLTK是斯坦福大学开发的处理自然语言的python库，(斯坦福大学自然语言处理组是世界知名的NLP研究小组，目前course上他们的课程暂时还没看开放)，因此我们可以借助NLTK库的一些功能来处理各种事情。事实上NLTK提供的功能相当全，主要包含如下功能：</p>
-
-<ol>
-<li>语料库：提供了经典书籍，词典，演讲，网络语言，论坛等各种语料库；</li>
-<li>断句与分词：可以方便地对文章，段落进行分词；</li>
-<li>词频统计：计算句子或者文章中每个单词的频率；</li>
-<li>同义词与词态：单词的同义词「WordNet」和单词词态「过去式，进行时等」的还原；</li>
-<li>词性的标注：动词，名词，形容词和副词等的标注；</li>
-<li>分类算法：例如常见的信息熵，朴素贝叶斯算法，最大信息熵模型等；</li>
-<li>情感分析：当然这个其实是利用语料库和分类算法的一种应用场景；</li>
-<li>其它:待补充；</li>
-</ol>
-
-
-<p>说了这么多，NLTK其实主要是针对英语进行处理，对中文支持不行，其它博客也有<a href="http://www.52nlp.cn/python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AE%9E%E8%B7%B5-%E5%9C%A8nltk%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%96%AF%E5%9D%A6%E7%A6%8F%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%99%A8">改造NLTK支持中文的博文</a>，NLP和NLTK的简介基本上就扯这么多。</p>
-
-<h3>环境搭建</h3>
-
-<p>NLTK的安装步骤非常简单，具体参照<a href="http://www.nltk.org/install.html">官网</a>：</p>
-
-<pre><code>#Mac/Unix
-Install Setuptools: http://pypi.python.org/pypi/setuptools
-Install Pip: run sudo easy_install pip
-Install Numpy (optional): run sudo pip install -U numpy
-Install NLTK: run sudo pip install -U nltk
-Test installation: run python then type import nltk
-</code></pre>
-
-<p>需要注意的是上面只安装了nltk的主库，语料库这些都没有安装，可以通过如下的命令安装语料库，当然这些语料库也可以在需要的时候再进行安装，在python命令行中运行如下命令：</p>
-
-<pre><code>import nltk  
-nltk.download()  
-</code></pre>
-
-<p>然后会弹出下载对话框，需要你选择语料库进行下载。在这里补充说明下什么是语料库：所谓语料库就是别人或者官方收集的测试数据，而这些数据一般已经进行了特殊处理，方便你在处理各种数据的时候可以参照这些语料库进行分析，当然你也可以加入自己的语料库。</p>
 ]]></content>
   </entry>
   

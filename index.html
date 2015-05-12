@@ -9,8 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="此文档是G Stringhini的开题报告这里下载,针对Botnet的技术进化和科研上对应的防御方案进行了详细地讨论，对于研究botnet的人来说是一份非常不错得入门资料。文档主要分为四个部分: 引言简单介绍了Botnet的威胁，来源和发展；
-第二部分主要介绍Botnet的进化， &hellip;">
+  <meta name="description" content="该篇论文的题目为：The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape 通过分析Harvester， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +67,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/">On the Relations Between the Different Actors in the Spam Landscape</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-11T17:42:36-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:42 pm</span></time>
+        
+        
+            | <a href="/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -274,45 +320,6 @@
   
     <footer>
       <a rel="full-article" href="/2015/03/27/diagnosing-network-issue-with-mtr/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/03/23/highchart-note-with-php/">Highcharts使用入门与技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2015/03/23/highchart-note-with-php/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.highcharts.com/">Highcharts</a>作为最牛逼的前端图形库当之不愧，不仅使用简单并且非盈利项目可以免费使用，复制粘贴几下就可以生成绚丽的图表，方便各位给Leader或者外行人员装逼专用。虽然说目前百度的<a href="http://echarts.baidu.com">Echarts</a>也非常火爆，荣获github上国内加星最多的项目，但是个人始终觉得还是Highcharts更胜一筹，不过在大数据特征展示上面我还是推荐Echarts。</p>
-
-<p>个人接触Highcharts已经有好几年了，但是从来都没怎么深入研究过，不过话又说回来，Highcharts这种傻瓜式的前端库也没有高深的使用技巧，但是对于不熟悉的新手可以从如下的总结中进步提升。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/03/23/highchart-note-with-php/">继续阅读 →</a>
     </footer>
   
 

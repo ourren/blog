@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/blog/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-05-08T15:42:21-07:00</updated>
+  <updated>2015-05-11T18:17:11-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On the Relations Between the Different Actors in the Spam Landscape]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/"/>
+    <updated>2015-05-11T17:42:36-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape</id>
+    <content type="html"><![CDATA[<p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>贡献</h3>
+
+<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+
+<ul>
+<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
+<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
+<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
+</ul>
+
+
+<h3>缺点</h3>
+
+<p>但是个人感觉文章存在以下不足：</p>
+
+<ul>
+<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
+<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On the Arms Race in Spamming Botnet Mitigation]]></title>
@@ -1303,174 +1346,6 @@ $ sudo docker rm 容器名字   $ sudo docker rmi 镜像id
 <p>今年自从买了kpw，天天挤公交的时候刷了13+本书，抽周末和平时晚上刷了40＋(美剧＋电影)，SecWiki提交了2800＋精品安全资讯和专题，同时SecWiki用户过1000+&hellip;..</p>
 
 <p>为什么开始写年终总结，因此我想记录下来，让我的心里能够放松，让我的心里装着目标，让我能够时刻提醒自己心中的任务，让我能够不断向前冲。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NLP入门实例:判断性别]]></title>
-    <link href="http://blog.ourren.com/blog/2014/12/26/nlp_with_sex_for_beginners/"/>
-    <updated>2014-12-26T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/blog/2014/12/26/nlp_with_sex_for_beginners</id>
-    <content type="html"><![CDATA[<p><img src="http://ourren.b0.upaiyun.com/supervised-classification.png" alt="image" /></p>
-
-<h4>1. NLP(Natural Language Processing)</h4>
-
-<p>自然语言处理(NLP)是人工智能和语言学领域的重要学科，在这此领域中探讨如何处理及运用自然语言；自然语言认知则是指让电脑“懂”人类的语言。自然语言生成系统把计算机数据转化为自然语言。自然语言理解系统把自然语言转化为计算机程序更易于处理的形式[1]。</p>
-
-<p>按照我个人的理解就是计算机怎么去理解并处理文字(中文或者其他语言)，因为每种语言都有各种语法，语义和感情色彩等。而计算机他是不懂感情的，学过计算机编程的都知道，不管是x64/X86的机器上面跑的就是0101。而NLP技术的出现就是来解决该类问题，NLP主要难点在于:</p>
-
-<ul>
-<li><p>单词的边界界定(注:分词)</p>
-
-<p>  在口语中，词与词之间通常是连贯的，而界定字词边界通常使用的办法是取用能让给定的上下文最为通顺且在文法上无误的一种最佳组合。在书写上，汉语也没有词与词之间的边界。</p></li>
-<li><p>词义的消歧(注:语义)</p>
-
-<p>  许多字词不单只有一个意思，因而我们必须选出使句意最为通顺的解释。</p></li>
-<li><p>句法的模糊性(注:语境)</p>
-
-<p>  自然语言的文法通常是模棱两可的，针对一个句子通常可能会剖析（Parse）出多棵剖析树（Parse Tree），而我们必须要仰赖语意及前后文的资讯才能在其中选择一棵最为适合的剖析树。</p></li>
-<li><p>有瑕疵的或不规范的输入</p>
-
-<p>  例如语音处理时遇到外国口音或地方口音，或者在文本的处理中处理拼写，语法或者光学字符识别（OCR）的错误。</p></li>
-</ul>
-
-
-<p>本文不会涉及太多这块技术，一方面我也刚入门，另外一方面这块技术比较高深，是一个长期需要研究的东西。</p>
-
-<!--more-->
-
-
-<h4>2. 问题的提出</h4>
-
-<p>我们都知道日常生活中一个人的名字跟他的性别还是有一定的关系。例如一个名字叫作小红的人，大部分人都会认为她应该是女性，因此，一个人的姓名跟他的性别是有一定关系的，在生活中我们可以根据别人的姓名去猜测他的性别，当然这有一定的几率，但是如何编写程序让计算机也能进行判定，这个就是一个基本的NLP技术的应用范围。</p>
-
-<p>问题：根据给定的姓名判定其性别。</p>
-
-<h4>3. NLP相关技术</h4>
-
-<p>目前国内外对NLP相关技术研究资料很多，国内主要研究具体技术有中文的分词，词性标注、实体识别、句块分析、语义分析，情感分析，分类算法的优化等，相比英文，中文的复杂程度比较高，涉及到一词多义，语句中的顺序和语义中的多种否定和语境。目前应用场景主要有：</p>
-
-<ol>
-<li>语义的感情分析，包含帖子，微博或者文章等。将语句分为：消极、积极和中性。涉及到公司或者产品舆情，用于对于商品的评价分析；</li>
-<li>主题的关键字提取，也即观点提取或者主题的标签提取，经常逛<a href="https://v2ex.com">v2ex</a>的就知道它目前也是使用的自动标签；</li>
-<li>搜索引擎与个性推荐，根据已有数据预测未知数据或者推荐类似商品；</li>
-<li>其它我不知道的。</li>
-</ol>
-
-
-<p>由于本文需要解决技术的问题，因此选取基于python编程语言的nltk(Natural Language Toolkit)[2]来进行处理。nltk工具包涵盖分词、语义分析、分类算法、语义库等各种类库，方便我们快速开发和实践。并且nltk还配有专门的入门教程。</p>
-
-<h4>4. 环境搭建</h4>
-
-<p>首先安装nltk库：</p>
-
-<ol>
-<li>先安装easy_install: <a href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></li>
-<li>安装Pip: run sudo easy_install pip</li>
-<li>安装 Numpy (可选): run sudo pip install -U numpy</li>
-<li>安装 NLTK: run sudo pip install -U nltk</li>
-<li>测试是否成功: run python then type import nltk</li>
-</ol>
-
-
-<p>其次安装语料库：</p>
-
-<p>在python命令行中输入如下代码:</p>
-
-<pre><code>import nltk
-nltk.download()
-</code></pre>
-
-<p>在弹出的下载界面选择需要安装的文件进行安装。</p>
-
-<h4>5.具体流程</h4>
-
-<p>本次我们采用贝叶斯分类算法对该问题进行分析，具体的流程图见文章顶部的图片，在进行分类前需要解决如下问题：</p>
-
-<ol>
-<li><p>原始标注数据，即训练数据；</p>
-
-<p> 由于本次属于试验测试阶段，因此前期样本选取不用过大，可以采用手工标注方法进行标注。</p></li>
-<li><p>特征提取算法，即一个人的姓名跟性别到底有什么关系。</p>
-
-<p> 本次由于只是演示nlp的作用和流程，因此可以简化提取特征，我们假定其实性别跟姓名的最后一个字母有关系。但是在实际的情况下涉及的方面实在太多，这个也是需要研究的一个内容。看下如下别人设计的一个模型：
- <img src="http://ourren.b0.upaiyun.com/map-nlp-seduction.gif" alt="image" /></p></li>
-</ol>
-
-
-<p>那么我们已经解决了如上的两个重要问题，下面来写代码实现。</p>
-
-<h4>6.代码实现</h4>
-
-<p>本次采用python语言进行开发，特征提取函数如下：</p>
-
-<pre><code>def gender_features(word):
-    return {'last_letter':word[-1]}
-</code></pre>
-
-<p>训练数据从网上英文取名网站提取。</p>
-
-<p>女孩姓名数据：</p>
-
-<pre><code>Abigail
-Ada
-Adelaide
-Adrienne
-Agatha
-Agnes
-Aileen
-Aimee
-Alanna
-Alarice
-Alda
-Alexandra
-Alice
-Alina
-Alison
-</code></pre>
-
-<p>男孩姓名数据：</p>
-
-<pre><code>abbott
-abby
-abe
-abie
-acton
-adair
-addison
-africa
-afton
-aidric
-aiken
-</code></pre>
-
-<p>程序全部代码：</p>
-
-<pre><code>import sys,os,nltk
-from nltk.corpus import names
-import random
-#extract features from name
-def gender_features(word):
-    return {'last_letter':word[-1]}
-
-names=([(name,'female') for name in names.words('girlname.txt')] + [(name,'male') for name in names.words('boyname.txt')])
-random.shuffle(names)
-featuresets = [(gender_features(n), g) for (n,g) in names]
-train_set, test_set = featuresets[10:], featuresets[:10] #此处可根据实际情况修改
-classifier = nltk.NaiveBayesClassifier.train(train_set) 
-print classifier.classify(gender_features('ourren'))
-</code></pre>
-
-<p>基本上实现了本文提出的问题，其实该问题就是nltk入门书籍上的一个题目。</p>
-
-<h4>参考</h4>
-
-<ol>
-<li><a href="http://zh.wikipedia.org/wiki/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86">自然语言处理</a></li>
-<li><a href="http://www.nltk.org/">Natural Language Toolkit</a></li>
-<li><a href="http://www.nltk.org/book/ch06.html">Learning to Classify Text</a></li>
-</ol>
-
 ]]></content>
   </entry>
   
