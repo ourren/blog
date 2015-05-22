@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-05-11T18:17:11-07:00</updated>
+  <updated>2015-05-21T22:00:56-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Detecting Spammers on Twitter]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/"/>
+    <updated>2015-05-21T19:43:11-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter</id>
+    <content type="html"><![CDATA[<p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
+
+<h3>整体流程</h3>
+
+<ol>
+<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
+<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
+<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
+<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
+<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
+<li>通过分析特征值，降维处理「减少特征值」；</li>
+<li>最后计算准确率并分析。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>创新点</h3>
+
+<ol>
+<li>从内容特征和用户特征对twitter社交数据进行特征提取，内容特征考虑：最大长度，最小长度，均值，一个内容中的主题(##), 网址数量，单词数量，数字出现个数，@的用户数量，有多少人转发等「39个属性」；用户特征：粉丝数量，关注数量，发帖数量，转帖数量，年龄，被@多少次，多少次回复，发帖时间间隔，一天发多少帖，一周发多少帖「23个属性」。</li>
+<li>单一特征对分类的影响采用了cumulative distribution function (CDF)进行了分析，不熟悉CDF的可以看这里<a href="http://www.lifelaf.com/blog/?p=746">一维数据可视化：累积分布函数(Cumulative Distribution Function)</a>;</li>
+<li>SVM分类中采用了5阶交叉验证，即SVM参数的不同；</li>
+<li>通过信息增益或者X2统计分析TOP10,TOP20,-TOP50特征值「内容特征与用户特征」的数量；关于信息增益可以看这里：<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/24/261701.html">文本分类入门（十一）特征选择方法之信息增益</a>;</li>
+<li>然后用这些特征再次测试准确率。</li>
+</ol>
+
+
+<h3>总结</h3>
+
+<p>从工作量上看确实需要做大量的工作，另外作者对特征选取，特征优化这些做得很不错。最后请记住这个是2010年的论文。</p>
+
+<p>论文下载<a href="http://www.decom.ufop.br/fabricio/download/ceas10.pdf">Detecting Spammers on Twitter</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On the Relations Between the Different Actors in the Spam Landscape]]></title>
@@ -347,74 +389,6 @@ WH      wh determiner   who, which, when, what, where, how
 </code></pre>
 
 <p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
-    <link href="http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence/"/>
-    <updated>2015-02-21T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence</id>
-    <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
-
-<h4>分句</h4>
-
-<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
-+ 中文主要有(。？！)这几个句子结尾标志；
-+ 英文也差不多(. ? !)；
-使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
-
-<!--more-->
-
-
-<pre><code>def sentence_split(str_centence):
-    list_ret = list()
-    for s_str in str_centence.split('.'):
-        if '?' in s_str:
-            list_ret.extend(s_str.split('?'))
-        elif '!' in s_str:
-            list_ret.extend(s_str.split('!'))
-        else:
-            list_ret.append(s_str)
-    return list_ret
-</code></pre>
-
-<h4>分词</h4>
-
-<p>分词在NLP处理中运用得最多，但是目前针对英文分词基本上已经成熟，而针对中文的分词技术还在不断发展，对于pythoner而言，主要可以采取如下的分词方法对句子或者段落进行分词：</p>
-
-<ul>
-<li>中文：采用<a href="https://github.com/fxsjy/jieba">jieba</a>进行分词，然后再可以通过NLTK进行词频统计分析，整体而言jieba对中文分词还是可以接受；</li>
-<li>英文：可以直接使用NLTK中nltk.tokenize模块进行分词；</li>
-</ul>
-
-
-<p>中文的分词实例可以参照这篇文章<a href="http://blog.ourren.com/?p=89252">中文分词与词频统计实例</a>,英文的分词示例如下：</p>
-
-<pre><code>import nltk
-
-def main():
-    sentence = """At eight o'clock on Thursday morning Arthur didn't feel very good."""
-    tokens = nltk.word_tokenize(sentence)
-    print tokens
-
-if __name__ == '__main__':
-    main()
-</code></pre>
-
-<h4>特殊字符</h4>
-
-<p>在处理分词或者分句中经常会除去一些特殊符号或者特殊单词，一般可能会用到的python函数：</p>
-
-<ul>
-<li>startswith</li>
-<li>endswith</li>
-<li>contains</li>
-<li>replace</li>
-<li>split</li>
-<li>len</li>
-</ul>
-
 ]]></content>
   </entry>
   

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>On the Relations Between the Different Actors in the Spam Landscape - Ourren</title>
+  <title>Detecting Spammers on Twitter - Ourren</title>
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="该篇论文的题目为：The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape 通过分析Harvester， &hellip;">
+  <meta name="description" content="文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。 整体流程 首先爬取了大量Twitter用户的数据（通过API接口 + &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/">
+  <link rel="canonical" href="http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
@@ -70,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">On the Relations Between the Different Actors in the Spam Landscape</h1>
+      <h1 class="entry-title">Detecting Spammers on Twitter</h1>
     
     
       <p class="meta">
@@ -79,7 +79,7 @@
 
 
 
-<time class='entry-date' datetime='2015-05-11T17:42:36-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:42 pm</span></time>
+<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
         
         
             | <a href="#comments">留言</a>
@@ -89,41 +89,40 @@
   </header>
 
 
-<div class="entry-content"><p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+<div class="entry-content"><p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
 
-<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+<h3>整体流程</h3>
 
-<ul>
-<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
-<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
-<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
-<li>通过以上数据对这个攻击链进行分析。</li>
-</ul>
+<ol>
+<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
+<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
+<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
+<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
+<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
+<li>通过分析特征值，降维处理「减少特征值」；</li>
+<li>最后计算准确率并分析。</li>
+</ol>
 
 
 <!--more-->
 
 
-<h3>贡献</h3>
+<h3>创新点</h3>
 
-<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+<ol>
+<li>从内容特征和用户特征对twitter社交数据进行特征提取，内容特征考虑：最大长度，最小长度，均值，一个内容中的主题(##), 网址数量，单词数量，数字出现个数，@的用户数量，有多少人转发等「39个属性」；用户特征：粉丝数量，关注数量，发帖数量，转帖数量，年龄，被@多少次，多少次回复，发帖时间间隔，一天发多少帖，一周发多少帖「23个属性」。</li>
+<li>单一特征对分类的影响采用了cumulative distribution function (CDF)进行了分析，不熟悉CDF的可以看这里<a href="http://www.lifelaf.com/blog/?p=746">一维数据可视化：累积分布函数(Cumulative Distribution Function)</a>;</li>
+<li>SVM分类中采用了5阶交叉验证，即SVM参数的不同；</li>
+<li>通过信息增益或者X2统计分析TOP10,TOP20,-TOP50特征值「内容特征与用户特征」的数量；关于信息增益可以看这里：<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/24/261701.html">文本分类入门（十一）特征选择方法之信息增益</a>;</li>
+<li>然后用这些特征再次测试准确率。</li>
+</ol>
 
-<ul>
-<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
-<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
-<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
-</ul>
 
+<h3>总结</h3>
 
-<h3>缺点</h3>
+<p>从工作量上看确实需要做大量的工作，另外作者对特征选取，特征优化这些做得很不错。最后请记住这个是2010年的论文。</p>
 
-<p>但是个人感觉文章存在以下不足：</p>
-
-<ul>
-<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
-<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
-</ul>
-
+<p>论文下载<a href="http://www.decom.ufop.br/fabricio/download/ceas10.pdf">Detecting Spammers on Twitter</a></p>
 </div>
 
 
@@ -139,7 +138,7 @@
 
 
 
-<time class='entry-date' datetime='2015-05-11T17:42:36-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:42 pm</span></time>
+<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
       
 
 <span class="categories">
@@ -160,10 +159,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/" title="Previous Post: on the Arms Race in Spamming Botnet Mitigation">&laquo; on the Arms Race in Spamming Botnet Mitigation</a>
+        <a class="basic-alignment left" href="/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/" title="Previous Post: On the Relations Between the Different Actors in the Spam Landscape">&laquo; On the Relations Between the Different Actors in the Spam Landscape</a>
       
-      
-        <a class="basic-alignment right" href="/2015/05/21/detecting-spammers-on-twitter/" title="Next Post: Detecting Spammers on Twitter">Detecting Spammers on Twitter &raquo;</a>
       
     </p>
   </footer>
@@ -172,7 +169,7 @@
 
 <section>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="On the Relations Between the Different Actors in the Spam Landscape"></div>
+<div class="ds-thread" data-title="Detecting Spammers on Twitter"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"ourren"};
   (function() {
