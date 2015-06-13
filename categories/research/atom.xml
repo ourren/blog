@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Research | Ourren]]></title>
+  <link href="http://blog.ourren.com/blog/categories/research/atom.xml" rel="self"/>
+  <link href="http://blog.ourren.com/blog/"/>
+  <updated>2015-06-13T15:53:46-07:00</updated>
+  <id>http://blog.ourren.com/blog/</id>
+  <author>
+    <name><![CDATA[ourren]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Detecting Spammers on Twitter]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/"/>
+    <updated>2015-05-21T19:43:11-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter</id>
+    <content type="html"><![CDATA[<p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
+
+<h3>整体流程</h3>
+
+<ol>
+<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
+<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
+<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
+<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
+<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
+<li>通过分析特征值，降维处理「减少特征值」；</li>
+<li>最后计算准确率并分析。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>创新点</h3>
+
+<ol>
+<li>从内容特征和用户特征对twitter社交数据进行特征提取，内容特征考虑：最大长度，最小长度，均值，一个内容中的主题(##), 网址数量，单词数量，数字出现个数，@的用户数量，有多少人转发等「39个属性」；用户特征：粉丝数量，关注数量，发帖数量，转帖数量，年龄，被@多少次，多少次回复，发帖时间间隔，一天发多少帖，一周发多少帖「23个属性」。</li>
+<li>单一特征对分类的影响采用了cumulative distribution function (CDF)进行了分析，不熟悉CDF的可以看这里<a href="http://www.lifelaf.com/blog/?p=746">一维数据可视化：累积分布函数(Cumulative Distribution Function)</a>;</li>
+<li>SVM分类中采用了5阶交叉验证，即SVM参数的不同；</li>
+<li>通过信息增益或者X2统计分析TOP10,TOP20,-TOP50特征值「内容特征与用户特征」的数量；关于信息增益可以看这里：<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/24/261701.html">文本分类入门（十一）特征选择方法之信息增益</a>;</li>
+<li>然后用这些特征再次测试准确率。</li>
+</ol>
+
+
+<h3>总结</h3>
+
+<p>从工作量上看确实需要做大量的工作，另外作者对特征选取，特征优化这些做得很不错。最后请记住这个是2010年的论文。</p>
+
+<p>论文下载<a href="http://www.decom.ufop.br/fabricio/download/ceas10.pdf">Detecting Spammers on Twitter</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the Relations Between the Different Actors in the Spam Landscape]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/"/>
+    <updated>2015-05-11T17:42:36-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape</id>
+    <content type="html"><![CDATA[<p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>贡献</h3>
+
+<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+
+<ul>
+<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
+<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
+<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
+</ul>
+
+
+<h3>缺点</h3>
+
+<p>但是个人感觉文章存在以下不足：</p>
+
+<ul>
+<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
+<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the Arms Race in Spamming Botnet Mitigation]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/"/>
+    <updated>2015-05-08T14:54:59-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation</id>
+    <content type="html"><![CDATA[<p>此文档是G Stringhini的开题报告<a href="http://www0.cs.ucl.ac.uk/staff/G.Stringhini/papers/writeup.pdf">这里下载</a>,针对Botnet的技术进化和科研上对应的防御方案进行了详细地讨论，对于研究botnet的人来说是一份非常不错得入门资料。文档主要分为四个部分:</p>
+
+<ul>
+<li>引言简单介绍了Botnet的威胁，来源和发展；</li>
+<li>第二部分主要介绍Botnet的进化，包含Botnet的通讯架构和感染两部分；</li>
+<li>第三部分主要介绍科研上针对Botnet和垃圾邮件的检测和防御机制；</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>引言</h3>
+
+<p>垃圾邮件可以被用来钓鱼，诈骗，但是很多大型电子商务网站都提供推荐/推广功能，攻击者可以通过发送大量这种邮件这种进行获利，然而你这类邮件基本上都是从Botnet机器进行发送，并且调查发现85%的Botnet机器都被用来发送垃圾邮件。针对这种现状研究人员和攻击者一直在这个技术领域进行较量。</p>
+
+<h3>Botnet的进化</h3>
+
+<p>Botnet架构的进化流程如下。</p>
+
+<ul>
+<li>IRC Botnet: 最初的Botnet是基于IRC的，受害者通过IRC地址和密码进入特定频道等待管理员发布命令。这种通信方式的弱点：研究人员可以通过恶意文件分析IP地址和密码，然后进入频道分析其行为；另外如果IRC基于域名，研究人员可以通过DNS重定向将所有的受害者机器进行转移；最后IRC协议明文通讯，可以通过协议上对这种行为进行检测；</li>
+<li>专有协议Botnet：为了避免已有的协议，攻击者通过自定义加密协议来进行通信；缺点在于研究人员可以对样本进行逆向分析其协议，并可以加入其队列分析行为；另外也存在DNS污染攻击；</li>
+<li>多级代理Botnet：通过多次跳转/代理进行隐藏，这种方式还是可以通过黑名单进行block;</li>
+<li>域名生成算法Botnet：通过设计一套基于时间的域名生成算法(DGA)，来实现不同时间段的回连地址; 算法部分也可以通过社交网络的标题或者内容进行回连。缺点在于攻击者可以逆向算法并提前注册域名或者攻击社交账号，或者直接block这些域名；</li>
+<li>P2P Botnet：针对无公网IP地址的内部受害者，利用一些算法实现P2P通信，缺点在于攻击者可以通过逆向分析其协议和特征，伪装为局域网管理者进行诱骗并分析所有受害主机；</li>
+</ul>
+
+
+<p>Botnet感染方式的进化流程如下：</p>
+
+<ul>
+<li>原始感染：通过受感染的机器去扫描更多的存在漏洞的主机并试图感染；</li>
+<li>现有感染：（1）通过垃圾邮件发送恶意程序，（2）建立恶意网页，欺骗受害者浏览（drive-by-download attack）；</li>
+</ul>
+
+
+<h3>Botnet的检测研究</h3>
+
+<p>针对Botnet的检测方式很多，概述如下：</p>
+
+<ul>
+<li>从主机层面进行检测：通过受害主机检测其样本，并提取特征码加入到杀毒软件特征库；通过分析恶意样本的语义和相似度进行匹配检测；基于动态进行的检测，其中还可以利用提取特征，机器学习进行结合；</li>
+<li>从恶意网页进行检测：利用机器学习和页面的特征（重定向，混淆脚本代码）进行静态检测；可以通过虚拟机真实环境浏览网页来动态检测；另外也可以通过不同时间段页面的变化情况进行检测（黑客入侵后会添加恶意代码）；常用攻击代码片段或者内容进行分析判断；</li>
+<li>从C&amp;C命令进行检测：通过透明协议，DGA域名进行检测；另外还可以通过搭建蜜罐抓取Botnet的行为进行分析；</li>
+<li>从DNS协议进行检测：通过局域网DNS的异常或者不常见规律进行检测；</li>
+<li>从SMTP协议进行检测：分析垃圾邮件的原始IP和其它信息来生成黑名单，或者统计这些IP规律；</li>
+<li>从社交网络进行检测：攻击者利用社交网络来传播恶意软件，分析攻击者的社交行为给出其IP/域名的安全性；</li>
+<li>从网络层面进行检测：恶意数据包，C&amp;C特定协议或者攻击包；</li>
+</ul>
+
+
+<h3>总结</h3>
+
+<p>文章从Botnet的发展到进化，并针对不同的技术点总结了前人对该点的检测技术，整体而言，内容十分比较丰富，特别是参考文献。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX写作技巧总结]]></title>
+    <link href="http://blog.ourren.com/blog/2015/04/17/latex-skils-summary/"/>
+    <updated>2015-04-17T21:28:38-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/04/17/latex-skils-summary</id>
+    <content type="html"><![CDATA[<p>最近开始利用LaTeX写作复杂的文档，心情那个叫个爽呀，一点感觉不到排版的烦恼了。什么Word分页与分节？什么页眉与页脚？统统没有这种烦恼。这种写作乐趣就是让你只关注写作内容，爽歪歪地写下去，其实跟Markdown写博客，Git管理代码差不多的心情。其实这种烦恼只是转移到制作模板的人身上了，但是LaTeX实在是提供了太多的模板，so,尽管写吧。</p>
+
+<p>写作环境推荐：</p>
+
+<ul>
+<li><a href="http://texstudio.sourceforge.net/">TeXstudio</a> 免费软件做得非常好用，并且跨平台，更新及时，实时编译为PDF，英文单词自动纠正，其它特性就不说了，就这几个特性就可以秒杀很多同类软件；</li>
+<li><a href="http://www.tablesgenerator.com/latex_tables">tablesgenerator</a> 在线LaTex表格生成工具，谁用谁知道；</li>
+<li><a href="http://www.codecogs.com/latex/eqneditor.php">latex eqneditor</a> 在线LaTex公式生成工具；</li>
+<li>Excel 这个大家都懂的吧，画图好使；</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>下面给一些常用的LaTex实例代码：</p>
+
+<h4>插入图片</h4>
+
+<p>需要在顶部引入如下包，其中graphicspath中是设置图片的存放根目录，一般常常新建一个目录来存放图片。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+</code></pre>
+
+<p>在插入图片的时候使用如下代码，其中：</p>
+
+<pre><code>\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{picture_name}
+    \caption{describe of this image\label{fig:image}}
+\end{figure}
+</code></pre>
+
+<ul>
+<li>width 表示这个图片占的宽度；</li>
+<li>picture_name 表示文件名；</li>
+<li>lable 正文中引用使用，格式s~\ref{fig:image}；</li>
+</ul>
+
+
+<h4>插入表格</h4>
+
+<p>表格直接使用在线工具生成，一般也会新建一个文件夹例如table来存放表格，每个表格单独保存为xxx.tex文件，然后使用如下代码引入表格：</p>
+
+<pre><code>\input{tables/xx.tex}
+</code></pre>
+
+<h4>双栏并排</h4>
+
+<p>这里的双栏并排主要是指表格或者图片双栏显示，比如需要讲两个图显示在一行，可以先引入如下包，然后使用下面的代码就可以将两个表格并排。其实还是通过textwidth的属性值来控制宽度的。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{subfigure}
+
+\makeatletter\def\@captype{figure}\makeatother
+\begin{table*}
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/a.tex}
+        \caption{describe a table}
+        \label{table:a}
+    \end{minipage}
+    \makeatletter\def\@captype{table}\makeatother
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/b.tex}
+        \caption{describe b table}
+        \label{table:b}
+    \end{minipage}
+\end{table*}
+</code></pre>
+
+<h4>插入算法</h4>
+
+<p>插入伪代码的生活需要先包含如下包：</p>
+
+<pre><code>\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+</code></pre>
+
+<p>伪代码的具体写法如下, 更多详细的语法可以参照这里 <a href="http://www.ctex.org/documents/packages/verbatim/algorithms.pdf">LaTex algorithms</a>:</p>
+
+<pre><code>\begin{algorithm}[!htb]
+\caption{describe algorithm.}
+\label{alg:new}
+\begin{algorithmic}[1]
+    \Require
+    input, $D$;
+    input varible;
+    \Ensure
+    \For{each virable in D$}
+    \EndFor
+    \State xxxx
+    \EndFor
+    \label{code:recentEnd}
+\end{algorithmic}
+\end{algorithm}
+</code></pre>
+
+<h4>列表描述</h4>
+
+<p>在有些时候需要列出个1，2，3的列表，具体格式就很简单了，主要有itemize和enumerate两种，前者是列表前面是符号，而后者就是(1),(2)这种。</p>
+
+<pre><code>\begin{itemize}
+    \item one
+    \item two
+    \item three 
+\end{itemize}
+
+\begin{enumerate}
+    \item one
+    \item two
+    \item three 
+\end{enumerate}
+</code></pre>
+
+<h4>参考文献</h4>
+
+<p>一般是新建一个biblio.bib来专门存放参考文件，然后利用如下代码引入：</p>
+
+<pre><code>\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+</code></pre>
+
+<p>同时一个项目的文献这些可以使用 <a href="https://www.zotero.org/">zoteo</a> 或者 <a href="https://www.mendeley.com/">mendeley</a>来管理并导出。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag/"/>
+    <updated>2015-03-12T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag</id>
+    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+
+<h3>词干提取</h3>
+
+<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+<!--more-->
+
+
+<p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
+
+<pre><code>#! /usr/bin/env python
+/# encoding: utf-8
+
+"""
+Copyright (c) 2014-2015 ourren
+author: ourren &lt;i@ourren.com&gt;
+"""
+import nltk
+
+def main():
+    print 'enter main...'
+    sentence = "Listen, strange women lying in ponds \
+    distributing swords. Supreme executive power derives \
+    from a mandate from the masses, not from some farcical aquatic ceremony"
+    sentences = nltk.sent_tokenize(sentence)
+    sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    for sent in sentences:
+        # Porter
+        porter = nltk.PorterStemmer()
+        words = [porter.stem(word) for word in sent]
+        print words
+
+        # Lancaster
+        lancaster = nltk.LancasterStemmer()
+        lwords = [lancaster.stem(t) for t in sent]
+        print lwords
+
+        # WordNet
+        wnl = nltk.WordNetLemmatizer()
+        wwrods = [wnl.lemmatize(t) for t in sent]
+        print wwrods
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+<h3>词性标注</h3>
+
+<p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
+
+<p>nltk中将词汇按它们的词性(parts-of-speec h,POS)分类以及相应的标注它们的过程被称为词性标注(part-of-speech tagging, POS tagging)或干脆简称标注。其中标注结果中缩写词所代表的词性如下：</p>
+
+<pre><code>ADJ     adjective   new, good, high, special, big, local
+ADV     adverb  really, already, still, early, now
+CNJ     conjunction and, or, but, if, while, although
+DET     determiner  the, a, some, most, every, no
+EX      existential there, there’s
+FW      foreign word    dolce, ersatz, esprit, quo, maitre
+MOD     modal verb  will, can, would, may, must, should
+N       noun    year, home, costs, time, education
+NP      proper noun Alison, Africa, April, Washington
+NUM     number  twenty-four, fourth, 1991, 14:24
+PRO     pronoun he, their, her, its, my, I, us
+P       preposition on, of, at, with, by, into, under
+TO      the word to to
+UH      interjection    ah, bang, ha, whee, hmpf, oops
+V       verb    is, has, get, do, make, see, run
+VD      past tense  said, took, told, made, asked
+VG      present participle  making, going, playing, working
+VN      past participle given, taken, begun, sung
+WH      wh determiner   who, which, when, what, where, how
+</code></pre>
+
+<p>下面看具体例如：</p>
+
+<pre><code>def sentence_pos(sentences):
+    for sent in sentences:
+        words = nltk.pos_tag(sent)
+        print words
+</code></pre>
+
+<p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
+]]></content>
+  </entry>
+  
+</feed>

