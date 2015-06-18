@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Detecting Spammers on Twitter - Ourren</title>
+  <title>Understanding and Monitoring Embedded Web Scripts - Ourren</title>
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。 整体流程 首先爬取了大量Twitter用户的数据（通过API接口 + &hellip;">
+  <meta name="description" content="该篇文章发表于36th IEEE Symposium on Security and Privacy (&ldquo;Oakland&rdquo;)「属于安全界的顶级会议」，而作者是Yuchen Zhou，毕业于University of Virginia，目前就职Palo Alto &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/">
+  <link rel="canonical" href="http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
@@ -70,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">Detecting Spammers on Twitter</h1>
+      <h1 class="entry-title">Understanding and Monitoring Embedded Web Scripts</h1>
     
     
       <p class="meta">
@@ -79,7 +79,7 @@
 
 
 
-<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
+<time class='entry-date' datetime='2015-06-18T10:26:49-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:26 am</span></time>
         
         
             | <a href="#comments">留言</a>
@@ -89,40 +89,33 @@
   </header>
 
 
-<div class="entry-content"><p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
+<div class="entry-content"><p>该篇文章发表于36th IEEE Symposium on Security and Privacy (&ldquo;Oakland&rdquo;)「属于安全界的顶级会议」，而作者是Yuchen Zhou，毕业于University of Virginia，目前就职Palo Alto Networks。从作者的<a href="http://www.yuchenzhou.info/research">个人主页</a>可以看到其主要的研究内容：通过修改浏览器中特殊功能来实现对单点Web安全技术进行研究。PS：发的顶会文章也是够多的。</p>
 
-<h3>整体流程</h3>
+<p>该<a href="http://scriptinspector.org/">项目</a>主要开发了一个修改版的Firefox浏览器「ScriptInspector」来帮助网站管理人员查看网站第三方JavaScript对网页内容的相关操作，主要分为三个模块：ScriptInspector，Visualizer和PolicyGenerator。</p>
 
-<ol>
-<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
-<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
-<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
-<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
-<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
-<li>通过分析特征值，降维处理「减少特征值」；</li>
-<li>最后计算准确率并分析。</li>
-</ol>
+<ul>
+<li>ScriptInspector：基于Firefox的修改版浏览器，主要修改window.eval等函数的hook. 用来记录第三方脚本的函数调用，主要包含：DOM, 本地存储和网络。</li>
+<li>Visualizer：一个Firefox插件，用来高亮显示页面中被访问的节点，可以快速了解第三方脚本的操作。</li>
+<li>PolicyGenerator：用于辅助人员生成各种第三方脚本的访问策略，通过这些脚本在不同网站的访问情况可以推断该脚本的安全性。</li>
+</ul>
 
 
 <!--more-->
 
 
-<h3>创新点</h3>
+<p>作者通过分析把第三方脚本的操作分为了如下大类：获取浏览器版本，网络请求，修改网页内容，读取网页内容，记录用户操作，脚本插入，获取属性值。在具体实现部分从技术上讲解了这几类操作的实现细节。</p>
 
-<ol>
-<li>从内容特征和用户特征对twitter社交数据进行特征提取，内容特征考虑：最大长度，最小长度，均值，一个内容中的主题(##), 网址数量，单词数量，数字出现个数，@的用户数量，有多少人转发等「39个属性」；用户特征：粉丝数量，关注数量，发帖数量，转帖数量，年龄，被@多少次，多少次回复，发帖时间间隔，一天发多少帖，一周发多少帖「23个属性」。</li>
-<li>单一特征对分类的影响采用了cumulative distribution function (CDF)进行了分析，不熟悉CDF的可以看这里<a href="http://www.lifelaf.com/blog/?p=746">一维数据可视化：累积分布函数(Cumulative Distribution Function)</a>;</li>
-<li>SVM分类中采用了5阶交叉验证，即SVM参数的不同；</li>
-<li>通过信息增益或者X2统计分析TOP10,TOP20,-TOP50特征值「内容特征与用户特征」的数量；关于信息增益可以看这里：<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/24/261701.html">文本分类入门（十一）特征选择方法之信息增益</a>;</li>
-<li>然后用这些特征再次测试准确率。</li>
-</ol>
+<p>在策略分类问题上，主要分为几下几类：统计分析类脚本，广告类脚本，社交类脚本和Web开发类脚本「比如Jquery,google font等」。</p>
 
+<p>在最终测试中发现了很多有意思的东西：Alex 200的网站嵌入第三方脚本很多，并且有些脚本有违规的操作，比如每个网站平均需要6个权限，Facebook和Twitter请求权限很多，并且有时候会读取其它网页内容或者操作行为等，详细可以参考论文的「POLICY EVALUATION」。</p>
 
-<h3>总结</h3>
+<p>相关研究中对客户端脚本安全进行了详细的梳理，可以说非常不错。</p>
 
-<p>从工作量上看确实需要做大量的工作，另外作者对特征选取，特征优化这些做得很不错。最后请记住这个是2010年的论文。</p>
+<h3>点评</h3>
 
-<p>论文下载<a href="http://www.decom.ufop.br/fabricio/download/ceas10.pdf">Detecting Spammers on Twitter</a></p>
+<p>其实研究第三方脚本的安全隐私的论文已经很多了「可以参考文章中得相关工作和参考文献」，但是一般情况都是直接写一个插件利用JS HOOK来记录脚本的活动「Ghostery，BEEP，MashupOS，OMash」，而基于修改版的Firefox则很少，工业界中<a href="https://dominator.mindedsecurity.com/">DOMinator</a>利用修改版的Firefox来挖掘DOM XSS，而学术界貌似很少。 其实CSP的提出也是用于解决此类安全问题。</p>
+
+<p>另外论文的工作量看起来是比较多的，但是说实话测试数据不是很大，下载使用其程序感觉不够稳定，基本上算demo版本。</p>
 </div>
 
 
@@ -138,7 +131,7 @@
 
 
 
-<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
+<time class='entry-date' datetime='2015-06-18T10:26:49-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:26 am</span></time>
       
 
 <span class="categories">
@@ -159,10 +152,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/" title="Previous Post: On the Relations Between the Different Actors in the Spam Landscape">&laquo; On the Relations Between the Different Actors in the Spam Landscape</a>
+        <a class="basic-alignment left" href="/2015/05/21/detecting-spammers-on-twitter/" title="Previous Post: Detecting Spammers on Twitter">&laquo; Detecting Spammers on Twitter</a>
       
-      
-        <a class="basic-alignment right" href="/2015/06/18/understanding-and-monitoring-embedded-web-scripts/" title="Next Post: Understanding and Monitoring Embedded Web Scripts">Understanding and Monitoring Embedded Web Scripts &raquo;</a>
       
     </p>
   </footer>
@@ -171,7 +162,7 @@
 
 <section>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="Detecting Spammers on Twitter"></div>
+<div class="ds-thread" data-title="Understanding and Monitoring Embedded Web Scripts"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"ourren"};
   (function() {

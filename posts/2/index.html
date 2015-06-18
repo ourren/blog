@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是Mtr(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令， &hellip;">
+  <meta name="description" content="其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下： 在线平台/接口 虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是ip138， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/04/14/ip-information-with-python/">利用公开接口获取IP信息</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-14T11:20:48-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
+        
+        
+            | <a href="/2015/04/14/ip-information-with-python/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下：</p>
+
+<h4>在线平台/接口</h4>
+
+<p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/04/14/ip-information-with-python/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -272,50 +313,6 @@ http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
   
     <footer>
       <a rel="full-article" href="/2015/03/10/linux_mysql_udf_shell/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/02/21/nltk_note_token_sentence/">NLTK笔记:分句与分词</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-02-21T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2015/02/21/nltk_note_token_sentence/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
-
-<h4>分句</h4>
-
-<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
-+ 中文主要有(。？！)这几个句子结尾标志；
-+ 英文也差不多(. ? !)；
-使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/02/21/nltk_note_token_sentence/">继续阅读 →</a>
     </footer>
   
 

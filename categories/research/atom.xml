@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Research | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/research/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-06-13T15:53:46-07:00</updated>
+  <updated>2015-06-18T11:17:41-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding and Monitoring Embedded Web Scripts]]></title>
+    <link href="http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts/"/>
+    <updated>2015-06-18T10:26:49-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts</id>
+    <content type="html"><![CDATA[<p>该篇文章发表于36th IEEE Symposium on Security and Privacy (&ldquo;Oakland&rdquo;)「属于安全界的顶级会议」，而作者是Yuchen Zhou，毕业于University of Virginia，目前就职Palo Alto Networks。从作者的<a href="http://www.yuchenzhou.info/research">个人主页</a>可以看到其主要的研究内容：通过修改浏览器中特殊功能来实现对单点Web安全技术进行研究。PS：发的顶会文章也是够多的。</p>
+
+<p>该<a href="http://scriptinspector.org/">项目</a>主要开发了一个修改版的Firefox浏览器「ScriptInspector」来帮助网站管理人员查看网站第三方JavaScript对网页内容的相关操作，主要分为三个模块：ScriptInspector，Visualizer和PolicyGenerator。</p>
+
+<ul>
+<li>ScriptInspector：基于Firefox的修改版浏览器，主要修改window.eval等函数的hook. 用来记录第三方脚本的函数调用，主要包含：DOM, 本地存储和网络。</li>
+<li>Visualizer：一个Firefox插件，用来高亮显示页面中被访问的节点，可以快速了解第三方脚本的操作。</li>
+<li>PolicyGenerator：用于辅助人员生成各种第三方脚本的访问策略，通过这些脚本在不同网站的访问情况可以推断该脚本的安全性。</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>作者通过分析把第三方脚本的操作分为了如下大类：获取浏览器版本，网络请求，修改网页内容，读取网页内容，记录用户操作，脚本插入，获取属性值。在具体实现部分从技术上讲解了这几类操作的实现细节。</p>
+
+<p>在策略分类问题上，主要分为几下几类：统计分析类脚本，广告类脚本，社交类脚本和Web开发类脚本「比如Jquery,google font等」。</p>
+
+<p>在最终测试中发现了很多有意思的东西：Alex 200的网站嵌入第三方脚本很多，并且有些脚本有违规的操作，比如每个网站平均需要6个权限，Facebook和Twitter请求权限很多，并且有时候会读取其它网页内容或者操作行为等，详细可以参考论文的「POLICY EVALUATION」。</p>
+
+<p>相关研究中对客户端脚本安全进行了详细的梳理，可以说非常不错。</p>
+
+<h3>点评</h3>
+
+<p>其实研究第三方脚本的安全隐私的论文已经很多了「可以参考文章中得相关工作和参考文献」，但是一般情况都是直接写一个插件利用JS HOOK来记录脚本的活动「Ghostery，BEEP，MashupOS，OMash」，而基于修改版的Firefox则很少，工业界中<a href="https://dominator.mindedsecurity.com/">DOMinator</a>利用修改版的Firefox来挖掘DOM XSS，而学术界貌似很少。 其实CSP的提出也是用于解决此类安全问题。</p>
+
+<p>另外论文的工作量看起来是比较多的，但是说实话测试数据不是很大，下载使用其程序感觉不够稳定，基本上算demo版本。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Detecting Spammers on Twitter]]></title>
@@ -298,97 +333,6 @@
 </code></pre>
 
 <p>同时一个项目的文献这些可以使用 <a href="https://www.zotero.org/">zoteo</a> 或者 <a href="https://www.mendeley.com/">mendeley</a>来管理并导出。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
-    <link href="http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag/"/>
-    <updated>2015-03-12T00:00:00-07:00</updated>
-    <id>http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag</id>
-    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
-
-<h3>词干提取</h3>
-
-<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
-
-<!--more-->
-
-
-<p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
-
-<pre><code>#! /usr/bin/env python
-/# encoding: utf-8
-
-"""
-Copyright (c) 2014-2015 ourren
-author: ourren &lt;i@ourren.com&gt;
-"""
-import nltk
-
-def main():
-    print 'enter main...'
-    sentence = "Listen, strange women lying in ponds \
-    distributing swords. Supreme executive power derives \
-    from a mandate from the masses, not from some farcical aquatic ceremony"
-    sentences = nltk.sent_tokenize(sentence)
-    sentences = [nltk.word_tokenize(sent) for sent in sentences]
-    for sent in sentences:
-        # Porter
-        porter = nltk.PorterStemmer()
-        words = [porter.stem(word) for word in sent]
-        print words
-
-        # Lancaster
-        lancaster = nltk.LancasterStemmer()
-        lwords = [lancaster.stem(t) for t in sent]
-        print lwords
-
-        # WordNet
-        wnl = nltk.WordNetLemmatizer()
-        wwrods = [wnl.lemmatize(t) for t in sent]
-        print wwrods
-
-if __name__ == "__main__":
-    main()
-</code></pre>
-
-<h3>词性标注</h3>
-
-<p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
-
-<p>nltk中将词汇按它们的词性(parts-of-speec h,POS)分类以及相应的标注它们的过程被称为词性标注(part-of-speech tagging, POS tagging)或干脆简称标注。其中标注结果中缩写词所代表的词性如下：</p>
-
-<pre><code>ADJ     adjective   new, good, high, special, big, local
-ADV     adverb  really, already, still, early, now
-CNJ     conjunction and, or, but, if, while, although
-DET     determiner  the, a, some, most, every, no
-EX      existential there, there’s
-FW      foreign word    dolce, ersatz, esprit, quo, maitre
-MOD     modal verb  will, can, would, may, must, should
-N       noun    year, home, costs, time, education
-NP      proper noun Alison, Africa, April, Washington
-NUM     number  twenty-four, fourth, 1991, 14:24
-PRO     pronoun he, their, her, its, my, I, us
-P       preposition on, of, at, with, by, into, under
-TO      the word to to
-UH      interjection    ah, bang, ha, whee, hmpf, oops
-V       verb    is, has, get, do, make, see, run
-VD      past tense  said, took, told, made, asked
-VG      present participle  making, going, playing, working
-VN      past participle given, taken, begun, sung
-WH      wh determiner   who, which, when, what, where, how
-</code></pre>
-
-<p>下面看具体例如：</p>
-
-<pre><code>def sentence_pos(sentences):
-    for sent in sentences:
-        words = nltk.pos_tag(sent)
-        print words
-</code></pre>
-
-<p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
 ]]></content>
   </entry>
   

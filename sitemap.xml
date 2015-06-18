@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts/</loc>
+    <lastmod>2015-06-18T10:26:49-07:00</lastmod>
+  </url>
+  <url>
     <loc>http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/</loc>
     <lastmod>2015-05-21T19:43:11-07:00</lastmod>
   </url>
@@ -273,5 +277,35 @@
   </url>
   <url>
     <loc>http://blog.ourren.com/blog/categories/research/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/3/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/4/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/5/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/6/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/7/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/8/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/9/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/10/</loc>
+  </url>
+  <url>
+    <loc>http://blog.ourren.com/blog/posts/11/</loc>
   </url>
 </urlset>

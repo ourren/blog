@@ -9,7 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="0x1 题外话         从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。         总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析， &hellip;">
+  <meta name="description" content="chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。 IDA 各类技巧：
+交叉参考：
+函数与函数之间的调用：双击函数开始的上下箭头 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,66 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/09/practical_malware_analysis_chapter5/">Practical Malware Analysis Chapter5 Summary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-09T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/04/09/practical_malware_analysis_chapter5/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。</p>
+
+<p>IDA 各类技巧：
+交叉参考：
+函数与函数之间的调用：双击函数开始的上下箭头
+函数内部调用函数：直接双击函数进入
+数据交叉参考，一样双击进入。</p>
+
+<p>图形选项：
+函数被调用：
+函数调用其他函数：
+调用层次选择。</p>
+
+<p>插件使用：
+hex-rays、bindiff、patchdiff等
+IDC、python脚本使用。</p>
+
+<p>一些实用技巧：
+添加注释： 替换注释;
+右键修改函数名
+数字右键进制转换
+加载调用函数参数常量名称：右键使用标准符号常量
+图形与代码显示转换，空格
+F5 快速函数C语言格式化
+多参考输入表、输出表、字符选项卡。</p>
+
+<p>chapter5整体知识点：</p>
+
+<p><a href="http://ourren.b0.upaiyun.com/chapter5.jpg"><img class="aligncenter" title="chapter5" src="http://ourren.b0.upaiyun.com/chapter5.jpg" alt="" width="556" height="321"></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
