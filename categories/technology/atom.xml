@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-06-18T11:36:14-07:00</updated>
+  <updated>2015-07-02T18:54:49-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -24,11 +24,37 @@
 <li>urlparse</li>
 <li>tldextract</li>
 <li>dnspython</li>
+<li>domaintools</li>
 </ul>
 
 
 <!--more-->
 
+
+<h3>验证域名</h3>
+
+<p>判断一个域名是否有效，可以试用domaintools工具来实现，并且也有解析域名的功能，例如下面代码可以从域名的构成上分析是否有效「即不验证是否可ping」，另外也可以获取子域名和后缀：</p>
+
+<pre><code>from domaintools import Domain
+d = Domain('www.example.com')
+
+&gt;&gt;&gt; d.valid
+True
+
+&gt;&gt;&gt; d.domain
+u'example.com'
+
+&gt;&gt;&gt; d.subdomain
+u'www'
+
+&gt;&gt;&gt; d.tld
+u'com'
+
+&gt;&gt;&gt; d.sld
+u'example'
+</code></pre>
+
+<p>更多可以参见<a href="https://github.com/devhub/domaintools">Domain parsing with Python</a>.</p>
 
 <h3>域名解析</h3>
 
