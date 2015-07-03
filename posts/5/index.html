@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="话说近两年大数据确实火了，带给我们最直接的视觉感受就是利用图或者表来展示大数据所隐藏的内容，真是真实而又直观。然而技术博客的侧边栏标签云就是一种原始雏形，只不过这种标签是通过作者手动添加而生成的。本文就是想通过自动提取博文标题中的关键字，然后通过插件来进行显示。核心技术就是：中文分词与词频统计 &hellip;">
+  <meta name="description" content="MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改）， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,101 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/11/02/yii-word_extension_and_example/">Yii框架使用Word扩展插件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-02T00:00:00-07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2014/11/02/yii-word_extension_and_example/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" src="http://ourren.b0.upaiyun.com/yii_word.png" alt="" width="374" height="141"></p>
+
+<p>MS Office套件的复合文件格式（特别是Word和PPT）一直是编程人员比较恼火的问题：不能通过简单的编程来自动生成Word或者PPT文件，但是从Office 2007开始微软逐渐开放其格式（可以理解未：单一的Office文件相当于一个zip的压缩包，其文件的内容可以通过编程来修改），因此诞生了基于各种脚本语言的office库。现在看来其具体实现的方法有如下几种：</p>
+
+<ol>
+<li><p>通过OLE接口来生成文件（仅限于Windows平台），即通过微软提供的接口来实现，在Office 2007之前也可以通过这种方法实现；</p></li>
+<li><p>通过文档的格式来进行生成。由于微软Office 2007开放了格式并且其格式相当简单，因此可以通过程序来直接生成格式。这块技术有非常出名的<a href="http://phpoffice.github.io/" target="_blank">PHPOffice</a>。</p></li>
+</ol>
+
+
+<p>其中excel的格式相对比较简单，各种脚本语言都可以快速地生成excel文件。YII框架也有针对excel库非常方便的扩展插件：<a href="http://www.yiiframework.com/extension/yiiexcel/" target="_blank">yiiexcel</a>，而针对Word格式的扩展插件目前基本上还没有，而github上的<a href="https://github.com/websthetics/yii-phpword" target="_blank">yii-phpword</a>使用的时候存在一次问题，本文基于YII框架提出了一个使用Word的扩展插件，项目地址：<a href="https://github.com/opcodesec/yii-word" target="_blank">yii-word</a>。</p>
+
+<p>使用时具体配置如下：</p>
+
+<ol class="task-list" style="color: #333333;">
+    <li><em>从github下载文件并解压；</em></li>
+    <li><em>在<em>protected/extensions创建新目录（<em>yiiword</em>）；</em></em></li>
+    <li><em>将下载的YiiWord.php文件放在 （protected/extensions/yiiword）目录下；</em></li>
+    <li>下载最新的版本的<em>PHPWord: <a style="color: #4183c4;" href="https://phpword.codeplex.com/">https://phpword.codeplex.com/</a>;</em>
+</li>
+    <li><i>解压文件并放在<em>protected/vendor/PHPWord/目录下，需要新建<i><em>PHPWord目录；</em></i></em></i></li>
+    <li><em>在main.php中导入库“<em>application.vendors.PHPWord.PHPWord”；</em></em></li>
+</ol>
+
+
+<p>使用如下：</p>
+
+<blockquote>
+<em>Yii::import(&#8216;ext.yiiword.YiiWord&#8217;, true);</em>
+<em> Yii::registerAutoloader(array(&#8216;YiiWord&#8217;, &#8216;autoload&#8217;), true);</em>
+
+<em>$PHPWord = new PHPWord();</em>
+<em> $section = $PHPWord->createSection();</em>
+
+<em>$section->addText(&#8216;Hell Wordl!&#8217;);//添加内容</em>
+
+$section->addTextBreak();//添加空行
+
+<em>//生成下载页面</em>
+<em> $filename = time();</em>
+<em> header(&#8216;Content-Type: application/vnd.ms-word&#8217;);</em>
+<em> header(&#8216;Content-Disposition: attachment;filename=&#8221;&#8217;.$filename.&#8217;.docx&#8221;&#8217;);</em>
+<em> header(&#8216;Cache-Control: max-age=0&#8217;);</em>
+
+<em>$objWriter = PHPWord_IOFactory::createWriter($PHPWord, &#8216;Word2007&#8217;);</em>
+<em> $objWriter->save(&#8216;php://output&#8217;);</em>
+<em> unset($this->objWriter);</em>
+<em> exit();</em>
+</blockquote>
+
+
+<p>其它高级使用文档可以参考PHPWord的<a href="https://phpword.codeplex.com/documentation" target="_blank">官方文档</a>。</p>
+
+<p>参考链接：</p>
+
+<ol class="task-list" style="color: #333333;">
+    <li>
+<a style="color: #4183c4;" href="https://phpword.codeplex.com/">phpword</a>;</li>
+    <li>
+<a style="color: #4183c4;" href="https://github.com/websthetics/yii-phpword">yii-phpword</a>;</li>
+    <li>
+<a href="http://www.yiiframework.com/extension/yiiexcel/" target="_blank">yiiexcel</a>。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -320,7 +415,7 @@ print &#8220;%s:&#8221; % word,cnt</blockquote>
 </ol>
 
 
-<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x53;&#x65;&#99;&#x57;&#105;&#107;&#x69;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;">&#83;&#101;&#99;&#x57;&#105;&#107;&#105;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></span></p>
+<p>如何任何问题欢迎留言或者<span style="color: #000000;">微博： <a style="color: #cccccc;" href="http://t.qq.com/secwiki" target="_blank"><span style="color: #000000;">@腾讯微博</span></a> <a style="color: #cccccc;" href="http://weibo.com/secwiki" target="_blank"><span style="color: #000000;">@新浪微博</span></a></span><br style="color: #a4a1a1;"><span style="color: #000000;">意见反馈QQ群：295202941</span><br style="color: #a4a1a1;"><span style="color: #000000;">联系邮件：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x53;&#x65;&#x63;&#x57;&#x69;&#x6b;&#105;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x53;&#x65;&#99;&#87;&#105;&#107;&#105;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></span></p>
 </div>
   
   
@@ -550,56 +645,6 @@ $retarr = XXX::model()->findAll($criteria);
     <li><a href="http://www.yiiframework.com/doc/guide/1.1/zh_cn/topics.security">安全措施 (Security)</a></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/02/08/yii_bootstrap/">基于Bootstrap的YII插件汇总</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-02-08T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2014/02/08/yii_bootstrap/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="aligncenter" alt="yii_bootstrap" src="http://ourren.b0.upaiyun.com/yii_boostrap.jpg" width="603" height="197"></p>
-
-<p>YII作为当前流行的PHP框架，可以快速地开发网站和应用；而bootstrap作为twitter开源的响应式布局解决方案，可以在不了解CSS和JavaScript脚本的基础上实现网页的布局和网站设计。YII+Bootstrap两者结合起来可以说是加速了网站开发进度，让开发人员只需关注网站的功能。</p>
-
-<p>从<a href="http://www.yiiframework.com/extensions/" target="_blank">yiiframework</a>官方网站可以看到很多YII插件，当前少不了基于bootstrap的插件，个人从开始接触yii和bootstrap也差不多一年多了，在这里推荐下几个常用的基于bootstrap的yii插件。</p>
-
-<p><strong>     <a href="http://www.cniska.net/yii-bootstrap/" target="_blank">yii-bootstrap</a></strong></p>
-
-<p>该插件出现时间最早，同时该作者还写了很多yii插件，比如强大的auth插件。yii-bootstrap插件将常用的bootstrap的布局进行了封装，将所有可能单独使用的元素写成了widgets小工具，开发人员只需要使用PHP语言即可写出比较完美的网站。</p>
-
-<p><strong>      <a href="http://yii-booster.clevertech.biz/" target="_blank">yiibooster</a></strong></p>
-
-<p>yiibooster在yii-bootstrap的基础上进行了二次开发，集成了更多的开源库，例如：jQuery、Highcharts JS等。</p>
-
-<p><strong>      <a href="http://www.getyiistrap.com/" target="_blank">yiistrap</a></strong></p>
-
-<p>yiistrap是最新的开源项目，跟前面两个开源库的使用有所不同，扩充性和易用性更好。</p>
-
-<p>这几个开源库的配置相对比较简单，对应的网站都有相应的入门教程。</p>
 </div>
   
   

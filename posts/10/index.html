@@ -9,9 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="对涉及PHP安全方面的函数进行了归类，参照了很多文章和博客，在此表示感谢。
-[code lang=&ldquo;php&rdquo;]1.include/require/require_once/include_once/file_get_contents
-2.exec/system/popen/ &hellip;">
+  <meta name="description" content="在php源码审计的时候，需要根据自己的字典进行搜索并进行分析，因此php 安全字典很重要，上一篇文章总结了常见安全方面的PHP函数。Windows下我们可以通过“Search and Replace”工具结合字典进行搜索，而linux下可以通过借鉴强大的grep命令进行搜索， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +67,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/01/psatv1-0/">php源码审计工具(Psat简介)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-01T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/06/01/psatv1-0/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在php源码审计的时候，需要根据自己的字典进行搜索并进行分析，因此php 安全字典很重要，<a href="/2012/05/31/php_audit_dictionary.html">上一篇文章</a>总结了常见安全方面的PHP函数。Windows下我们可以通过“Search and Replace”工具结合字典进行搜索，而linux下可以通过借鉴强大的grep命令进行搜索，但是针对不同类型漏洞需要记住很多命令和参数，这样导致使用不方便。前几天刚好看到<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a>开源的工具，由于作者使用的是perl进行开发，通过对源码和字典关键字分析进行了二次开发，特点如下：</p>
+
+<p>1、字典中增加了一些函数</p>
+
+<p>2、多文件搜索时默认显示不是很方便，因此可以使用选项生成报告。</p>
+
+<p>3、再次开发更方便，直接增加字典</p>
+
+<p>软件截图：</p>
+
+<p><a href="http://ourren.b0.upaiyun.com/psat1.jpg"><img class="aligncenter" title="psat" src="http://ourren.b0.upaiyun.com/psat1.jpg" alt="" width="534" height="199"></a></p>
+
+<p>软件下载地址：<a href="http://code.google.com/p/ourren/downloads/detail?name=psat%20v1.0.rar">连接</a></p>
+
+<p>在此感谢:<a href="http://www.0x50sec.org/%E4%B8%80%E4%B8%AA%E7%AE%80%E9%99%8B%E7%9A%84php%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/">c4rp3nt3r</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -439,81 +483,6 @@ UTF-7(+ACc-)===&gt;gpcaddslashes()===&gt;mb_convert_encoding()===&gt;UTF-8(&rsqu
 <a href="http://www.xfocus.net/articles/200608/878.html">http://www.xfocus.net/articles/200608/878.html</a>
 <a href="http://www.ourren.com/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/file-contains-the-summary-into-the-use-of.html</a>
 <a href="http://bbs.wolvez.org">http://bbs.wolvez.org</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/11/zend_record_login_info/">Zend框架记录登陆信息</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-11T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/11/zend_record_login_info/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Zend框架结构简介</strong></p>
-
-<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>     由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。
-<a href="http://ourren.b0.upaiyun.com/zend_1.png"><img class="aligncenter" title="zend" src="http://ourren.b0.upaiyun.com/zend_1.png" alt="" width="421" height="359"></a></p>
-
-<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。查看application文件夹下的module文件夹，一般里面会存在多个模型，而每个模型下面的结构是一样的，如图所示：
-<a href="http://ourren.b0.upaiyun.com/zend_2.png"><img class="aligncenter" title="zend" src="http://ourren.b0.upaiyun.com/zend_2.png" alt="" width="123" height="116"></a></p>
-
-<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>一般我们还是只关注models文件夹里面的文件，这里面就会有各种功能的类，基本上都是从zend中继承过来的。每个文件的作用可以根据文件名进行识别，然后添加相关代码。
-<strong>记录代码</strong></p>
-
-<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>     Php中可以使用$_SERVER数组来获取相关客户端用户用户信息（IP、USER_AGENT、REFERER等），有时候可能会记录用户提交的相关数据。
-一段比较简洁的代码如下：</p>
-
-<p>[code lang=&ldquo;php&rdquo;]&lt;?php
-date_default_timezone_set(&lsquo;UTC&rsquo;);
-$filename  = date(&ldquo;Ymd&rdquo;).&lsquo;.txt&rsquo;;
-$content =&ldquo;Time:&rdquo;.date(&ldquo;YmdHis&rdquo;).&ldquo;tIP:&rdquo;.$<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;].&ldquo;tAgent:&rdquo;.$</em>SERVER[&lsquo;HTTP_USER_AGENT&rsquo;].&ldquo;tCookie:&rdquo;.@$_COOKIE[&lsquo;auth&rsquo;].&ldquo;n&rdquo;;
-if ($handle = fopen($filename, &lsquo;a+&rsquo;))
-{
-    fwrite($handle, $content);
-    fclose($handle);
-}
-?&gt;[/code]</p>
-
-<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
-
-
-<p>其他记录用户名、密码按照这个进行添加就OK了。
-参考文章：
-<span><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html"><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html">http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html</a></a></span> 
-<span><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout"><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout">http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout</a></a></span></p>
 </div>
   
   

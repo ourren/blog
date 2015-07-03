@@ -9,9 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="chapter5主要是讲解IDA的各类技巧应用，同时结合在malware中的各类关键知识进行讲解。由于接近一年多没使用IDA了，此次接触又熟悉了一遍IDA各类使用。课后的lab5_1很不错，建议有空的话可以做做。 IDA 各类技巧：
-交叉参考：
-函数与函数之间的调用：双击函数开始的上下箭头 &hellip;">
+  <meta name="description" content="Zend框架结构简介      由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。 一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +67,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/11/zend_record_login_info/">Zend框架记录登陆信息</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-04-11T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/04/11/zend_record_login_info/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Zend框架结构简介</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     由于zend框架是基于MVC架构，因此添加记录登陆信息需要在module中进行添加记录，先开下zend新建一个程序的网站目录结构。
+<a href="http://ourren.b0.upaiyun.com/zend_1.png"><img class="aligncenter" title="zend" src="http://ourren.b0.upaiyun.com/zend_1.png" alt="" width="421" height="359"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般library文件夹里面是zend的网站源码，我们不需要对其进行研究，主要需要研究的是application文件夹下面的内容。查看application文件夹下的module文件夹，一般里面会存在多个模型，而每个模型下面的结构是一样的，如图所示：
+<a href="http://ourren.b0.upaiyun.com/zend_2.png"><img class="aligncenter" title="zend" src="http://ourren.b0.upaiyun.com/zend_2.png" alt="" width="123" height="116"></a></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>一般我们还是只关注models文件夹里面的文件，这里面就会有各种功能的类，基本上都是从zend中继承过来的。每个文件的作用可以根据文件名进行识别，然后添加相关代码。
+<strong>记录代码</strong></p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>     Php中可以使用$_SERVER数组来获取相关客户端用户用户信息（IP、USER_AGENT、REFERER等），有时候可能会记录用户提交的相关数据。
+一段比较简洁的代码如下：</p>
+
+<p>[code lang=&ldquo;php&rdquo;]&lt;?php
+date_default_timezone_set(&lsquo;UTC&rsquo;);
+$filename  = date(&ldquo;Ymd&rdquo;).&lsquo;.txt&rsquo;;
+$content =&ldquo;Time:&rdquo;.date(&ldquo;YmdHis&rdquo;).&ldquo;tIP:&rdquo;.$<em>SERVER[&lsquo;REMOTE_ADDR&rsquo;].&ldquo;tAgent:&rdquo;.$</em>SERVER[&lsquo;HTTP_USER_AGENT&rsquo;].&ldquo;tCookie:&rdquo;.@$_COOKIE[&lsquo;auth&rsquo;].&ldquo;n&rdquo;;
+if ($handle = fopen($filename, &lsquo;a+&rsquo;))
+{
+    fwrite($handle, $content);
+    fclose($handle);
+}
+?&gt;[/code]</p>
+
+<!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8</w:DrawingGridVerticalSpacing><w:View>Normal</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]-->
+
+
+<p>其他记录用户名、密码按照这个进行添加就OK了。
+参考文章：
+<span><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html"><a href="http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html">http://shuimu.js.cn/the-zend-framework-installation-configuration-with-the-classic-hello-world-test.html</a></a></span> 
+<span><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout"><a href="http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout">http://framework.zend.com/wiki/display/ZFDEV/Choosing+Your+Application%27s+Directory+Layout</a></a></span></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

