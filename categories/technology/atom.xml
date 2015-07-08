@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-07-08T13:29:03-07:00</updated>
+  <updated>2015-07-08T13:33:36-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -24,6 +24,8 @@
 
 <!--more-->
 
+
+<h4>Pycahrm集成Pylint</h4>
 
 <p>Pycharm是我目前最喜欢的Python IDE「请不要把Sublime拿来对比，当你写大项目的时候你就知道区别了」。当我搜索如何把Pylint集成到Pycharm的时候发现其实资料很少「参考4,5」，按着步骤做还有些问题，遂修正如下：</p>
 
@@ -45,7 +47,9 @@
 
 <p>添加此插件到工具栏：在工具栏点右键&mdash;“Customize Menus and Toolbars”&mdash;“Main Toolbar”&mdash;“Help Topics”&mdash;-&ldquo;Add after&rdquo;&mdash;&ldquo;External Tools&rdquo;&mdash;&ldquo;Pylint&rdquo;, 然后就搞定了。</p>
 
-<p>代码写好了之后按一下这个按钮即可对改代码进行规范性检测，测试效果可以参照「6」进行测试，例如测试下面的代码：</p>
+<h4>测试实践</h4>
+
+<p>代码写好了之后按一下这个按钮即可对改代码进行规范性检测，同时测试报告会给出你不符合规格的行数和问题，测试效果可以参照「6」进行测试，例如测试下面的代码：</p>
 
 <pre><code> Customize Menus and Toolbars#coding:utf-8
 '''
