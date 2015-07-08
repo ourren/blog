@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="今天分享的是Roberto Perdisci教授在2013年发表在ESORICS上的一篇论文，该文在Google学术中虽然引用不高，单独读完之后感觉在分类前提取特征的方法写得不错，分享给大家。 概述 论文主要观点： 通过在网络出口部署相关设备，可以观察局域网内所有软件下载行为， &hellip;">
+  <meta name="description" content="虽然接触Python已经有好几年了，同时前前后后也开发过很多小工具或者系统，但是一直觉得代码不是很规范，最近抽空了解了这方面的资料，现归纳如下，也方便pythoner学习，文章首先介绍Python代码规范的程序，然后分享在Pycharm中嵌入Pylint程序来实现快速检测代码质量。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/07/08/pythondai-ma-gui-fan-ru-men/">Python代码规范入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T12:55:49-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:55 pm</span></time>
+        
+        
+            | <a href="/2015/07/08/pythondai-ma-gui-fan-ru-men/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然接触Python已经有好几年了，同时前前后后也开发过很多小工具或者系统，但是一直觉得代码不是很规范，最近抽空了解了这方面的资料，现归纳如下，也方便pythoner学习，文章首先介绍Python代码规范的程序，然后分享在Pycharm中嵌入Pylint程序来实现快速检测代码质量。</p>
+
+<p>Google开放的各类语言代码规范中就有就有「Python风格规范」, 里面对语言规范和风格规范进行了详细的描述，不失为提升自己代码规范的入门资料。但是让我阅读「编写高质量代码 改善Python程序的91个建议」此书时才发现原来Google这种代码规范属于「PEP8」规范。同样，PEP8也不是唯一的风格检测程序，类似的应用还有Pychecker、Pylint、Pyflakes等。其中，Pychecker是Google Python Style Guide推荐的工具；Pylint因可以非常方便地通过编辑配置文件实现公司或团队的风格检测而受到许多人的青睐；Pyflakes则因为易于集成到vim中，所以使用的人也非常多。这样看我们只需要选择一个适合自己的代码规范即可，而如上所述，Pylint高可配置性，高可定制性，并且可以很容易写小插件来添加功能。因此，我最终选择了Pylint来实现代码规范检测。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/07/08/pythondai-ma-gui-fan-ru-men/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -301,51 +340,6 @@
   
     <footer>
       <a rel="full-article" href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/04/26/python-with-domain/">Python中域名处理技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-26T12:05:01-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 pm</span></time>
-        
-        
-            | <a href="/2015/04/26/python-with-domain/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Python中经常会遇到各种字符串处理问题，而在网络请求这块又经常与URL或者域名打交道，本文侧重介绍Python在处理URL/或者域名中的技巧，涉及到的Python主要有如下几种：</p>
-
-<ul>
-<li>urlparse</li>
-<li>tldextract</li>
-<li>dnspython</li>
-<li>domaintools</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/04/26/python-with-domain/">继续阅读 →</a>
     </footer>
   
 

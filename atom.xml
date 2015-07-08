@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/blog/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-07-03T01:25:11-07:00</updated>
+  <updated>2015-07-08T13:29:03-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,164 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python代码规范入门]]></title>
+    <link href="http://blog.ourren.com/blog/2015/07/08/pythondai-ma-gui-fan-ru-men/"/>
+    <updated>2015-07-08T12:55:49-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/07/08/pythondai-ma-gui-fan-ru-men</id>
+    <content type="html"><![CDATA[<p>虽然接触Python已经有好几年了，同时前前后后也开发过很多小工具或者系统，但是一直觉得代码不是很规范，最近抽空了解了这方面的资料，现归纳如下，也方便pythoner学习，文章首先介绍Python代码规范的程序，然后分享在Pycharm中嵌入Pylint程序来实现快速检测代码质量。</p>
+
+<p>Google开放的各类语言代码规范中就有就有「Python风格规范」, 里面对语言规范和风格规范进行了详细的描述，不失为提升自己代码规范的入门资料。但是让我阅读「编写高质量代码 改善Python程序的91个建议」此书时才发现原来Google这种代码规范属于「PEP8」规范。同样，PEP8也不是唯一的风格检测程序，类似的应用还有Pychecker、Pylint、Pyflakes等。其中，Pychecker是Google Python Style Guide推荐的工具；Pylint因可以非常方便地通过编辑配置文件实现公司或团队的风格检测而受到许多人的青睐；Pyflakes则因为易于集成到vim中，所以使用的人也非常多。这样看我们只需要选择一个适合自己的代码规范即可，而如上所述，Pylint高可配置性，高可定制性，并且可以很容易写小插件来添加功能。因此，我最终选择了Pylint来实现代码规范检测。</p>
+
+<!--more-->
+
+
+<p>Pycharm是我目前最喜欢的Python IDE「请不要把Sublime拿来对比，当你写大项目的时候你就知道区别了」。当我搜索如何把Pylint集成到Pycharm的时候发现其实资料很少「参考4,5」，按着步骤做还有些问题，遂修正如下：</p>
+
+<p>安装pylint</p>
+
+<pre><code>sudo pip install pylint
+</code></pre>
+
+<p>依次打开如下菜单：</p>
+
+<pre><code>Open “Settings &gt; Tools &gt; External Tools” and press the “+” button.
+</code></pre>
+
+<p><img src="http://blog.ourren.com/upload/pycharm_0.jpg" alt="step1" /></p>
+
+<p>设置相关参数，参数和工作目录请使用宏，点击即可选择:</p>
+
+<p><img src="http://blog.ourren.com/upload/pycharm_1.png" alt="step1" /></p>
+
+<p>添加此插件到工具栏：在工具栏点右键&mdash;“Customize Menus and Toolbars”&mdash;“Main Toolbar”&mdash;“Help Topics”&mdash;-&ldquo;Add after&rdquo;&mdash;&ldquo;External Tools&rdquo;&mdash;&ldquo;Pylint&rdquo;, 然后就搞定了。</p>
+
+<p>代码写好了之后按一下这个按钮即可对改代码进行规范性检测，测试效果可以参照「6」进行测试，例如测试下面的代码：</p>
+
+<pre><code> Customize Menus and Toolbars#coding:utf-8
+'''
+    a test function module
+'''
+import urllib
+import time
+
+def fetch(url):
+    '''
+        fetch url
+    '''
+    content = urllib.urlopen(url).read()
+    f_html = open('tmp%s.html' % str(time.time()), 'w')
+    f_html.write(content)
+    f_html.close()
+
+def main(urls):
+    '''
+        main func to be called
+    '''
+    for url in urls:
+        fetch(url)
+
+if __name__ == '__main__':
+    FROM_URLS = ['http://www.baidu.com','http://www.sohu.com']
+    main(FROM_URLS)
+</code></pre>
+
+<p>测试报告如下，可以发现此代码最终得到了「10.00/10」，说明代码规范非常不错。</p>
+
+<pre><code>/usr/local/bin/pylint pyl.py
+No config file found, using default configuration
+
+
+Report
+======
+14 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |1      |1          |=          |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|method   |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|function |2      |2          |=          |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |13     |41.94 |14       |-1.00      |
++----------+-------+------+---------+-----------+
+|docstring |10     |32.26 |10       |=          |
++----------+-------+------+---------+-----------+
+|comment   |2      |6.45  |2        |=          |
++----------+-------+------+---------+-----------+
+|empty     |6      |19.35 |5        |+1.00      |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |0      |1        |-1.00      |
++-----------+-------+---------+-----------+
+|refactor   |0      |0        |=          |
++-----------+-------+---------+-----------+
+|warning    |0      |0        |=          |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 10.00/10 (previous run: 9.29/10, +0.71)
+
+
+Process finished with exit code 0
+</code></pre>
+
+<h4>参考资料</h4>
+
+<ol>
+<li><a href="http://zh-google-styleguide.readthedocs.org/en/latest/google-python-styleguide/">Google Python 风格指南 - 中文版</a></li>
+<li><a href="https://book.douban.com/subject/25910544/">编写高质量代码 改善Python程序的91个建议</a></li>
+<li><a href="https://www.jetbrains.com/pycharm/">Pycharm download</a></li>
+<li><a href="http://blog.saturnlaboratories.co.za/archive/2012/09/10/running-pylint-pycharm">Running PyLint in PyCharm</a></li>
+<li><a href="http://softwaretester.info/integrate-pylint-in-pycharm/">Integrate pylint in PyCharm</a></li>
+<li><a href="http://www.the5fire.com/python-clean-code-pylint.html">python代码检查工具pylint-让你的python更规范</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Measuring and Detecting Malware Downloads in Live Network Traffic]]></title>
@@ -1288,62 +1446,6 @@ Since 1980, the IEEE Symposium on Security and Privacy (SP) has been the premier
 <li></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[解决composer的ssl证书问题]]></title>
-    <link href="http://blog.ourren.com/blog/2015/01/18/solve_composer_ssl_error/"/>
-    <updated>2015-01-18T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/blog/2015/01/18/solve_composer_ssl_error</id>
-    <content type="html"><![CDATA[<p>作为PHP深度开发者，<a href="https://getcomposer.org/">composer</a>的出现可以说解决了大家的环境配置成本、代码共享方式和代码更新问题，现在的大部分的PHP框架如<a href="http://laravel.com/">laravel</a>、<a href="http://www.yiiframework.com/">yii2</a> 都采用composer的包管理机制，可以让开发者快速安装插件。</p>
-
-<p>最近遇到的主要问题是执行composer更新命令遇到如下错误：</p>
-
-<pre><code>composer self-update
-
-[Composer\Downloader\TransportException]
-The "https://getcomposer.org/version" file could not be downloaded: SSL operation failed with code 1. OpenSSL Error messages:error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed
-Failed to enable crypto
-failed to open stream: operation failed
-</code></pre>
-
-<!--more-->
-
-
-<p>其实你要是把这个错误信息放在网上<a href="https://www.google.com/search?q=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A&amp;oq=mac+The+%22https%3A%2F%2Fpackagist.org%2Fpackages.json%22+file+could+not+be+downloaded%3A+SSL+operation+failed+with+code+1.+OpenSSL+Error+messages%3A">一搜</a>，结果发现一堆这种问题，但是问题的关键是这些问题都没有给出解决方案，比较靠谱的回答有如下几种：</p>
-
-<ol>
-<li>证书出现问题，去更新下你的证书信息；</li>
-<li>网络问题，自己看下是不是被欺骗了；</li>
-<li>&hellip;&hellip;.</li>
-</ol>
-
-
-<p>Google出来很多答案，就连stackoverflow都有很多问题和答案，但是问题的关键这些答案都不能解决问题，通过自己的研究发现目前Mac安装的PHP版本是5.3版本的，感觉应该是openssl爆出漏洞后导致证书不可信，所以直接升级PHP版本应该就可以，那就可以直接执行如下命令：</p>
-
-<pre><code>brew install php56
-</code></pre>
-
-<p>请注意，make的时候cpu飙到99%是正常的，稍微等几分钟就好了，然后执行更新：</p>
-
-<pre><code>composer update
-
-Your requirements could not be resolved to an installable set of packages.
-</code></pre>
-
-<p>这个问题就更好解决了，修改当前工程的composer.json中的：</p>
-
-<pre><code>"minimum-stability": "stable",
-</code></pre>
-
-<p>改为：</p>
-
-<pre><code>"minimum-stability": "dev",
-"prefer-stable": true,
-</code></pre>
-
-<p>顺利解决问题～</p>
 ]]></content>
   </entry>
   

