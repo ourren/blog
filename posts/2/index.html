@@ -9,10 +9,8 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="Python中经常会遇到各种字符串处理问题，而在网络请求这块又经常与URL或者域名打交道，本文侧重介绍Python在处理URL/或者域名中的技巧，涉及到的Python主要有如下几种： urlparse
-tldextract
-dnspython
-domaintools ">
+  <meta name="description" content="此文档是G Stringhini的开题报告这里下载,针对Botnet的技术进化和科研上对应的防御方案进行了详细地讨论，对于研究botnet的人来说是一份非常不错得入门资料。文档主要分为四个部分: 引言简单介绍了Botnet的威胁，来源和发展；
+第二部分主要介绍Botnet的进化， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +68,50 @@ domaintools ">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/">On the Arms Race in Spamming Botnet Mitigation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-08T14:54:59-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:54 pm</span></time>
+        
+        
+            | <a href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>此文档是G Stringhini的开题报告<a href="http://www0.cs.ucl.ac.uk/staff/G.Stringhini/papers/writeup.pdf">这里下载</a>,针对Botnet的技术进化和科研上对应的防御方案进行了详细地讨论，对于研究botnet的人来说是一份非常不错得入门资料。文档主要分为四个部分:</p>
+
+<ul>
+<li>引言简单介绍了Botnet的威胁，来源和发展；</li>
+<li>第二部分主要介绍Botnet的进化，包含Botnet的通讯架构和感染两部分；</li>
+<li>第三部分主要介绍科研上针对Botnet和垃圾邮件的检测和防御机制；</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -272,47 +314,6 @@ domaintools ">
   
     <footer>
       <a rel="full-article" href="/2015/03/23/highchart-note-with-php/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/03/16/phar_include_exploit/">Phar突破文件包含</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2015/03/16/phar_include_exploit/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
-
-<pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
-http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
-</code></pre>
-
-<p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/03/16/phar_include_exploit/">继续阅读 →</a>
     </footer>
   
 

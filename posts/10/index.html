@@ -9,9 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="DEncode1.1更新说明1、增加了LM、NT、LM/NThash加密方式。2、增加了原来漏掉的HTML解码功能。3、增加了字符替换功能。
-DEncode1.0 介绍文章：链接工具下载：下载
-">
+  <meta name="description" content="通过两种扫描方式（关键字匹配、token语句分析）实现对webshell后门的检测。可以针对目录批量扫描，也可以对单个文件通过token分析其语句。其中关于php tokens解析方法在浅谈php中的词法分析 有提到具体实现，实际情况还是得结合敏感函数，不过相对而加密后的文件应该效果更好, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +67,48 @@ DEncode1.0 介绍文章：链接工具下载：下载
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/08/php_webshell_scan_tool/">Php Webshell Scan Tool</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-08T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/06/08/php_webshell_scan_tool/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>通过两种扫描方式（关键字匹配、token语句分析）实现对webshell后门的检测。可以针对目录批量扫描，也可以对单个文件通过token分析其语句。其中关于php tokens解析方法在<a href="/2012/03/20/php_lexical_analysis.html">浅谈php中的词法分析 </a>有提到具体实现，实际情况还是得结合敏感函数，不过相对而加密后的文件应该效果更好,具体检测原理见Monyer的文章<a href="http://hi.baidu.com/monyer/item/a218dbadf2afc7a828ce9d63">常见 Webshell 的检测方法及检测绕过思路</a>。通过实际测试发现：alibaba在t00ls发布的scanner.php工具可以检测出现有的大部分后门，效果不错。</p>
+
+<p>本工具只是整合了alibaba和Monyer两种扫描方法和代码，在此表示感谢。</p>
+
+<p>测试效果如图：</p>
+
+<p><a href="http://ourren.b0.upaiyun.com/simplescan.jpg"><img class="aligncenter" title="simplescan" src="http://ourren.b0.upaiyun.com/simplescan.jpg" alt="" width="1024" height="450"></a></p>
+
+<p> </p>
+
+<p>工具下载：<a href="http://code.google.com/p/ourren/downloads/list">下载</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -377,59 +417,6 @@ sdgt.py  C:zhang.txt C:zhangdic.txt
 4、规则
 结合国人密码学，采用了如下的一些规则。
 <a href="http://ourren.b0.upaiyun.com/sdgt.png"><img class="aligncenter" title="sdgt" src="http://ourren.b0.upaiyun.com/sdgt.png" alt="" width="410" height="315"></a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/16/some_of_statistical_sql/">数据统计的一些语句</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-04-16T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/04/16/some_of_statistical_sql/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>数据库结构
-[code lang=&ldquo;sql&rdquo;]
-mysql&gt; describe users;
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-| Field    | Type     | Null | Key | Default | Extra |
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-| username | char(30) | NO   | MUL | NULL    |       |
-| password | char(30) | NO   | MUL | NULL    |       |
-| email    | char(30) | NO   | MUL | NULL    |       |
-+&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;-+&mdash;&mdash;+&mdash;&ndash;+&mdash;&mdash;&mdash;+&mdash;&mdash;-+
-[/code]
-统计相同password个数并降序：
-[code lang=&ldquo;sql&rdquo;]SELECT password,count(*) as num FROM <code>users</code> group by password order by num DESC;[/code]</p>
-
-<p>统计相同password个数并降序，把前100项导出为excel
-[code lang=&ldquo;sql&rdquo;]SELECT password,count(*) as num  into outfile &lsquo;top100.xls&rsquo; FROM <code>users</code> group by password order by num DESC limit 0,100;[/code]</p>
-
-<p>附：
-mssql导出数据为excel
-[code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;bcp tt.dbo.user out D:data.xls -c -q -S &ldquo;localhost&rdquo; -U &ldquo;sa&rdquo; -P &ldquo;123456&rdquo;&rsquo;[/code]
-mssql删除文件
-[code lang=&ldquo;sql&rdquo;]EXEC master..xp_cmdshell &lsquo;del D:data.xls&rsquo;[/code]</p>
 </div>
   
   
