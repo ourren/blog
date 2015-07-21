@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-07-19T18:15:46-07:00</updated>
+  <updated>2015-07-20T23:57:26-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,225 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python中的常用代码]]></title>
+    <link href="http://blog.ourren.com/blog/2015/07/19/pythonzhong-de-chang-yong-dai-ma/"/>
+    <updated>2015-07-19T17:17:33-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/07/19/pythonzhong-de-chang-yong-dai-ma</id>
+    <content type="html"><![CDATA[<p>日常Python代码中会经常遇到一些可以用很简短的代码即可实现的功能，不用自己去撸一个单独的函数或者多个循环语句了。其实一般主要靠Google搜索关键字即可在<a href="http://stackoverflow.com/">stackoverflow</a>找到，只能说像我等伪程序员离开网络写代码质量会直线下降。贴到这里也是方便自己使用，代码比较基础，仅作笔记使用。</p>
+
+<h4>合并列表值</h4>
+
+<p>输入的两个数组，输出一个是数组&amp;值相加或者相乘，原文：<a href="http://stackoverflow.com/questions/14050824/add-sum-of-values-of-two-lists-into-new-list">eg-1</a>：</p>
+
+<pre><code># input
+first = [1,2,3,4,5]
+second = [6,7,8,9,10]
+
+#output
+three = [7,9,11,13,15]
+
+# The zip function is useful here, used with a list comprehension.
+# add
+[x + y for x, y in zip(first, second)]
+
+# other
+[x*y for x, y in zip(first, second)]
+[max(x,y) for x, y in zip(first, second)]
+</code></pre>
+
+<p>其实也可以遍历列表长度，然后操作。</p>
+
+<!--more-->
+
+
+<p>另外如果对一个列表进行去重，直接采用set进行操作即可：</p>
+
+<pre><code>in_list = ['1', '2', '1', '3']
+in_list = list(set(in_list))
+</code></pre>
+
+<h4>合并字典值</h4>
+
+<p>合并两个字典，并将相同键的值进行操作，可以利用collections中的Counter进行操作，原文：<a href="http://stackoverflow.com/questions/11011756/is-there-any-pythonic-way-to-combine-two-dicts-adding-values-for-keys-that-appe">eg-2</a>：</p>
+
+<pre><code>&gt;&gt;&gt; from collections import Counter
+&gt;&gt;&gt; A = Counter({'a':1, 'b':2, 'c':3})
+&gt;&gt;&gt; B = Counter({'b':3, 'c':4, 'd':5})
+&gt;&gt;&gt; A + B
+Counter({'c': 7, 'b': 5, 'd': 5, 'a': 1})
+</code></pre>
+
+<p>更多Counter的操作可以参考官网指南，<a href="https://docs.python.org/2/library/collections.html#collections.Counter">collections</a>.</p>
+
+<h4>json与字典转换</h4>
+
+<p>不管是存储到数据库还是网络接口输出，都可以采用json格式，格式非常容易操作，而dict类型在Python中也很好操作，而且还可以嵌套。</p>
+
+<pre><code>import json
+data = {'a':"A",'b':(2,4),'c':3.0}  # dict
+
+data_string = json.dumps(data) # string &amp; json
+print "ENCODED:",data_string
+
+decoded = json.loads(data_string) ## dict
+print "DECODED:",decoded
+</code></pre>
+
+<h4>多列数据表与字段</h4>
+
+<p>有时候插入或者更新数据的时候数据表会有很多字段，这时也可以采用dict进行操作：</p>
+
+<pre><code>people_dict = {'name':'name', 'password':'password', 'salt':'salt'} # long dict
+columns = ', '.join(people_dict.keys())
+placeholders = ', '.join('?' * len(people_dict))
+insert_sql = 'INSERT INTO user ({}) VALUES ({})'.format(columns, placeholders)
+cursor_obj.execute(insert_sql, people_dict.values())
+</code></pre>
+
+<p>另外数据库插入一般可以采用executemany进行操作：</p>
+
+<pre><code>in_list = [('a','1'),('b','2')]
+c.executemany(""" INSERT INTO result ('name','value') values(?,?)""", in_list)
+</code></pre>
+
+<h4>排序问题</h4>
+
+<p>字典根据键排序， 原文：<a href="http://stackoverflow.com/questions/9001509/how-can-i-sort-a-dictionary-by-key">eg-3</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import collections
+&gt;&gt;&gt; d = {2:3, 1:89, 4:5, 3:0}
+&gt;&gt;&gt; od = collections.OrderedDict(sorted(d.items()))
+&gt;&gt;&gt; od
+&gt;&gt;&gt; OrderedDict([(1, 89), (2, 3), (3, 0), (4, 5)])
+</code></pre>
+
+<p>字典根据值排序， 原文：<a href="http://stackoverflow.com/questions/613183/sort-a-python-dictionary-by-value">eg-4</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import operator
+&gt;&gt;&gt; x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+&gt;&gt;&gt; sorted_x = sorted(x.items(), key=operator.itemgetter(1))
+&gt;&gt;&gt; sorted_x
+[(0, 0), (2, 1), (1, 2), (4, 3), (3, 4)]
+</code></pre>
+
+<h4>日期操作</h4>
+
+<p>格式化日期与unixtimestamp的相互转换，原文：<a href="http://www.saltycrane.com/blog/2008/11/python-datetime-time-conversions/">eg-5</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import datetime
+&gt;&gt;&gt; import time
+&gt;&gt;&gt; dt = datetime.datetime(2010, 2, 25, 23, 23)
+&gt;&gt;&gt; time.mktime(dt.timetuple())
+&gt;&gt;&gt; 
+
+from datetime import datetime
+import time
+
+#-------------------------------------------------
+# conversions to strings
+#-------------------------------------------------
+# datetime object to string
+dt_obj = datetime(2008, 11, 10, 17, 53, 59)
+date_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
+print date_str
+
+# time tuple to string
+time_tuple = (2008, 11, 12, 13, 51, 18, 2, 317, 0)
+date_str = time.strftime("%Y-%m-%d %H:%M:%S", time_tuple)
+print date_str
+
+#-------------------------------------------------
+# conversions to datetime objects
+#-------------------------------------------------
+# time tuple to datetime object
+time_tuple = (2008, 11, 12, 13, 51, 18, 2, 317, 0)
+dt_obj = datetime(*time_tuple[0:6])
+print repr(dt_obj)
+
+# date string to datetime object
+date_str = "2008-11-10 17:53:59"
+dt_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+print repr(dt_obj)
+
+# timestamp to datetime object in local time
+timestamp = 1226527167.595983
+dt_obj = datetime.fromtimestamp(timestamp)
+print repr(dt_obj)
+
+# timestamp to datetime object in UTC
+timestamp = 1226527167.595983
+dt_obj = datetime.utcfromtimestamp(timestamp)
+print repr(dt_obj)
+
+#-------------------------------------------------
+# conversions to time tuples
+#-------------------------------------------------
+# datetime object to time tuple
+dt_obj = datetime(2008, 11, 10, 17, 53, 59)
+time_tuple = dt_obj.timetuple()
+print repr(time_tuple)
+
+# string to time tuple
+date_str = "2008-11-10 17:53:59"
+time_tuple = time.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+print repr(time_tuple)
+
+# timestamp to time tuple in UTC
+timestamp = 1226527167.595983
+time_tuple = time.gmtime(timestamp)
+print repr(time_tuple)
+
+# timestamp to time tuple in local time
+timestamp = 1226527167.595983
+time_tuple = time.localtime(timestamp)
+print repr(time_tuple)
+
+#-------------------------------------------------
+# conversions to timestamps
+#-------------------------------------------------
+# time tuple in local time to timestamp
+time_tuple = (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+timestamp = time.mktime(time_tuple)
+print repr(timestamp)
+
+# time tuple in utc time to timestamp
+time_tuple_utc = (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+timestamp_utc = calendar.timegm(time_tuple_utc)
+print repr(timestamp_utc)
+
+#-------------------------------------------------
+# results
+#-------------------------------------------------
+# 2008-11-10 17:53:59
+# 2008-11-12 13:51:18
+# datetime.datetime(2008, 11, 12, 13, 51, 18)
+# datetime.datetime(2008, 11, 10, 17, 53, 59)
+# datetime.datetime(2008, 11, 12, 13, 59, 27, 595983)
+# datetime.datetime(2008, 11, 12, 21, 59, 27, 595983)
+# (2008, 11, 10, 17, 53, 59, 0, 315, -1)
+# (2008, 11, 10, 17, 53, 59, 0, 315, -1)
+# (2008, 11, 12, 21, 59, 27, 2, 317, 0)
+# (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+# 1226527167.0
+# 1226498367
+</code></pre>
+
+<h4>一些输出格式</h4>
+
+<p>输出的时候如果采用“\t&#8221;进行格式化，也会出现一些对齐问题，可以采用&#8221;\t”和“%-20s&#8221;格式化代码：</p>
+
+<pre><code># 20 could be change to another value 
+print "\t%-20s%-20s%-20s%-20s%-20s%-20s"% tuple(in_list)
+</code></pre>
+
+<h4>todo</h4>
+
+<pre><code>未完待续
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python代码规范入门]]></title>
@@ -382,86 +601,6 @@ usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
 //或者
  mtr --report www.google.com
  mtr --no-dns --report google.com
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Highcharts使用入门与技巧]]></title>
-    <link href="http://blog.ourren.com/blog/2015/03/23/highchart-note-with-php/"/>
-    <updated>2015-03-23T00:00:00-07:00</updated>
-    <id>http://blog.ourren.com/blog/2015/03/23/highchart-note-with-php</id>
-    <content type="html"><![CDATA[<p><a href="http://www.highcharts.com/">Highcharts</a>作为最牛逼的前端图形库当之不愧，不仅使用简单并且非盈利项目可以免费使用，复制粘贴几下就可以生成绚丽的图表，方便各位给Leader或者外行人员装逼专用。虽然说目前百度的<a href="http://echarts.baidu.com">Echarts</a>也非常火爆，荣获github上国内加星最多的项目，但是个人始终觉得还是Highcharts更胜一筹，不过在大数据特征展示上面我还是推荐Echarts。</p>
-
-<p>个人接触Highcharts已经有好几年了，但是从来都没怎么深入研究过，不过话又说回来，Highcharts这种傻瓜式的前端库也没有高深的使用技巧，但是对于不熟悉的新手可以从如下的总结中进步提升。</p>
-
-<!--more-->
-
-
-<h3>初级配置</h3>
-
-<p>初级配置就是把Highcharts给跑起来，复制几段代码就ok：</p>
-
-<ul>
-<li>HTML页面中包含<a href="http://www.highcharts.com/lib/jquery-1.7.2.js">jquery.js</a>, <a href="http://code.highcharts.com/highcharts.js">highcharts.js</a>, <a href="http://code.highcharts.com/modules/exporting.js">exporting.js</a>；</li>
-<li>打开<a href="http://www.highcharts.com/demo/">highcharts demo</a>中的任意样式，然后选择「view options」就可以看到此demo的实现代码，复制到你的HTML页面中；</li>
-<li>在HTML页面中新建一个div层，id为「container」；</li>
-<li>刷新浏览器看效果。</li>
-</ul>
-
-
-<p>以上就是初级配置的详细过程；</p>
-
-<h3>主题修改</h3>
-
-<p>在demo页面中其实有很多的主题样式「dark, gray, sand等」，使用的时候也很简单:</p>
-
-<ul>
-<li>下载<a href="https://github.com/highslide-software/highcharts.com/tree/master/js/themes">主题文件</a>中对应颜色的js文件到你本地;</li>
-<li>在你的HTML页面中包含对应的JS文件；</li>
-<li>完工</li>
-</ul>
-
-
-<h3>线条修改</h3>
-
-<p>颜色修改</p>
-
-<p>在具体的项目中，当你需要修改线条的颜色时，你可以通过在demo 实例代码中添加如下代码：</p>
-
-<pre><code>series: [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-        color: 'blue'
-    }]
-</code></pre>
-
-<p>即在数据的下面添加了color属性，color的值可以取颜色对应的英文名字，例如「red, purple, green」等;</p>
-
-<p>线条形状</p>
-
-<p>可能你需要在一幅图形中显示相同颜色的两条曲线，这样你可以通过显示虚线或者实线来实现，显示代码如下：</p>
-
-<pre><code>series: [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-        dashStyle: 'dash',
-        color: 'blue'
-    }]
-</code></pre>
-
-<p>添加dashStyle属性即可修改线条的形状</p>
-
-<h3>PHP代码结合</h3>
-
-<p>很多时候，highcharts需要的数据其实是由后端脚本生成的，比如PHP，这里可以通过PHP的json_encode实现快速赋值,当然输入是一个数组；</p>
-
-<pre><code>series: [{
-        name: 'original',
-        data: &lt;?php echo json_encode(getData('PV'));?&gt;,
-        dashStyle: 'dash',
-        color: 'orange',
-    }]
 </code></pre>
 ]]></content>
   </entry>
