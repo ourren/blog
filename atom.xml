@@ -4,7 +4,7 @@
   <title><![CDATA[Ourren]]></title>
   <link href="http://blog.ourren.com/blog/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-07-20T23:57:26-07:00</updated>
+  <updated>2015-09-19T12:40:15-07:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[论文写作环境: TeXstudio+LanguageTool+Git+latexdiff]]></title>
+    <link href="http://blog.ourren.com/blog/2015/09/19/xie-zuo-huan-jing/"/>
+    <updated>2015-09-19T11:13:32-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/09/19/xie-zuo-huan-jing</id>
+    <content type="html"><![CDATA[<p>古时候有“孟母三迁”的故事告诉我们：环境影响人的成长；而当代社会由于科技的快速发展，办公环境和工具的选择会直接影响人们的办公效率和工作的热情。高富帅公司往往以优秀的工作环境「高薪，Mac全套，人工学电脑椅，空气净化器等」来吸引应聘者，屌丝公司则是以人文情怀拉拢一堆基友。论文写作环境也不例外，极客者善于利用各种工具打造一套完整的写作、投稿与修正的工具链。个人虽然接触写作时间不长，但自认为高级的论文写作环境需要满足如下几项：</p>
+
+<ul>
+<li>作者不用担心格式问题「字体大小，间距，编号」；</li>
+<li>格式转换起来比较方便「方便投递不同期刊」；</li>
+<li>方便作者之间进行修改「对比修改前后差异」；</li>
+<li>语法句式检测「国人很常见的问题了」；</li>
+</ul>
+
+
+<p>鉴于如上的写作环境需求，个人在实践中总结了一套完整的写作工具链，现分享如下：</p>
+
+<h4>书写工具</h4>
+
+<p>初学者最常用的就是Word了，虽然各大会议或者期刊都提供了论文的Word模板，但是实际书写和排版过程中经常会遇到各种问题，解决起来非常麻烦。鉴于以上的各种经验，本人最终转向了LaTex。<a href="https://www.latex-project.org/">LaTeX</a>跟<a href="http://daringfireball.net/projects/markdown/">Markdown</a>的理念差不多，首先定义了一套书写规则，然后你按照其规则进行书写，最后你就可以生成一份完美的文档「譬如本文就是采用markdown进行书写的」，只不过LaTeX会相对复杂很多，主要针对学术作。支持LaTex的编辑器也很多，列举如下：</p>
+
+<ul>
+<li><a href="http://www.winedt.com/">WinEdt</a>:Windows下的写作利器，可惜是收费的。</li>
+<li><a href="https://www.overleaf.com/">overleaf</a>: 在线LaTex写作平台，免费版有些限制，但是基本上够用了；</li>
+<li><a href="http://www.texstudio.org/">TeXstudio</a>编辑器属于开源之作，免费并且跨平台，并且支持双栏同时显示「源文件,PDF预览」，可以说这个绝对是大屏显示器的福音。</li>
+</ul>
+
+
+<p><img src="http://ourren.b0.upaiyun.com/texstudio.png" alt="TeXstudio" /></p>
+
+<h4>拼写与语法检测</h4>
+
+<p>论文写作与投稿中遇到最多的问题就是语言问题，已有的语法检测工具如下：</p>
+
+<ul>
+<li>Word审阅中提供拼写和语法检测；</li>
+<li><a href="http://www.hemingwayapp.com/desktop.html">Hemingway Editor 2</a>提供语法和句型优化功能；</li>
+<li><a href="https://languagetool.org/">LanguageTool</a>: 开源的文体和语法校正的软件, 支持多种语言，并且可以集成到其他软件, 比如LanguageTool集成到TeXStudio<a href="http://wiki.languagetool.org/checking-la-tex-with-languagetool">Checking (La)TeX With LanguageTool</a>；</li>
+<li>一些其它的小工具，比如<a href="https://github.com/invernizzi/Chrisper">Chrisper</a>;</li>
+</ul>
+
+
+<p><img src="http://ourren.b0.upaiyun.com/grammar.png" alt="TeXstudio" /></p>
+
+<h4>版本管理</h4>
+
+<p>一篇论文从初稿到发表的过程中会生成不同的论文版本，而<a href="https://git-scm.com/">Git</a>的分布式管理可以让我们轻松管理不同版本的论文，而<a href="https://gitlab.com/">gitlab</a>, <a href="https://git.oschina.net/">oschina</a>, <a href="http://coding.net/">coding</a>等则提供了私有项目的功能，可以方便帮助我们管理论文版本。</p>
+
+<h4>修改与批注</h4>
+
+<p><img src="http://ourren.b0.upaiyun.com/latexdiff.png" alt="TeXstudio" /></p>
+
+<p>首先不得不说Word中的批注和删改功能做得非常不错，而<a href="https://www.ctan.org/tex-archive/support/latexdiff">latexdiff</a>插件的出现让LaTex也具有批注和删除功能，并且使用简单「参考说明文档即可」，效果显示也不错。</p>
+
+<h4>写作攻击链</h4>
+
+<p>通过如上的各种工具写作，最终选择的写作工具如下：</p>
+
+<ul>
+<li>写作: TeXstudio；</li>
+<li>拼写与语法检测: LanguageTool；</li>
+<li>版本控制: Gitlab；</li>
+<li>修改批注: latexdiff.</li>
+</ul>
+
+
+<h4>其它资料</h4>
+
+<ul>
+<li><a href="http://blog.ourren.com/2015/04/17/latex-skils-summary/">LaTeX写作技巧总结</a>;</li>
+<li><a href="https://github.com/secdr/research-method">论文写作与资料分享</a>;</li>
+<li><a href="http://www.latextemplates.com/">LaTeX Templates</a>;</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python中的常用代码]]></title>
@@ -855,6 +932,14 @@ ExtractResult(subdomain='blog', domain='ourren', suffix='com')
 \end{enumerate}
 </code></pre>
 
+<h4>图表排列</h4>
+
+<p>如果需要将文中的所有图片放在最后面，可以包含如下的包即可：</p>
+
+<pre><code>\usepackage{endfloat}
+\usepackage{epstopdf}
+</code></pre>
+
 <h4>参考文献</h4>
 
 <p>一般是新建一个biblio.bib来专门存放参考文件，然后利用如下代码引入：</p>
@@ -1565,53 +1650,6 @@ nltk.download()
 <ol>
 <li><a href="http://www.nltk.org/book/">Natural Language Processing With Python</a></li>
 <li><a href="http://vdisk.weibo.com/s/qdxg3WEhv6A2">Machine Learning for Hackers</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[美化Ubuntu下Pycharm字体]]></title>
-    <link href="http://blog.ourren.com/blog/2015/01/31/ubuntu_beauty_fonts_with_pycharm/"/>
-    <updated>2015-01-31T00:00:00-08:00</updated>
-    <id>http://blog.ourren.com/blog/2015/01/31/ubuntu_beauty_fonts_with_pycharm</id>
-    <content type="html"><![CDATA[<h3>美化Ubuntu下pycharm的字体</h3>
-
-<p>Pycharm作为一款优秀的Python IDE，现在更有免费的社区版可供下载，不得不说对于pyer方便不少，随便Sublime Text确实可以在一定程度上解决问题，但是Pycharm的调试和集成工具绝对是提交效率的好帮手。然而Pycharm安装在Ubuntu下时界面和字体的显示效果极差，跟Mac的效果简直没办法比，因此Google了一番找到了完美的解决方案，特此分享。</p>
-
-<h3>解决方案</h3>
-
-<p>Pycharm 字体渲染技术差的原因貌似主要是openjdk的问题，因此Linux下通过infinality fontconfig和openjdk patch来解决相关问题，在国外博客和V2ex上其实已经有详细说明：</p>
-
-<!--more-->
-
-
-<ol>
-<li><a href="http://www.webupd8.org/2013/06/install-openjdk-patched-with-font-fixes.html">INSTALL OPENJDK PATCHED WITH FONT FIXES</a>；</li>
-<li><a href="http://www.webupd8.org/2013/06/better-font-rendering-in-linux-with.html">BETTER FONT RENDERING IN LINUX WITH INFINALITY</a></li>
-<li><a href="http://www.v2ex.com/t/88662">Linux中PyCharm渲染字体</a></li>
-</ol>
-
-
-<h3>安装步骤</h3>
-
-<p>需要安装两个软件包进行设置，具体操作如下</p>
-
-<ol>
-<li><p>安装Infinality</p>
-
-<pre><code> sudo add-apt-repository ppa:no1wantdthisname/ppa
- sudo apt-get update
- sudo apt-get upgrade
- sudo apt-get install fontconfig-infinality
-</code></pre></li>
-<li><p>安装openjdk-fontfix</p>
-
-<pre><code> sudo add-apt-repository ppa:no1wantdthisname/openjdk-fontfix
- sudo apt-get update
- sudo apt-get upgrade
-</code></pre></li>
-<li>安装完成</li>
 </ol>
 
 ]]></content>
