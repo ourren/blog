@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="php中提供了token_get_all函数来针对php代码进行词法分析，通过词法分析我们可以做恶意代码分析，安全代码审计等深层次研究。该函数可以直接把php代码分为php tokens，而每个token又包含类型、值、行数这三样。
+首先对最简单的代码进行分析(当然不是hello world &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/posts/12/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/20/php_lexical_analysis/">浅谈php中的词法分析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-20T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/20/php_lexical_analysis/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>php中提供了token_get_all函数来针对php代码进行词法分析，通过词法分析我们可以做恶意代码分析，安全代码审计等深层次研究。该函数可以直接把php代码分为php tokens，而每个token又包含类型、值、行数这三样。
+首先对最简单的代码进行分析(当然不是hello world)：
+[code lang=&ldquo;php&rdquo;]code.php
+&lt;?php
+echo &lsquo;token&rsquo;;
+?>[/code]
+[code lang=&ldquo;php&rdquo;]token.php
+&lt;?php
+print_r(token_get_all(file_get_contents(&lsquo;code.php&rsquo;)));
+?>[/code]
+看效果,为了效果更明显，建议你测试的时候直接看浏览器源码。
+[code lang=&ldquo;php&rdquo;]Array
+(
+    [0] => Array
+        (
+            [0] => 366
+            [1] => &lt;?php</p>
+
+<pre><code>        [2] =&gt; 1
+    )
+
+[1] =&gt; Array
+    (
+        [0] =&gt; 315
+        [1] =&gt; echo
+        [2] =&gt; 2
+    )
+
+[2] =&gt; Array
+    (
+        [0] =&gt; 369
+        [1] =&gt;  
+        [2] =&gt; 2
+    )
+
+[3] =&gt; Array
+    (
+        [0] =&gt; 314
+        [1] =&gt; 'token'
+        [2] =&gt; 2
+    )
+
+[4] =&gt; ;
+[5] =&gt; Array
+    (
+        [0] =&gt; 369
+        [1] =&gt; 
+
+        [2] =&gt; 2
+    )
+
+[6] =&gt; Array
+    (
+        [0] =&gt; 368
+        [1] =&gt; ?&gt;
+        [2] =&gt; 3
+    )
+</code></pre>
+
+<p>)[/code]
+每个token数组中的第一项表示其类型，可以用函数token_name()得到起文字说明，第二项表示其内容，第三项表示在文件中的行数。还不错吧，可以得到这么多有用的信息(至少我第一次从monyer文章中看到的时候很欢喜的)。如果你只关注一些关键函数及其参数，那么你就需要对这些内容进行过滤，借鉴php手册重点的一个例子实现如下：
+[code lang=&ldquo;php&rdquo;]&lt;?php
+define(&rsquo;T_NEW_LINE&#8217;, -1);</p>
+
+<p>$tokens = token_get_all_nl(file_get_contents(&lsquo;code.php&rsquo;));</p>
+
+<p>foreach ($tokens as $token)
+{
+    if (is_array($token))
+    {
+        echo (&lsquo;Type:&rsquo;.token_name_nl($token[0]) .&ldquo;t&rdquo;. &lsquo;Code: &ldquo;&rsquo; . htmlspecialchars($token[1]) .&#8221;t&rdquo;.&lsquo;&ldquo;    line:&rsquo;.$token[2].&lsquo;<br />&rsquo;);
+    }
+    else
+    {
+        echo (&lsquo;&rdquo;&rsquo; . $token . &lsquo;&ldquo;<br />&rsquo;);
+    }
+}</p>
+
+<p>function token_get_all_nl($source)
+{
+    $new_tokens = array();</p>
+
+<pre><code>// Get the tokens
+$tokens = token_get_all($source);
+
+// Split newlines into their own tokens
+foreach ($tokens as $token)
+{
+    $token_name = is_array($token) ? $token[0] : null;
+    $token_data = is_array($token) ? $token[1] : $token;
+    $token_number = is_array($token) ? $token[2] : $token;
+
+    // Do not split encapsed strings or multiline comments
+    if ($token_name == T_CONSTANT_ENCAPSED_STRING || substr($token_data, 0, 2) == '/*')
+    {
+        $new_tokens[] = array($token_name, $token_data, $token_number);
+        continue;
+    }
+
+    // Split the data up by newlines
+    $split_data = preg_split('#(rn|n)#', $token_data, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+    foreach ($split_data as $data)
+    {
+        if ($data == "rn" || $data == "n")
+        {
+            // This is a new line token
+            $new_tokens[] = array(T_NEW_LINE, $data, $token_number);
+        }
+        else
+        {
+            // Add the token under the original token name
+            $new_tokens[] = is_array($token) ? array($token_name, $data, $token_number) : $data;
+        }
+    }
+}
+
+return $new_tokens;
+</code></pre>
+
+<p>}</p>
+
+<p>function token_name_nl($token)
+{
+    if ($token === T_NEW_LINE)
+    {
+        return &rsquo;T_NEW_LINE&#8217;;
+    }</p>
+
+<pre><code>return token_name($token);
+</code></pre>
+
+<p>}
+?>[/code]
+此外，你可以在这个基础上进行一些有目的的开发。
+BTW:今天看rips源码才知道也是这么做的，详细的实现要看完了再分享。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/19/wordpress_safe_research/">Wordpress 安全机制研究</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-19T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/19/wordpress_safe_research/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近抽了点时间把wordpress最新版的源码翻了翻，记录一下其中的安全机制，BTW：wordpress源码看着真的很蛋疼。</p>
+
+<p>1、认证模块
+涉及到wordpress认证安全方面的主要有认证方式，密码保存方式。其中密码保存方式又分为安装时管理员密码生成和后台添加用户。
+首先，wordpress采用的是cookie方式认证，cookie生成过程相对比较复杂，salt多次加密且不是简单的随机数salt，默认采用MD5，当然也可以采用sha。
+[code lang=&ldquo;php&rdquo;]    $pass_frag = substr($user-&gt;user_pass, 8, 4);
+    $key = wp_hash($user-&gt;user_login . $pass_frag . &lsquo;|&rsquo; . $expiration, $scheme);//salt:用户名.密码8-12位|cookie时长.auth
+    $hash = hash_hmac(&lsquo;md5&rsquo;, $user-&gt;user_login . &lsquo;|&rsquo; . $expiration, $key);////md5($opad . pack($pack, md5($ipad . $data))); opad ipad 都是key异或后的值
+    $cookie = $user-&gt;user_login . &lsquo;|&rsquo; . $expiration . &lsquo;|&rsquo; . $hash;[/code]
+详细流程：wp_set_auth_cookie&ndash;>wp_generate_auth_cookie&ndash;>hash_hmac&ndash;>_hash_hmac
+函数源码如下：
+[code lang=&ldquo;php&rdquo;]function wp_generate_auth_cookie($user_id, $expiration, $scheme = &lsquo;auth&rsquo;) {
+    $user = get_userdata($user_id);</p>
+
+<pre><code>$pass_frag = substr($user-&amp;gt;user_pass, 8, 4);
+
+$key = wp_hash($user-&amp;gt;user_login . $pass_frag . '|' . $expiration, $scheme);
+$hash = hash_hmac('md5', $user-&amp;gt;user_login . '|' . $expiration, $key);
+
+$cookie = $user-&amp;gt;user_login . '|' . $expiration . '|' . $hash;
+
+return apply_filters('auth_cookie', $cookie, $user_id, $expiration, $scheme);
+</code></pre>
+
+<p>}</p>
+
+<p>function hash_hmac($algo, $data, $key, $raw_output = false) {
+    return <em>hash_hmac($algo, $data, $key, $raw_output);
+}[/code]
+[code lang=&ldquo;php&rdquo;]function </em>hash_hmac($algo, $data, $key, $raw_output = false) {
+    $packs = array(&lsquo;md5&rsquo; =&gt; &lsquo;H32&rsquo;, &lsquo;sha1&rsquo; =&gt; &lsquo;H40&rsquo;);</p>
+
+<pre><code>if ( !isset($packs[$algo]) )
+    return false;
+
+$pack = $packs[$algo];
+
+if (strlen($key) &amp;gt; 64)
+    $key = pack($pack, $algo($key));
+
+$key = str_pad($key, 64, chr(0));
+
+$ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));  //char(0x36)=6
+$opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));  //char(0x5c)=
+
+$hmac = $algo($opad . pack($pack, $algo($ipad . $data)));
+
+if ( $raw_output )
+    return pack( $pack, $hmac );
+return $hmac;
+</code></pre>
+
+<p>}[/code]
+其次，安装时生成管理员密码时，采用的是salt md5加密。函数调用流程如下。
+函数流程：wp_create_user&ndash;>wp_insert_user&ndash;>wp_hash_password&ndash;>HashPassword&ndash;>crypt_private</p>
+
+<p>创建用户时采用的加密方式是一样的，但是实现上有点区别，创建用户后生成激活码，然后激活用户。
+函数流程：current_user_can&ndash;>wpmu_signup_user&ndash;>wpmu_activate_signup&ndash;>wpmu_create_user&ndash;>wp_create_user&ndash;>wp_insert_user&ndash;>wp_hash_password</p>
+
+<p>加密方式中重要的函数如下：
+[code lang=&ldquo;php&rdquo;]function wp_hash_password($password) {
+    global $wp_hasher;</p>
+
+<pre><code>if ( empty($wp_hasher) ) {
+    require_once( ABSPATH . 'wp-includes/class-phpass.php');
+    // By default, use the portable hash from phpass
+    $wp_hasher = new PasswordHash(8, TRUE);
+}
+
+return $wp_hasher-&amp;gt;HashPassword($password);
+</code></pre>
+
+<p>}[/code]
+[code lang=&ldquo;php&rdquo;]   function HashPassword($password)
+    {
+        $random = &lsquo;&rsquo;;</p>
+
+<pre><code>    if (CRYPT_BLOWFISH == 1 &amp;amp;&amp;amp; !$this-&amp;gt;portable_hashes) {
+        $random = $this-&amp;gt;get_random_bytes(16);
+        $hash =
+            crypt($password, $this-&amp;gt;gensalt_blowfish($random));
+        if (strlen($hash) == 60)
+            return $hash;
+    }
+
+    if (CRYPT_EXT_DES == 1 &amp;amp;&amp;amp; !$this-&amp;gt;portable_hashes) {
+        if (strlen($random) &amp;lt; 3)
+            $random = $this-&amp;gt;get_random_bytes(3);
+        $hash =
+            crypt($password, $this-&amp;gt;gensalt_extended($random));
+        if (strlen($hash) == 20)
+            return $hash;
+    }
+
+    if (strlen($random) &amp;lt; 6)
+        $random = $this-&amp;gt;get_random_bytes(6);
+    $hash =
+        $this-&amp;gt;crypt_private($password,
+        $this-&amp;gt;gensalt_private($random));
+    if (strlen($hash) == 34)
+        return $hash;
+
+    # Returning '*' on error is safe here, but would _not_ be safe
+    # in a crypt(3)-like function used _both_ for generating new
+    # hashes and for validating passwords against existing hashes.
+    return '*';
+}[/code]
+</code></pre>
+
+<p>2、过滤模块
+过滤模块这里主要想谈防注入、跨站、文件名攻击这几个方面。
+首先看防注入方式，wordpress里面有地方会采用过滤后采用addslashes进行转义，但是有一个封装得比较好的转义方式是，采用vsprintf方式进行变量输入，然后过滤编码，最后通过判定mysql类型进行mysql_real_escape_string或者进行addslashes转义。
+一个较为复杂的流程：select&ndash;>wpdb::prepare&ndash;>vsprintf&ndash;>escape_by_ref&ndash;>_real_escape&ndash;>mysql_real_escape_string/addslashes</p>
+
+<p>其次防跨站方式采用了两种方式：普通文本过滤方式和富文本过滤方式。普通文本过滤方式采用htmlspecialchars进行过滤，富文本则采用自定义函数wp_specialchars_decode进行操作。
+具体流程：esc_html&ndash;>_wp_specialchars&ndash;>htmlspecialchars/wp_specialchars_decode</p>
+
+<p>最后文件名这块通过过滤文件名中的特殊字符和文件信息进行操作。
+$special_chars = array(&ldquo;?&rdquo;, &ldquo;[&rdquo;, &ldquo;]&rdquo;, &ldquo;/&rdquo;, &ldquo;\&rdquo;, &ldquo;=&rdquo;, &ldquo;&lt;&rdquo;, &ldquo;>&rdquo;, &ldquo;:&rdquo;, &ldquo;;&rdquo;, &ldquo;,&rdquo;, &ldquo;&lsquo;&rdquo;, &ldquo;&rdquo;&ldquo;, &rdquo;&amp;&ldquo;, &rdquo;$&ldquo;, &rdquo;#&ldquo;, &rdquo;*&ldquo;, &rdquo;(&ldquo;, &rdquo;)&ldquo;, &rdquo;|&ldquo;, &rdquo;~&ldquo;, &rdquo;`&ldquo;, &rdquo;!&ldquo;, &rdquo;{&ldquo;, &rdquo;}&ldquo;, chr(0));</p>
+
+<p>3、其他
+wordpress的Hook机制：<a href="http://www.mrmu.com.tw/2011/10/10/wordpress-hook/">http://www.mrmu.com.tw/2011/10/10/wordpress-hook/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/13/php5-4_remove_safe-function/">PHP5.4中删除的安全函数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-13T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/13/php5-4_remove_safe-function/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前几天配置PHP5.4的时候发现PHP新版已经在一些安全函数方面进行了增改，从php自身防止一些不必要的漏洞，因此开发人员在写代码时也需要注意版本的兼容。下面讲几个涉及安全方面的函数进行说明。<br>1、safe_mode<br>状态：已删除<br>描述：此函数主要限制系统相关的文件打开、命令执行等函数(具体影响函数见参考1)。当然现在也有bypasss safe_mode的方法(见参考2)，通过com接口来绕过。<br>解决办法：可以通过配置php.ini中的disable_functions函数列表进行限制指定函数。<br><br>2、magic_quotes_gpc<br>状态：已删除 （magic_quotes_runtime、magic_quotes_sybase 删除）<br>描述：此函数在PHP &lt;= 4.2.3默认开，会自动对GPC (Get/Post/Cookie)提交的值中的&#8217;, &ldquo;, 和空格进行转义，PHP5.4中get_magic_quotes_gpc()默认返回false。<br>解决办法：基本上还是不受影响，先检测状态，然后采用mysql_real_escape_string进行转义处理。<br><br>3、register_globals<br>状态：已删除<br>描述：此函数虽然从PHP>>4.2开始默认由on改为off,但是如果程序员开启的话会导致变量覆盖等安全问题,特别是结合文件包含漏洞等。<br>解决办法：可以结合前面sablog源码中的函数进行改写(采用extract函数).<br><br>4、session_register<br>状态：已删除（session_unregister()、session_is_registered 删除）<br>描述：采用session认证的时候可以用该函数注册session变量。<br>解决办法：采用$_SESSION数组进行注册变量。<br><br>参考：<br><a href="http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html">http://hi.baidu.com/zhangguanshi/blog/item/0a5bf51771a54e42f3de32d1.html</a><br><a href="http://luoq.net/PHP-COM-functions/">http://luoq.net/PHP-COM-functions/</a><br><a href="http://php.net/releases/5_4_0.php">http://php.net/releases/5_4_0.php</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/11">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/" target="_blank">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" target="_blank">Metasploit</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://my.oschina.net/bluefly" target="_blank">sosly</a></li>
+        <li><a href="http://www.jinglingshu.org/" target="_blank">精灵鼠</a></li>
+        <li><a href="http://www.pang0lin.com/" target="_blank">pang0lin</a></li>
+        <li><a href="http://wps2015.jinglingshu.org/" target="_blank">wps2015</a></li>
+        <li><a href="http://llly.co/" target="_blank">Lyon</a></li>        
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

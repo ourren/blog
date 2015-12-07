@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>On the Relations Between the Different Actors in the Spam Landscape - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="该篇论文的题目为：The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape 通过分析Harvester， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">On the Relations Between the Different Actors in the Spam Landscape</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-11T17:42:36-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:42 pm</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>贡献</h3>
+
+<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+
+<ul>
+<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
+<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
+<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
+</ul>
+
+
+<h3>缺点</h3>
+
+<p>但是个人感觉文章存在以下不足：</p>
+
+<ul>
+<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
+<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-11T17:42:36-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:42 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/research/'>research</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/" title="Previous Post: on the Arms Race in Spamming Botnet Mitigation">&laquo; on the Arms Race in Spamming Botnet Mitigation</a>
+      
+      
+        <a class="basic-alignment right" href="/2015/05/21/detecting-spammers-on-twitter/" title="Next Post: Detecting Spammers on Twitter">Detecting Spammers on Twitter &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="On the Relations Between the Different Actors in the Spam Landscape"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/" target="_blank">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" target="_blank">Metasploit</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://my.oschina.net/bluefly" target="_blank">sosly</a></li>
+        <li><a href="http://www.jinglingshu.org/" target="_blank">精灵鼠</a></li>
+        <li><a href="http://www.pang0lin.com/" target="_blank">pang0lin</a></li>
+        <li><a href="http://wps2015.jinglingshu.org/" target="_blank">wps2015</a></li>
+        <li><a href="http://llly.co/" target="_blank">Lyon</a></li>        
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

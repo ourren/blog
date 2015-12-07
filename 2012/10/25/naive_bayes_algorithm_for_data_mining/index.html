@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>数据挖掘之朴素贝叶斯算法 - Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="Author:youstar Blog:http://blog.ourren.com 最近由于需求翻阅了一些数据挖掘相关资料，对数据挖掘过程中的分类技术进行了理解和研究，遂记录如下。 1、数据挖掘概述 数据挖掘，就是提取或者挖掘数据，主要通过对已获得的大量数据进行深度整理和分析， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/2012/10/25/naive_bayes_algorithm_for_data_mining/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">数据挖掘之朴素贝叶斯算法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-10-25T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Author:youstar</p>
+
+<p>Blog:<a href="http://blog.ourren.com/"><a href="http://blog.ourren.com">http://blog.ourren.com</a></a></p>
+
+<p>最近由于需求翻阅了一些数据挖掘相关资料，对数据挖掘过程中的分类技术进行了理解和研究，遂记录如下。</p>
+
+<p><strong>1、数据挖掘概述</strong></p>
+
+<p>数据挖掘，就是提取或者挖掘数据，主要通过对已获得的大量数据进行深度整理和分析，其分析结果可以反映过去结果和预测未来趋势。目前几种典型的数据挖掘研究有：关联规则、分类、聚类、预测、web挖掘等。分类挖掘可以从数据中提取相关特征，然后建立相应模型或者函数，并把数据中的每个对象归类到特定分类。例如: 可以检测邮件是否为垃圾邮件，检测数据是否为攻击数据，样本是否为恶意程序等等这些都可以通过分类挖掘实现，而分类挖掘中又分为决策树方法、统计学方法、贝叶斯网络、神经网络等其他分类技术。</p>
+
+<p><strong>2、朴素贝叶斯算法</strong></p>
+
+<p>贝叶斯分类是一种基于统计学的分类方法，就是大学学的概率统计神马的。朴素贝叶斯算法是在贝叶斯算法上基于独立假设的贝叶斯定理的简单概率分类器，因此这里谈到技术的就是数据挖掘中很小的一部分了。其主要基本思路如下：</p>
+
+<p>需求分析&mdash;&mdash;>提取特征&mdash;&mdash;->训练样本&mdash;&mdash;&ndash;>检测特征&mdash;&mdash;->计算后验概率&mdash;&mdash;>判定</p>
+
+<p>首先是需求分析，我们需要清楚自己的目的：即对这些数据分析能够得出什么结果？我们需要什么结果？一个分类模型；还是其他。例如：我们需要对大量的邮件进行分析处理，最终需要建立一个模型能够自动判定一封邮件是够为垃圾邮件或者正常邮件，因此，最终我们只有两个类别，即垃圾邮件、正常邮件。这就是我们的需要。</p>
+
+<p>其次是提取特征，需要对待分析的数据进行详细分析，提取不同点。例如，我们需要研究正常邮件与垃圾邮件有哪些方面的不同，垃圾邮件具有哪些特性，而正常邮件具有额外的哪些特性。一般来讲，垃圾邮件内容中往往含有图片、链接、邮件头、多个收件人、HTML标签问题等比较特殊的特征，而正常邮件一般没有这些特征。</p>
+
+<p>再次是训练样本，这个步骤一般是提取大量样本按照其上一步提取的特征值进行分析并统计，得到一个比较详细的特征统计表。例如：随机从邮件服务器中提取1000封邮件，然后对每封邮件内容按照前面提到的特征进行统计分析。</p>
+
+<p>再次是检测特征，通过前面的过程我们已经建立了一个朴素贝叶斯模型，我们可以通过编写代码实现自动检测特征。例如，可以通过python或者c++实现文本的特征匹配，这里可以采用其他文本匹配算法。</p>
+
+<p>再次是计算后验概率，根据朴素贝叶斯算法，可以计算在已知分类情况下的特征概率，即先验概率。例如，我们可以计算在假定为正常邮件情况下，文本特征有：图片、链接、多个收件人的情况下概率P(图片|垃圾邮件)、P(链接|垃圾邮件)等，然后我们在计算假定为垃圾邮件情况下，文本特征有图片、链接、多个收件人的情况下概率P(图片|正常邮件)、P(链接|正常邮件)等.</p>
+
+<p>最后，我们可以通过比较先验概率的值和概率来判定该样本属于哪种类型。例如：分别计算P（垃圾邮件）<em>P(图片|垃圾邮件)</em>P(链接|垃圾邮件)<em>&hellip;.与P（正常邮件）</em>P(图片|正常邮件)<em>P(链接|正常邮件)</em>&hellip;.，然后看那个值比较大，从而判定属于这个类别。</p>
+
+<p>系统性能指标一般会通过正确率、准确率、召回率这三个指标进行评定。</p>
+
+<p><strong>3、总结</strong></p>
+
+<p>整体来说，整个过程还是比较复杂，特别是样本特征方面，需要考虑比较周全然后其效果才会更加明显，而训练样本的值也会影响最终结果。网上也有一个比较简单的实例，python实现的Naive Bayes[文献3]，大伙可以参考。附带几篇比较好的文章。</p>
+
+<p><strong>4、参考资料</strong></p>
+
+<p>（1）范明.范宏建《数据挖掘导论》</p>
+
+<p>（2）焦李成.《智能数据挖掘与知识发现》</p>
+
+<p>（3）<a href="http://www.coder4.com/archives/1511">Naive Bayes的Python实现</a></p>
+
+<p>（4）<a href="http://www.cnblogs.com/phinecos/archive/2008/10/21/1315948.html">基于朴素贝叶斯分类器的文本分类算法（上）</a></p>
+
+<p>（5）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html">贝叶斯推断及其互联网应用（一）：定理简介</a></p>
+
+<p>（6）<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_two.html">贝叶斯推断及其互联网应用（二）：过滤垃圾邮件</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ourren</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2012-10-25T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/research/'>research</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/09/03/xss_bypass_technology/" title="Previous Post: 跨站测试与利用中的绕过技术">&laquo; 跨站测试与利用中的绕过技术</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/11/03/pentest_method_of_mysql_error/" title="Next Post: 关于Mysql注入过程中的三种报错方式">关于Mysql注入过程中的三种报错方式 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+<section>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="数据挖掘之朴素贝叶斯算法"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"ourren"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/" target="_blank">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" target="_blank">Metasploit</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://my.oschina.net/bluefly" target="_blank">sosly</a></li>
+        <li><a href="http://www.jinglingshu.org/" target="_blank">精灵鼠</a></li>
+        <li><a href="http://www.pang0lin.com/" target="_blank">pang0lin</a></li>
+        <li><a href="http://wps2015.jinglingshu.org/" target="_blank">wps2015</a></li>
+        <li><a href="http://llly.co/" target="_blank">Lyon</a></li>        
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

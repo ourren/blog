@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ourren</title>
+  <meta name="author" content="ourren">
+
+  
+  <meta name="description" content="记录一次关于YII编程的相关技术笔记。 传值问题 如何通过控制器向视图传值： 控制器中： $theTime=date("D M j G:i:s T Y");
+$this->render(&#8216;helloWorld&#8217;,array(&#8216;time&#8217;=>$theTime)); 视图中： YII默认控制器 &hellip;&#8221;>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.ourren.com/blog/posts/7/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ourren</a></h1>
+  
+    <h2>关注技术，记录生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.ourren.com/blog">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="http://www.ourren.com">Ourren</a></li>
+    <li><a href="http://www.sec-wiki.com">SecWiki</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/07/29/yii-note/">关于YII的一些技术笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-07-29T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/07/29/yii-note/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="YII" src="http://ourren.b0.upaiyun.com/yii.png" width="284" height="64"></p>
+
+<p>记录一次关于YII编程的相关技术笔记。</p>
+
+<h4>传值问题</h4>
+
+
+<p>如何通过控制器向视图传值：</p>
+
+<p>控制器中：</p>
+
+<pre><code>$theTime=date("D M j G:i:s T Y");
+$this->render('helloWorld',array('time'=>$theTime));
+</code></pre>
+
+
+<p>视图中：</p>
+
+<pre><code><h3><?php echo $time; ?></h3>
+
+YII默认控制器
+
+配置文件 application/config/main.php修改，指定 defaultController即可， 如 'defaultController' => 'home',
+</code></pre>
+
+
+<h4 id="-2">输入前判定</h4>
+
+
+<p>有时候需要在操作某些工作前判定另外的模型是否存在，需要采用filters函数来实现：</p>
+
+<pre><code>public function filters()
+    {
+        return array(
+            'accessControl', //perform access control for CRUD operations
+            'projectContext + create', //check to ensure valid project context
+                                       // + 表示只在某些操作上判定，-表示除了该操作其他都判定
+            );
+    }
+</code></pre>
+
+
+<h4 id="-3">常用函数</h4>
+
+
+<p>CHtml::link()</p>
+
+<pre><code> CHtml::link("Hello",array('message/helloWorld'));
+ array('label'=>'Create Issue', 'url'=>array('create', 'pid'=>1)),//另外一种链接方式
+</code></pre>
+
+
+<p>updateByPk()：直接更新某个字段的值（name=>value 键值对） User::model()->updateByPk($this-><em>identity->id, array(&lsquo;last</em>login_time&rsquo; => new CDbExpression(&lsquo;NOW()&rsquo;)));</p>
+
+<h4 id="-4">唯一性</h4>
+
+
+<p>有时候需要判定用户名和邮箱唯一，需要在rules()中添加如下代码：</p>
+
+<pre><code>array('username,email', 'unique');</code></pre>
+
+
+<h4 id="-5">安全性</h4>
+
+
+<pre><code>CDbCriteria 操作数据库的时候需要使用params方式，否则也存在注入等问题。
+
+    $scriteria = new CDbCriteria;
+    $scriteria->condition='tags=:tags';
+    $scriteria->params=array(':tags'=>$news->tags);</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/18/alibaba_myth_note/">阿里巴巴神话笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-06-18T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/06/18/alibaba_myth_note/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="alibaba_mayun" src="http://ourren.b0.upaiyun.com/alibaba_mayun.jpg" width="450" height="200"></p>
+
+<p>本书主要描述的是阿里巴巴创业团队从创业之初到2006年的艰辛发展历程，主角肯定是马云与阿里巴巴的故事，这位两次北上，三下杭州的英雄在互联网开始之初发现了网络的财富，从此便带领团队一直前行。综观全书，个人有如下几个小的感触：</p>
+
+<p><strong><em>机遇的重要性</em></strong></p>
+
+<p>马云为什么可以创立阿里巴巴，主要还是归咎去机遇问题，但不可否认马云的个人能力和具有先见的洞察力。同时阿里巴巴现在为什么这么牛逼，其业务的发展也是随着互联网的发展和需求而不断完善的。从最初的黄页到淘宝、支付宝的推出，这些都是实例的体现，当然这些也离不开竞争对手的相互追赶，想想易趣的发展壮大对阿里巴巴的威胁到易趣的逐渐衰落，没有竞争对手你会发展得很缓慢。</p>
+
+<p><strong><em>团队的重要性</em></strong></p>
+
+<p>阿里巴巴创始团队的湖畔生活跟《DOOM启示录》书里面的描述的湖畔生活相似：生活相当窘迫，一堆怀有梦想且有激情的年轻人不辞辛苦天天加班，忘记生活的烦恼和生活的琐事，追求的是创造世界上牛逼的产品。如果说有这么一个优秀的团队，我想还有什么可以阻止公司前进的步伐，除了公司开始的方向错了。相信任何一个创业团队都会经历这个阶段。</p>
+
+<p>与其说是创始团队人员的不弃不离，不如说是团队队员的不懈努力，不管是升职还是调遣，队员完全服从领导的安排，考虑的都是如何把未来的业绩做好。书中描述的确实可以有点偏理想化，但是从阿里的“独孤九剑”到“六脉神剑”还是体现了阿里人的价值与追求。</p>
+
+<p><strong><em>现实很骨感</em></strong></p>
+
+<p>不管是马云早期的全球战略还是后来的雅虎搜索对战百度和谷歌，可以总结为“理想很丰满，现实很骨感”。为什么早期的阿里巴巴想要走向世界，可能这里面还是跟那时的马云有很大的关系，技术能力的欠缺、各地实际情况的不同、资金的不充裕等问题当时都是很好的考虑，可以说当时的马云还是有一定的傲气；而后期雅虎搜索问题则是明显能力不足，同时选择方向不对而走向失败。</p>
+
+<p><strong><em>早做准备</em></strong></p>
+
+<p>正所谓“吃在碗里，得想到锅里”。虽然互联网发展迅速，但是每隔几年的冬天来临之际你是否做好了准备。阿里巴巴为什么能度过2次互联网危机，主要还是取决去马云的前瞻性、孙正义等风投的及时帮助、关明生的快刀斩乱麻等。这其中主要还有阿里巴巴高层的架构问题，“马云说了算”这个很重要。</p>
+
+<p><strong><em>阿里很伟大</em></strong></p>
+
+<p>不管是阿里巴巴提倡的价值观，还有其创业团队的事迹与创始人员的个人发展历程。解决了天下没有难做的生意，创造了多少人的创业梦。不可否认马云真的是互联网的教父，不管是他的演讲能力，还是他的前瞻性与价值观。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/05/11/kpw_plugins_and_resource/">KPW插件优化与电子书资源</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-11T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/05/11/kpw_plugins_and_resource/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="kindle paperwhite" src="http://ourren.b0.upaiyun.com/kindlepaperwhite.jpg" width="409" height="153">
+笔者最近入手了一部Kindle PaperWhite,在最近一周的使用过程中发现KPW确实不错，因而推荐大概购买。同时作为技术男一般会将买到的电子产品折腾折腾，然后打造成自己所喜欢的风格。因由于刚入KPW时对这些东西不熟悉，故将折腾的过程与一些资源记录在此，方便新手折腾和阅读。</p>
+
+<h3>适合对象</h3>
+
+
+<p>上下班需要坐车一个小时，经常出差，喜欢阅读书籍，有大量PDF文档或者书籍需要阅读。</p>
+
+<h3 id="-2">推荐理由</h3>
+
+
+<p>在这次推荐穷屌丝买Kindle PaperWhite(高富帅肯定Ipad了)，主要有几个理由：</p>
+
+<p><em>价格便宜</em></p>
+
+<p>相比于Ipad和nexus7的话，价格优势比较明显。海淘的话价格510（裸机）+90（运费）=600，淘宝代购貌似也才640多，整体而言还是比较划算，但是海淘等的时间较长（大约12天左右）。</p>
+
+<p><em>显示效果不错</em></p>
+
+<p>由于KPW是电子墨水黑白的触摸电容屏，跟纸板书的显示效果差不多，不怎么伤眼，但是屏幕确实比较小（可以设计的时候考虑到便携性方面），不管是室内还是阳光下看起来都还不错，晚上有背光灯测试效果都还不错（一般不床上看书）。</p>
+
+<p><em>电力充足</em></p>
+
+<p>如果把看书业余爱好的话，需要对阅读器的电力和显示效果要求比较多。KPW在续航能力确实够牛，每天看一个多小时，撑两周应该没什么问题，特别是经常出差的人而言，续航不是问题。</p>
+
+<p><em>系统插件多</em></p>
+
+<p>虽然KPW是基于Linux系统进行的裁剪，但是可以通过越狱安装其他系统和插件，比如说多看系统、kpvbooklet、koreader等其它系统和插件，可以说还是系统整体而言还是比较开放。</p>
+
+<h3 id="-3">系统优化</h3>
+
+
+<p>这里要非常感谢NW牛，系统方面主要有两种方式可以选择：一种是使用原系统+插件方式，可以使用amazon提供的免费云空间，同时可以利用插件来切边和内容缩放；第二种刷国内多看系统，多看系统对中文支持很好，同时也提供PDF切边等功能。笔者是先刷的多看系统，使用了一段时间后再返回原系统+插件的方式。</p>
+
+<p><em>刷多看系统</em></p>
+
+<p>步骤比较简单，拷贝三个文件，然后安装即可，具体可以参考链接1；多看系统可以在原系统和多看系统进行切换，同时多看系统也有推送模式和特有的书城，整体而言还是不错。</p>
+
+<p>在扫描版PDF文档自动切边方面没有插件方式效果好，但是操作简单点。</p>
+
+<p><em>原系统+插件</em></p>
+
+<p>其实关于Kindle安装插件有一篇非常完美的文章，参考链接2。这里面将kindle系统产品的插件安装都说了个遍。整体而言主要有以下几个步骤：jailbreak越狱&ndash;>安装kpvbooklet&ndash;>安装koreader</p>
+
+<p>支持各类格式的文档，同时可以使用amazon的云空间，切边和缩放效果比较好，但是需要手动进行操作。</p>
+
+<h3 id="-4">字典安装</h3>
+
+
+<p>KPW原装系统可以对文档进行单词翻译，但是如果安装了koreader后，默认打开方式为koreader，因此需要使用其他方式进行页面查词。</p>
+
+<p>Koreader支持stardict格式词典，并且可在重排页面內查词。stardict词典下载地址：<a href="http://abloz.com/huzheng/stardict-dic/">stardict下载</a></p>
+
+<p>在这个页面上选择词典并下载，然后解压并拷贝到(<em>.idx, </em>.ifo, *.dict) 到 koreader/data/dict目录即可。</p>
+
+<h3 id="ocr">OCR取词</h3>
+
+
+<p>koreader支持扫描PDF文档取词，采用的OCR方式取词，因此需要OCR字库，下载地址：<a href="http://pan.baidu.com/share/link?shareid=121861&uk=2097578811">tesseract下载</a></p>
+
+<p>下载后拷贝全部文件到koreader/data/tessdata文件夹下面即可。</p>
+
+<h3 id="-4">海淘教材</h3>
+
+
+<p>收集了一些海淘教程，可以先看下参考链接中3-6中的教程，遇到问题的时候注意看下各个帖子中的讨论和留言部分。</p>
+
+<h3 id="-5">电子书资源</h3>
+
+
+<p>电子书方面原来是有优秀的“爱看豆”网站，结果刚拿到Kindle的时候就关闭了。好在现在还有一些优秀的电子书资源站，特地总结如下：</p>
+
+<p><a href="http://www.sec-wiki.com/topic/16" target="_blank">电子书下载资源汇总</a></p>
+
+<address> </address>
+
+
+<h3 id="-6">参考链接</h3>
+
+
+<ol>
+    <li><a href="http://bbs.duokan.com/forum/thread-70780-1-1.html">多看 2013 for Kindle 常见问题解答</a></li>
+    <li><a href="http://vislab.bjmu.edu.cn/blog/hwangxin/2012/10/read-scanned-pdfs-with-kindlepdfviewer/">让Kindle支持扫描版PDF重排</a></li>
+    <li><a href="http://www.douban.com/group/topic/36603646/">kpw海淘教学</a></li>
+    <li><a href="http://www.douban.com/review/5808144/">日本亚马逊海淘Kindle Paperwhite 教程攻略</a></li>
+    <li><a href="http://www.douban.com/group/topic/36912443/">通过财付通境外支付功能支付</a></li>
+    <li><a href="http://blog.sina.com.cn/s/blog_65f386930101bece.html">日本亚马逊Jshoppers转运海淘kindle paperwhite图文攻略</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/04/15/zotero_setting/">文献管理工具Zotero</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-04-15T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/04/15/zotero_setting/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="文献管理" src="http://ourren.b0.upaiyun.com/wenxian_zotero.jpg" width="454" height="138"></p>
+
+<p>自从在豆瓣上看到<a href="http://www.douban.com/note/269931592/" target="_blank">文献管理软件Zotero基础及进阶示范</a>后，发现Zotero已经有Windows客户端了，并且可以利用dropbox/快盘进行同步，果断把原来使用的<em>Mendeley</em>卸载了。在这一周多的使用时间内感觉非常不错，因而推荐给大家。</p>
+
+<p><strong>使用范围</strong></p>
+
+<p>Zotero主要用来管理<strong>PDF文档</strong>或者演讲<strong>PPT</strong>进行管理和批注，其他网页内容和文本资料推荐用evernote/有道云笔记进行管理。</p>
+
+<p><strong>使用方案</strong></p>
+
+<p>PDF或者Slide附件采用网盘云同步，而批注采用官网提供的免费云同步。</p>
+
+<p><strong>网盘同步设置</strong></p>
+
+<p>由于上面提到的文章中只对Linux系统的网盘同步设置进行了详细说明，而有时候会使用Windows，因此补充如下：</p>
+
+<p>Linux:   ln -s /users/ouyang/dropbox/zotero/storage /users/ouyang/dev/zotero/storage</p>
+
+<p>Windows 7:  mklink /D D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>Windows XP: junction D:\Zotero\storage E:\sync\Zotero\storage</p>
+
+<p>其中：<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">junction</a>可以在MS网站上<a href="http://download.sysinternals.com/files/Junction.zip" target="_blank">下载</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/03/24/lecture_is_an_art/">培训是一门艺术</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-03-24T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/03/24/lecture_is_an_art/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="aligncenter" alt="差别对待看你怎么看" src="http://ourren.b0.upaiyun.com/chabieduidai.jpg" width="522" height="150"></p>
+
+<p>现在社会中存在很多“差别对待”问题：比如说最近很火的“3.15苹果事件&#8221;，日常生活中科技产品、汽车业、求职与工作等也经常出现这种问题，当人们遇到这种事情的时候首先想到不对等待遇，需要采用法律手段维护权利。但是有时候还真的需要采用差别对待才能把事情做好，当然这个跟上面提到的用户权利有所差别，最近小编就遇到了这方面的小问题，特此记录下。</p>
+
+<p>最近博主由于其他原因去给“<em>初中生</em>”讲讲计算机基础，由于个人原来在小组和其他人员也有做过计算机类技术分享和一些课程讲解，再说自认为个人在Windows软硬件基础、移动平台、互联网发展等方面有比较深入的理解，因此准备的时候就网上随便找了下课件稍微修改了下，自我感觉不错。在实际讲解中，从计算机发展讲到计算机硬件、到移动互联网发展、到桌面与移动平台操作系统发展等，虽然在讲解的时候跟下面进行交流，但是他们基本上不发言，导致效果真的很差。讲完后跟他们进行了沟通，发现他们虽然很感兴趣，但是基本上听不懂。</p>
+
+<p>回来后进行了思考，归纳下主要有几方面问题：</p>
+
+<div>
+<ul>
+    <li>对象不同，需要差别对待</li>
+</ul>
+面对不同对象，需要差别对待。针对培训或者演讲你需要的是将大部分人讲懂，因此你需要站在大部分人的基础水平上进行讲解，不能脱离大众而偏向个别群体。互联网中各类产品又未尝不是：软件产品一般分为免费版与收费版，微博分为个人版与企业版，就连大数据分析也需要结合你的兴趣、爱好进行个人性定制等。
+<ul>
+    <li>任何事准备总是需要的</li>
+</ul>
+机会是留给有准备的人。当机会来了就需要好好准备，认真对待每一次生活琐事与大挑战。不管这件事有大小，当你完成之后，你总会有所收获的。你看台湾或者美国选举，领导人为了宣扬政策与方案，会尽全力准备和演讲；就连路边卖烧烤的阿姨这些每天都会为第二天做准备。我们又为何不好好事前准备呢，不管有多忙，时间挤挤总会有的，关键看你以什么心态面对。
+
+</div>
+
+
+<div>
+<ul>
+    <li>演讲是一门学问</li>
+</ul>
+</div>
+
+
+<p>从《国王的演讲》到奥斯卡获奖，其突出的就是英王乔治六世在矫正专家的帮助下，克服口吃，成功发表了激励民心的战前演讲，不得不说演讲真的是一门大学问。国内外安全会议众多，比如xkungfoo、blackhat、CanSecWest、OWASP、SyScan360等，如何将你的议题分享并得到大家的认可和支持是不容易的，当然这个涉及到你的议题、会议的参会人员关注方向与水平。</p>
+
+<div>
+<ul>
+    <li>书籍推荐</li>
+</ul>
+</div>
+
+
+<p>在豆瓣上看到一本关于演讲方面不错的书籍，特此推荐下（不方面购买纸质书籍的，可以安装“书香云集”然后搜索下载）。</p>
+
+<p>[美]史迪芬.E.卢卡斯 著  译者: 俞振伟 <a href="http://book.douban.com/subject/2343561/">《演讲的艺术》</a></p>
+
+<div></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/03/16/delete_wangyi_yunyuedu_rss/">批量删除网易云阅读订阅</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-03-16T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2013/03/16/delete_wangyi_yunyuedu_rss/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3> <img class="aligncenter" alt="网易云阅读" src="http://ourren.b0.upaiyun.com/wangyiyunyuedu.jpg" width="876" height="222">
+</h3>
+
+
+<h3></h3>
+
+
+<h3><strong>关于GoogleReader</strong></h3>
+
+
+<p>最近什么话题最火？这话要是问技术猿或者Geeker，绝对不是苍老师或者小*丽亚出什么新片没，也不是3.15晚会的“网易，央视喊你去做广告”，而是Google决定在7月1日关闭已有7年Google Reader这一震惊的消息，各类论坛社区（v2ex、知乎等）、技术资讯站（cnbeta、虎嗅、36kr等）和个人媒体（月光博客、善用佳软、微信公开平台等）都纷纷讨论：痛骂Google不懂IT民工，不懂互联网；而更多的则是讨论如何选择替代品，导致最近freedly、newsblur、digg、鲜果、有道等等都很忙，不止是服务器很忙，开发人员也很忙。各大公司也纷纷为GR粉提出解决方案，支持一键导入GR源，但是这样子是否能够解决问题呢？</p>
+
+<p>本人虽然使用GR时间较晚（2011年入手），但是现在GR已经成为我日常生活中不可缺少的部分，上班的时候使用GReader Pro同步GR中的文中，下班途中或者闲暇时就拿出来翻阅下，将重要的文章和比较有用的文章加星，以方便第二天抽空时间进行精读，可以说GR与GReader Pro绝配。后来为了方便安全从业者可以分享自己感觉不错的文章，建立了<a href="http://sec-wiki.com" target="_blank">SecWiki</a>，到现在网站已经有收藏1000+文章，但是好景不长，随着GR关闭，这条路暂时关闭，这两天也把国内外这类工具试了个遍，还是没有找到一款好的产品，好在Freedly可能会开放API，GReader Pro貌似会更新、Digg会新开发产品，值得等待。</p>
+
+<h3><strong>删除缘由</strong></h3>
+
+
+<p>扯了这么多，还没说主题。</p>
+
+<p>网易云阅读是我用来看科技新闻的，软件阅览效果不错，也支持离线下载，这里推荐几个资讯源（36kr、虎嗅、知乎、爱范儿）。今天早上登陆网页版网易云阅读，主动提示可以导入Google Reader订阅栏目了，看到了吧，这两天网易开发人员也没闲着，肯定加班赶产品。手一贱，直接导入原来Google Reader项目，评价下：擦，居然没有给我导入分类信息。然后我打开手机网易云阅读软件，问题就来了，直接显示一千多订阅源，不管有没有更新的都会显示，你让我天天怎么看资讯？果断在微博上@网易云阅读提意见，自己感觉没戏。自己就是搞技术的，果断应该自己去解决，于是打开Google 开发工具（虽然以后不能用GR了，还是可以用chrome吧），抓包看了下取消订阅源的请求数据包，发现有戏，于是有了此文。一来吐槽下google停止GR服务，二来方便跟我犯同样的童鞋。</p>
+
+<h3></h3>
+
+
+<h3><strong>具体步骤</strong></h3>
+
+
+<p>工具：burp（不知道的google下）、chrome、notepad++</p>
+
+<p>1、初步分析：登陆网页版网易云阅读，登陆后开启burp代理，并试着删除一个订阅源，查看burp日志可以发现每次删除订阅源只是传递了一个id参数，熟悉burp的都知道可以用intruder功能实现重复提交；</p>
+
+<p><img class="aligncenter" alt="步骤一" src="http://blog.ourren.com/blog/wyyyd_step1.jpg" width="962" height="442"></p>
+
+<p>2、提取参数：如何提取订阅的id，果断使用正则匹配。查看web版网易云阅读的源码，复制后用正则匹配进行匹配，采用正则匹配式：(cst_rss<em>)[a-z0-9</em>]*    并保存为list.txt。</p>
+
+<p><img class="aligncenter" alt="步骤2" src="http://blog.ourren.com/blog/wyyyd_step2.jpg" width="1275" height="661"></p>
+
+<p><img class="aligncenter" alt="步骤2_2" src="http://blog.ourren.com/blog/wyyyd_step3.jpg" width="958" height="513"></p>
+
+<p>3、完工：使用burp的intruder批量实现删除订阅源，将刚测试的burp历史记录发送到intruder选项，添加变量并指定字典，发送。</p>
+
+<p><img class="aligncenter" alt="步骤3" src="http://blog.ourren.com/blog/wyyyd_step4.jpg" width="975" height="366"></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/8">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/6">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>分类目录</h1>
+    <ul>
+        <li>
+            <a href="http://blog.ourren.com/categories/life" title="life thing and think">生活</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/research" title="do some research in daily life">研究</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/security" title="all security articles">安全</a>
+        </li>
+        <li><a href="http://blog.ourren.com/categories/technology" title="all program and code">技术</a>
+        </li>
+    </ul>
+</section><section>
+    <h1>友情链接</h1>
+    <ul>
+        <li><a href="http://ohroot.com/" target="_blank">Direwolf</a></li>
+        <li><a href="http://www.insight-labs.org/" target="_blank">insight-labs</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://www.metasploit.cn/forum.php" target="_blank">Metasploit</a></li>
+        <li><a href="http://lx.shellcodes.org/" target="_blank">lu4nx</a></li>
+        <li><a href="http://my.oschina.net/bluefly" target="_blank">sosly</a></li>
+        <li><a href="http://www.jinglingshu.org/" target="_blank">精灵鼠</a></li>
+        <li><a href="http://www.pang0lin.com/" target="_blank">pang0lin</a></li>
+        <li><a href="http://wps2015.jinglingshu.org/" target="_blank">wps2015</a></li>
+        <li><a href="http://llly.co/" target="_blank">Lyon</a></li>        
+        <li><a href="http://www.ourren.com/" target="_blank">ourren</a></li>
+    </ul>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - ourren -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

