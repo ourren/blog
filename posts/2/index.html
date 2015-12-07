@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。 整体流程 首先爬取了大量Twitter用户的数据（通过API接口 + &hellip;">
+  <meta name="description" content="该篇论文的题目为：The Harvester, the Botmaster, and the Spammer- On the Relations Between the Different Actors in the Spam Landscape 通过分析Harvester， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,56 +67,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/05/21/detecting-spammers-on-twitter/">Detecting Spammers on Twitter</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
-        
-        
-            | <a href="/2015/05/21/detecting-spammers-on-twitter/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
-
-<h3>整体流程</h3>
-
-<ol>
-<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
-<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
-<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
-<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
-<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
-<li>通过分析特征值，降维处理「减少特征值」；</li>
-<li>最后计算准确率并分析。</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/05/21/detecting-spammers-on-twitter/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
   
   
     <article>
@@ -336,6 +286,41 @@
   
     <footer>
       <a rel="full-article" href="/2015/04/14/ip-information-with-python/">继续阅读 →</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/03/27/diagnosing-network-issue-with-mtr/">利用MTR分析网络状况</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T12:00:33-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 pm</span></time>
+        
+        
+            | <a href="/2015/03/27/diagnosing-network-issue-with-mtr/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2015/03/27/diagnosing-network-issue-with-mtr/">继续阅读 →</a>
     </footer>
   
 

