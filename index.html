@@ -9,7 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="古时候有“孟母三迁”的故事告诉我们：环境影响人的成长；而当代社会由于科技的快速发展，办公环境和工具的选择会直接影响人们的办公效率和工作的热情。高富帅公司往往以优秀的工作环境「高薪，Mac全套，人工学电脑椅，空气净化器等」来吸引应聘者，屌丝公司则是以人文情怀拉拢一堆基友。论文写作环境也不例外， &hellip;">
+  <meta name="description" content="angr 号称作为新一代二进制分析框架，侧重于静态和动态符号执行。Angr将一些常见的程序分析功能进行了分类和实现，让使用者可以通过Python编程对程序的分析，按照官方文档的介绍主要有如下功能： Disassembly and intermediate-representation &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,12 +23,12 @@
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
 
@@ -67,6 +67,175 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/09/26/binary-analysis-framework/">Angr:二进制分析框架入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-26T00:05:45-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+        
+        
+            | <a href="/2015/09/26/binary-analysis-framework/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://angr.io/">angr</a> 号称作为新一代二进制分析框架，侧重于静态和动态符号执行。Angr将一些常见的程序分析功能进行了分类和实现，让使用者可以通过Python编程对程序的分析，按照官方文档的介绍主要有如下功能：</p>
+
+<ul>
+<li>Disassembly and intermediate-representation lifting</li>
+<li>Program instrumentation</li>
+<li>Symbolic execution</li>
+<li>Control-flow analysis</li>
+<li>Data-dependency analysis</li>
+<li>Value-set analysis (VSA)</li>
+</ul>
+
+
+<p>其中Angr多次帮助shellphish战队在各大CTF取得优势成绩，同时依靠其框架团队在defcon 23，blackhat 2015和hitcon 都有议题呈现，详细议题文档如下。</p>
+
+<ul>
+<li><a href="https://media.defcon.org/DEF%20CON%2023/DEF%20CON%2023%20presentations/Yan%20Shoshitaishvili%20&amp;%20Fish%20Wang/DEFCON-23-Yan-Shoshitaishvili-Fish-Wang-Angry-Hacking.pdf">DEFCON-23-Angry-Hacking.pdf</a>;</li>
+<li><a href="https://www.blackhat.com/docs/us-15/materials/us-15-Kruegel-Using-Static-Binary-Analysis-To-Find-Vulnerabilities-And-Backdoors-In-Firmware.pdf">Using Static Binary Analysis to Find Vulnerabilities and Backdoors in Firmware</a>;</li>
+<li><a href="http://hitcon.org/2015/CMT/download/day2-g-r0.pdf">A Dozen Years of Shellphish - from DEFCON to the Cyber Grand Challenge</a>;</li>
+</ul>
+
+
+<p>鉴于本人对符号执行这些知识的欠缺，本文主要分享angr的搭建和初步分析，作为个人的学习笔记。</p>
+
+<h3>安装</h3>
+
+<p>推荐安装环境：Ubuntu + virtualenvwrapper「管理多个不同的Virtualenv虚拟环境」 进行程序分析。</p>
+
+<p>依赖库安装：</p>
+
+<pre><code>sudo apt-get install python-dev libffi-dev build-essential virtualenvwrapper
+</code></pre>
+
+<p>相关配置：</p>
+
+<p>其中virtualenvwrapper的安装还需要进行相关配置，<a href="https://virtualenvwrapper.readthedocs.org/en/latest/">官方的文档</a> 稍微有些出入，以下是前期设置和一些常见命令。</p>
+
+<pre><code>  export WORKON_HOME=~/sites
+  # post-install 
+  source /usr/local/bin/virtualenvwrapper.sh
+  on Ubuntu 14.04 LTS, the path is 
+  source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
+  mkvirtualenv angr
+
+  # list all available env
+  workon
+
+  # switch to an angr
+  workon angr
+
+  setvirtualenvproject # set project for current dir
+
+  cdvirtualenv  # go to virtualenv folder
+  lssitepackages # list current installed packages
+  cdsitepackages # cd site-packages folder directly
+
+  workon env1
+  echo $VIRTUAL_ENV
+
+  deactivate # exit current env
+</code></pre>
+
+<p>安装angr:</p>
+
+<p>主要分为两种模式，发布模式：</p>
+
+<pre><code>mkvirtualenv angr
+pip install angr
+</code></pre>
+
+<p>或者开发模式：</p>
+
+<pre><code>git clone https://github.com/angr/angr-dev
+cd angr-dev
+mkvirtualenv angr
+./setup.sh
+</code></pre>
+
+<p>如果安装问题可以看这里 <a href="https://github.com/angr/angr">angr</a>.</p>
+
+<h3>入门</h3>
+
+<p>其实angr的<a href="https://github.com/angr/angr-doc">说明文档</a> 还不是很完善，本小节主要做一些基本的分析：</p>
+
+<h4>程序基本信息</h4>
+
+<p>通过快速地加载程序后可以查看程序的基本信息：</p>
+
+<pre><code>如下功能
+
+p.arch      p.filename      p.loader
+p.entry     p.hook          p.set_sim_procedure
+p.factory   p.is_hooked     p.unhook
+
+# p.factory
+p.factory.analyses          p.factory.path
+p.factory.black_state       p.factory.path_group
+p.factory.block             p.factory.sim_block
+p.factory.entry_state       p.factory.sim_run
+p.factory.full_init_state   p.factory.surveyors
+
+# 测试例子
+&gt;&gt;&gt; import angr
+&gt;&gt;&gt; p = angr.Project("/bin/echo")
+&gt;&gt;&gt; p.arch
+&lt;Arch AMD64 (LE)&gt;
+&gt;&gt;&gt; p.entry
+4200587
+&gt;&gt;&gt; p.hook
+&lt;bound method Project.hook of &lt;angr.project.Project object at 0x7fc13e9e6210&gt;&gt;
+&gt;&gt;&gt; p.is_hooked
+&lt;bound method Project.is_hooked of &lt;angr.project.Project object at 0x7fc13e9e6210&gt;&gt;
+&gt;&gt;&gt; p.factory
+&lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;
+&gt;&gt;&gt; p.factory.path
+&lt;bound method AngrObjectFactory.path of &lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;&gt;
+&gt;&gt;&gt; p.factory.sim_run
+&lt;bound method AngrObjectFactory.sim_run of &lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;&gt;
+</code></pre>
+
+<h4>实例分析：</h4>
+
+<p>Angr的<a href="https://github.com/angr/angr-doc">官方文档</a> 里对angr有一个基本的介绍，虽然不是很齐全，但是给出了几个CTF比赛的实例案例和说明，<a href="https://github.com/angr/angr-doc/blob/master/examples.md">详细情况</a> 和 <a href="https://github.com/angr/angr-doc/tree/master/examples">样本下载</a> 可直接下载。</p>
+
+<ul>
+<li>ReverseMe example: MMA CTF 2015 - HowToUse</li>
+<li>CrackMe example: MMA CTF 2015 - SimpleHash</li>
+<li>ReverseMe example: FlareOn 2015 - Challenge 10</li>
+<li>ReverseMe example: FlareOn 2015 - Challenge 2</li>
+<li>CrackMe example: Layer7 CTF 2015 - Windows challenge OnlyOne</li>
+<li>CrackMe example: Whitehat CTF 2015 - Crypto 400</li>
+<li>CrackMe example: CSAW CTF 2015 Quals - Reversing 500, &ldquo;wyvern&rdquo;</li>
+</ul>
+
+
+<h4>符号执行</h4>
+
+<p><a href="https://github.com/angr/angr-doc/blob/master/surveyors.md">https://github.com/angr/angr-doc/blob/master/surveyors.md</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -305,56 +474,6 @@ three = [7,9,11,13,15]
   
     <footer>
       <a rel="full-article" href="/2015/06/18/understanding-and-monitoring-embedded-web-scripts/">继续阅读 →</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/05/21/detecting-spammers-on-twitter/">Detecting Spammers on Twitter</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-21T19:43:11-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:43 pm</span></time>
-        
-        
-            | <a href="/2015/05/21/detecting-spammers-on-twitter/#comments">留言</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>文章主要是通过机器学习的思路来自对twitter的用户进行分类「两类：正常用户与垃圾用户」。其中算法采用的是SVM算法，特征选取比较复杂，结合了内容特征与用户行为特征。个人感觉不错的是论文针对特征的选取和特征的精简部分。</p>
-
-<h3>整体流程</h3>
-
-<ol>
-<li>首先爬取了大量Twitter用户的数据（通过API接口 + 大量VPS/IP）；</li>
-<li>通过特定主题进行跟踪，例如跟踪：「the Michael Jackson’s death」，「Susan Boyle’s emergence,」，「the hashtag “#musicmon- day”」；即把这几个主题的发言和评论抓出来进行分析；这里实验数据处理的时候有一个技巧：正常内容很多，而垃圾内容太少，为了不让比例失调，特别减少了正常用户的比例，基本上「正常用户:垃圾用户(1：2)」;</li>
-<li>手动做标签，作者写分为三个人同时对同一样本做标签，然后标识的时候需要参照三个人的答案；</li>
-<li>提取特征值，鉴于特征值比较多，因此需要针对特征值进行分析，分析单一特征是否可以区分两类用户；</li>
-<li>通过SVM算法对已经标识的样本进行建模，然后测试样本；</li>
-<li>通过分析特征值，降维处理「减少特征值」；</li>
-<li>最后计算准确率并分析。</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2015/05/21/detecting-spammers-on-twitter/">继续阅读 →</a>
     </footer>
   
 

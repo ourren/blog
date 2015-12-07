@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Technology | Ourren]]></title>
   <link href="http://blog.ourren.com/blog/categories/technology/atom.xml" rel="self"/>
   <link href="http://blog.ourren.com/blog/"/>
-  <updated>2015-09-20T23:39:15-07:00</updated>
+  <updated>2015-12-06T21:47:18-08:00</updated>
   <id>http://blog.ourren.com/blog/</id>
   <author>
     <name><![CDATA[ourren]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Angr:二进制分析框架入门]]></title>
+    <link href="http://blog.ourren.com/blog/2015/09/26/binary-analysis-framework/"/>
+    <updated>2015-09-26T00:05:45-07:00</updated>
+    <id>http://blog.ourren.com/blog/2015/09/26/binary-analysis-framework</id>
+    <content type="html"><![CDATA[<p><a href="http://angr.io/">angr</a> 号称作为新一代二进制分析框架，侧重于静态和动态符号执行。Angr将一些常见的程序分析功能进行了分类和实现，让使用者可以通过Python编程对程序的分析，按照官方文档的介绍主要有如下功能：</p>
+
+<ul>
+<li>Disassembly and intermediate-representation lifting</li>
+<li>Program instrumentation</li>
+<li>Symbolic execution</li>
+<li>Control-flow analysis</li>
+<li>Data-dependency analysis</li>
+<li>Value-set analysis (VSA)</li>
+</ul>
+
+
+<p>其中Angr多次帮助shellphish战队在各大CTF取得优势成绩，同时依靠其框架团队在defcon 23，blackhat 2015和hitcon 都有议题呈现，详细议题文档如下。</p>
+
+<ul>
+<li><a href="https://media.defcon.org/DEF%20CON%2023/DEF%20CON%2023%20presentations/Yan%20Shoshitaishvili%20&amp;%20Fish%20Wang/DEFCON-23-Yan-Shoshitaishvili-Fish-Wang-Angry-Hacking.pdf">DEFCON-23-Angry-Hacking.pdf</a>;</li>
+<li><a href="https://www.blackhat.com/docs/us-15/materials/us-15-Kruegel-Using-Static-Binary-Analysis-To-Find-Vulnerabilities-And-Backdoors-In-Firmware.pdf">Using Static Binary Analysis to Find Vulnerabilities and Backdoors in Firmware</a>;</li>
+<li><a href="http://hitcon.org/2015/CMT/download/day2-g-r0.pdf">A Dozen Years of Shellphish - from DEFCON to the Cyber Grand Challenge</a>;</li>
+</ul>
+
+
+<p>鉴于本人对符号执行这些知识的欠缺，本文主要分享angr的搭建和初步分析，作为个人的学习笔记。</p>
+
+<h3>安装</h3>
+
+<p>推荐安装环境：Ubuntu + virtualenvwrapper「管理多个不同的Virtualenv虚拟环境」 进行程序分析。</p>
+
+<p>依赖库安装：</p>
+
+<pre><code>sudo apt-get install python-dev libffi-dev build-essential virtualenvwrapper
+</code></pre>
+
+<p>相关配置：</p>
+
+<p>其中virtualenvwrapper的安装还需要进行相关配置，<a href="https://virtualenvwrapper.readthedocs.org/en/latest/">官方的文档</a> 稍微有些出入，以下是前期设置和一些常见命令。</p>
+
+<pre><code>  export WORKON_HOME=~/sites
+  # post-install 
+  source /usr/local/bin/virtualenvwrapper.sh
+  on Ubuntu 14.04 LTS, the path is 
+  source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
+  mkvirtualenv angr
+
+  # list all available env
+  workon
+
+  # switch to an angr
+  workon angr
+
+  setvirtualenvproject # set project for current dir
+
+  cdvirtualenv  # go to virtualenv folder
+  lssitepackages # list current installed packages
+  cdsitepackages # cd site-packages folder directly
+
+  workon env1
+  echo $VIRTUAL_ENV
+
+  deactivate # exit current env
+</code></pre>
+
+<p>安装angr:</p>
+
+<p>主要分为两种模式，发布模式：</p>
+
+<pre><code>mkvirtualenv angr
+pip install angr
+</code></pre>
+
+<p>或者开发模式：</p>
+
+<pre><code>git clone https://github.com/angr/angr-dev
+cd angr-dev
+mkvirtualenv angr
+./setup.sh
+</code></pre>
+
+<p>如果安装问题可以看这里 <a href="https://github.com/angr/angr">angr</a>.</p>
+
+<h3>入门</h3>
+
+<p>其实angr的<a href="https://github.com/angr/angr-doc">说明文档</a> 还不是很完善，本小节主要做一些基本的分析：</p>
+
+<h4>程序基本信息</h4>
+
+<p>通过快速地加载程序后可以查看程序的基本信息：</p>
+
+<pre><code>如下功能
+
+p.arch      p.filename      p.loader
+p.entry     p.hook          p.set_sim_procedure
+p.factory   p.is_hooked     p.unhook
+
+# p.factory
+p.factory.analyses          p.factory.path
+p.factory.black_state       p.factory.path_group
+p.factory.block             p.factory.sim_block
+p.factory.entry_state       p.factory.sim_run
+p.factory.full_init_state   p.factory.surveyors
+
+# 测试例子
+&gt;&gt;&gt; import angr
+&gt;&gt;&gt; p = angr.Project("/bin/echo")
+&gt;&gt;&gt; p.arch
+&lt;Arch AMD64 (LE)&gt;
+&gt;&gt;&gt; p.entry
+4200587
+&gt;&gt;&gt; p.hook
+&lt;bound method Project.hook of &lt;angr.project.Project object at 0x7fc13e9e6210&gt;&gt;
+&gt;&gt;&gt; p.is_hooked
+&lt;bound method Project.is_hooked of &lt;angr.project.Project object at 0x7fc13e9e6210&gt;&gt;
+&gt;&gt;&gt; p.factory
+&lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;
+&gt;&gt;&gt; p.factory.path
+&lt;bound method AngrObjectFactory.path of &lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;&gt;
+&gt;&gt;&gt; p.factory.sim_run
+&lt;bound method AngrObjectFactory.sim_run of &lt;angr.factory.AngrObjectFactory object at 0x7fc13e71d3d0&gt;&gt;
+</code></pre>
+
+<h4>实例分析：</h4>
+
+<p>Angr的<a href="https://github.com/angr/angr-doc">官方文档</a> 里对angr有一个基本的介绍，虽然不是很齐全，但是给出了几个CTF比赛的实例案例和说明，<a href="https://github.com/angr/angr-doc/blob/master/examples.md">详细情况</a> 和 <a href="https://github.com/angr/angr-doc/tree/master/examples">样本下载</a> 可直接下载。</p>
+
+<ul>
+<li>ReverseMe example: MMA CTF 2015 - HowToUse</li>
+<li>CrackMe example: MMA CTF 2015 - SimpleHash</li>
+<li>ReverseMe example: FlareOn 2015 - Challenge 10</li>
+<li>ReverseMe example: FlareOn 2015 - Challenge 2</li>
+<li>CrackMe example: Layer7 CTF 2015 - Windows challenge OnlyOne</li>
+<li>CrackMe example: Whitehat CTF 2015 - Crypto 400</li>
+<li>CrackMe example: CSAW CTF 2015 Quals - Reversing 500, &ldquo;wyvern&rdquo;</li>
+</ul>
+
+
+<h4>符号执行</h4>
+
+<p><a href="https://github.com/angr/angr-doc/blob/master/surveyors.md">https://github.com/angr/angr-doc/blob/master/surveyors.md</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python中的常用代码]]></title>
@@ -527,81 +673,6 @@ ExtractResult(subdomain='blog', domain='ourren', suffix='com')
 <p>写了三个平台(ip-api, db-ip, ip2location)的查询接口，大家可以拿去直接用, 推荐ip-api这个接口。</p>
 
 <p>项目地址：<a href="https://github.com/ourren/ip-api">ip-api</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[利用MTR分析网络状况]]></title>
-    <link href="http://blog.ourren.com/blog/2015/03/27/diagnosing-network-issue-with-mtr/"/>
-    <updated>2015-03-27T12:00:33-07:00</updated>
-    <id>http://blog.ourren.com/blog/2015/03/27/diagnosing-network-issue-with-mtr</id>
-    <content type="html"><![CDATA[<p>平时测试网络状况一般都使用「ping, tracert, nslookup」这几个命令，但是<a href="https://github.com/traviscross/mtr">Mtr</a>(My traceroute)是一是一个非常棒的网络连通性判断工具，它结合了ping, traceroute,nslookup 的相关特性。当网络链路出现问题时很多人会用ping命令，可以简单的测试网络的连通性，看下丢包率，但是却无法确定是在哪里出现了问题；有些人就会用tracert命令来查看路由，或者用nslookup命令来查看DNS是否可用；如果你也觉得这三个命令太麻烦的话，那就用mtr吧，并且显示界面很美「没觉得么？」<!--more --></p>
-
-<pre><code>                           My traceroute  [v0.71]
-ts3-142.ts.cn.tlan (0.0.0.0)                           Fri Aug  3 22:39:50 2007
-Keys:  Help   Display mode   Restart statistics   Order of fields   quit
-                                              Packets               Pings
- Host                                       Loss%  Last   Avg  Best  Wrst StDev
- 1. 172.16.76.1                              0.0%   0.5   0.4   0.4   0.5   0.1
- 2. 202.108.132.17                           0.0% 179.0  20.2   2.3 179.0  55.8
- 3. 172.19.140.69                            0.0%  13.7  10.3   6.2  17.1   3.8
- 4. 172.17.0.17                              0.0%   9.3  16.5   8.6  62.3  16.3
- 5. 172.16.0.57                              0.0%   9.9  11.2   6.1  21.0   5.4
- 6. 192.168.0.25                             0.0%   7.3  11.4   5.1  17.2   4.2
- 7. 210.74.176.241                          10.0% 110.1 109.6  92.7 123.3  11.3
- 8. 202.96.13.101                           20.0% 104.9 111.8 101.4 126.5   9.3
- 9. 202.106.192.233                         30.0% 120.7 113.8  85.5 138.8  17.2
-10. 61.148.143.26                           10.0%  99.7 112.0  99.7 120.9   6.9
-11. 202.96.8.246                            20.0%  97.0 108.2  92.3 137.4  14.3
-12. 210.77.38.126                           11.1% 133.0 113.8  97.0 133.0  11.8
-13. 
-</code></pre>
-
-<h4>安装步骤</h4>
-
-<p>Mac下直接用brew进行安装「虽然经常吐槽brew各种不如linux下的包管理软件，但是有时候还是不错」：</p>
-
-<pre><code>brew install mtr
-sudo /usr/local/Cellar/mtr/0.86/sbin/mtr 8.8.8.8
-ln -s /usr/local/Cellar/mtr/0.86/sbin/mtr /usr/bin
-sudo mtr 8.8.4.4
-</code></pre>
-
-<p>Linux貌似就更简单：</p>
-
-<pre><code>yum -y install mtr
-apt-get install mtr-tiny
-</code></pre>
-
-<p>Windows只能用这<a href="http://sourceforge.net/projects/winmtr/">WinMTR</a>替代下。</p>
-
-<h4>相关命令</h4>
-
-<p>查看help:</p>
-
-<pre><code>root@ts3-142 ~]# mtr --help
-usage: mtr [-hvrctglspni46] [--help] [--version] [--report]
-                [--report-cycles=COUNT] [--curses] [--gtk]
-                [--raw] [--split] [--no-dns] [--address interface]
-                [--psize=bytes/-s bytes]
-                [--interval=SECONDS] HOSTNAME [PACKETSIZE]
-
-各主要参数解释如下：
---report                       追踪结果以报告模式输出
---report-cycles=COUNT          定义追踪的次数，默认为16
---raw                          使结果以原始格式输出
---split                        将每次追踪的结果分别列出来，不象--report一样，统计整个结果
---no-dns                       只显示ip地址，不解析ip地址对应的主机名
---psize=bytes/-s bytes         定义数据包的大小，单位是字节
-</code></pre>
-
-<p>日常一般这样子用就可以得到前面的报告结果了。</p>
-
-<pre><code>mtr --report -c 10 -n www.turbolinux.com.cn
-//或者
- mtr --report www.google.com
- mtr --no-dns --report google.com
-</code></pre>
 ]]></content>
   </entry>
   

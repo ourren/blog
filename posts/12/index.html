@@ -9,8 +9,7 @@
   <meta name="author" content="ourren">
 
   
-  <meta name="description" content="php中提供了token_get_all函数来针对php代码进行词法分析，通过词法分析我们可以做恶意代码分析，安全代码审计等深层次研究。该函数可以直接把php代码分为php tokens，而每个token又包含类型、值、行数这三样。
-首先对最简单的代码进行分析(当然不是hello world &hellip;">
+  <meta name="description" content="0x1 题外话         从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。         总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,12 +23,12 @@
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ourren" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
 
@@ -68,6 +67,142 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/23/practical_malware_analysis_part1/">Practical Malware Analysis Part1总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2012-03-23T00:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+            | <a href="/2012/03/23/practical_malware_analysis_part1/#comments">留言</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>0x1 题外话</div>
+
+
+<div>        从去年看到这本书目录的时候就就期待这本书，前段时间一直比较忙没机会阅读这本书，现在可以每天抽点时间来阅读这本好书了，以此做下笔记监督自己，总结出一套适合自己的恶意代码分析方案。</div>
+
+
+<div>        总体来说，这本书从最基础的恶意代码分析开始到高难度的技巧分析，概括了恶意代码的各个方面。虽然原来自己也有一些分析恶意代码，但是看了这本书之后才发现作者思维的缜密和广度，不得不佩服。</div>
+
+
+<div>0x2 Part0 简介</div>
+
+
+<div>       本书第0部分主要针对恶意代码的目的、分析方法和恶意代码类型进行阐述，可以对这个技术进行一个整体的认识。</div>
+
+
+<div>       恶意代码的分析方法主要有：</div>
+
+
+<div>1)初级静态分析</div>
+
+
+<div>2)初级动态分析</div>
+
+
+<div>3)高级静态分析</div>
+
+
+<div>4)高级动态分析</div>
+
+
+<div>       恶意代码分析中需要注意的几个细节：</div>
+
+
+<div>1)不要过于纠结细节。</div>
+
+
+<div>2)不同的样本可能会需要不同的工具进行分析，灵活更换工具。</div>
+
+
+<div>3)试着从编写者角度考虑，分析过程本来就是一个猫捉老鼠的游戏。</div>
+
+
+<div>(接下来的章节就是从分析方法种类进行章节讲解。）</div>
+
+
+<div>0x3 Part1 初级分析</div>
+
+
+<div>    初级分析主要分为初级静态分析和初级动态分析。先总结下静态分析需要从哪些方面进行关注：杀毒软件查杀、文件MD5、编程语言、加壳与否、输入/出表关键函数、字符串、资源这些方面进行分析，一般步骤如下：</div>
+
+
+<div>1)可以上传到virustotal网站进行在线扫描，看是否是较老的样本了。</div>
+
+
+<div>2)查看文件MD5、hash值，谷歌看看。</div>
+
+
+<div>3)PEID查看文件是否编程语言、加壳与否、输入表和输出表关键函数（涉及到文件、注册表、网络等方面API函数）。</div>
+
+
+<div>4)用string.exe查看文件中的字符串。</div>
+
+
+<div>5)如果有资源文件，可以用Resource Hacker查看是否有额外的PE文件等。</div>
+
+
+<div><a href="http://ourren.b0.upaiyun.com/malwarechapter1.png"><img class="aligncenter" title="malware chapter1" src="http://ourren.b0.upaiyun.com/malwarechapter1.png" alt="" width="601" height="408"></a></div>
+
+
+<div>       通过以上的分析大概确定文件的大致功能，具体的操作需要结合动态分析了。下面讨论下初级动态分析的方法：</div>
+
+
+<div>       初级动态分析需要从文件操作、网络活动、注册表操作进行监控分析。可以采用sandbox进行分析，但是推荐采用虚拟机快照方式进行分析，主要工具如下：</div>
+
+
+<div>分析步骤：</div>
+
+
+<div><a href="blog.ourren.com/blog/malwaredynamicanalysis.png"><img class="aligncenter" title="malwaredynamicanalysis" src="http://blog.ourren.com/blog/malwaredynamicanalysis.png" alt="" width="654" height="304"></a></div>
+
+
+<div>1)运行Process Explorer、procmon、Wireshark程序。</div>
+
+
+<div>2)利用Regshot抓取第一次注册表快照，利用ApateDNS把所有域名链接全部转为本地，并用NC监听80和443端口。</div>
+
+
+<div>3)运行样本程序。</div>
+
+
+<div>4)通过ApateDNS查看网络情况、Regshot抓取第二次快照并对比分析。</div>
+
+
+<div>5)结合Process Explorer、procmon和静态分析结果进行详细分析。</div>
+
+
+<div>这个只是个大体过程，在实际分析中肯定还有一些其他的技巧，可以结合作者在每个part后面的lab进行练习。</div>
+
+
+<div id="__ss_12131085" style="width: 477px;">
+<strong style="display: block; margin: 12px 0 4px;"><a title="Practical malware analysis part1 总结" href="http://www.slideshare.net/opcodesec/practical-malware-analysis-part1" target="_blank">Practical malware analysis part1 总结</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/12131085" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="477" height="510"></iframe>
+<div style="padding: 5px 0 12px;">View more <a href="http://www.slideshare.net/" target="_blank">documents</a> from <a href="http://www.slideshare.net/opcodesec" target="_blank">opcodesec</a>
+</div>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
